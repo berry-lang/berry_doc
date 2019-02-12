@@ -2,6 +2,10 @@
 
 本章介绍Berry内置的库函数以及模块。
 
+\section{\texttt{import}语句和模块}
+
+Berry使用\texttt{import}语句来导入一个模块。
+
 %==============================================================================
 \section{基础库函数}
 
@@ -134,6 +138,24 @@ length(value)
 length(10)          # 0
 length('s')         # 1
 length('string')    # 6
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{super}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+super(object)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回实例的父对象。当你将一个派生类实例化时，会同时实例化它的基类。访问基类的实例（也就是父对象）时需要使用\texttt{super}函数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+class mylist : list end
+l = mylist()    # classname(l) --> 'mylist'
+sl = super(l)   # classname(sl) --> 'list'
 \end{lstlisting}
 
 %==============================================================================

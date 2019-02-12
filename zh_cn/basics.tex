@@ -57,7 +57,7 @@ print('func(10) =', func(10))
 
 这段代码中定义了一个函数\texttt{func}并在后面调用了它。在了解这段代码怎样工作之前，我们先介绍Berry语言的语法元素。
 
-以上代码中，语法元素的具体分类为：\texttt{def}、\texttt{return}和\texttt{end}是Berry语言的\textbf{关键字}；而第1行中的``\texttt{\# a function example}''被称为\textbf{注释}；\texttt{print}、\texttt{func}和\texttt{x}是一些\textbf{标识符}，它们通常用于表示一个变量；\texttt{1.5}和\texttt{10}这些数字被称为\textbf{数值字面量}，它们相当于日常生活中使用的数字；\texttt{'func(10) ='}是一个\textbf{字符串字面量}，他们大量用于需要表示文本的地方；\texttt{+}是一个\textbf{加法运算符}，这里使用加法运算符可以将变量\texttt{x}和数值\texttt{1.5}相加。
+以上代码中，语法元素的具体分类为：\texttt{def}、\texttt{return}和\texttt{end}是Berry语言的关键字；而第1行中的``\texttt{\# a function example}''被称为注释；\texttt{print}、\texttt{func}和\texttt{x}是一些标识符，它们通常用于表示一个变量；\texttt{1.5}和\texttt{10}这些数字被称为数值字面量，它们相当于日常生活中使用的数字；\texttt{'func(10) ='}是一个字符串字面量，他们大量用于需要表示文本的地方；\texttt{+}是一个加法运算符，这里使用加法运算符可以将变量\texttt{x}和数值\texttt{1.5}相加。
 
 以上的分类实际上是从词法分析器的角度来做的。词法分析是Berry源代码解析的第一步，为了写出正确的源代码，我们先从最基础的词法开始介绍。
 
@@ -228,3 +228,7 @@ end
 \end{lstlisting}
 
 此处第2行到第3行的语句构成了一个块。事实上，任意一些连续的语句串都可以说是一个块，并且一个语句内部可能嵌套了块，例如第2行到第3行的块就嵌套在\texttt{if}语句中。
+
+\subsection{\texttt{do}语句}
+
+Berry提供一种\texttt{do}语句来封装代码块。
