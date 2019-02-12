@@ -1,0 +1,126 @@
+\chapter{表达式}
+
+\section{简介}
+
+Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary Operator）。例如逻辑与运算符\texttt{\&\&}就是一个二元运算符，而逻辑非运算符\texttt{!}是一个一元运算符。一些运算符可以是一元运算符也可以是二元运算符。例如运算符\texttt{-}在表达式\texttt{-1}中是一元符号，但是在表达式\texttt{1-2}中则是二元的减号。
+
+需要注意操作数是否支持对其使用的运算符。例如，表达式\texttt{'10'+10}是错误的，因为Berry不支持对一个字符串和一个整数做加法。通常，Berry不会执行隐式类型转换，只有整数和实数的加法中存在例外：此时Berry会自动将整数类型提升为实数类型。例如，表达式\texttt{1.1+1}的结果为\texttt{2.1}。
+
+在表达式中，运算符的优先级和结合性决定了表达式的求值顺序。各个运算符的优先级和结合性在表\ref{tab::operator_list}中给出。
+
+优先级指定了不同运算符之间的求值顺序，具有高优先级运算符的表达式会先被求值。例如，对表达式\texttt{1+2*3}的求值过程会先计算\texttt{2*3}的结果，然后计算加法表达式的结果。使用括号可以提升低优先级表达式的求值顺序，例如在表达式\texttt{(1+2)*3}求值中，先计算括号中表达式\texttt{1+2}的结果，然后计算括号外的乘法表达式。
+
+结合性是指运算符两侧操作数的求值顺序，这里的操作数可能是子表达式。例如，在加法表达式\texttt{expr1 + expr2}中，先计算\texttt{expr1}的值再计算\texttt{expr2}的值，这是因为加法运算符是左结合的。
+
+\section{算术运算符}
+
+算术运算符用于实现算术运算，这些运算符和我们平时使用的数学符号相似。Berry提供的算术运算符如表\ref{tab::arthmetic_operator}所示。
+
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{10mm}
+    \begin{tabular}{ccc} \Xhline{1pt}
+        \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
+        \texttt{+} & 一元正号 & \texttt{+ expr} \\
+        \texttt{-} & 一元负号 & \texttt{- expr} \\
+        \texttt{+} & 加号 & \texttt{expr + expr} \\
+        \texttt{-} & 减号 & \texttt{expr - expr} \\
+        \texttt{*} & 乘号 & \texttt{expr * expr} \\
+        \texttt{/} & 除号 & \texttt{expr / expr} \\
+        \texttt{\%} & 取余数 & \texttt{expr \% expr} \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{算术运算符}
+    \label{tab::arthmetic_operator}
+\end{table}
+
+对于二元运算符\texttt{+}，当操作数为字符串时会执行字符串连接，即把两个字符串连接成一条更长的字符串，其他时候通常用作加法运算符。除了\texttt{\%}运算符以外，其他算数运算符都支持整数和实数操作数，\texttt{\%}运算符只支持整数操作数。\texttt{\%}运算符的作用是计算一个整数整数另一个整数之后的余数，例如\texttt{11\%4}的结果是\texttt{3}。
+
+所有的算数运算符都可以在类中重载，重载后的运算符不一定局限于它们原本的功能设计，而是由程序员自己决定。
+
+正号\texttt{+}实际上没有任何作用。它可能在将来的版本中被移除,因此不建议使用。
+
+\section{关系运算符}
+
+关系运算符用于比较操作数的大小关系。Berry支持的6种关系运算符在表\ref{tab::relop_operator}中给出。
+
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{10mm}
+    \begin{tabular}{ccc} \Xhline{1pt}
+        \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
+        \texttt{<} & 小于 & \texttt{expr < expr} \\
+        \texttt{<=} & 小于等于 & \texttt{expr <= expr} \\
+        \texttt{==} & 小于等于 & \texttt{expr == expr} \\
+        \texttt{!=} & 不等于 & \texttt{expr != expr} \\
+        \texttt{>=} & 大于等于 & \texttt{expr >= expr} \\
+        \texttt{>} & 大于 & \texttt{- expr} \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{关系运算符}
+    \label{tab::relop_operator}
+\end{table}
+
+通过比较操作数的大小关系，关系表达式将产生一个布尔值的结果，当关系满足时，关系表达式的值为\texttt{true}，否则为\texttt{false}。关系运算符允许使用以下几种操作数的组合：
+\begin{gather*}
+    \bm{integer} \quad relop \quad \bm{integer} \\
+    \bm{real} \quad relop \quad \bm{real} \\
+    \bm{integer} \quad relop \quad \bm{real} \\
+    \bm{real} \quad relop \quad \bm{integer} \\
+    \bm{string} \quad relop \quad \bm{string}
+\end{gather*}
+
+所有的关系运算符都可以在类中重载，因此也可以对实例对象使用关系运算符。
+
+\section{逻辑运算符}
+
+逻辑运算符分为逻辑与、逻辑或和逻辑非3种。如表\ref{tab::logic_operator}所示。
+
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{10mm}
+    \begin{tabular}{ccc} \Xhline{1pt}
+        \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
+        \texttt{\&\&} & 逻辑与 & \texttt{expr \&\& expr} \\
+        \texttt{||} & 逻辑或 & \texttt{expr || expr} \\
+        \texttt{!} & 逻辑非 & \texttt{! expr} \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{逻辑运算符}
+    \label{tab::logic_operator}
+\end{table}
+
+对于逻辑与运算符，当两个操作数都为\texttt{true}时，逻辑表达式的值为\texttt{true}，否则为\texttt{false}。
+
+对于逻辑或运算符，当两个操作数都为\texttt{false}时，逻辑表达式的值为\texttt{false}，否则为\texttt{true}。
+
+逻辑非运算符会翻转操作数的逻辑状态。当操作数为\texttt{true}时，逻辑表达式的值为\texttt{false}，否则值为\texttt{true}。
+
+逻辑运算符要求操作数是布尔类型，否则将尝试使用下列规则进行转换：
+
+\begin{itemize}
+    \item Nil：转换为\texttt{false}。
+    \item Integer：值为\texttt{0}时转换为\texttt{false}，否则转换为\texttt{true}。
+    \item Real：值为\texttt{0.0}时转换为\texttt{false}，否则转换为\texttt{true}。
+    \item Instance：存在方法\texttt{tobool()}时将使用该方法的返回值，否则转换为\texttt{true}。
+    \item 其他：转换为\texttt{true}。
+\end{itemize}
+
+\section{赋值运算符}
+
+赋值运算符\texttt{=}仅出现在赋值表达式中，其左操作数必须是可写对象。赋值表达式不返回值，因此不能使用连续的赋值运算，类似\texttt{a=b=c}这样的表达式是错误的。
+
+\section{域运算符和下标运算符}
+
+域运算符\texttt{.}用于访问对象的一个属性或者成员，你可以对模块和实例这两种类型来使用域运算符：
+\begin{lstlisting}[language=berry, numbers=none]
+l = list[]
+l.append('item 0')
+s = l.item(0)       # 'item 0'
+\end{lstlisting}
+
+下标运算符\texttt{[]}用于访问对象的元素，例如
+\begin{lstlisting}[language=berry, numbers=none]
+l[2] = 10   # read by index
+n = l[2]    # write by index
+\end{lstlisting}

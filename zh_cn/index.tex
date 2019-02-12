@@ -1,0 +1,123 @@
+\documentclass[UTF8, oneside]{book}
+    \usepackage{geometry}
+    \usepackage{ctex}
+    \usepackage{fancyhdr}
+    \usepackage{makecell}
+    \usepackage{multirow}
+    \usepackage{listings}
+    \usepackage{tikz}
+    \usepackage{fontspec, xunicode, xltxtra}
+    \usepackage{titlesec}
+    \usepackage{float}
+    \usepackage{caption}
+    \usepackage{amsmath, amssymb}
+    \usepackage[colorlinks, linkcolor=black, anchorcolor=black, citecolor=black]{hyperref}
+    \usepackage[justification=centering]{caption}
+    \usepackage{subcaption}
+    \usepackage{color}
+    \usepackage[super,square]{natbib}
+    \usepackage{blindtext}
+    \usepackage{bm}
+    \usepackage{enumitem}
+    \usepackage{graphicx}
+    \usepackage{algorithm2e}
+    \usepackage{ebgaramond}
+
+    % 设置字体
+    \setCJKmainfont[BoldFont=SimHei]{NSimSun}
+    \setCJKmonofont{NSimSun}
+    % 定义字体
+    \setCJKfamilyfont{fzsh}{FZSongHei-B07S} % 方正宋黑
+    \newcommand{\songhei}{\CJKfamily{fzsh}}
+    % 定义字号
+    \newcommand{\chuhao}{\fontsize{42pt}{54.6pt}\selectfont}
+    \newcommand{\sanhao}{\fontsize{15.75pt}{20.5}\selectfont}
+
+    % 页边距设置
+    \geometry{left=3.18cm, right=3.18cm, top=2.54cm, bottom=2.54cm}
+
+    % 设置标题和注解格式
+    \titleformat{\chapter}{\centering\huge\bf\heiti}{\chinese{chapter}、}{0em}{}
+    \titleformat{\section}{\Large\bf\heiti}{\thesection}{0.75em}{}
+    \titleformat{\subsection}{\large\bf\heiti}{\thesubsection}{0.75em}{}
+    \titlespacing*{\chapter} {0pt}{0pt}{20pt}
+    %\captionsetup[figure]{name={图},labelsep=quad}
+    \captionsetup[table]{name={表},labelsep=quad}
+    % 标题样式重定义
+    \renewcommand{\contentsname}{\centerline{\huge\bf\heiti 目\quad 录}}
+    \renewcommand\bibname{\centerline{\normalsize\bf\heiti [参考文献]}}
+
+    % 标题与上下文间隔
+    \titlespacing*{\section}{0pt}{3ex}{1ex}
+    \titlespacing*{\subsection}{0pt}{2ex}{1ex}
+    \titlespacing*{\subsubsection}{0pt}{1ex}{0.5ex}
+
+    % 列表行间距
+    \setenumerate[1]{itemsep=1.5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+    \setitemize[1]{itemsep=1.5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+    \setdescription{itemsep=1.5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+    % 设置tikz
+    \usetikzlibrary{arrows, automata}
+
+    % 定义 PrintStyle 时使用打印样式
+    % \def \PrintStyle {}
+
+    % 设置代码样式
+\ifx \PrintStyle \undefined
+    \lstset{
+        commentstyle=\small\color{green!50!black}\itshape,
+        keywordstyle=\small\color{cyan!50!black}\bfseries,
+        stringstyle=\small\color{purple},
+        numberstyle=\small\ttfamily\color{gray},
+    }
+\else   % 打印用样式
+    \lstset{
+        commentstyle=\small\itshape,
+        keywordstyle=\small\bfseries,
+        numberstyle=\small\ttfamily,
+    }
+\fi
+    % 通用代码样式
+    \lstset{
+        basicstyle=\small\ttfamily,
+        columns=fullflexible,
+        numbersep=1em,
+        xleftmargin=\parindent,
+        breakatwhitespace=false,
+        numbers=left,
+        captionpos=b,               % sets the caption-position to bottom
+        breaklines=true,            % automatic line breaking only at whitespace
+        keepspaces=true,
+        showstringspaces=false,
+        tabsize=4
+    }
+
+\begin{document}
+
+    % 封面
+    \input{cover.tex}
+
+    \input{preface.tex}
+
+    \clearpage
+
+    \setcounter{page}{1} % 目录页码
+    \pagenumbering{roman} % 罗马数字页码
+    \setcounter{tocdepth}{2} % 目录深度
+    \tableofcontents % 目录
+
+    \newpage
+    \setcounter{page}{1}    % 重置页码计数
+    \pagestyle{fancy}
+    \pagenumbering{arabic}  % 数字页码
+
+    \input{basics.tex}
+    \input{expressions.tex}
+    \input{statements.tex}
+    \input{function.tex}
+    \input{class.tex}
+    \input{library.tex}
+    \input{api.tex}
+
+\end{document}

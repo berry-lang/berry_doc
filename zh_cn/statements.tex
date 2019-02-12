@@ -1,0 +1,103 @@
+\chapter{控制语句}
+
+很多编程语言都提供一些语句使程序实现分支结构和循环结构，Berry也提供这样的语句，在这里，这类语句被称为控制语句。Berry的控制语句主要分为三类：条件语句，迭代语句和跳转语句。程序流程图很容易翻译成这几种语句，反之亦然。
+
+\section{条件语句}
+
+Berry提供\texttt{if}语句来实现条件控制执行的功能。\texttt{if}语句会根据条件表达式的真（\texttt{true}）或假（\texttt{false}）来控制程序执行的分支。在一些语言中，实现条件控制还有其他的选择，例如C、C++等语言提供\texttt{switch}语句，不过为了简化设计，Berry没有支持\texttt{switch}语句。
+
+\subsection{\texttt{if}语句}
+
+\textbf{\texttt{if}语句}可以用来实现简单的分支结构，它根据某种判断条件的真假来选择程序运行的分支。\texttt{if}语句的形式为
+
+\begin{algorithm}
+    \texttt{if (} $\bm{condition}$ \texttt{)} \\
+    \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}
+
+$\bm{condition}$是条件表达式，当$\bm{condition}$的值为\texttt{true}时，将会执行第二行的$\bm{block}$，否则会跳过该$\bm{block}$并执行\texttt{end}后面的语句。在$\bm{block}$被执行的情况下，块中的最后一条语句执行完以后会离开\texttt{if}语句并开始执行\texttt{end}后面的语句。
+
+如果希望条件满足和不满足时都有对应的分支可供执行则需要使用\textbf{\texttt{if else}语句}。该语句的形式为
+\begin{algorithm}
+    \texttt{if (} $\bm{condition}$ \texttt{)} \\
+        \qquad $\bm{block}$ \\
+    \texttt{else} \\
+        \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}
+
+与简单的\texttt{if}语句不同的是，\texttt{if else}语句在$\bm{condition}$的值为\texttt{false}时将会执行\texttt{else}分支下的$\bm{block}$。无论哪个分支的$\bm{block}$被执行，在其执行完以后都会跳出\texttt{if else}语句——执行\texttt{end}后面的语句，也就是说，无论$\bm{condition}$的值是\texttt{true}还是\texttt{false}，都只有一个$\bm{block}$被执行。
+
+有时候我们需要嵌套使用\texttt{if}语句，一种情况是要在\texttt{else}分支下嵌套一个\texttt{if}语句：
+\begin{lstlisting}[language=berry, numbers=none]
+if (expr)
+    block
+else
+    if (expr)
+        block
+    end
+end
+\end{lstlisting}
+很明显，这种写法会增加代码的缩进层次，并且结尾处要使用多个\texttt{end}，比较繁琐。作为改进，Berry提供了\texttt{elif}分支来优化上面的写法。使用\texttt{elif}分支与上述代码等价，其形式为
+\begin{algorithm}
+    \texttt{if (} $\bm{condition}$ \texttt{)} \\
+        \qquad $\bm{block}$ \\
+    \texttt{elif (} $\bm{condition}$ \texttt{)} \\
+        \qquad $\bm{block}$ \\
+    \texttt{else} \\
+    \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}
+
+\texttt{elif}分支必须用在\texttt{if}分支之后并可以连续使用多次。如果\texttt{elif}分支对应的$\bm{condition}$满足则会执行分支下的$\bm{block}$。
+
+\section{迭代语句}
+
+迭代语句又叫循环语句，用于重复执行某种操作直到终止条件满足。Berry提供\texttt{while}语句和\texttt{for}两种迭代语句。很多语言也是提供这两种语句用于迭代。Berry的\texttt{while}语句和C/C++中的\texttt{while}语句类似，而Berry的\texttt{for}语句仅用于遍历容器中的元素，类似一些语言提供的\texttt{foreach}语句，以及C++ 11引入的新\texttt{for}语句风格。而C风格的\texttt{for}语句在Berry中则没有实现。
+
+\subsection{\texttt{while}语句}
+
+\textbf{\texttt{while}语句}是一种基本的迭代语句，\texttt{while}语句根据一个判断条件来进入循环并在条件不满足时终止循环，其模式为
+\begin{algorithm}
+    \texttt{while (} $\bm{condition}$ \texttt{)} \\
+        \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}
+
+程序运行到\texttt{while}语句时会检测$\bm{condition}$表达式的真假，如果为真则执行$\bm{block}$。执行完$\bm{block}$中的最后一条语句后，程序会跳转到\texttt{while}语句的开始位置并重新检测$\bm{condition}$的真假，为真则开始下一轮的循环。当$\bm{condition}$表达式为假时\texttt{while}语句将会终止，此时会继续执行\texttt{end}后的第一条语句。显然，如果$\bm{condition}$表达式在第一次判断时为假则不会执行$\bm{block}$（和\texttt{if}语句的$\bm{condition}$表达式为假时一样）。
+
+\subsection{\texttt{for}语句}
+
+Berry的\textbf{\texttt{for}语句}用于遍历容器中的元素，其形式为
+\begin{algorithm}
+    \texttt{for (} $\bm{varaible}$ \texttt{:} $\bm{expression}$ \texttt{)} \\
+        \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}
+
+$\bm{expression}$表达式的值必须是一个可迭代的容器，例如\texttt{range}类。\texttt{for}语句会从容器中获取一个迭代器，通过对调用迭代器的调用实现每次循环得到容器中的一个元素。
+
+$\bm{varaible}$称为迭代变量，迭代变量总是在\texttt{for}语句中定义。因此$\bm{varaible}$必须是一个变量名而不能是表达式。每次循环时从迭代器中获取的容器元素将会赋值给迭代变量，该过程发生在$\bm{block}$的第一条语句之前。
+
+\texttt{for}语句会检查迭代器中是否还有未访问的元素可供迭代，如果有则开始下一轮的迭代，否则会结束\texttt{for}语句并执行\texttt{end}后面的语句。目前，Berry只提供只读迭代器，也就是说无法通过\texttt{for}语句中的迭代变量来修改容器中的元素。
+
+迭代变量$\bm{varaible}$的作用域仅限于循环体$\bm{block}$中，该变量不会和作用域外的同名变量有任何关系。为了说明这一点，我们通过一个例子来说明，在这个例子里，我们使用\texttt{for}语句来访问\texttt{rang}实例中的所有元素并打印出来。当然，我们还通过这个例子来演示循环变量的作用域。
+\begin{lstlisting}[language=berry]
+i = "Hi, I'm fine." # outer variable
+for (i : 0 .. 2)
+    print(i)        # iteration variable
+end
+print(i)
+\end{lstlisting}
+
+在这个例子中，相对于第2行定义的的迭代变量\texttt{i}而言，第1行定义的变量\texttt{i}为外部变量。运行这个例子将得到下面的结果
+\begin{lstlisting}[numbers=none]
+0
+1
+2
+Hi, I'm fine
+\end{lstlisting}
+可以看出，迭代变量\texttt{i}和外部变量\texttt{i}是两个不同的变量，它们只是名字相同，但是作用域不同。
+
+\section{跳转语句}

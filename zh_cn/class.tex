@@ -1,0 +1,59 @@
+\chapter{面向对象功能}
+
+处于内存优化的考虑，Berry没有将简单类型作为对象，这些简单类型包括\texttt{nil}类型、数值类型、布尔类型和字符串类型。但是Berry提供了类来实现对象机制，在Berry的基本数据类型中，\texttt{list}、\texttt{map}和\texttt{range}是类对象。一个对象是是包含数据和方法的集合，其中数据由一些变量来构成，而方法则是函数。对象的类型称为类（class），而对象的实体称为实例（instance）。
+
+\section{类和实例}
+
+\subsection{类的声明}
+
+要使用一个类首先要进行声明。类的声明由关键字\texttt{class}开始，声明中要指定类的成员变量和方法，这里是声明类的一个例子：
+\begin{lstlisting}[language=berry, numbers=none]
+class person
+    var name, age
+    def init(name, age)
+        self.name = name
+        self.age = age
+    end
+    def tostring()
+        return 'name: ' + str(self.name) + ', age: ' + str(self.age)
+    end
+end
+\end{lstlisting}
+
+类的成员变量使用关键字\texttt{var}声明，而成员方法使用关键字\texttt{def}声明。目前Berry不支持在定义时初始化成员变量，建议把成员变量的初始化工作放到构造函数\texttt{init}中去。Berry的类属性一经定义就不可以修改，也就是说类在定义后是一种只读的对象\footnote{这种设计是为了保证在实现解释器的时候可以在C语言中静态构造类并使用\texttt{const}属性修饰以节省RAM}。
+
+Berry的类不支持私有成员，类的所有成员都对外部可见。在使用时可以根据一些约定来限制对类中成员的访问。
+
+\subsection{实例化}
+
+类本身只是一种抽象的描述。以汽车为例，我知道汽车的概念，而当我们真的要使用汽车的时候则需要真实的汽车。使用类的情况也类似，我们不会仅仅去使用这种抽象的描述，而是需要根据这种描述去生产出一个具体的对象。这个过程叫做\textbf{类的实例化}，简称实例化，实例化产生的具体对象称为\textbf{实例}。类本身不具有数据，而实例化根据类所描述的信息生产一个实例并赋予实例具体的数据。
+
+\subsection{方法和\texttt{self}参数}
+
+类的方法实际上就是函数，不过方法会隐式地传入一个\texttt{self}参数，该参数总是方法的第一个参数，其值为调用该方法的实例。这里我们用一个简单的例子演示：
+\begin{lstlisting}[language=berry, numbers=none]
+class Test
+    def method()
+        return self
+    end
+end
+object = Test()
+print(object)
+print(object.method())
+\end{lstlisting}
+这个例子中定义了一个\texttt{Test}类，它有一个\texttt{method}方法，该方法返回它的\texttt{self}参数。例程中的最后两行分别打印了\texttt{Test}类的实例\texttt{object}的值和使用\texttt{method}方法的返回值。该例子的运行结果为\footnote{由于实例对象是动态分配的，它们的内存地址是随机的，读者运行这段代码的结果可能与此处不同。}
+\begin{lstlisting}[numbers=none]
+<instance: 00E880D4>
+<instance: 00E880D4>
+\end{lstlisting}
+可以看出，方法的\texttt{self}参数和使用实例的名字（例子中的\texttt{object}）都是表示同一个对象，它们都是实例的引用。使用\texttt{self}可以在方法中访问实例的成员或者属性。
+
+\subsection{构造函数和析构函数}
+
+\section{类的继承}
+
+\section{方法重载}
+
+\subsection{普通方法重载}
+
+\subsection{运算符重载}

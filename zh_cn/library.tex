@@ -1,0 +1,229 @@
+\chapter{库和模块}
+
+本章介绍Berry内置的库函数以及模块。
+
+%==============================================================================
+\section{基础库函数}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{print}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+print(...)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数会将输入的参数打印到标准输出设备。该函数可以接受任何类型、任何数量的参数。所有的类型都会直接打印它的值，而对于实例，该函数会检查实例是否有\texttt{tostring()}方法，如果有则打印该实例调用\texttt{tostring()}方法后的返回值，否则打印实例的地址。
+
+\paragraph{例子}
+\begin{lstlisting}[language=berry, numbers=none]
+print('Hello World!') # Hello World!
+print([1, 2, '3'])    # [1, 2, '3']
+print(print)          # <function: 0x561092293780>
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{type}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+type(value)
+\end{lstlisting}
+
+\begin{itemize}
+    \item \emph{value}：输入参数（期望获取它的类型）。
+    \item \emph{return value}：说明参数类型的字符串。
+\end{itemize}
+
+\paragraph{说明}
+该函数接收一个任意类型的参数并返回参数的类型。返回值是说明参数类型的字符串。表\ref{tab::type_return_list}给出了主要参数类型对应的返回值：
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{6mm}
+    \begin{tabular}{cc!{\vrule width 1pt}cc} \Xhline{1pt}
+        \makecell{\textbf{参数类型}} & \makecell{\textbf{返回值}} & \makecell{\textbf{参数类型}} & \makecell{\textbf{返回值}} \\ \Xhline{1pt}
+        Nil & \texttt{'nil'} & Integer & \texttt{'int'} \\
+        Real & \texttt{'real'} & Boolean & \texttt{'bool'} \\
+        Function & \texttt{'function'} & Class & \texttt{'class'} \\
+        String & \texttt{'string'} & Instance & \texttt{'instance'} \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{类型名对照表}
+    \label{tab::type_return_list}
+\end{table}
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+type(0)         # int
+type(0.5)       # real
+type('hello')   # string
+type(print)     # function
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{classname}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+classname(object)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的类名（字符串）。因此参数必须是一个类或者实例，其他类型的参数将返回\texttt{nil}。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+classname(list)     # 'list'
+classname(list())   # 'list'
+classname({})       # 'map'
+classname(0)        # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{str}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+str(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数将参数转化为字符串并返回。\texttt{str}函数可以接受任意类型的参数并转化。当参数类型为实例时将检查该实例是否有\texttt{tostring()}方法，如果有将使用该方法的返回值，否则将实例的地址转化为字符串。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+str(0)  # '0'
+str(nil)  # 'nil'
+str(list)  # 'list'
+str([0, 1, 2])  # '[0, 1, 2]'
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{number}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+number(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数将输入的字符串或者数字转化为数值类型返回。如果输入参数为整数或者实数则直接返回。如果是字符串则试图将字符串按十进制格式转化为数值，转化时会自动判断整数或实数。其他类型返回\texttt{nil}。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+number(5)       # 5
+number('45.6')  # 45.6
+number('50')    # 50
+number(list)    # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{length}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+length(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回输入字符串的长度。如果输入参数不为字符串则返回0。字符串的长度以字节计算。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+length(10)          # 0
+length('s')         # 1
+length('string')    # 6
+\end{lstlisting}
+
+%==============================================================================
+\section{JSON模块}
+
+JSON是一种轻量级的数据交换格式，它是JavaScript的一个子集，它使用完全独立于编程语言的文本格式来表示数据。Berry提供了JSON模块来提供对JSON数据的支持。JSON模块只包含有两个函数\texttt{load}和\texttt{dump}，它们分别用于将JSON字符串解析乘Berry对象和将一个Berry对象序列化为JSON文本。
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{load}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+load(text)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数用于将输入的JSON文本转化为Berry对象并返回。转化的规则如表\ref{tab::json2berry_rule}所示。如果JSON文本存在语法错误，该函数将返回\texttt{nil}。
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{18mm}
+    \begin{tabular}{cc} \Xhline{1pt}
+        \makecell{\textbf{JSON类型}} & \makecell{\textbf{Berry类型}} \\ \Xhline{1pt}
+        \texttt{null} & \texttt{nil} \\
+        \texttt{number} & \texttt{integer} or \texttt{real} \\
+        \texttt{string} & \texttt{string} \\
+        \texttt{array} & \texttt{list} \\
+        \texttt{object} & \texttt{map} \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{JSON类型到Berry类型的转换规则}
+    \label{tab::json2berry_rule}
+\end{table}
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+import json
+json.load('0')    # 0
+json.load('[{"name": "liu", "age": 13}, 10.0]') # [{'name': 'liu', 'age': 13}, 10]
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\texttt{dump}函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+dump(object， ['format'])
+\end{lstlisting}
+
+\paragraph{说明}
+该函数用于将Berry对象序列化为JSON文本。序列化时使用的转化的规则如表\ref{tab::berry2json_rule}所示。
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{18mm}
+    \begin{tabular}{cc} \Xhline{1pt}
+        \makecell{\textbf{Berry类型}} & \makecell{\textbf{JSON类型}} \\ \Xhline{1pt}
+        \texttt{nil} & \texttt{null} \\
+        \texttt{integer} & \texttt{number} \\
+        \texttt{real} & \texttt{number} \\
+        \texttt{list} & \texttt{array} \\
+        \texttt{map} & \texttt{object} \\
+        \texttt{map}的键 & \texttt{string} \\
+        其他 & \texttt{string} \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{Berry类型到JSON类型的转换规则}
+    \label{tab::berry2json_rule}
+\end{table}
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+import json
+json.dump('string')     # '"string"'
+json.dump('string')     # '"string"'
+json.dump({0: 'item 0', 'list': [0, 1, 2]}) # '{"0":"item 0","list":[0,1,2]}'
+json.dump({0: 'item 0', 'list': [0, 1, 2], 'func': print}, 'format')
+#-
+{
+    "0": "item 0",
+    "list": [
+        0,
+        1,
+        2
+    ],
+    "func": "<function: 00410310>"
+}
+-#
+\end{lstlisting}
+
+\section{IO模块}
+
+\section{Math模块}
+
+\section{OS模块}

@@ -1,0 +1,230 @@
+\chapter{基本信息}
+
+\section{开始使用}
+
+你可以到Berry项目的GitHub页面（\url{https://github.com/gztss/berry}）上获取Berry解释器的源代码。然后你需要编译Berry解释器，这些信息你可以到项目的README.md文档中查看。
+
+在得到Berry解释器的可执行文件后（在Windows中文件名是``berry.exe''，在Linux和macOS中文件名是``berry''），你可以直接运行解释器\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}并开始使用交互模式运行代码。
+
+作为惯例，我们使用``Hello World''来入门。为了最快地达到目的，我们直接运行解释器，这时我们进入一个叫做``交互模式''（REPL）的界面，我们将看到如下信息：
+\begin{lstlisting}[language=berry, numbers=none]
+Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
+[GCC 8.1.0] on Windows (default)
+>
+\end{lstlisting}
+
+这段文字中，前两行显示了Berry解释器的版本、编译时间、编译器和操作系统等信息，第三行的符号``\texttt{>}''叫做提示符，此时光标显示在提示符后面，我们可以直接在此处输入代码并在按下``Enter''键之后运行。为了完成我们的``Hello World''程序，在交互模式中输入``print('Hello World')''并执行，此时运行结果如下：
+\begin{lstlisting}[language=berry, numbers=none]
+Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
+[GCC 8.1.0] on Windows (default)
+> print('Hello World')
+Hello World
+>
+\end{lstlisting}
+
+运行这行代码后解释器输出了一段文本``\texttt{Hello World}''。的原理是调用打印函数\texttt{print()}来输出字符串\texttt{'Hello World'}。在交互模式中，解释器会显示表达式的值（如果值不是\texttt{nil}的话），例如我们输入表达式\texttt{1 + 2}将会输出计算结果\texttt{3}：
+\begin{lstlisting}[language=berry, numbers=none]
+> 1 + 2
+3
+\end{lstlisting}
+
+因此交互模式下最简单的``Hello World''程序是直接输入字符串\texttt{'Hello World'}并运行：
+\begin{lstlisting}[language=berry, numbers=none]
+> 'Hello World'
+Hello World
+\end{lstlisting}
+
+你可以把Berry解释器的交互模式当成一个科学计算器来使用，不过，一些数学函数不能直接使用，而要先使用\texttt{import math}语句来导入数学库，然后在使用数学库中的函数时要使用``\texttt{math.}''作为前缀，例如\texttt{sin}函数要写成\texttt{math.sin}：
+\begin{lstlisting}[language=berry, numbers=none]
+> import math
+> math.pi
+3.14159
+> math.sin(math.pi / 2)
+1
+> math.sqrt(2)
+1.41421
+\end{lstlisting}
+
+\section{词法}
+
+在介绍Berry的语法之前，我们先来看一段简单的代码（你可以在交互模式种运行这段代码）：
+\begin{lstlisting}[language=berry]
+def func(x) # a function example
+    return x + 1.5
+end
+print('func(10) =', func(10))
+\end{lstlisting}
+
+这段代码中定义了一个函数\texttt{func}并在后面调用了它。在了解这段代码怎样工作之前，我们先介绍Berry语言的语法元素。
+
+以上代码中，语法元素的具体分类为：\texttt{def}、\texttt{return}和\texttt{end}是Berry语言的\textbf{关键字}；而第1行中的``\texttt{\# a function example}''被称为\textbf{注释}；\texttt{print}、\texttt{func}和\texttt{x}是一些\textbf{标识符}，它们通常用于表示一个变量；\texttt{1.5}和\texttt{10}这些数字被称为\textbf{数值字面量}，它们相当于日常生活中使用的数字；\texttt{'func(10) ='}是一个\textbf{字符串字面量}，他们大量用于需要表示文本的地方；\texttt{+}是一个\textbf{加法运算符}，这里使用加法运算符可以将变量\texttt{x}和数值\texttt{1.5}相加。
+
+以上的分类实际上是从词法分析器的角度来做的。词法分析是Berry源代码解析的第一步，为了写出正确的源代码，我们先从最基础的词法开始介绍。
+
+\subsection{注释}
+
+注释是不会生成任何代码的一些文本，它们用于在源代码中做批注并给人们阅读，而编译器则不会解释它们的内容。Berry支持单行注释和跨行的块注释。单行注释从字符``\texttt{\#}'开始，直到换行字符结束。快注释从文本``\texttt{\#-}''开始，直到文本``\texttt{-\#}''结束。以下是使用注释的例子：
+\begin{lstlisting}[language=berry, numbers=none]
+# this is a line comment
+#- this is a
+   block comment
+-#
+\end{lstlisting}
+
+和C语言类似，快注释不支持嵌套，以下代码将在第一个``\texttt{-\#}''文本处终止对注释的解析：
+\begin{lstlisting}[language=berry, numbers=none]
+#- some comments -# ... -#
+\end{lstlisting}
+
+\subsection{字面值}
+
+字面值是编程时在源代码中直接写出的固定值。Berry的字面量有整数、实数、布尔量、字符串和nil。例如，数值\texttt{34}是一个整数字面值。
+
+\subsubsection{数值字面值}
+
+数值字面值包括\textbf{整数}（Integer）字面值和\textbf{实数}（Real）字面值。
+\begin{lstlisting}[language=berry, numbers=none]
+40      # integer
+0x80    # hexadecimal literal (integer)
+3.14    # real
+1.1e-6  # real
+\end{lstlisting}
+
+数值字面值的写法和日常写法类似。Berry支持16进制的整数字面值，16进制字面值使用前缀\texttt{0x}或者\texttt{0X}开头，后面是一个16进制数。
+
+\subsubsection{布尔字面值}
+
+布尔值（Boolean）用来表示逻辑状态中的真和假。你可以使用\texttt{true}和\texttt{false}这两个关键字来表示布尔字面值。
+
+\subsubsection{字符串字面值}
+
+字符串（String）是一段文本，它的字面值写法是使用一对\texttt{'}或\texttt{"}包围字符串文本：
+\begin{lstlisting}[language=berry, numbers=none]
+'this is a string'
+"this is a string"
+\end{lstlisting}
+
+\subsubsection{Nil字面值}
+
+Nil表示空值，其字面值使用关键字\texttt{nil}来表示。
+
+\subsection{标识符}
+
+标识符(Identifier)是由用户定义的名字，它由下划线或者字母作为开头，再由若干个下划线、字母或者数字的组合构成。和大多数语言类似，Berry是大小写敏感的，因此标识符\texttt{A}和标识符\texttt{a}会解析为两种标识符。
+\begin{lstlisting}[language=berry, numbers=none]
+a
+TestVariable
+Test_Var
+_init
+baseCass
+_
+\end{lstlisting}
+
+\subsection{关键字}
+
+Berry保留以下记号作为语言的关键字：
+\begin{lstlisting}[language=berry, numbers=none]
+    if          elif        else        while       for         def
+    end         class       break       continue    return      true
+    false       nil         var         do          import      as
+\end{lstlisting}
+
+关键字的具体使用方法会在相关的章节中介绍。注意，不能将关键字作为标识符使用，由于Berry是大小写敏感的，因此\texttt{If}可以用于标识符。
+
+\subsection{运算符}
+
+Berry支持的运算符如表\ref{tab::operator_list}所示。
+
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{4mm}
+    \begin{tabular}{cclc} \Xhline{1pt}
+        \makecell[c]{\textbf{优先级}} & \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{说明}} & \makecell[c]{\textbf{结合性}} \\ \Xhline{1pt}
+        1 & \texttt{()} & 分组符号 & - \\
+        2 & \texttt{() [] .} & 函数调用，下标运算，域运算 & 左 \\
+        3 & \texttt{+ - !} & 正号，负号，逻辑非 & 左 \\
+        4 & \texttt{* / \%} & 乘法，除法，取余数 & 左 \\
+        5 & \texttt{+ -} & 加法，减法 & 左 \\
+        6 & \texttt{..} & 范围运算符 & 左 \\
+        7 & \texttt{< <= == != > >=} & 关系运算符 & 左 \\
+        8 & \texttt{\&\&} & 逻辑与 & 左 \\
+        9 & \texttt{||} & 逻辑或 & 左 \\
+        10 & \texttt{=} & 赋值 & 右 \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{运算符列表}
+    \label{tab::operator_list}
+\end{table}
+
+\section{类型和值}
+
+数据\textbf{类型}是数据的一种属性，它定义了数据的含义以及可以对数据进行的运算类型。
+
+\subsection{内建类型}
+
+Berry支持的基本类型有：
+
+\begin{itemize}
+    \item \textbf{Nil}：表示对象具有一个空值。
+    \item \textbf{Integer}：有符号的整数。它的长度取决于具体的实现。例如，在32位平台中通常是一个32位的有符号整数。
+    \item \textbf{Real}：实数。具体实现可以选择选用单精度浮点数或者双精度浮点数。
+    \item \textbf{Boolean}：值可以是\texttt{true}或者\texttt{false}。
+    \item \textbf{String}：字符串是一个由字符组成的串。字符串是只读的。
+    \item \textbf{Function}：函数是一段具有名字的代码，它一般用于实现特定的功能。在Berry中函数实际上是一个大类，不过在通常情况下我们不用关心一个``函数''具体是什么子类型。
+    \item \textbf{Class}：由一些成员变量和方法函数组成。类用于实现面向对象特性。类是一个抽象的对象并且是只读的。
+    \item \textbf{Instance}：一个类实例化之后的对象，实例是一个具体的对象，其成员变量是可读写的。
+    \item \textbf{List}：可变数组。可以存储任何类型。
+    \item \textbf{Map}：用于存储键值对。值可以是任何类型。
+    \item \textbf{Range}：表示一个整数区间。通常用于范围迭代。
+\end{itemize}
+
+\section{表达式}
+
+一个表达式（Statement）由一到多个操作数和运算符组成，通过对表达式求值可以得到一个结果。操作数可以是一个字面值、变量、函数调用或者是子表达式。与四则运算类似，运算符的优先级会影响表达式的求值顺序，优先级越高的运算符，其表达式越先求值。
+
+这是一些表达式的例子：
+\begin{lstlisting}[language=berry, numbers=none]
+a = 1 + 5       # 6
+print(a * 2)    # 12
+b = type(a)     # 'int'
+\end{lstlisting}
+
+\section{语句}
+
+语句分为表达式语句、\texttt{if}语句、\texttt{while}语句、\texttt{for}语句、\texttt{break}语句、\texttt{continue}语句、\texttt{return}语句、\texttt{import}语句、函数定义语句和类定义语句等。
+
+表达式语句可以是一个赋值表达式或者是函数调用表达式。
+\begin{lstlisting}[language=berry, numbers=none]
+a = 1       # assignment statement
+print(a)    # call statement
+\end{lstlisting}
+
+除了行注释以外，回车或换行符（``\texttt{\textbackslash r}''和``\texttt{\textbackslash n}''）仅作为空白字符使用，因此一条语句可以是多行的。多行的表达式和单行表达式写法相同，不需要使用专门的续行符号。但是有些时候，解释器可能把本意是两条语句的代码解释成一条语句：
+\begin{lstlisting}[language=berry]
+a = 1 +
+    func()      # wrap line
+b = 1 c = 2     # multiple statements
+a = c
+(b) = 1         # be regarded as a function call
+\end{lstlisting}
+
+这些代码中，第1行和第2行是一个多行表达式语句，第3行有两个表达式语句。第4行和第5行本意是两条表达式语句\texttt{a = c}和\texttt{(b) = 1}，但是解释器会把它们理解成一条语句：\texttt{a = c(b) = 1}，这和我们的本意是相违背的。
+
+这个问题有以下几种解决方案：
+
+\begin{itemize}
+    \item 不要在赋值号的左侧使用括号，而且只使用简单的表达式。
+    \item 使用符号``\texttt{;}''来显式地分隔语句。
+\end{itemize}
+
+\section{块}
+
+一个块（Block）是若干表达式的集合。块可能在控制语句（例如\texttt{if}和\texttt{while}语句）、函数或者方法体中使用。例如：
+\begin{lstlisting}[language=berry]
+if (isOpen)
+    close()
+    print('the device was closed')
+end
+\end{lstlisting}
+
+此处第2行到第3行的语句构成了一个块。事实上，任意一些连续的语句串都可以说是一个块，并且一个语句内部可能嵌套了块，例如第2行到第3行的块就嵌套在\texttt{if}语句中。
