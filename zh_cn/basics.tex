@@ -6,14 +6,14 @@
 
 在得到Berry解释器的可执行文件后（在Windows中文件名是``berry.exe''，在Linux和macOS中文件名是``berry''），你可以直接运行解释器\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}并开始使用交互模式运行代码。
 
-作为惯例，我们使用``Hello World''来入门。为了最快地达到目的，我们直接运行解释器，这时我们进入一个叫做``交互模式''（REPL）的界面，我们将看到如下信息：
+作为惯例，我们使用``Hello World''程序来入门。为了最快地达到目的，我们直接运行解释器，这时我们进入一个叫做``交互模式''（REPL）的界面，我们将看到如下信息：
 \begin{lstlisting}[language=berry, numbers=none]
 Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 [GCC 8.1.0] on Windows (default)
 >
 \end{lstlisting}
 
-这段文字中，前两行显示了Berry解释器的版本、编译时间、编译器和操作系统等信息，第三行的符号``\texttt{>}''叫做提示符，此时光标显示在提示符后面，我们可以直接在此处输入代码并在按下``Enter''键之后运行。为了完成我们的``Hello World''程序，在交互模式中输入``print('Hello World')''并执行，此时运行结果如下：
+这段文字中，前两行显示了Berry解释器的版本、编译时间、编译器和操作系统等信息，第三行的符号``\texttt{>}''叫做提示符，此时光标显示在提示符后面，我们可以直接在此处输入代码并在按下``Enter''键之后运行。为了完成我们的``Hello World''程序，在交互模式中输入\texttt{print('Hello World')}并执行，此时运行结果如下：
 \begin{lstlisting}[language=berry, numbers=none]
 Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 [GCC 8.1.0] on Windows (default)
@@ -22,12 +22,11 @@ Hello World
 >
 \end{lstlisting}
 
-运行这行代码后解释器输出了一段文本``\texttt{Hello World}''。的原理是调用打印函数\texttt{print()}来输出字符串\texttt{'Hello World'}。在交互模式中，解释器会显示表达式的值（如果值不是\texttt{nil}的话），例如我们输入表达式\texttt{1 + 2}将会输出计算结果\texttt{3}：
+运行这行代码后解释器输出了一行``\texttt{Hello World}''文本。这行代码通过调用\texttt{print()}函数来实现对字符串\texttt{'Hello World'}输出的输出。在交互模式中，解释器会显示表达式的值（如果值不是\texttt{nil}的话），例如我们输入表达式\texttt{1 + 2}将会输出计算结果\texttt{3}：
 \begin{lstlisting}[language=berry, numbers=none]
 > 1 + 2
 3
 \end{lstlisting}
-
 因此交互模式下最简单的``Hello World''程序是直接输入字符串\texttt{'Hello World'}并运行：
 \begin{lstlisting}[language=berry, numbers=none]
 > 'Hello World'
@@ -188,47 +187,3 @@ a = 1 + 5       # 6
 print(a * 2)    # 12
 b = type(a)     # 'int'
 \end{lstlisting}
-
-\section{语句}
-
-语句分为表达式语句、\texttt{if}语句、\texttt{while}语句、\texttt{for}语句、\texttt{break}语句、\texttt{continue}语句、\texttt{return}语句、\texttt{import}语句、函数定义语句和类定义语句等。
-
-表达式语句可以是一个赋值表达式或者是函数调用表达式。
-\begin{lstlisting}[language=berry, numbers=none]
-a = 1       # assignment statement
-print(a)    # call statement
-\end{lstlisting}
-
-除了行注释以外，回车或换行符（``\texttt{\textbackslash r}''和``\texttt{\textbackslash n}''）仅作为空白字符使用，因此一条语句可以是多行的。多行的表达式和单行表达式写法相同，不需要使用专门的续行符号。但是有些时候，解释器可能把本意是两条语句的代码解释成一条语句：
-\begin{lstlisting}[language=berry]
-a = 1 +
-    func()      # wrap line
-b = 1 c = 2     # multiple statements
-a = c
-(b) = 1         # be regarded as a function call
-\end{lstlisting}
-
-这些代码中，第1行和第2行是一个多行表达式语句，第3行有两个表达式语句。第4行和第5行本意是两条表达式语句\texttt{a = c}和\texttt{(b) = 1}，但是解释器会把它们理解成一条语句：\texttt{a = c(b) = 1}，这和我们的本意是相违背的。
-
-这个问题有以下几种解决方案：
-
-\begin{itemize}
-    \item 不要在赋值号的左侧使用括号，而且只使用简单的表达式。
-    \item 使用符号``\texttt{;}''来显式地分隔语句。
-\end{itemize}
-
-\section{块}
-
-一个块（Block）是若干表达式的集合。块可能在控制语句（例如\texttt{if}和\texttt{while}语句）、函数或者方法体中使用。例如：
-\begin{lstlisting}[language=berry]
-if (isOpen)
-    close()
-    print('the device was closed')
-end
-\end{lstlisting}
-
-此处第2行到第3行的语句构成了一个块。事实上，任意一些连续的语句串都可以说是一个块，并且一个语句内部可能嵌套了块，例如第2行到第3行的块就嵌套在\texttt{if}语句中。
-
-\subsection{\texttt{do}语句}
-
-Berry提供一种\texttt{do}语句来封装代码块。

@@ -1,6 +1,54 @@
-\chapter{控制语句}
+\chapter{语句}
 
-很多编程语言都提供一些语句使程序实现分支结构和循环结构，Berry也提供这样的语句，这类语句被称为控制语句。Berry的控制语句主要分为三类：条件语句，迭代语句和跳转语句。程序流程图很容易翻译成这几种语句，反之亦然。
+Berry是一种命令式编程语言，即程序式一步一步地执行的。通常情况下，Berry语句是顺序执行的，这种程序结构称为顺序结构。尽管顺序结构非常基础，但是实际的程序中通常还需要用到分支结构和循环结构，Berry提供几种控制语句来实现这种复杂的流程结构，例如条件语句和迭代语句。
+
+\section{简单语句}
+
+Berry中的语句可以以分号结束，但是大多数时候都不需要，解释器通常能自动切分语句，但是在一些不使用分号会导致歧义地方应该加上分号或者重构代码。
+
+\subsection{表达式语句}
+表达式语句主要是赋值表达式和函数调用语句。其他类型的表达式也可以构成一个语句，但是不会有什么意义，例如表达式\texttt{1+2}就可以是一条语句，但是它不能对其它代码产生任何影响，因此没有实际作用。而表达式\texttt{a=2}则将常量\texttt{2}赋值给了一个变量\texttt{a}，从而影响了该变量在上下文中的行为。下面我们给出一个表达式语句和函数语句的例子：
+\begin{lstlisting}[language=berry, numbers=none]
+a = 1       # assignment statement
+print(a)    # call statement
+\end{lstlisting}
+
+实际上，除了行注释以外，回车或换行符（``\texttt{\textbackslash r}''和``\texttt{\textbackslash n}''）仅作为空白字符使用，因此一条语句可以是多行的。多行的表达式和单行表达式写法相同，不需要使用专门的续行符号。但是有些时候，解释器可能把本意是两条语句的代码解释成一条语句：
+\begin{lstlisting}[language=berry]
+a = 1 +
+    func()      # wrap line
+b = 1 c = 2     # multiple statements
+a = c
+(b) = 1         # be regarded as a function call
+\end{lstlisting}
+这些代码中，第1行和第2行是一个多行表达式语句，第3行有两个表达式语句。第4行和第5行本意是两条表达式语句\texttt{a = c}和\texttt{(b) = 1}，但是解释器会把它们理解成一条语句：\texttt{a = c(b) = 1}，这和我们的本意是相违背的。
+
+这个问题有以下几种解决方案：
+\begin{itemize}
+    \item 不要在赋值号的左侧使用括号，而且只使用简单的表达式。
+    \item 使用符号``\texttt{;}''来显式地分隔语句。
+\end{itemize}
+
+\subsection{块}
+
+一个块（Block）是若干语句的集合。一个块就是一个作用域，在块中定义的变量只能在块及其子块内部访问。有很多地方需要使用到块，例如：\texttt{if}语句、\texttt{while}语句、函数声明等。这些要使用块的语句都使用一对关键字来包含一个块。例如在\texttt{if}语句中使用的块：
+\begin{lstlisting}[language=berry]
+if (isOpen)
+    close()
+    print('the device was closed')
+end
+\end{lstlisting}
+第2行到第3行的语句构成了一个块，这个块夹在\texttt{if}和\texttt{end}这一对关键字中间（\texttt{if}语句的条件表达式不算）。块可以不包含任何语句，这样就构成一个空的块，也可以说是包含一条空语句的块。
+
+\subsubsection{\texttt{do}语句}
+
+有时候我们仅仅想开辟一个新的作用域，但是又不想使用任何控制语句，这种情况下可以使用\texttt{do}语句来封装块。\texttt{do}语句没有任何控制功能。\texttt{do}语句的形式为
+\begin{algorithm}
+    \texttt{do}\\
+    \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}
+其中$\bm{block}$就是我们需要的块。该语句使用一对\texttt{do}和\texttt{end}关键字来包含块，并且没有任何控制功能，也不会生成任何运行时的指令。
 
 \section{条件语句}
 
@@ -9,7 +57,6 @@ Berry提供\texttt{if}语句来实现条件控制执行的功能。\texttt{if}�
 \subsection{\texttt{if}语句}
 
 \textbf{\texttt{if}语句}可以用来实现简单的分支结构，它根据某种判断条件的真假来选择程序运行的分支。\texttt{if}语句的形式为
-
 \begin{algorithm}
     \texttt{if (} $\bm{condition}$ \texttt{)} \\
     \qquad $\bm{block}$ \\
