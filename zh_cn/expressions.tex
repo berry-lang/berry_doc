@@ -64,9 +64,8 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
     \setlength{\tabcolsep}{10mm}
     \begin{tabular}{ccc} \Xhline{1pt}
         \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
-        \texttt{+} & 一元正号 & \texttt{+ expr} \\
         \texttt{-} & 一元负号 & \texttt{- expr} \\
-        \texttt{+} & 加号 & \texttt{expr + expr} \\
+        \texttt{+} & 加号/字符串连接 & \texttt{expr + expr} \\
         \texttt{-} & 减号 & \texttt{expr - expr} \\
         \texttt{*} & 乘号 & \texttt{expr * expr} \\
         \texttt{/} & 除号 & \texttt{expr / expr} \\
@@ -77,11 +76,13 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
     \label{tab::arthmetic_operator}
 \end{table}
 
-对于二元运算符\texttt{+}，当操作数为字符串时会执行字符串连接，即把两个字符串连接成一条更长的字符串，其他时候通常用作加法运算符。除了\texttt{\%}运算符以外，其他算数运算符都支持整数和实数操作数，\texttt{\%}运算符只支持整数操作数。\texttt{\%}运算符的作用是计算一个整数整数另一个整数之后的余数，例如\texttt{11\%4}的结果是\texttt{3}。
+二元运算符\texttt{+}除了做为加号外还是字符串连接符，当该运算符的操作数为字符串时会执行字符串连接，把两个字符串连接成一条更长的字符串。准确地说，作为字符串连接符的\texttt{+}已经不属于算术运算符的范畴了。
+
+二元运算符\texttt{\%}是取余数符号，它的操作数必须都是整数，取余运算的结果是左操作数除以右操作数后的余数，例如\texttt{11\%4}的结果是\texttt{3}。实数类型不能做整除，因此不支持取余。
+
+通常情况下算术运算符不满足交换律。例如表达式\texttt{2/4}和\texttt{4/2}的值并不相同。
 
 所有的算数运算符都可以在类中重载，重载后的运算符不一定局限于它们原本的功能设计，而是由程序员自己决定。
-
-正号\texttt{+}实际上没有任何作用。它可能在将来的版本中被移除,因此不建议使用。
 
 \section{关系运算符}
 
@@ -94,7 +95,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
         \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
         \texttt{<} & 小于 & \texttt{expr < expr} \\
         \texttt{<=} & 小于等于 & \texttt{expr <= expr} \\
-        \texttt{==} & 小于等于 & \texttt{expr == expr} \\
+        \texttt{==} & 等于 & \texttt{expr == expr} \\
         \texttt{!=} & 不等于 & \texttt{expr != expr} \\
         \texttt{>=} & 大于等于 & \texttt{expr >= expr} \\
         \texttt{>} & 大于 & \texttt{- expr} \\
@@ -104,7 +105,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
     \label{tab::relop_operator}
 \end{table}
 
-通过比较操作数的大小关系，关系表达式将产生一个布尔值的结果，当关系满足时，关系表达式的值为\texttt{true}，否则为\texttt{false}。关系运算符允许使用以下几种操作数的组合：
+通过比较操作数的大小关系或判断操作数是否相等，对关系表达式求值会产生一个布尔类型的结果。当关系满足时，关系表达式的值为\texttt{true}，否则为\texttt{false}。关系运算符\texttt{==}和\texttt{!=}可以使用任何类型的操作数，且允许左右两边的操作数具有不同的类型。其他关系运算符允许使用以下几种操作数的组合：\vspace{-0.5em}
 \begin{gather*}
     \bm{integer} \quad relop \quad \bm{integer} \\
     \bm{real} \quad relop \quad \bm{real} \\
@@ -113,7 +114,11 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
     \bm{string} \quad relop \quad \bm{string}
 \end{gather*}
 
-所有的关系运算符都可以在类中重载，因此也可以对实例对象使用关系运算符。
+关系运算中，等号\texttt{==}和不等号\texttt{!=}满足交换律。如果左右操作数是同一类型或都是数值类型（整数和实数）则根据操作数的值来判断操作数是否相等，否则认为操作数不相等。等于和不等于是互逆运算：若\texttt{a==b}为真，则\texttt{a!=b}为假，反之也成立。其他关系运算符不满足交换律，但具有下列性质：\texttt{<}和\texttt{>=}是互逆运算，\texttt{>}和\texttt{<=}是互逆运算。关系运算要求操作数必须是相同类型，否则是错误的表达式。
+
+实例可以重载运算符为方法。如果重载关系运算符，程序需要自行保证以上性质。
+
+关系运算符中，\texttt{==}和\texttt{!=}运算符比\texttt{<}、\texttt{<=}、\texttt{>}和\texttt{>=}的要求更为宽松，后者只允许在相同的类型之间进行比较。在实际的程序开发中，相等或者不等的判定通常比大小的判定要简单，有些操作对象可能不能判断大小而只能判断相等或不等，布尔类型就是如此。
 
 \section{逻辑运算符}
 
@@ -139,19 +144,23 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 逻辑非运算符会翻转操作数的逻辑状态。当操作数为\texttt{true}时，逻辑表达式的值为\texttt{false}，否则值为\texttt{true}。
 
-逻辑运算符要求操作数是布尔类型，否则将尝试使用下列规则进行转换：
+逻辑运算符要求操作数是布尔类型，如果操作数不是布尔类型则会进行转换。转换规则见\ref{section:type_bool}节。
 
-\begin{itemize}
-    \item Nil：转换为\texttt{false}。
-    \item Integer：值为\texttt{0}时转换为\texttt{false}，否则转换为\texttt{true}。
-    \item Real：值为\texttt{0.0}时转换为\texttt{false}，否则转换为\texttt{true}。
-    \item Instance：存在方法\texttt{tobool()}时将使用该方法的返回值，否则转换为\texttt{true}。
-    \item 其他：转换为\texttt{true}。
-\end{itemize}
+逻辑运算使用了一种称为\textbf{短路求值}（short-circuit evaluation）的求值策略。这种求值策略为：对于逻辑与运算符，当且仅当左操作数为真时才会对又操作数求值；对于逻辑或运算符来说，当且仅当左操作数为假时才会对右操作数求值。短路求值的性质导致逻辑表达式中的代码可能不会全部运行。
 
 \section{赋值运算符}
 
-赋值运算符\texttt{=}仅出现在赋值表达式中，其左操作数必须是可写对象。赋值表达式不返回值，因此不能使用连续的赋值运算，类似\texttt{a=b=c}这样的表达式是错误的。
+赋值运算符\texttt{=}仅出现在赋值表达式中，其左操作数必须是可写对象。赋值表达式没有结果，因此不能使用连续的赋值运算。这是一些赋值表达式的例子：
+\begin{lstlisting}[language=berry, numbers=none]
+a = 45    b = 'string'    c = 0
+\end{lstlisting}
+而下列赋值表达式都是非法的：
+\begin{lstlisting}[language=berry, numbers=none]
+1 = 5           # trying to assign a constant 1
+a = b = 0       # continuous assignment
+\end{lstlisting}
+
+赋值运算会将右侧操作数的值传递左侧操作数，对于\texttt{nil}、整数、实数和布尔类型，赋值运算是会传递对象的值，而其他类型的赋值运算传递对象的引用。
 
 \section{域运算符和下标运算符}
 

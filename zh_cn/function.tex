@@ -11,8 +11,7 @@
     \texttt{def} $\bm{name}$ \texttt{(} $\bm{arguments}$ \texttt{)} \\
         \qquad $\bm{block}$ \\
     \texttt{end}
-\end{algorithm}
-
+\end{algorithm}\vspace{-0.6em}\\
 函数声明有3个主要的部分：函数名称$\bm{name}$、函数参数列表$\bm{arguments}$和函数体（Function Body）$\bm{block}$。函数参数列表和函数体可以为空。函数名称实际上就是一个变量名称，也就是一个标识符，Berry不支持匿名函数，因此函数名称是必须的。函数的参数列表是一个变量名列表，这些变量用于存储函数的输入参数，多个参数之间使用逗号分隔。函数体是实现函数功能的Berry语句集合，也就是一个块。函数参数列表和函数体可以为空。
 
 来看一个简单的例子，我们定义了一个\texttt{add}函数来输出两个数的和：
@@ -61,9 +60,9 @@ end
 \texttt{return}语句用于返回函数的结果，也就是返回值。Berry中的所有函数都具有返回值，但是你可以在函数体中不使用任何\texttt{return}语句，此时解释器会生成一条默认的\texttt{return}语句以保证函数的返回。\texttt{return}语句有两种写法：
 \begin{algorithm}
     \texttt{return} \\
-    \texttt{return} $\bm{expression}$
-\end{algorithm}
-第一种写法是只写出一个\texttt{return}关键字，此时实际上会返回\texttt{nil}值，第二种写法会返回$\bm{expression}$的值。当程序执行到\texttt{return}语句时，当前运行的函数会立即停止执行并返回到调用该函数的代码中继续运行。
+    \texttt{return }$\bm{expression}$
+\end{algorithm}\vspace{-0.6em}\\
+第一种写法是只写出一个\texttt{return}关键字，这种写法返回一个\texttt{nil}值，第二种写法是\texttt{return}关键字后面跟随表达式$\bm{expression}$，这种写法会返回$\bm{expression}$的值。当程序执行到\texttt{return}语句时，当前运行的函数会立即停止执行并返回到调用该函数的代码中继续运行。
 
 当使用单独的关键字\texttt{return}作为函数的返回语句时，容易引起二义性的问题，此时建议在\texttt{return}后面加分号来防止出现错误：
 \begin{lstlisting}[language=berry, numbers=none]
