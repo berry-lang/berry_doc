@@ -55,7 +55,9 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 当我们需要低优先级较低的运算符先求值时可以使用括号。表达式求值过程中会先计算括号中表达式的值。也就是说，对于整个表达式来说，括号中的表达式相当于一个操作数，而不管括号中的表达式的构成。
 
-\section{算术运算符}
+\section{运算符}
+
+\subsection{算术运算符}
 
 算术运算符用于实现算术运算，这些运算符和我们平时使用的数学符号相似。Berry提供的算术运算符如表\ref{tab::arthmetic_operator}所示。
 
@@ -84,7 +86,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 所有的算数运算符都可以在类中重载，重载后的运算符不一定局限于它们原本的功能设计，而是由程序员自己决定。
 
-\section{关系运算符}
+\subsection{关系运算符}
 
 关系运算符用于比较操作数的大小关系。Berry支持的6种关系运算符在表\ref{tab::relop_operator}中给出。
 
@@ -120,7 +122,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 关系运算符中，\texttt{==}和\texttt{!=}运算符比\texttt{<}、\texttt{<=}、\texttt{>}和\texttt{>=}的要求更为宽松，后者只允许在相同的类型之间进行比较。在实际的程序开发中，相等或者不等的判定通常比大小的判定要简单，有些操作对象可能不能判断大小而只能判断相等或不等，布尔类型就是如此。
 
-\section{逻辑运算符}
+\subsection{逻辑运算符}
 
 逻辑运算符分为逻辑与、逻辑或和逻辑非3种。如表\ref{tab::logic_operator}所示。
 
@@ -148,7 +150,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 逻辑运算使用了一种称为\textbf{短路求值}（short-circuit evaluation）的求值策略。这种求值策略为：对于逻辑与运算符，当且仅当左操作数为真时才会对又操作数求值；对于逻辑或运算符来说，当且仅当左操作数为假时才会对右操作数求值。短路求值的性质导致逻辑表达式中的代码可能不会全部运行。
 
-\section{赋值运算符}
+\subsection{赋值运算符}
 
 赋值运算符\texttt{=}仅出现在赋值表达式中，其左操作数必须是可写对象。赋值表达式没有结果，因此不能使用连续的赋值运算。这是一些赋值表达式的例子：
 \begin{lstlisting}[language=berry, numbers=none]
@@ -162,7 +164,7 @@ a = b = 0       # continuous assignment
 
 赋值运算会将右侧操作数的值传递左侧操作数，对于\texttt{nil}、整数、实数和布尔类型，赋值运算是会传递对象的值，而其他类型的赋值运算传递对象的引用。
 
-\section{域运算符和下标运算符}
+\subsection{域运算符和下标运算符}
 
 域运算符\texttt{.}用于访问对象的一个属性或者成员，你可以对模块和实例这两种类型来使用域运算符：
 \begin{lstlisting}[language=berry, numbers=none]

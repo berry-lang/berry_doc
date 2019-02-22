@@ -2,34 +2,46 @@
 
 Berry是一种命令式编程语言，即程序式一步一步地执行的。通常情况下，Berry语句是顺序执行的，这种程序结构称为顺序结构。尽管顺序结构非常基础，但是实际的程序中通常还需要用到分支结构和循环结构，Berry提供几种控制语句来实现这种复杂的流程结构，例如条件语句和迭代语句。
 
+除了行注释以外，回车符或换行符（``\texttt{\textbackslash r}''和``\texttt{\textbackslash n}''）仅作为空白字符使用，因此语句可以跨行书写。此外还可以将多个语句写在同一行。
+
+可以在语句的末尾加一个分号来表示语句结束，不过解释器通常能够自动切分语句而无需使用分号。对于语句分割会出现歧义的代码可以使用分号来告诉解释器该怎样解析代码，而更好的建议是不要写有歧义的代码。
+
 \section{简单语句}
 
-Berry中的语句可以以分号结束，但是大多数时候都不需要，解释器通常能自动切分语句，但是在一些不使用分号会导致歧义地方应该加上分号或者重构代码。
-
 \subsection{表达式语句}
-表达式语句主要是赋值表达式和函数调用语句。其他类型的表达式也可以构成一个语句，但是不会有什么意义，例如表达式\texttt{1+2}就可以是一条语句，但是它不能对其它代码产生任何影响，因此没有实际作用。而表达式\texttt{a=2}则将常量\texttt{2}赋值给了一个变量\texttt{a}，从而影响了该变量在上下文中的行为。下面我们给出一个表达式语句和函数语句的例子：
+
+表达式语句主要是赋值表达式或者函数调用表达式构成的语句。其他表达式也可以构成语句，但是没有意义，例如表达式\texttt{1+2}单独写就是一条语句，但它没有任何作用。下面的例程给出了表达式语句和函数语句的例子：
 \begin{lstlisting}[language=berry, numbers=none]
 a = 1       # assignment statement
 print(a)    # call statement
 \end{lstlisting}
+第2行是一个简单的赋值语句，该语句将字面值\texttt{i}赋值给变量\texttt{a}。第2行语句是函数调用语句，该语句通过调用\texttt{print}函数打印变量\texttt{a}的值。
 
-实际上，除了行注释以外，回车或换行符（``\texttt{\textbackslash r}''和``\texttt{\textbackslash n}''）仅作为空白字符使用，因此一条语句可以是多行的。多行的表达式和单行表达式写法相同，不需要使用专门的续行符号。但是有些时候，解释器可能把本意是两条语句的代码解释成一条语句：
-\begin{lstlisting}[language=berry]
+跨行表达式和单行表达式写法相同，不需要使用特殊的续行符号。例如：
+\begin{lstlisting}[language=berry, numbers=none]
 a = 1 +
     func()      # wrap line
+\end{lstlisting}
+也可以将多个表达式语句写在一行，各种类型的语句都可以写在一行。这个例子就把两个表达式语句写在同一行：
+\begin{lstlisting}[language=berry, numbers=none]
 b = 1 c = 2     # multiple statements
+\end{lstlisting}
+
+有些时候程序员希望写两条语句，但是解释器可能会错误的认为是一条语句。以这段代码为例：
+\begin{lstlisting}[language=berry, numbers=none]
 a = c
 (b) = 1         # be regarded as a function call
 \end{lstlisting}
-这些代码中，第1行和第2行是一个多行表达式语句，第3行有两个表达式语句。第4行和第5行本意是两条表达式语句\texttt{a = c}和\texttt{(b) = 1}，但是解释器会把它们理解成一条语句：\texttt{a = c(b) = 1}，这和我们的本意是相违背的。
+假设第4行和第5行本意是两条表达式语句\texttt{a = c}和\texttt{(b) = 1}，然而解释器会把它们理解成一条语句：\texttt{a = c(b) = 1}。出现这样的歧义解释器会错误地将\texttt{c}和\texttt{(b)}解析成函数调用。此时我么可以在语句末尾加分号来避免歧义：
+\begin{lstlisting}[language=berry, numbers=none]
+a = c; (b) = 1;
+\end{lstlisting}
+更好的办法是不要在赋值号左侧使用括号，而只用变量名或者域运算、下标运算构成的表达式：
+\begin{lstlisting}[language=berry, numbers=none]
+a = c  b = 1
+\end{lstlisting}
 
-这个问题有以下几种解决方案：
-\begin{itemize}
-    \item 不要在赋值号的左侧使用括号，而且只使用简单的表达式。
-    \item 使用符号``\texttt{;}''来显式地分隔语句。
-\end{itemize}
-
-\subsection{块}
+\subsection{块} \label{section:block}
 
 一个块（Block）是若干语句的集合。一个块就是一个作用域，在块中定义的变量只能在块及其子块内部访问。有很多地方需要使用到块，例如：\texttt{if}语句、\texttt{while}语句、函数声明等。这些要使用块的语句都使用一对关键字来包含一个块。例如在\texttt{if}语句中使用的块：
 \begin{lstlisting}[language=berry]
@@ -73,7 +85,7 @@ $\bm{condition}$是条件表达式，当$\bm{condition}$的值为\texttt{true}�
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}
 
-与简单的\texttt{if}语句不同的是，\texttt{if else}语句在$\bm{condition}$的值为\texttt{false}时将会执行\texttt{else}分支下的$\bm{block}$。无论哪个执行分支下面的$\bm{block}$，块中的最后一条语句执行完以后都会跳出\texttt{if else}语句，也就是执行\texttt{end}后面的语句。也就是说，无论$\bm{condition}$的值是\texttt{true}还是\texttt{false}，都会有一个$\bm{block}$被执行。
+与简单的\texttt{if}语句不同的是，\texttt{if else}语句在$\bm{condition}$的值为\texttt{false}时将会执行\texttt{else}分支下的$\bm{block}$。无论执行哪个分支下面的$\bm{block}$，块中的最后一条语句执行完以后都会跳出\texttt{if else}语句，也就是执行\texttt{end}后面的语句。也就是说，无论$\bm{condition}$的值是\texttt{true}还是\texttt{false}，都会有一个$\bm{block}$被执行。
 
 有时候我们需要嵌套使用\texttt{if}语句，一种情是要在\texttt{else}分支下嵌套一个\texttt{if}语句：
 \begin{lstlisting}[language=berry, numbers=none]
