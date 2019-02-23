@@ -2,18 +2,37 @@
 
 \section{开始使用}
 
-你可以到Berry项目的GitHub页面（\url{https://github.com/gztss/berry}）上获取Berry解释器的源代码。然后你需要编译Berry解释器，这些信息你可以到项目的README.md文档中查看。
+\subsection{获取解释器}
 
-在得到Berry解释器的可执行文件后（在Windows中文件名是``berry.exe''，在Linux和macOS中文件名是``berry''），你可以直接运行解释器\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}并开始使用交互模式运行代码。
+可以到Berry项目的GitHub页面（\url{https://github.com/gztss/berry}）上获取Berry解释器的源代码。用户需要自行编译Berry的解释器，这些信息可以到项目主页的README.md文档中查看。
 
-作为惯例，我们使用``Hello World''程序来入门。为了最快地达到目的，我们直接运行解释器，这时我们进入一个叫做``交互模式''（REPL）的界面，我们将看到如下信息：
+首先要要安装好GCC和git等工具，对于Linux和macOS系统，还要安装readline库。准备工作完成后使用\texttt{git}命令把解释器源代码从远程仓库克隆到本地：
+\begin{lstlisting}[language=bash, numbers=none]
+git clone https://github.com/gztss/berry.git
+\end{lstlisting}
+进入berry目录，使用\texttt{make}命令编译解释器：
+\begin{lstlisting}[language=bash, numbers=none]
+cd berry
+make
+\end{lstlisting}
+
+现在应该能在berry目录下找到解释器的可执行文件（Windows下的文件名是``berry.exe''，在Linux和macOS下文件名是``berry''），你可以直接运行该可执行文件\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}来启动解释器。在Linux或者macOS系统下可以使用命令\texttt{sudo make install}安装解释器，此后你可以在终端中输入\texttt{berry}来启动解释器。
+
+\subsection{REPL环境}
+
+直接启动解释器（在终端或命令窗口里输入\texttt{berry}而不带参数，或者在Windows中双击berry.exe）时会看到以下界面：
 \begin{lstlisting}[language=berry, numbers=none]
 Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 [GCC 8.1.0] on Windows (default)
 >
 \end{lstlisting}
+界面的前两行显示了Berry解释器的版本、编译时间、编译器和操作系统等信息，第三行的符号``\texttt{>}''叫做提示符，光标显示在提示符后面。
 
-这段文字中，前两行显示了Berry解释器的版本、编译时间、编译器和操作系统等信息，第三行的符号``\texttt{>}''叫做提示符，此时光标显示在提示符后面，我们可以直接在此处输入代码并在按下``Enter''键之后运行。为了完成我们的``Hello World''程序，在交互模式中输入\texttt{print('Hello World')}并执行，此时运行结果如下：
+不带参数地启动解释器会进入REPL（Read Eval Print Loop）模式，也就是交互模式。在REPL模式下，我们可以输入源代码然后按下``Enter''键之后执行。
+
+\subsubsection{Hello World程序}
+
+以经典的``Hello World''程序为例，在REPL中输入\texttt{print('Hello World')}并执行，运行结果如下：
 \begin{lstlisting}[language=berry, numbers=none]
 Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 [GCC 8.1.0] on Windows (default)
@@ -21,19 +40,21 @@ Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 Hello World
 >
 \end{lstlisting}
-
-运行这行代码后解释器输出了一行``\texttt{Hello World}''文本。这行代码通过调用\texttt{print()}函数来实现对字符串\texttt{'Hello World'}输出的输出。在交互模式中，解释器会显示表达式的值（如果值不是\texttt{nil}的话），例如我们输入表达式\texttt{1 + 2}将会输出计算结果\texttt{3}：
+解释器输出了``\texttt{Hello World}''文本。这行代码通过调用\texttt{print}函数来实现对字符串\texttt{'Hello World'}的输出。在REPL中，如果表达式的返回值不是\texttt{nil}则会显示该返回值。例如输入表达式\texttt{1 + 2}会显示计算结果\texttt{3}：
 \begin{lstlisting}[language=berry, numbers=none]
 > 1 + 2
 3
 \end{lstlisting}
-因此交互模式下最简单的``Hello World''程序是直接输入字符串\texttt{'Hello World'}并运行：
+
+因此REPL下最简单的``Hello World''程序是直接输入字符串\texttt{'Hello World'}并运行：
 \begin{lstlisting}[language=berry, numbers=none]
 > 'Hello World'
 Hello World
 \end{lstlisting}
 
-你可以把Berry解释器的交互模式当成一个科学计算器来使用，不过，一些数学函数不能直接使用，而要先使用\texttt{import math}语句来导入数学库，然后在使用数学库中的函数时要使用``\texttt{math.}''作为前缀，例如\texttt{sin}函数要写成\texttt{math.sin}：
+\subsubsection{REPL的更多用法}
+
+你还可以把Berry解释器的交互模式当成一个科学计算器来使用，不过，一些数学函数不能直接使用，而要先使用\texttt{import math}语句来导入数学库，然后在使用数学库中的函数时要使用``\texttt{math.}''作为前缀，例如\texttt{sin}函数要写成\texttt{math.sin}：
 \begin{lstlisting}[language=berry, numbers=none]
 > import math
 > math.pi
@@ -44,9 +65,23 @@ Hello World
 1.41421
 \end{lstlisting}
 
+\subsection{脚本文件}
+
+Berry的脚本文件是存储Berry代码的文件，脚本文件可以由解释器执行。通常情况下，脚本文件是扩展名为``.be''的文本文件。使用解释器执行脚本的命令是：
+\begin{lstlisting}[language=bash, numbers=none]
+berry script_file
+\end{lstlisting}
+\texttt{script\_file}是脚本文件的文件名。使用该命令会运行解释器执行\texttt{script\_file}脚本文件中的Berry代码，执行完毕后解释器会退出。
+
+如果希望执行完脚本文件后解释器进入REPL模式可以在调用解释器的命令中加入\texttt{-i}参数：
+\begin{lstlisting}[language=bash, numbers=none]
+berry -i script_file
+\end{lstlisting}
+这条命令会先执行\texttt{script\_file}文件中的代码，然后进入REPL模式。
+
 \section{词法}
 
-在介绍Berry的语法之前，我们先来看一段简单的代码（你可以在交互模式种运行这段代码）：
+在介绍Berry的语法之前，我们先来看一段简单的代码（你可以在REPL模式中运行这段代码）：
 \begin{lstlisting}[language=berry]
 def func(x) # a function example
     return x + 1.5
@@ -81,7 +116,7 @@ print('func(10) =', func(10))
 
 \subsubsection{数值字面值}
 
-数值字面值包括\textbf{整数}（Integer）字面值和\textbf{实数}（Real）字面值。
+数值字面值包括\textbf{整数}（integer）字面值和\textbf{实数}（real）字面值。
 \begin{lstlisting}[language=berry, numbers=none]
 40      # integer
 0x80    # hexadecimal literal (integer)
@@ -93,14 +128,45 @@ print('func(10) =', func(10))
 
 \subsubsection{布尔字面值}
 
-布尔值（Boolean）用来表示逻辑状态中的真和假。你可以使用\texttt{true}和\texttt{false}这两个关键字来表示布尔字面值。
+布尔值（boolean）用来表示逻辑状态中的真和假。你可以使用\texttt{true}和\texttt{false}这两个关键字来表示布尔字面值。
 
 \subsubsection{字符串字面值}
 
-字符串（String）是一段文本，它的字面值写法是使用一对\texttt{'}或\texttt{"}包围字符串文本：
+字符串（string）是一段文本，它的字面值写法是使用一对\texttt{'}或\texttt{"}包围字符串文本：
 \begin{lstlisting}[language=berry, numbers=none]
 'this is a string'
 "this is a string"
+\end{lstlisting}
+
+字符串字面值提供一些转义序列来表示不能直接输入的字符，转义序列以字符\texttt{'\textbackslash'}开始，然后紧跟一个特定的字符序列实现转义。Berry规定的转义序列有
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{4mm}
+    \begin{tabular}{clclcl} \Xhline{1pt}
+        \makecell[c]{\textbf{转义字符}} & \makecell[l]{\textbf{意义}} & \makecell[c]{\textbf{转义字符}} & \makecell[l]{\textbf{意义}} & \makecell[c]{\textbf{转义字符}} & \makecell[l]{\textbf{意义}} \\ \Xhline{1pt}
+        \texttt{\textbackslash a} & 响铃 & \texttt{\textbackslash b} & 退格符 & \texttt{\textbackslash f} & 换页符 \\
+        \texttt{\textbackslash n} & 换行符 & \texttt{\textbackslash r} & 回车符 & \texttt{\textbackslash t} & 水平制表符 \\
+        \texttt{\textbackslash v} & 垂直制表符 & \texttt{\textbackslash \textbackslash} & 反斜线 & \texttt{\textbackslash '} & 单引号 \\
+        \texttt{\textbackslash "} & 双引号 & \texttt{\textbackslash ?} & 问号 & \texttt{\textbackslash 0} & 空字符 \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{转义字符序列}
+    \label{tab::escape_character}
+\end{table}
+
+转义序列可以在字符串中使用，例如
+\begin{lstlisting}[language=berry, numbers=none]
+print('escape character LF\n\tnew line')
+\end{lstlisting}
+的运行结果是
+\begin{lstlisting}[numbers=none]
+escape character LF
+        new line
+\end{lstlisting}
+
+还可以使用泛化的转义序列，其形式是\texttt{\textbackslash x}后跟2个十六进制数，或者是\texttt{\textbackslash}3个八进制数，使用这种转义序列可以表示任意字符。下面是使用ASCII字符集的一些例子：
+\begin{lstlisting}[language=berry, numbers=none]
+'\115' #- 'M' -#    '\x34' #- '4' -#    '\064' #- '4' -#
 \end{lstlisting}
 
 \subsubsection{Nil字面值}
