@@ -150,7 +150,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 逻辑运算使用了一种称为\textbf{短路求值}（short-circuit evaluation）的求值策略。这种求值策略为：对于逻辑与运算符，当且仅当左操作数为真时才会对又操作数求值；对于逻辑或运算符来说，当且仅当左操作数为假时才会对右操作数求值。短路求值的性质导致逻辑表达式中的代码可能不会全部运行。
 
-\subsection{赋值运算符}
+\subsection{赋值运算符} \label{section::assign_operator}
 
 赋值运算符\texttt{=}仅出现在赋值表达式中，其左操作数必须是可写对象。赋值表达式没有结果，因此不能使用连续的赋值运算。这是一些赋值表达式的例子：
 \begin{lstlisting}[language=berry, numbers=none]

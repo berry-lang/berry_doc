@@ -1,29 +1,43 @@
 \chapter{函数}
 
-函数是Berry的基本功能之一，一个函数是一段有名字的代码，一个函数可以用于执行一些特定功能。函数具有自己的变量环境，但是也能访问外部的变量。本章将介绍Berry中关于函数的细节。
+函数是将执行特定任务的代码块赋予名字并作为一个基本单元，可以在任何需要执行该任务的程序中使用对应函数。函数可以有0个或者多个参数，并且会返回一个结果。
 
-\section{定义函数}
+\section{基本信息}
 
-\subsection{函数声明}
+函数的使用包括函数的定义和调用两个部分。函数定义语句使用\texttt{def}关键字作为开头，函数定义是将函数体的代码打包并命名的过程，这个过程仅仅生成函数结构而不会执行函数。执行函数须使用\textbf{调用运算符}（call operator），该运算符是一对圆括号。调用运算符作用于一个结果是函数类型的表达式，传给函数的参数写在圆括号之内，多个参数之间使用逗号隔开。调用表达式的结果就是函数的返回值。
 
-定义函数的过程称为\textbf{函数声明}。函数声明使用关键字\texttt{def}来开始，其形式为
+\subsection{函数定义}
+
+\textbf{函数}（function）定义由以下几部分构成：\texttt{def}关键字、函数名、0到多个参数（parameter）组成的列表以及函数体（function body），参数列表中的多个参数以逗号分隔，所有参数写在一对圆括号中。我们把函数定义时的参数称为\textbf{形参}，而调用函数时的参数称为\textbf{实参}。函数定义的一般形式为：
 \begin{algorithm}
     \texttt{def} $\bm{name}$ \texttt{(} $\bm{arguments}$ \texttt{)} \\
         \qquad $\bm{block}$ \\
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}\\
-函数声明有3个主要的部分：函数名称$\bm{name}$、函数参数列表$\bm{arguments}$和函数体（Function Body）$\bm{block}$。函数参数列表和函数体可以为空。函数名称实际上就是一个变量名称，也就是一个标识符，Berry不支持匿名函数，因此函数名称是必须的。函数的参数列表是一个变量名列表，这些变量用于存储函数的输入参数，多个参数之间使用逗号分隔。函数体是实现函数功能的Berry语句集合，也就是一个块。函数参数列表和函数体可以为空。
+函数名$\bm{name}$是一个标识符；$\bm{arguments}$为形参列表；$\bm{block}$为函数体，如果函数体为空语句则函数被称为``空函数''。函数返回值语句包含在函数体中，如果$\bm{block}$中没有返回语句，函数默认会返回\texttt{nil}返回值。函数名实际上是绑定函数对象的变量名称，如果当前的作用域已经存在这个名称，定义函数相当于把函数对象绑定到这个变量。
 
-来看一个简单的例子，我们定义了一个\texttt{add}函数来输出两个数的和：
+下面的例子定义了一个名为\texttt{add}的函数，该函数的功能是求两个数的和并返回。
 \begin{lstlisting}[language=berry, numbers=none]
 def add(a, b)
     return a + b
 end
 \end{lstlisting}
+\texttt{add}函数具有两个参数\texttt{a}和\texttt{b}，两个被加数便通过这些参数传入函数进行计算。\texttt{return}语句会返回计算的结果。
 
-函数\texttt{add}使用了两个参数\texttt{a}和\texttt{b}，这个函数使用一个\texttt{return}语句将\texttt{a}和\texttt{b}的值返回。
+作为类属性的函数称为方法，这部分内容会在面向对象章节中说明。
 
-Berry不支持匿名函数，但是由于函数名实际上是一个变量，并且该变量的作用域包含函数内部。你可以使用这个特性来将函数名赋值给其他变量并调用：
+\subsection{调用函数}
+
+以\texttt{add}函数为例，调用该函数需要提供两个数值，通过调用函数可以得到两数之和：
+\begin{lstlisting}[language=berry, numbers=none]
+res = add(5, 3)
+print(res)      # 8
+\end{lstlisting}
+我们把被调用的函数（例中的\texttt{add}函数）称为\textbf{被调函数}，而调用被调函数的函数（例中为\texttt{main}函数）称为\textbf{主调函数}。函数调用的过程为：首先解释器会（隐式地）使用实参列表初始化被调函数的形参列表，同时暂停主调函数并保存其状态，接下来为被调函数创建环境并执行被调函数。
+
+函数会在遇到\texttt{return}语句时结束执行并将返回值传递给主调函数。解释器会在被调函数返回后销毁被调函数的环境，然后恢复主调函数的环境并继续执行主调函数。函数的返回值也是函数调用表达式的结果。
+
+下面的例子定义了一个函数\texttt{square}并把这个函数绑定到变量\texttt{f}，然后通过变量\texttt{f}来调用\texttt{square}函数函数。这种用法类似于C语言的函数指针。
 \begin{lstlisting}[language=berry, numbers=none]
 def square(n)
     return n * n
@@ -31,29 +45,88 @@ end
 f = square
 print(f(5))     # 25
 \end{lstlisting}
-还可以定义递归函数，递归函数即是在函数中调用函数本身的函数，下面是一个递归计算斐波那契数列的函数：
+需要注意的是，函数对象只是绑定到这些变量（参考\ref{section::assign_operator}节）并且不可修改，因此对函数名对应的变量重新赋值并不会使这个函数丢失：
 \begin{lstlisting}[language=berry, numbers=none]
-def fib(n)
-    if (n < 2)
+f = square
+square = nil
+print(f(5))     # 25
+\end{lstlisting}
+可以看到对\texttt{square}重新赋值后函数依然能正常调用。只有函数对象不再与任何变量绑定之后才会丢失，这类函数对象占用的资源将会被系统回收。
+
+\subsubsection{前向调用}
+
+函数的调用必须位于函数变量的作用域内，因此在函数定义之前通常不能调用。为了解决这个问题可以使用这种方法来折衷：
+\begin{lstlisting}[language=berry, numbers=none]
+var func1
+def func2(x)
+    return func1(x)
+end
+def func1(x)
+    return x * x
+end
+print(func2(4))     # 16
+\end{lstlisting}
+这个示例在\texttt{func2}中调用了\texttt{func1}，而函数\texttt{func1}的定义在\texttt{func2}之后。该执最后一行的语句会打印正确的结果\texttt{16}。该例程利用了函数定义时并不会调用的机制，在定义\texttt{func2}之前先定义变量\texttt{func1}，这样可以保证编译时不会找不到符号\texttt{func1}。然后我们在\texttt{func2}之后定义函数\texttt{func1}，这样会使用该函数来覆盖变量\texttt{func1}的值。最后一行\texttt{print(func2(4))}中调用函数\texttt{func2}时，变量\texttt{func1}已经是我们需要的函数，因此会输出正确结果。
+
+\subsubsection{递归调用}
+
+\textbf{递归函数}是指会直接或者间接调用自身的函数。递归是指一种将问题划分为同类子问题然后解决的策略。以阶乘为例，阶乘的递归定义为$0!=1, n!=n\cdot(n-1)!$，我们可以根据定义写出用于计算阶乘的递归函数：
+\begin{lstlisting}[language=berry]
+def fact(n)
+    if (n == 0)
         return 1
     end
-    return fib(n - 2) + fib(n - 1)
+    return n * fact(n - 1)
 end
 \end{lstlisting}
-当然，这是一个教科书级的糟糕递归示例，该函数将运行地十分缓慢。这里我们只是演示一下递归的使用，而不去深入递归的知识。
+以$5$的阶乘为例，手工计算5的阶乘的过程为：
+\begin{equation*}
+5! = 5 \times 4 \times 3 \times 2 \times 1 = 120
+\end{equation*}
+调用\texttt{fact}函数得到结果也是$120$：
+\begin{lstlisting}[language=berry, numbers=none]
+print(fact(5))  # 120
+\end{lstlisting}
 
-在Berry中，函数总是由一个变量来引用，而函数定义则是在定义函数名的同时初始化该变量。你可以在同级作用域内重复定义同名的函数，此时使用函数名只能调用最后定义的变量，当然，你还可以直接将一个值赋给函数名，就像其他的变量赋值一样。
+为了保证递归调用的深度有限（递归层次过深会耗尽栈空间），递归函数必须有一个结束条件。\texttt{fact}函数定义中第2行的\texttt{if}语句用于结束条件的检测，当计算到\texttt{n}为\texttt{0}时递归过程结束。上述阶乘公式不适用于非整数参数，执行类似\texttt{fact(5.1)}的表达式将会因无法结束递归而发生栈溢出错误。
 
-函数可能是对象（类或者实例）的属性，此时的函数称为方法，这部分内容会在面向对象章节中说明。
+还有一种情况是\texttt{间接递归}，也就是函数不是由它自己调用而是由它调用的另一个函数（直接或间接）调用。间接递归时通常需要使用函数前向调用的技巧，以计算奇数和偶数的函数\texttt{is\_odd}和\texttt{is\_even}函数为例：
+\begin{lstlisting}[language=berry]
+var is_odd
+def is_even(n)
+    if (n == 0)
+        return true
+    end
+    return is_odd(n - 1) 
+end
+def is_odd(n)
+    if (n == 0)
+        return false
+    end
+    return is_even(n - 1) 
+end
+\end{lstlisting}
+这两个函数互相调用了对方。为了保证第6行调用\texttt{is\_odd}函数时作用域中有这个名称，在第1行定义了变量\texttt{is\_odd}。
 
-\subsection{函数参数传递}
+\subsection{形参和实参}
 
-函数的参数传递分为传值和传引用两种情况。
+函数在调用时会使用实参来初始化形参。通常情况下，实参和形参数量相等且位置一一对应，不过Berry也允许实参数量不等于形参：如果实参数量多余形参则多出的实参会被丢弃，如果实参数量少于形参则会把余下的形参初始化为\texttt{nil}。
 
+参数传递的过程与赋值运算相似。对于\texttt{nil}、\texttt{boolean}和数值类型，参数传递是值传递，而其他类型是传递引用。对于实例这种可写的传引用类型，在被调函数中修改它们也会修改主调函数中的对象。下面的例子展示了这个特性：
+\begin{lstlisting}[language=berry]
+var l = [], i = 0
+def func(a, b)
+    a.append(1)
+    b = 'string'
+end
+func(l, i)
+print(l, i)     # [1] 0
+\end{lstlisting}
+可以看到，调用函数\texttt{func}之后变量\texttt{l}的值发生了变化，而变量\texttt{i}的值没有变化。
 
-\subsection{函数作用域}
+\subsection{函数和局部变量}
 
-每个函数都有自己的变量环境，假设主调函数和被调函数都有一个变量``\texttt{a}''（变量在函数中的相对位置相同），但它们的值并不会互相影响，这是由于两个函数使用不同的``堆栈''空间。在函数中定义的变量仅在函数内部可访问，当然，在函数内部定义的函数可以访问父函数中定义的变量。
+函数体本身是一个作用域，因此在函数中定义的变量都是局部变量（参考\ref{section::scope_life}节）。和直接嵌套的块不同，每一次调用函数都会为局部变量分配空间。局部变量的空间在栈中分配，并且分配信息是在编译期确定的，因此这个过程非常快。当函数中嵌套有多层作用域时，解释器会为依据局部变量最多的作用域嵌套链来分配栈空间，而不是依据函数中局部变量的总数。
 
 \subsection{\texttt{return}语句}
 
@@ -72,25 +145,8 @@ def func()
 end
 \end{lstlisting}
 
-\section{函数调用}
+\section{嵌套函数定义和闭包}
 
-函数定义实质上是将一段代码封装起来，但不会立即运行。要想执行函数中的代码，必须使用\textbf{函数调用}来实现。函数调用会赋予一个函数真正的参数并运行函数，最后使用函数的返回值。
-
-函数的调用必须位于函数名的作用域内，因此函数调用必须位于函数定义之后，且必须是同级或更深层的作用域。Berry不能前向调用，这多少有些不方便，为了解决这个问题可以使用这种方法来折衷：
-\begin{lstlisting}[language=berry, numbers=none]
-var func1
-def func2(x)
-    return func1(x)
-end
-def func1(x)
-    return x * x
-end
-print(func1(4))     # 16
-\end{lstlisting}
-这种写法可以在一定程度上解决前向调用的的问题，但并不优雅。
-
-\section{嵌套函数和闭包}
-
-你可以在一个函数中定义另一个嵌套函数。嵌套函数可以访问任何层级外层函数的局部变量，但是外层函数不能访问嵌套函数的局部变量，因为函数的局部变量作用域仅在函数内部。可以说嵌套函数的局部变量是它的私有成员，此时嵌套函数就构成了一个闭包。一个闭包是一个具有独立环境与变量的表达式（在Berry中是函数）。
+你可以在一个函数中定义另一个函数。被嵌套的函数可以访问任何层级外层函数的局部变量，但是外层函数不能访问嵌套函数的局部变量，因为函数的局部变量作用域仅在函数内部。可以说嵌套函数的局部变量是它的私有成员，此时嵌套函数就构成了一个闭包。一个闭包是一个具有独立环境与变量的表达式（在Berry中是函数）。
 
 闭包可以使用外层函数的变量，即内部函数包含外层函数的作用域。如果在闭包中使用了外层函数中的局部变量则称这些变量为自由变量。由于外层函数可能先于闭包返回，因此闭包必须保存自由变量的环境以保证该变量可以被闭包正确访问直到闭包销毁。
