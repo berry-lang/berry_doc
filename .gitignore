@@ -3,5 +3,6 @@
 *.out
 *.pdf
 *.toc
+*.gz
 
 .vscode
