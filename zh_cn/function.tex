@@ -1,6 +1,8 @@
 \chapter{函数}
 
-函数是将执行特定任务的代码块赋予名字并作为一个基本单元，可以在任何需要执行该任务的程序中使用对应函数。函数可以有0个或者多个参数，并且会返回一个结果。
+\textbf{函数}（function）是一种可以被外部代码调用的``子程序''，作为程序的一部分，函数本身也是一段代码。函数可以具有0到多个参数，并且会返回一个结果，这个结果称为函数的\textbf{返回值}。
+
+在Berry中，函数是\textbf{第一类值}（first class value）。因此，除了调用函数以外，你还可以把函数作为值传递，例如将函数绑定到变量，将函数作为返回值等等。
 
 \section{基本信息}
 
@@ -8,7 +10,9 @@
 
 \subsection{函数定义}
 
-\textbf{函数}（function）定义由以下几部分构成：\texttt{def}关键字、函数名、0到多个参数（parameter）组成的列表以及函数体（function body），参数列表中的多个参数以逗号分隔，所有参数写在一对圆括号中。我们把函数定义时的参数称为\textbf{形参}，而调用函数时的参数称为\textbf{实参}。函数定义的一般形式为：
+\subsubsection{具名函数}
+
+\textbf{具名函数}（named function）是定义时赋予了名字的函数，其定义语句由以下几部分构成：\texttt{def}关键字、函数名、由0到多个参数（parameter）组成的列表以及函数体（function body），参数列表中的多个参数以逗号分隔，所有参数写在一对圆括号中。我们把函数定义时的参数称为\textbf{形参}，而调用函数时的参数称为\textbf{实参}。函数定义的一般形式为：
 \begin{algorithm}
     \texttt{def} $\bm{name}$ \texttt{(} $\bm{arguments}$ \texttt{)} \\
         \qquad $\bm{block}$ \\
@@ -25,6 +29,22 @@ end
 \texttt{add}函数具有两个参数\texttt{a}和\texttt{b}，两个被加数便通过这些参数传入函数进行计算。\texttt{return}语句会返回计算的结果。
 
 作为类属性的函数称为方法，这部分内容会在面向对象章节中说明。
+
+\subsubsection{匿名函数}
+
+与具名函数不同，\textbf{匿名函数}（anonymous function）没有名字，其定义表达式的形式为：
+\begin{algorithm}
+    \texttt{def} \texttt{(} $\bm{arguments}$ \texttt{)} \\
+        \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}\\
+可以看出，与具名函数相比，匿名函数的定义中没有函数名$\bm{name}$。匿名函数的定义实质上是一个表达式，该表达式称为\textbf{函数字面值}。为了使用匿名函数，我们可以将函数字面值绑定到一个变量：
+\begin{lstlisting}[language=berry, numbers=none]
+add = def (a, b)
+    return a + b
+end
+\end{lstlisting}
+这段代码的功能和上一小节中\texttt{add}函数的功能完全相同。使用匿名函数可以方便地以字面值的形式传递函数值。与其他类型的字面量一样，函数字面量也是表达式的最小单元，因此从\texttt{def}关键字之间\texttt{end}之间是一个不可分割的整体。
 
 \subsection{调用函数}
 
@@ -108,6 +128,21 @@ end
 \end{lstlisting}
 这两个函数互相调用了对方。为了保证第6行调用\texttt{is\_odd}函数时作用域中有这个名称，在第1行定义了变量\texttt{is\_odd}。
 
+\subsubsection{匿名函数调用}
+
+如果一个匿名函数只会被调用一次，最简单的办法就是在定义的时候调用，例如：
+\begin{lstlisting}[language=berry, numbers=none]
+res = def (a, b) return a + b end (1, 2) # 3
+\end{lstlisting}
+在这个例程中，我们在函数字面值后面直接使用调用表达式来调用函数。这种用法很适合于那种只会在一个位置进行调用的函数。
+
+还可以把匿名函数绑定到变量之后调用：
+\begin{lstlisting}[language=berry, numbers=none]
+add = def (a, b) return a + b end
+res = add(1, 2) # 3
+\end{lstlisting}
+这种用法与具名函数的调用类似，本质上都是对绑定了函数值的变量执行调用。需要注意的是，对匿名函数进行递归调用会比较困难，除非你使用前向调用的技巧。
+
 \subsection{形参和实参}
 
 函数在调用时会使用实参来初始化形参。通常情况下，实参和形参数量相等且位置一一对应，不过Berry也允许实参数量不等于形参：如果实参数量多余形参则多出的实参会被丢弃，如果实参数量少于形参则会把余下的形参初始化为\texttt{nil}。
@@ -145,7 +180,7 @@ def func()
 end
 \end{lstlisting}
 
-\section{嵌套函数定义和闭包}
+\section{闭包}
 
 你可以在一个函数中定义另一个函数。被嵌套的函数可以访问任何层级外层函数的局部变量，但是外层函数不能访问嵌套函数的局部变量，因为函数的局部变量作用域仅在函数内部。可以说嵌套函数的局部变量是它的私有成员，此时嵌套函数就构成了一个闭包。一个闭包是一个具有独立环境与变量的表达式（在Berry中是函数）。
 
