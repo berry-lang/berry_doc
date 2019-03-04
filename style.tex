@@ -20,7 +20,8 @@
 \usepackage{graphicx}
 \usepackage{algorithm2e}
 \usepackage{ebgaramond}
-\usepackage{tgpagella}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
 
 % use print-styles when defining "PrintStyle"
 % \def \PrintStyle {}
@@ -38,6 +39,9 @@
 \setenumerate[1]{itemsep=1.5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 \setitemize[1]{itemsep=1.5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 \setdescription{itemsep=1.5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+% set page number font
+\fancyfoot[C]{\mdseries\thepage}
 
 % set the tikz
 \usetikzlibrary{arrows, automata}
