@@ -7,14 +7,13 @@
     \setCJKmonofont{SimSun}
 
     % 设置标题和注解格式
-    \titleformat{\chapter}{\centering\huge\bf}{第\chinese{chapter}章}{1em}{}
+    \titleformat{\chapter}{\chapterformat}{第\chinese{chapter}章}{1em}{}
     \titleformat{\section}{\Large\bf}{\thesection}{0.75em}{}
     \titleformat{\subsection}{\large\bf}{\thesubsection}{0.75em}{}
     %\captionsetup[figure]{name={图},labelsep=quad}
     \captionsetup[table]{name={表},labelsep=quad}
     % 标题样式重定义
-    \renewcommand{\contentsname}{\centerline{\huge\bf 目\quad 录}}
-    \renewcommand\bibname{\centerline{\normalsize\bf [参考文献]}}
+    \renewcommand{\contentsname}{\huge{目\quad 录}}
 
 \begin{document}
     \input{cover.tex} % 封面

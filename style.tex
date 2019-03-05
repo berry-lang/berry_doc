@@ -21,7 +21,6 @@
 \usepackage{algorithm2e}
 \usepackage{ebgaramond}
 \usepackage{lmodern}
-\usepackage[T1]{fontenc}
 
 % use print-styles when defining "PrintStyle"
 % \def \PrintStyle {}
@@ -41,7 +40,16 @@
 \setdescription{itemsep=1.5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 
 % set page number font
-\fancyfoot[C]{\mdseries\thepage}
+\fancyfoot[C]{\mdseries\small\thepage}
+
+\fancypagestyle{plain}{%
+    \fancyhf{} % clear all header and footer fields
+    \fancyfoot[C]{\mdseries\small{\thepage}} % except the center
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+\newcommand{\chapterformat}{\centering\huge\bf\thispagestyle{plain}}
 
 % set the tikz
 \usetikzlibrary{arrows, automata}

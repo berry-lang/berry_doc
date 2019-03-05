@@ -4,5 +4,6 @@
 *.pdf
 *.toc
 *.gz
+*.fls
 
 .vscode
