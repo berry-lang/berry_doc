@@ -1,4 +1,4 @@
-\chapter{FFI}
+\chapter{语言交互接口}
 
 \textbf{语言交互接口}（Foreign Function Interface，FFI）是不同语言之间交互的接口。Berry提供了一套FFI来实现与C语言之间的交互，这套接口也非常容易在C++中使用。大部分的FFI接口是一些函数，它们的声明都放在\textit{berry.h}文件中。为了降低RAM的使用量，FFI还提供一套C编译期生成固定哈希表的机制，该机制必须要用到外部工具来生成C代码。
 
@@ -35,8 +35,20 @@ Berry使用一个虚拟栈（virtual stack）和C语言编写的原生函数传�
   \draw[->] (top) -- (8);
   \end{scope}
 \end{tikzpicture}
-\caption{虚拟堆栈}
+\caption{虚拟栈}
 \label{fig::virtual_stack}
 \end{wrapfigure}
 
-Berry使用的堆栈如图\ref{fig::virtual_stack}所示，该堆栈从左往右增长。Berry代码调用一个原生函数时会得到一个初始的堆栈，该堆栈第一个值的位置称为\textbf{栈底}（\texttt{base}），而最后一个值称为\textbf{栈顶}（\texttt{top}），函数只能访问堆栈中栈底到栈顶之间的值。栈底的位置是固定的，而栈顶的位置可以根据需要上涨或者下降。堆栈为空时，栈底指针\texttt{base}将会大于栈顶指针\texttt{top}。虚拟堆栈不严格遵循栈的操作规则：除了push和pop以外，虚拟栈还可以通过索引来访问，甚至可以在任意位置插入或者删除值。索引栈中元素的方法有两种：一种是以栈底为参考的\textbf{绝对索引}，绝对索引值是从$1$开始的正整数；另一种是以栈顶为参考的\textbf{相对索引}，相对索引值是从$-1$开始的负整数。以图\ref{fig::virtual_stack}为例，索引值$1,2\ldots 8$是绝对索引，元素的绝对索引就是该元素到栈底的距离。索引值$-1,-2\ldots -8$是相对索引，元素的相对索引值为该元素到栈顶距离的负数。如果一个索引值$index$有效，那么它所指的元素应该处于栈底到栈顶之间，也就是满足表达式$1\leq \mathrm{abs}(index)\leq top-base+1$。
+Berry使用的堆栈如图\ref{fig::virtual_stack}所示，虚拟栈从左往右增长。Berry代码调用一个原生函数时会得到一个初始的堆栈，该堆栈第一个值的位置称为\textbf{栈底}（\texttt{base}），而最后一个值称为\textbf{栈顶}（\texttt{top}），函数只能访问堆栈中栈底到栈顶之间的值。栈底的位置是固定的，而栈顶的位置可以根据需要上涨或者下降。堆栈为空时，栈底指针\texttt{base}将会大于栈顶指针\texttt{top}。虚拟堆栈不严格遵循栈的操作规则：除了push和pop以外，虚拟栈还可以通过索引来访问，甚至可以在任意位置插入或者删除值。索引栈中元素的方法有两种：一种是以栈底为参考的\textbf{绝对索引}，绝对索引值是从$1$开始的正整数；另一种是以栈顶为参考的\textbf{相对索引}，相对索引值是从$-1$开始的负整数。以图\ref{fig::virtual_stack}为例，索引值$1,2\ldots 8$是绝对索引，元素的绝对索引就是该元素到栈底的距离。索引值$-1,-2\ldots -8$是相对索引，元素的相对索引值为该元素到栈顶距离的负数。如果一个索引值$index$有效，那么它所指的元素应该处于栈底到栈顶之间，也就是满足表达式$1\leq \mathrm{abs}(index)\leq top-base+1$。
+
+\subsection{操作虚拟栈}
+
+\subsubsection{索引和栈尺寸}
+
+前面已经提到，可以使用两种索引方式访问虚拟栈，并且要保证索引值有效。同时，在很多时候也需要将新的值压入堆栈，此时须要程序员自己保证堆栈不会溢出。默认情况下，Berry保证有\texttt{BE\_STACK\_FREE\_MIN}个空间供原生函数使用，这个值可以在文件\textit{berry.h}中修改，它的默认值通常是$10$，在大多数情况下应该够用。如果确实需要扩充堆栈则，可以通过调用API函数\texttt{be\_stack\_require}来实现。该函数的原型为：
+\begin{lstlisting}[language=c, numbers=none]
+    void be_stack_require(bvm *vm, int count)；
+\end{lstlisting}
+参数\texttt{count}为需要空间数量，当堆栈中的空位不足时将会扩展堆栈，否则这个函数什么也不做。
+
+\textbf{警告}：如果发生了堆栈溢出，或者使用无效的索引访问堆栈都会导致程序崩溃。你可以打开调试开关\texttt{BE\_DEBUG}，这会打开断言功能，可以在运行时得到一些调试信息，以便捕获堆栈溢出或者无效索引这类错误。
