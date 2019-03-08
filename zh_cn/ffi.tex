@@ -1,10 +1,30 @@
 \chapter{语言交互接口}
 
-\textbf{语言交互接口}（Foreign Function Interface，FFI）是不同语言之间交互的接口。Berry提供了一套FFI来实现与C语言之间的交互，这套接口也非常容易在C++中使用。大部分的FFI接口是一些函数，它们的声明都放在\textit{berry.h}文件中。为了降低RAM的使用量，FFI还提供一套C编译期生成固定哈希表的机制，该机制必须要用到外部工具来生成C代码。
+\textbf{语言交互接口}（Foreign Function Interface, FFI）是不同语言之间交互的接口。Berry提供了一套FFI来实现与C语言之间的交互，这套接口也非常容易在C++中使用。大部分的FFI接口是一些函数，它们的声明都放在\textit{berry.h}文件中。为了降低RAM的使用量，FFI还提供一套C编译期生成固定哈希表的机制，该机制必须要用到外部工具来生成C代码。
 
 \section{基础}
 
 FFI中最为重要的交互功能的应该是Berry代码与C函数相互调用的功能。为了实现两种语言互相调用对方的函数，我们要先了解Berry函数的参数传递机制。
+
+\subsection{虚拟机}
+
+与编译型语言不同，Berry语言不能直接在物理机器上运行，而是在特定的软件环境中运行，这个环境就是\textbf{虚拟机}（Virtual Machine, VM）。与真实的计算机相似，文本形式的源代码不能在虚拟机中执行，而要通过编译器将其转换为``字节码''才可以。Berry虚拟机定义为一个C结构体\texttt{bvm}，这个结构体的内容对于FFI而言是不可见的。通过一些FFI函数，我们可以创建并初始化一个虚拟机。我们通过一个简单的例子来介绍虚拟机的使用：
+\begin{lstlisting}[language=c, style=berry]
+void berry_test(void)
+{
+    bvm *vm = be_vm_new();                     // construct a VM
+    be_loadlibs(vm);                           // add libraries
+    be_loadstring(vm, "print('Hello Berry')"); // compile test code
+    be_pcall(vm, 0);                           // call function
+    be_vm_delete(vm);                          // destroy the VM
+}
+\end{lstlisting}
+这段代码给出了一个完整的使用虚拟机例子，首先，调用\texttt{be\_vm\_new}函数来构造一个新的虚拟机，之后所有的操作都在这个虚拟机对象中完成。默认情况下，虚拟机中不会加载任何模块或者函数，所以要调用\texttt{be\_loadlibs}来加载库，到此虚拟机的初始化工作就完成了。5到6行的作用是将一个字符串中的源代码编译成Berry函数然后调用。最后在第7行调用\texttt{be\_vm\_delete}函数销毁虚拟机。执行该函数将会在终端中得到一行输出：
+\begin{lstlisting}[numbers=none]
+Hello Berry
+\end{lstlisting}
+
+在所有的场景之下，虚拟机的构造、库加载以及销毁的流程都和上面例子中的第3行、第4行和第6行一样。更具需要，编译或者加载源代码的方式可能会有所不同，例如，对于文件形式的源代码，可以通过\texttt{be\_loadfile}函数来编译。源代码会被编译成一个Berry函数，且该函数会被存放在栈顶，通过调用FFI函数\texttt{be\_pcall}或\texttt{be\_call}既可执行该Berry函数。你还可以通过\texttt{be\_repl}函数来使用REPL，REPL的接口将在相关的章节中描述。
 
 \subsection{虚拟栈}
 
@@ -45,10 +65,24 @@ Berry使用的堆栈如图\ref{fig::virtual_stack}所示，虚拟栈从左往右
 
 \subsubsection{索引和栈尺寸}
 
-前面已经提到，可以使用两种索引方式访问虚拟栈，并且要保证索引值有效。同时，在很多时候也需要将新的值压入堆栈，此时须要程序员自己保证堆栈不会溢出。默认情况下，Berry保证有\texttt{BE\_STACK\_FREE\_MIN}个空间供原生函数使用，这个值可以在文件\textit{berry.h}中修改，它的默认值通常是$10$，在大多数情况下应该够用。如果确实需要扩充堆栈则，可以通过调用API函数\texttt{be\_stack\_require}来实现。该函数的原型为：
+前面已经提到，可以使用两种索引方式访问虚拟栈，并且要保证索引值有效。同时，在很多时候也需要将新的值压入堆栈，此时须要程序员自己保证堆栈不会溢出。默认情况下，Berry保证有\texttt{BE\_STACK\_FREE\_MIN}个空间供原生函数使用，这个值可以在文件\textit{berry.h}中修改，它的默认值通常是$10$，在大多数情况下应该够用。如果确实需要扩充堆栈则，可以通过调用FFI函数\texttt{be\_stack\_require}来实现。该函数的原型为：
 \begin{lstlisting}[language=c, numbers=none]
-    void be_stack_require(bvm *vm, int count)；
+void be_stack_require(bvm *vm, int count)；
 \end{lstlisting}
 参数\texttt{count}为需要空间数量，当堆栈中的空位不足时将会扩展堆栈，否则这个函数什么也不做。
 
 \textbf{警告}：如果发生了堆栈溢出，或者使用无效的索引访问堆栈都会导致程序崩溃。你可以打开调试开关\texttt{BE\_DEBUG}，这会打开断言功能，可以在运行时得到一些调试信息，以便捕获堆栈溢出或者无效索引这类错误。
+
+\subsubsection{从栈中获取值}
+
+FFI中有一组函数用于从虚拟栈中获取值，这些函数通常会将栈中的值转换为C语言支持的简单值然后返回，以下是常用的从栈中获取值的FFI：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+bint be_toint(bvm *vm, int index);
+breal be_toreal(bvm *vm, int index);
+int be_tobool(bvm *vm, int index);
+const char* be_tostring(bvm *vm, int index);
+void* be_tocomptr(bvm *vm, int index);
+\end{lstlisting}
+这些函数的参数形式相同，只是返回值不同。前4个函数的作用和容易理解，就像它们的名字一样，\texttt{be\_toint}的功能是将虚拟栈中的值转换为C的整型值（\texttt{bint}通常是\texttt{int}类型的别名）并返回。最后一个函数\texttt{be\_tocomptr}的作用是从虚拟栈中取出一个通用类型的指针值，这个指针具体有何意义由C程序自己解释。
+
+这些函数使用相同的方式去解释参数：参数\texttt{vm}是虚拟机实例的指针；\texttt{index}为待取出元素的索引。

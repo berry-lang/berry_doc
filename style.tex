@@ -87,10 +87,10 @@
 }
 
 % define the language berry
-\lstdefinelanguage{berry} { %
-    morekeywords={def,var,if,elif,else,while,for,end,
-                  break,return,continue,true,false,nil,
-                  do,import,class,as},%
+\lstdefinelanguage{berry} {%
+    keywords={def,var,if,elif,else,while,for,end,
+              break,return,continue,true,false,nil,
+              do,import,class,as},%
     morekeywords={print,type,self,super},
     morecomment=[l]\#,%
     morecomment=[s]{\#-}{-\#},%
@@ -99,9 +99,13 @@
 }
 
 % define the language ebnf
-\lstdefinelanguage{ebnf} { %
+\lstdefinelanguage{ebnf} {%
     keywords={ID,NUM,STRING},%
     morecomment=[s]{(*}{*)},%
     morestring=[b]",%
     morestring=[b]',%
+}
+
+\lstdefinestyle{berry} {%
+    morekeywords={bint,breal,bvm}%
 }
