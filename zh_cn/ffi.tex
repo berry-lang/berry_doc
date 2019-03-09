@@ -66,7 +66,7 @@ Berry使用的堆栈如图\ref{fig::virtual_stack}所示，虚拟栈从左往右
 \subsubsection{索引和栈尺寸}
 
 前面已经提到，可以使用两种索引方式访问虚拟栈，并且要保证索引值有效。同时，在很多时候也需要将新的值压入堆栈，此时须要程序员自己保证堆栈不会溢出。默认情况下，Berry保证有\texttt{BE\_STACK\_FREE\_MIN}个空间供原生函数使用，这个值可以在文件\textit{berry.h}中修改，它的默认值通常是$10$，在大多数情况下应该够用。如果确实需要扩充堆栈则，可以通过调用FFI函数\texttt{be\_stack\_require}来实现。该函数的原型为：
-\begin{lstlisting}[language=c, numbers=none]
+\begin{lstlisting}[language=c, style=berry, numbers=none]
 void be_stack_require(bvm *vm, int count)；
 \end{lstlisting}
 参数\texttt{count}为需要空间数量，当堆栈中的空位不足时将会扩展堆栈，否则这个函数什么也不做。
