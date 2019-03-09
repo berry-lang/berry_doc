@@ -4,7 +4,7 @@ Berry是一种命令式编程语言，即程序式一步一步地执行的。通
 
 除了行注释以外，回车符或换行符（``\texttt{\textbackslash r}''和``\texttt{\textbackslash n}''）仅作为空白字符使用，因此语句可以跨行书写。此外还可以将多个语句写在同一行。
 
-可以在语句的末尾加一个分号来表示语句结束，不过解释器通常能够自动切分语句而无需使用分号。对于语句分割会出现歧义的代码可以使用分号来告诉解释器该怎样解析代码，而更好的建议是不要写有歧义的代码。
+可以在语句的末尾加一个分号来表示语句结束，不过解释器通常能够自动切分语句而无需使用分号。对于语句分割会出现歧义的代码可以使用分号来告诉解释器该怎样解析代码，不过，更好的建议是不要去写有歧义的代码。
 
 \section{简单语句}
 
@@ -27,30 +27,31 @@ a = 1 +
 b = 1 c = 2     # multiple statements
 \end{lstlisting}
 
-有些时候程序员希望写两条语句，但是解释器可能会错误的认为是一条语句。以这段代码为例：
+有些时候程序员希望写两条语句，但是解释器可能会错误的认为是一条语句。这个问题是由于语法解析的过程中存在歧义而产生的。以这段代码为例：
 \begin{lstlisting}[language=berry, numbers=none]
 a = c
 (b) = 1         # be regarded as a function call
 \end{lstlisting}
-假设第4行和第5行本意是两条表达式语句\texttt{a = c}和\texttt{(b) = 1}，然而解释器会把它们理解成一条语句：\texttt{a = c(b) = 1}。出现这样的歧义解释器会错误地将\texttt{c}和\texttt{(b)}解析成函数调用。此时我么可以在语句末尾加分号来避免歧义：
+假设第4行和第5行本意是两条表达式语句：\texttt{a = c}和\texttt{(b) = 1}，然而解释器会把它们理解成一条语句：\texttt{a = c(b) = 1}。这个问题的成因在于解释器错误地将\texttt{c}和\texttt{(b)}解析成函数调用。为了避免歧义，我们可以在语句末尾加上分号来明确地分隔语句：
 \begin{lstlisting}[language=berry, numbers=none]
 a = c; (b) = 1;
 \end{lstlisting}
-更好的办法是不要在赋值号左侧使用括号，而只用变量名或者域运算、下标运算构成的表达式：
+更好的办法是不要在赋值号左侧使用括号，很明显，在这里使用括号显得毫无理由。通常情况下，赋值运算符左边不应该出现复杂的表达式，而只有由变量名、域运算表达式、下标运算表达式等构成的简单表达式：
 \begin{lstlisting}[language=berry, numbers=none]
 a = c  b = 1
 \end{lstlisting}
+只在赋值号左边使用简单表达式不会引起语句断句方面的歧义。因此大部分场合下无需使用分号来分割表达式，我们也不推荐这种写法。
 
 \subsection{块} \label{section:block}
 
-一个块（Block）是若干语句的集合。一个块就是一个作用域，在块中定义的变量只能在块及其子块内部访问。有很多地方需要使用到块，例如：\texttt{if}语句、\texttt{while}语句、函数声明等。这些要使用块的语句都使用一对关键字来包含一个块。例如在\texttt{if}语句中使用的块：
+一个\textbf{块}（block）是若干语句的集合。一个块就是一个作用域，因此在块中定义的变量只能在块及其子块内部访问。有很多地方使用块，例如\texttt{if}语句、\texttt{while}语句、函数声明等。这些语句都会通过一对关键字来包含一个块。例如在\texttt{if}语句中使用的块：
 \begin{lstlisting}[language=berry]
 if (isOpen)
     close()
     print('the device was closed')
 end
 \end{lstlisting}
-第2行到第3行的语句构成了一个块，这个块夹在\texttt{if}和\texttt{end}这一对关键字中间（\texttt{if}语句的条件表达式不算）。块可以不包含任何语句，这样就构成一个空的块，也可以说是包含一条空语句的块。
+第2行到第3行的语句构成了一个块，这个块夹在\texttt{if}和\texttt{end}这一对关键字中间（\texttt{if}语句的条件表达式不在块内）。块也可以不包含任何语句，这样就构成一个空的块，也可以说是包含一条空语句的块。宽泛的说，可以讲任意几条连续的语句称为一个块，但我们更倾向于尽量扩大块的范围，这可以保证块的区域和作用域的范围一致。在上面的例子中，我们倾向于认为第2至3行是一整个块，这是\texttt{if}关键字到\texttt{end}关键字之间最大的范围。
 
 \subsubsection{\texttt{do}语句}
 
@@ -60,11 +61,11 @@ end
     \qquad $\bm{block}$ \\
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}\\
-其中$\bm{block}$就是我们需要的块。该语句使用一对\texttt{do}和\texttt{end}关键字来包含块，并且没有任何控制功能，也不会生成任何运行时的指令。
+其中$\bm{block}$就是我们需要的块。该语句使用一对\texttt{do}和\texttt{end}关键字来包含块。\texttt{do}语句没有控制功能，也不会生成任何运行时的指令。
 
 \section{条件语句}
 
-Berry提供\texttt{if}语句来实现条件控制执行的功能。\texttt{if}语句会根据条件表达式的真（\texttt{true}）或假（\texttt{false}）来决定执行的分支。在一些语言中，实现条件控制还有其他的选择，例如C、C++等语言提供\texttt{switch}语句，不过为了简化设计，Berry没有支持\texttt{switch}语句。
+Berry提供\texttt{if}语句来实现条件控制执行的功能，这类程序结构一般被称为分支结构。\texttt{if}语句会根据条件表达式的真（\texttt{true}）或假（\texttt{false}）来决定执行的分支。在一些语言中，实现条件控制还有其他的选择，例如C、C++等语言提供\texttt{switch}语句，不过为了简化设计，Berry没有支持\texttt{switch}语句。
 
 \subsection{\texttt{if}语句}
 
@@ -76,6 +77,14 @@ Berry提供\texttt{if}语句来实现条件控制执行的功能。\texttt{if}�
 \end{algorithm}\vspace{-0.6em}\\
 $\bm{condition}$是条件表达式，当$\bm{condition}$的值为\texttt{true}时，将会执行第二行的$\bm{block}$，否则会跳过该$\bm{block}$并执行\texttt{end}后面的语句。在$\bm{block}$被执行的情况下，块中的最后一条语句执行完以后会离开\texttt{if}语句并开始执行\texttt{end}后面的语句。
 
+下面通过一个例子来说明\texttt{if}语句的用法：
+\begin{lstlisting}[language=berry, numbers=none]
+if (8 % 2 == 0)
+    print('this number is even')
+end
+\end{lstlisting}
+这段代码用于判断数字\texttt{8}是否是偶数，如果是则会输出\texttt{this number is even}。这个例子虽然十分简单，却足够说明\texttt{if}语句的基本使用方法。
+
 如果希望条件满足和不满足时都有对应的分支可供执行则要使用具有\texttt{else}分支的\texttt{if}语句。\texttt{if else}语句的形式为
 \begin{algorithm}
     \texttt{if (} $\bm{condition}$ \texttt{)} \\
@@ -84,10 +93,19 @@ $\bm{condition}$是条件表达式，当$\bm{condition}$的值为\texttt{true}�
         \qquad $\bm{block}$ \\
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}
-
 与简单的\texttt{if}语句不同的是，\texttt{if else}语句在$\bm{condition}$的值为\texttt{false}时将会执行\texttt{else}分支下的$\bm{block}$。无论执行哪个分支下面的$\bm{block}$，块中的最后一条语句执行完以后都会跳出\texttt{if else}语句，也就是执行\texttt{end}后面的语句。也就是说，无论$\bm{condition}$的值是\texttt{true}还是\texttt{false}，都会有一个$\bm{block}$被执行。
 
-有时候我们需要嵌套使用\texttt{if}语句，一种情是要在\texttt{else}分支下嵌套一个\texttt{if}语句：
+继续用判断奇偶数作为例子，这次把需求改为根据输入数字的奇偶性输出对应的信息。实现这项需求的代码是：
+\begin{lstlisting}[language=berry, numbers=none]
+if (x % 2 == 0)
+    print('this number is even')
+else
+    print('this number is odd')
+end
+\end{lstlisting}
+运行这段代码之前要先给变量\texttt{x}赋一个整数值，这个值就是我们要检测奇偶的数。假如\texttt{x}是一个偶数，程序将会输出\texttt{this number is even}，否则输出\texttt{this number is odd}。
+
+有时候我们需要嵌套使用\texttt{if}语句，一种情是要在\texttt{else}分支下嵌套一个\texttt{if}语句，这是一种很常见的需求，因为很多时候要连续判断多个条件。对于这种需求，使用\texttt{if else}语句的写法是：
 \begin{lstlisting}[language=berry, numbers=none]
 if (expr)
     block
@@ -108,7 +126,19 @@ end
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}
 
-\texttt{elif}分支必须用在\texttt{if}分支之后并可以连续使用多次。如果\texttt{elif}分支对应的$\bm{condition}$满足则会执行分支下的$\bm{block}$。\texttt{elif}分支适合于需要多种条件依次判断的场合。
+\texttt{elif}分支必须用在\texttt{if}分支之后以及\text{else}分支之前，并且\texttt{elif}分支可以连续使用多次。如果\texttt{elif}分支对应的$\bm{condition}$满足则会执行分支下的$\bm{block}$。\texttt{elif}分支适合于需要多种条件依次判断的场合。
+
+我们用一段判断正数、负数和0的代码来演示\texttt{elif}分支：
+\begin{lstlisting}[language=berry, numbers=none]
+if (x > 0)
+    print('positive')
+elif (x == 0)
+    print('zero')
+else
+    print('negative')
+end
+\end{lstlisting}
+这里同样要先为变量\texttt{x}赋值。这段代码非常简单，不再解释。
 
 有一些语言存在一种称为悬垂``\texttt{else}''的问题，该问题是指当一个\texttt{if}语句嵌套在另一个\texttt{if}语句内部的时候，\texttt{else}分支到底归属于那条\texttt{if}语句的问题。使用C/C++时就要考虑悬垂\texttt{else}的问题，C/C++程序员为了避免在\texttt{if else}的问题上出现歧义往往会使用花括号来把分支做成一个块。在Berry中，\texttt{if}语句的分支必然是一个块，这也就决定了Berry没有悬垂\texttt{else}的问题。
 
@@ -204,7 +234,7 @@ for (i : 0 .. 5)
 end
 print('out of the loop')
 \end{lstlisting}
-这里的\texttt{for}语句将会迭代6次，当迭代变量\texttt{i}大于等于\texttt{2}以后将会执行第3行的\texttt{continue}语句，此后第5行的打印语句将不会执行。也就是说第5行只会在前两轮迭代中执行（此时\texttt{i<2}）。该例程的运行结果为：
+这里，\texttt{for}语句将会迭代6次，当迭代变量\texttt{i}大于等于\texttt{2}之后将执行第3行的\texttt{continue}语句，此后第5行的打印语句将不会执行。也就是说第5行只会在前两轮迭代中执行（此时\texttt{i<2}）。该例程的运行结果为：
 \begin{lstlisting}[numbers=none]
 i = 0
 i = 1

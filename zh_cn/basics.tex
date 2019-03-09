@@ -8,7 +8,7 @@ Berry是一款超轻量级的动态类型嵌入式脚本语言，该语言主要
 
 \subsection{获取解释器}
 
-可以到Berry项目的GitHub页面（\url{https://github.com/gztss/berry}）上获取Berry解释器的源代码。用户需要自行编译Berry的解释器，这些信息可以到项目主页的README.md文档中查看。
+读者可以到项目的GitHub页面（\url{https://github.com/gztss/berry}）上获取Berry解释器的源代码。读者需要自行编译Berry解释器。具体的编译方法可以查阅源码根目录下的README.md文档，在项目的GitHub页面上也可以查看这份文档。
 
 首先要要安装好GCC和git等工具，对于Linux和macOS系统，还要安装readline库。准备工作完成后使用\texttt{git}命令把解释器源代码从远程仓库克隆到本地：
 \begin{lstlisting}[language=bash, numbers=none]
@@ -20,7 +20,7 @@ cd berry
 make
 \end{lstlisting}
 
-现在应该能在berry目录下找到解释器的可执行文件（Windows下的文件名是``berry.exe''，在Linux和macOS下文件名是``berry''），你可以直接运行该可执行文件\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}来启动解释器。在Linux或者macOS系统下可以使用命令\texttt{sudo make install}安装解释器，此后你可以在终端中输入\texttt{berry}来启动解释器。
+现在应该能在berry目录下找到解释器的可执行文件（在Windows系统中，解释器程序的文件名是``berry.exe''，在Linux和macOS系统中的文件名是``berry''），你可以直接运行该可执行文件\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}来启动解释器。在Linux或者macOS系统下可以使用命令\texttt{sudo make install}安装解释器，此后你可以在终端中输入\texttt{berry}来启动解释器。
 
 \subsection{REPL环境}
 

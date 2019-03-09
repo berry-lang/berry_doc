@@ -76,7 +76,7 @@ print(f(5))     # 25
 \subsubsection{前向调用}
 
 函数的调用必须位于函数变量的作用域内，因此在函数定义之前通常不能调用。为了解决这个问题可以使用这种方法来折衷：
-\begin{lstlisting}[language=berry, numbers=none]
+\begin{lstlisting}[language=berry]
 var func1
 def func2(x)
     return func1(x)
@@ -86,7 +86,7 @@ def func1(x)
 end
 print(func2(4))     # 16
 \end{lstlisting}
-这个示例在\texttt{func2}中调用了\texttt{func1}，而函数\texttt{func1}的定义在\texttt{func2}之后。该执最后一行的语句会打印正确的结果\texttt{16}。该例程利用了函数定义时并不会调用的机制，在定义\texttt{func2}之前先定义变量\texttt{func1}，这样可以保证编译时不会找不到符号\texttt{func1}。然后我们在\texttt{func2}之后定义函数\texttt{func1}，这样会使用该函数来覆盖变量\texttt{func1}的值。最后一行\texttt{print(func2(4))}中调用函数\texttt{func2}时，变量\texttt{func1}已经是我们需要的函数，因此会输出正确结果。
+在这个示例中，\texttt{func2}调用了\texttt{func1}，而函数\texttt{func1}的定义却在\texttt{func2}之后。执行这段代码后，程序将会输出正确结果\texttt{16}。这个例程利用了函数定义时不会被调用的机制，在定义\texttt{func2}之前先定义变量\texttt{func1}，这样可以保证编译时不会找不到符号\texttt{func1}。然后我们在\texttt{func2}之后定义函数\texttt{func1}，这样会使用该函数来覆盖变量\texttt{func1}的值。最后一行\texttt{print(func2(4))}中调用函数\texttt{func2}时，变量\texttt{func1}已经是我们需要的函数，因此会输出正确结果。
 
 \subsubsection{递归调用}
 
@@ -165,12 +165,12 @@ print(l, i)     # [1] 0
 
 \subsection{\texttt{return}语句}
 
-\texttt{return}语句用于返回函数的结果，也就是返回值。Berry中的所有函数都具有返回值，但是你可以在函数体中不使用任何\texttt{return}语句，此时解释器会生成一条默认的\texttt{return}语句以保证函数的返回。\texttt{return}语句有两种写法：
+\texttt{return}语句用于返回函数的结果，也就是函数的返回值。Berry中的所有函数都具有返回值，但是你可以在函数体中不使用任何\texttt{return}语句，此时解释器会生成一条默认的\texttt{return}语句以保证函数的返回。\texttt{return}语句有两种写法：
 \begin{algorithm}
     \texttt{return} \\
     \texttt{return }$\bm{expression}$
 \end{algorithm}\vspace{-0.6em}\\
-第一种写法是只写出一个\texttt{return}关键字，这种写法返回一个\texttt{nil}值，第二种写法是\texttt{return}关键字后面跟随表达式$\bm{expression}$，这种写法会返回$\bm{expression}$的值。当程序执行到\texttt{return}语句时，当前运行的函数会立即停止执行并返回到调用该函数的代码中继续运行。
+第一种写法是只写出\texttt{return}关键字而不写要返回的表达式，这种情况下返回默认的\texttt{nil}值。第二种写法是在\texttt{return}关键字后面跟随表达式$\bm{expression}$，此时会把该表达式的值作为函数的返回值。程序执行到\texttt{return}语句时，当前运行的函数会结束执行并返回到调用该函数的代码中继续运行。
 
 当使用单独的关键字\texttt{return}作为函数的返回语句时，容易引起二义性的问题，此时建议在\texttt{return}后面加分号来防止出现错误：
 \begin{lstlisting}[language=berry, numbers=none]
