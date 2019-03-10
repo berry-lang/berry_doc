@@ -6,27 +6,27 @@
 
 \section{基本信息}
 
-函数的使用包括函数的定义和调用两个部分。函数定义语句使用\texttt{def}关键字作为开头，函数定义是将函数体的代码打包并命名的过程，这个过程仅仅生成函数结构而不会执行函数。执行函数须使用\textbf{调用运算符}（call operator），该运算符是一对圆括号。调用运算符作用于一个结果是函数类型的表达式，传给函数的参数写在圆括号之内，多个参数之间使用逗号隔开。调用表达式的结果就是函数的返回值。
+函数的使用包括函数的定义和调用两个部分。函数定义语句使用 \texttt{def} 关键字作为开头，函数定义是将函数体的代码打包并命名的过程，这个过程仅仅生成函数结构而不会执行函数。执行函数须使用\textbf{调用运算符}（call operator），该运算符是一对圆括号。调用运算符作用于一个结果是函数类型的表达式，传给函数的参数写在圆括号之内，多个参数之间使用逗号隔开。调用表达式的结果就是函数的返回值。
 
 \subsection{函数定义}
 
 \subsubsection{具名函数}
 
-\textbf{具名函数}（named function）是定义时赋予了名字的函数，其定义语句由以下几部分构成：\texttt{def}关键字、函数名、由0到多个参数（parameter）组成的列表以及函数体（function body），参数列表中的多个参数以逗号分隔，所有参数写在一对圆括号中。我们把函数定义时的参数称为\textbf{形参}，而调用函数时的参数称为\textbf{实参}。函数定义的一般形式为：
+\textbf{具名函数}（named function）是定义时赋予了名字的函数，其定义语句由以下几部分构成：\texttt{def} 关键字、函数名、由0到多个参数（parameter）组成的列表以及函数体（function body），参数列表中的多个参数以逗号分隔，所有参数写在一对圆括号中。我们把函数定义时的参数称为\textbf{形参}，而调用函数时的参数称为\textbf{实参}。函数定义的一般形式为：
 \begin{algorithm}
     \texttt{def} $\bm{name}$ \texttt{(} $\bm{arguments}$ \texttt{)} \\
         \qquad $\bm{block}$ \\
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}\\
-函数名$\bm{name}$是一个标识符；$\bm{arguments}$为形参列表；$\bm{block}$为函数体，如果函数体为空语句则函数被称为``空函数''。函数返回值语句包含在函数体中，如果$\bm{block}$中没有返回语句，函数默认会返回\texttt{nil}返回值。函数名实际上是绑定函数对象的变量名称，如果当前的作用域已经存在这个名称，定义函数相当于把函数对象绑定到这个变量。
+函数名$\bm{name}$是一个标识符；$\bm{arguments}$为形参列表；$\bm{block}$为函数体，如果函数体为空语句则函数被称为``空函数''。函数返回值语句包含在函数体中，如果$\bm{block}$中没有返回语句，函数默认会返回 \texttt{nil} 返回值。函数名实际上是绑定函数对象的变量名称，如果当前的作用域已经存在这个名称，定义函数相当于把函数对象绑定到这个变量。
 
-下面的例子定义了一个名为\texttt{add}的函数，该函数的功能是求两个数的和并返回。
+下面的例子定义了一个名为 \texttt{add} 的函数，该函数的功能是求两个数的和并返回。
 \begin{lstlisting}[language=berry, numbers=none]
 def add(a, b)
     return a + b
 end
 \end{lstlisting}
-\texttt{add}函数具有两个参数\texttt{a}和\texttt{b}，两个被加数便通过这些参数传入函数进行计算。\texttt{return}语句会返回计算的结果。
+\texttt{add} 函数具有两个参数 \texttt{a} 和 \texttt{b}，两个被加数便通过这些参数传入函数进行计算。\texttt{return} 语句会返回计算的结果。
 
 作为类属性的函数称为方法，这部分内容会在面向对象章节中说明。
 
@@ -44,20 +44,20 @@ add = def (a, b)
     return a + b
 end
 \end{lstlisting}
-这段代码的功能和上一小节中\texttt{add}函数的功能完全相同。使用匿名函数可以方便地以字面值的形式传递函数值。与其他类型的字面量一样，函数字面量也是表达式的最小单元，因此从\texttt{def}关键字之间\texttt{end}之间是一个不可分割的整体。
+这段代码的功能和上一小节中 \texttt{add} 函数的功能完全相同。使用匿名函数可以方便地以字面值的形式传递函数值。与其他类型的字面量一样，函数字面量也是表达式的最小单元，因此从 \texttt{def} 关键字之间 \texttt{end} 之间是一个不可分割的整体。
 
 \subsection{调用函数}
 
-以\texttt{add}函数为例，调用该函数需要提供两个数值，通过调用函数可以得到两数之和：
+以 \texttt{add} 函数为例，调用该函数需要提供两个数值，通过调用函数可以得到两数之和：
 \begin{lstlisting}[language=berry, numbers=none]
 res = add(5, 3)
 print(res)      # 8
 \end{lstlisting}
-我们把被调用的函数（例中的\texttt{add}函数）称为\textbf{被调函数}，而调用被调函数的函数（例中为\texttt{main}函数）称为\textbf{主调函数}。函数调用的过程为：首先解释器会（隐式地）使用实参列表初始化被调函数的形参列表，同时暂停主调函数并保存其状态，接下来为被调函数创建环境并执行被调函数。
+我们把被调用的函数（例中的 \texttt{add} 函数）称为\textbf{被调函数}，而调用被调函数的函数（例中为 \texttt{main} 函数）称为\textbf{主调函数}。函数调用的过程为：首先解释器会（隐式地）使用实参列表初始化被调函数的形参列表，同时暂停主调函数并保存其状态，接下来为被调函数创建环境并执行被调函数。
 
-函数会在遇到\texttt{return}语句时结束执行并将返回值传递给主调函数。解释器会在被调函数返回后销毁被调函数的环境，然后恢复主调函数的环境并继续执行主调函数。函数的返回值也是函数调用表达式的结果。
+函数会在遇到 \texttt{return} 语句时结束执行并将返回值传递给主调函数。解释器会在被调函数返回后销毁被调函数的环境，然后恢复主调函数的环境并继续执行主调函数。函数的返回值也是函数调用表达式的结果。
 
-下面的例子定义了一个函数\texttt{square}并把这个函数绑定到变量\texttt{f}，然后通过变量\texttt{f}来调用\texttt{square}函数函数。这种用法类似于C语言的函数指针。
+下面的例子定义了一个函数 \texttt{square} 并把这个函数绑定到变量 \texttt{f}，然后通过变量 \texttt{f} 来调用 \texttt{square} 函数函数。这种用法类似于C语言的函数指针。
 \begin{lstlisting}[language=berry, numbers=none]
 def square(n)
     return n * n
@@ -71,7 +71,7 @@ f = square
 square = nil
 print(f(5))     # 25
 \end{lstlisting}
-可以看到对\texttt{square}重新赋值后函数依然能正常调用。只有函数对象不再与任何变量绑定之后才会丢失，这类函数对象占用的资源将会被系统回收。
+可以看到对 \texttt{square} 重新赋值后函数依然能正常调用。只有函数对象不再与任何变量绑定之后才会丢失，这类函数对象占用的资源将会被系统回收。
 
 \subsubsection{前向调用}
 
@@ -86,7 +86,7 @@ def func1(x)
 end
 print(func2(4))     # 16
 \end{lstlisting}
-在这个示例中，\texttt{func2}调用了\texttt{func1}，而函数\texttt{func1}的定义却在\texttt{func2}之后。执行这段代码后，程序将会输出正确结果\texttt{16}。这个例程利用了函数定义时不会被调用的机制，在定义\texttt{func2}之前先定义变量\texttt{func1}，这样可以保证编译时不会找不到符号\texttt{func1}。然后我们在\texttt{func2}之后定义函数\texttt{func1}，这样会使用该函数来覆盖变量\texttt{func1}的值。最后一行\texttt{print(func2(4))}中调用函数\texttt{func2}时，变量\texttt{func1}已经是我们需要的函数，因此会输出正确结果。
+在这个示例中， \texttt{func2} 调用了 \texttt{func1}，而函数 \texttt{func1} 的定义却在 \texttt{func2} 之后。执行这段代码后，程序将会输出正确结果 \texttt{16}。这个例程利用了函数定义时不会被调用的机制，在定义 \texttt{func2} 之前先定义变量 \texttt{func1}，这样可以保证编译时不会找不到符号 \texttt{func1}。然后我们在 \texttt{func2} 之后定义函数 \texttt{func1}，这样会使用该函数来覆盖变量 \texttt{func1} 的值。最后一行 \texttt{print(func2(4))} 中调用函数 \texttt{func2} 时，变量 \texttt{func1} 已经是我们需要的函数，因此会输出正确结果。
 
 \subsubsection{递归调用}
 
@@ -103,14 +103,14 @@ end
 \begin{equation*}
 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120
 \end{equation*}
-调用\texttt{fact}函数得到结果也是$120$：
+调用 \texttt{fact} 函数得到结果也是$120$：
 \begin{lstlisting}[language=berry, numbers=none]
 print(fact(5))  # 120
 \end{lstlisting}
 
-为了保证递归调用的深度有限（递归层次过深会耗尽栈空间），递归函数必须有一个结束条件。\texttt{fact}函数定义中第2行的\texttt{if}语句用于结束条件的检测，当计算到\texttt{n}为\texttt{0}时递归过程结束。上述阶乘公式不适用于非整数参数，执行类似\texttt{fact(5.1)}的表达式将会因无法结束递归而发生栈溢出错误。
+为了保证递归调用的深度有限（递归层次过深会耗尽栈空间），递归函数必须有一个结束条件。\texttt{fact} 函数定义中第2行的 \texttt{if} 语句用于结束条件的检测，当计算到 \texttt{n} 为 \texttt{0} 时递归过程结束。上述阶乘公式不适用于非整数参数，执行类似 \texttt{fact(5.1)} 的表达式将会因无法结束递归而发生栈溢出错误。
 
-还有一种情况是\texttt{间接递归}，也就是函数不是由它自己调用而是由它调用的另一个函数（直接或间接）调用。间接递归时通常需要使用函数前向调用的技巧，以计算奇数和偶数的函数\texttt{is\_odd}和\texttt{is\_even}函数为例：
+还有一种情况是 \texttt{间接递归}，也就是函数不是由它自己调用而是由它调用的另一个函数（直接或间接）调用。间接递归时通常需要使用函数前向调用的技巧，以计算奇数和偶数的函数 \texttt{is\_odd} 和 \texttt{is\_even} 函数为例：
 \begin{lstlisting}[language=berry]
 var is_odd
 def is_even(n)
@@ -126,7 +126,7 @@ def is_odd(n)
     return is_even(n - 1) 
 end
 \end{lstlisting}
-这两个函数互相调用了对方。为了保证第6行调用\texttt{is\_odd}函数时作用域中有这个名称，在第1行定义了变量\texttt{is\_odd}。
+这两个函数互相调用了对方。为了保证第6行调用 \texttt{is\_odd} 函数时作用域中有这个名称，在第1行定义了变量 \texttt{is\_odd}。
 
 \subsubsection{匿名函数调用}
 
@@ -145,9 +145,9 @@ res = add(1, 2) # 3
 
 \subsection{形参和实参}
 
-函数在调用时会使用实参来初始化形参。通常情况下，实参和形参数量相等且位置一一对应，不过Berry也允许实参数量不等于形参：如果实参数量多余形参则多出的实参会被丢弃，如果实参数量少于形参则会把余下的形参初始化为\texttt{nil}。
+函数在调用时会使用实参来初始化形参。通常情况下，实参和形参数量相等且位置一一对应，不过Berry也允许实参数量不等于形参：如果实参数量多余形参则多出的实参会被丢弃，如果实参数量少于形参则会把余下的形参初始化为 \texttt{nil}。
 
-参数传递的过程与赋值运算相似。对于\texttt{nil}、\texttt{boolean}和数值类型，参数传递是值传递，而其他类型是传递引用。对于实例这种可写的传引用类型，在被调函数中修改它们也会修改主调函数中的对象。下面的例子展示了这个特性：
+参数传递的过程与赋值运算相似。对于 \texttt{nil}、\texttt{boolean} 和数值类型，参数传递是值传递，而其他类型是传递引用。对于实例这种可写的传引用类型，在被调函数中修改它们也会修改主调函数中的对象。下面的例子展示了这个特性：
 \begin{lstlisting}[language=berry]
 var l = [], i = 0
 def func(a, b)
@@ -157,22 +157,22 @@ end
 func(l, i)
 print(l, i)     # [1] 0
 \end{lstlisting}
-可以看到，调用函数\texttt{func}之后变量\texttt{l}的值发生了变化，而变量\texttt{i}的值没有变化。
+可以看到，调用函数 \texttt{func} 之后变量 \texttt{l} 的值发生了变化，而变量 \texttt{i} 的值没有变化。
 
 \subsection{函数和局部变量}
 
 函数体本身是一个作用域，因此在函数中定义的变量都是局部变量（参考\ref{section::scope_life}节）。和直接嵌套的块不同，每一次调用函数都会为局部变量分配空间。局部变量的空间在栈中分配，并且分配信息是在编译期确定的，因此这个过程非常快。当函数中嵌套有多层作用域时，解释器会为依据局部变量最多的作用域嵌套链来分配栈空间，而不是依据函数中局部变量的总数。
 
-\subsection{\texttt{return}语句}
+\subsection{\texttt{return} 语句}
 
-\texttt{return}语句用于返回函数的结果，也就是函数的返回值。Berry中的所有函数都具有返回值，但是你可以在函数体中不使用任何\texttt{return}语句，此时解释器会生成一条默认的\texttt{return}语句以保证函数的返回。\texttt{return}语句有两种写法：
+\texttt{return} 语句用于返回函数的结果，也就是函数的返回值。Berry中的所有函数都具有返回值，但是你可以在函数体中不使用任何 \texttt{return} 语句，此时解释器会生成一条默认的 \texttt{return} 语句以保证函数的返回。\texttt{return} 语句有两种写法：
 \begin{algorithm}
     \texttt{return} \\
     \texttt{return }$\bm{expression}$
 \end{algorithm}\vspace{-0.6em}\\
-第一种写法是只写出\texttt{return}关键字而不写要返回的表达式，这种情况下返回默认的\texttt{nil}值。第二种写法是在\texttt{return}关键字后面跟随表达式$\bm{expression}$，此时会把该表达式的值作为函数的返回值。程序执行到\texttt{return}语句时，当前运行的函数会结束执行并返回到调用该函数的代码中继续运行。
+第一种写法是只写出 \texttt{return} 关键字而不写要返回的表达式，这种情况下返回默认的 \texttt{nil} 值。第二种写法是在 \texttt{return} 关键字后面跟随表达式$\bm{expression}$，此时会把该表达式的值作为函数的返回值。程序执行到 \texttt{return} 语句时，当前运行的函数会结束执行并返回到调用该函数的代码中继续运行。
 
-当使用单独的关键字\texttt{return}作为函数的返回语句时，容易引起二义性的问题，此时建议在\texttt{return}后面加分号来防止出现错误：
+当使用单独的关键字 \texttt{return} 作为函数的返回语句时，容易引起二义性的问题，此时建议在 \texttt{return} 后面加分号来防止出现错误：
 \begin{lstlisting}[language=berry, numbers=none]
 def func()
     return;

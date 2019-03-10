@@ -6,7 +6,7 @@
 \section{基础库函数}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{print}函数}
+\subsection{\texttt{print} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -14,7 +14,7 @@ print(...)
 \end{lstlisting}
 
 \paragraph{说明}
-该函数会将输入的参数打印到标准输出设备。该函数可以接受任何类型、任何数量的参数。所有的类型都会直接打印它的值，而对于实例，该函数会检查实例是否有\texttt{tostring()}方法，如果有则打印该实例调用\texttt{tostring()}方法后的返回值，否则打印实例的地址。
+该函数会将输入的参数打印到标准输出设备。该函数可以接受任何类型、任何数量的参数。所有的类型都会直接打印它的值，而对于实例，该函数会检查实例是否有 \texttt{tostring()} 方法，如果有则打印该实例调用 \texttt{tostring()} 方法后的返回值，否则打印实例的地址。
 
 \paragraph{例子}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -24,7 +24,7 @@ print(print)          # <function: 0x561092293780>
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{type}函数}
+\subsection{\texttt{type} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -62,7 +62,7 @@ type(print)     # function
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{classname}函数}
+\subsection{\texttt{classname} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -70,7 +70,7 @@ classname(object)
 \end{lstlisting}
 
 \paragraph{说明}
-该函数返回参数的类名（字符串）。因此参数必须是一个类或者实例，其他类型的参数将返回\texttt{nil}。
+该函数返回参数的类名（字符串）。因此参数必须是一个类或者实例，其他类型的参数将返回 \texttt{nil}。
 
 \paragraph{示例}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -81,7 +81,7 @@ classname(0)        # nil
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{str}函数}
+\subsection{\texttt{str} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -89,7 +89,7 @@ str(value)
 \end{lstlisting}
 
 \paragraph{说明}
-该函数将参数转化为字符串并返回。\texttt{str}函数可以接受任意类型的参数并转化。当参数类型为实例时将检查该实例是否有\texttt{tostring()}方法，如果有将使用该方法的返回值，否则将实例的地址转化为字符串。
+该函数将参数转化为字符串并返回。 \texttt{str} 函数可以接受任意类型的参数并转化。当参数类型为实例时将检查该实例是否有 \texttt{tostring()} 方法，如果有将使用该方法的返回值，否则将实例的地址转化为字符串。
 
 \paragraph{示例}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -100,7 +100,7 @@ str([0, 1, 2])  # '[0, 1, 2]'
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{number}函数}
+\subsection{\texttt{number} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -108,7 +108,7 @@ number(value)
 \end{lstlisting}
 
 \paragraph{说明}
-该函数将输入的字符串或者数字转化为数值类型返回。如果输入参数为整数或者实数则直接返回。如果是字符串则试图将字符串按十进制格式转化为数值，转化时会自动判断整数或实数。其他类型返回\texttt{nil}。
+该函数将输入的字符串或者数字转化为数值类型返回。如果输入参数为整数或者实数则直接返回。如果是字符串则试图将字符串按十进制格式转化为数值，转化时会自动判断整数或实数。其他类型返回 \texttt{nil}。
 
 \paragraph{示例}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -119,7 +119,7 @@ number(list)    # nil
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{length}函数}
+\subsection{\texttt{length} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -137,7 +137,7 @@ length('string')    # 6
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{super}函数}
+\subsection{\texttt{super} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -145,7 +145,7 @@ super(object)
 \end{lstlisting}
 
 \paragraph{说明}
-该函数返回实例的父对象。当你将一个派生类实例化时，会同时实例化它的基类。访问基类的实例（也就是父对象）时需要使用\texttt{super}函数。
+该函数返回实例的父对象。当你将一个派生类实例化时，会同时实例化它的基类。访问基类的实例（也就是父对象）时需要使用 \texttt{super} 函数。
 
 \paragraph{示例}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -166,10 +166,10 @@ sl = super(l)   # classname(sl) --> 'list'
 %==============================================================================
 \section{JSON模块}
 
-JSON是一种轻量级的数据交换格式，它是JavaScript的一个子集，它使用完全独立于编程语言的文本格式来表示数据。Berry提供了JSON模块来提供对JSON数据的支持。JSON模块只包含有两个函数\texttt{load}和\texttt{dump}，它们分别用于将JSON字符串解析乘Berry对象和将一个Berry对象序列化为JSON文本。
+JSON是一种轻量级的数据交换格式，它是JavaScript的一个子集，它使用完全独立于编程语言的文本格式来表示数据。Berry提供了JSON模块来提供对JSON数据的支持。JSON模块只包含有两个函数 \texttt{load} 和 \texttt{dump}，它们分别用于将JSON字符串解析乘Berry对象和将一个Berry对象序列化为JSON文本。
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{load}函数}
+\subsection{\texttt{load} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -177,7 +177,7 @@ load(text)
 \end{lstlisting}
 
 \paragraph{说明}
-该函数用于将输入的JSON文本转化为Berry对象并返回。转化的规则如表\ref{tab::json2berry_rule}所示。如果JSON文本存在语法错误，该函数将返回\texttt{nil}。
+该函数用于将输入的JSON文本转化为Berry对象并返回。转化的规则如表\ref{tab::json2berry_rule}所示。如果JSON文本存在语法错误，该函数将返回 \texttt{nil}。
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{18mm}
@@ -202,7 +202,7 @@ json.load('[{"name": "liu", "age": 13}, 10.0]') # [{'name': 'liu', 'age': 13}, 1
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{dump}函数}
+\subsection{\texttt{dump} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]

@@ -8,7 +8,7 @@ FFI中最为重要的交互功能的应该是Berry代码与C函数相互调用�
 
 \subsection{虚拟机}
 
-与编译型语言不同，Berry语言不能直接在物理机器上运行，而是在特定的软件环境中运行，这个环境就是\textbf{虚拟机}（Virtual Machine, VM）。与真实的计算机相似，文本形式的源代码不能在虚拟机中执行，而要通过编译器将其转换为``字节码''才可以。Berry虚拟机定义为一个C结构体\texttt{bvm}，这个结构体的内容对于FFI而言是不可见的。通过一些FFI函数，我们可以创建并初始化一个虚拟机。我们通过一个简单的例子来介绍虚拟机的使用：
+与编译型语言不同，Berry语言不能直接在物理机器上运行，而是在特定的软件环境中运行，这个环境就是\textbf{虚拟机}（Virtual Machine, VM）。与真实的计算机相似，文本形式的源代码不能在虚拟机中执行，而要通过编译器将其转换为``字节码''才可以。Berry虚拟机定义为一个C结构体 \texttt{bvm}，这个结构体的内容对于FFI而言是不可见的。通过一些FFI函数，我们可以创建并初始化一个虚拟机。我们通过一个简单的例子来介绍虚拟机的使用：
 \begin{lstlisting}[language=c, style=berry]
 void berry_test(void)
 {
@@ -19,12 +19,12 @@ void berry_test(void)
     be_vm_delete(vm);                          // destroy the VM
 }
 \end{lstlisting}
-这段代码给出了一个完整的使用虚拟机例子，首先，调用\texttt{be\_vm\_new}函数来构造一个新的虚拟机，之后所有的操作都在这个虚拟机对象中完成。默认情况下，虚拟机中不会加载任何模块或者函数，所以要调用\texttt{be\_loadlibs}来加载库，到此虚拟机的初始化工作就完成了。5到6行的作用是将一个字符串中的源代码编译成Berry函数然后调用。最后在第7行调用\texttt{be\_vm\_delete}函数销毁虚拟机。执行该函数将会在终端中得到一行输出：
+这段代码给出了一个完整的使用虚拟机例子，首先，调用 \texttt{be\_vm\_new} 函数来构造一个新的虚拟机，之后所有的操作都在这个虚拟机对象中完成。默认情况下，虚拟机中不会加载任何模块或者函数，所以要调用 \texttt{be\_loadlibs} 来加载库，到此虚拟机的初始化工作就完成了。5到6行的作用是将一个字符串中的源代码编译成Berry函数然后调用。最后在第7行调用 \texttt{be\_vm\_delete} 函数销毁虚拟机。执行该函数将会在终端中得到一行输出：
 \begin{lstlisting}[numbers=none]
 Hello Berry
 \end{lstlisting}
 
-在所有的场景之下，虚拟机的构造、库加载以及销毁的流程都和上面例子中的第3行、第4行和第6行一样。更具需要，编译或者加载源代码的方式可能会有所不同，例如，对于文件形式的源代码，可以通过\texttt{be\_loadfile}函数来编译。源代码会被编译成一个Berry函数，且该函数会被存放在栈顶，通过调用FFI函数\texttt{be\_pcall}或\texttt{be\_call}既可执行该Berry函数。你还可以通过\texttt{be\_repl}函数来使用REPL，REPL的接口将在相关的章节中描述。
+在所有的场景之下，虚拟机的构造、库加载以及销毁的流程都和上面例子中的第3行、第4行和第6行一样。更具需要，编译或者加载源代码的方式可能会有所不同，例如，对于文件形式的源代码，可以通过 \texttt{be\_loadfile} 函数来编译。源代码会被编译成一个Berry函数，且该函数会被存放在栈顶，通过调用FFI函数 \texttt{be\_pcall} 或 \texttt{be\_call} 既可执行该Berry函数。你还可以通过 \texttt{be\_repl} 函数来使用REPL，REPL的接口将在相关的章节中描述。
 
 \subsection{虚拟栈}
 
@@ -59,19 +59,21 @@ Berry使用一个虚拟栈（virtual stack）和C语言编写的原生函数传�
 \label{fig::virtual_stack}
 \end{wrapfigure}
 
-Berry使用的堆栈如图\ref{fig::virtual_stack}所示，虚拟栈从左往右增长。Berry代码调用一个原生函数时会得到一个初始的堆栈，该堆栈第一个值的位置称为\textbf{栈底}（\texttt{base}），而最后一个值称为\textbf{栈顶}（\texttt{top}），函数只能访问堆栈中栈底到栈顶之间的值。栈底的位置是固定的，而栈顶的位置可以根据需要上涨或者下降。堆栈为空时，栈底指针\texttt{base}将会大于栈顶指针\texttt{top}。虚拟堆栈不严格遵循栈的操作规则：除了push和pop以外，虚拟栈还可以通过索引来访问，甚至可以在任意位置插入或者删除值。索引栈中元素的方法有两种：一种是以栈底为参考的\textbf{绝对索引}，绝对索引值是从$1$开始的正整数；另一种是以栈顶为参考的\textbf{相对索引}，相对索引值是从$-1$开始的负整数。以图\ref{fig::virtual_stack}为例，索引值$1,2\ldots 8$是绝对索引，元素的绝对索引就是该元素到栈底的距离。索引值$-1,-2\ldots -8$是相对索引，元素的相对索引值为该元素到栈顶距离的负数。如果一个索引值$index$有效，那么它所指的元素应该处于栈底到栈顶之间，也就是满足表达式$1\leq \mathrm{abs}(index)\leq top-base+1$。
+Berry使用的堆栈如图\ref{fig::virtual_stack}所示，虚拟栈从左往右增长。Berry代码调用一个原生函数时会得到一个初始的堆栈，该堆栈第一个值的位置称为\textbf{栈底}（\texttt{base}），而最后一个值称为\textbf{栈顶}（\texttt{top}），函数只能访问堆栈中栈底到栈顶之间的值。栈底的位置是固定的，而栈顶的位置可以根据需要上涨或者下降。堆栈为空时，栈底指针 \texttt{base} 将会大于栈顶指针 \texttt{top}。虚拟堆栈不严格遵循栈的操作规则：除了push和pop以外，虚拟栈还可以通过索引来访问，甚至可以在任意位置插入或者删除值。索引栈中元素的方法有两种：一种是以栈底为参考的\textbf{绝对索引}，绝对索引值是从$1$开始的正整数；另一种是以栈顶为参考的\textbf{相对索引}，相对索引值是从$-1$开始的负整数。以图\ref{fig::virtual_stack}为例，索引值$1,2\ldots 8$是绝对索引，元素的绝对索引就是该元素到栈底的距离。索引值$-1,-2\ldots -8$是相对索引，元素的相对索引值为该元素到栈顶距离的负数。如果一个索引值$index$有效，那么它所指的元素应该处于栈底到栈顶之间，也就是满足表达式$1\leq \mathrm{abs}(index)\leq top-base+1$。
+
+为了方便起见，我们规定以栈底指针 \texttt{base} 作为参考，其绝对索引$1$，并且不考虑 \texttt{base} 前面的值（通常，\texttt{base} 并不是整个栈最底部的位置）。例如，原生函数返回时，存储返回值的位置就在 \texttt{base} 之前，这些位置通常不允许原生函数访问。
 
 \subsection{操作虚拟栈}
 
 \subsubsection{索引和栈尺寸}
 
-前面已经提到，可以使用两种索引方式访问虚拟栈，并且要保证索引值有效。同时，在很多时候也需要将新的值压入堆栈，此时须要程序员自己保证堆栈不会溢出。默认情况下，Berry保证有\texttt{BE\_STACK\_FREE\_MIN}个空间供原生函数使用，这个值可以在文件\textit{berry.h}中修改，它的默认值通常是$10$，在大多数情况下应该够用。如果确实需要扩充堆栈则，可以通过调用FFI函数\texttt{be\_stack\_require}来实现。该函数的原型为：
+前面已经提到，可以使用两种索引方式访问虚拟栈，并且要保证索引值有效。同时，在很多时候也需要将新的值压入堆栈，此时须要程序员自己保证堆栈不会溢出。默认情况下，Berry保证有 \texttt{BE\_STACK\_FREE\_MIN} 个空间供原生函数使用，这个值可以在文件\textit{berry.h}中修改，它的默认值通常是$10$，在大多数情况下应该够用。如果确实需要扩充堆栈则，可以通过调用FFI函数 \texttt{be\_stack\_require} 来实现。该函数的原型为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 void be_stack_require(bvm *vm, int count)；
 \end{lstlisting}
-参数\texttt{count}为需要空间数量，当堆栈中的空位不足时将会扩展堆栈，否则这个函数什么也不做。
+参数 \texttt{count} 为需要的空间数量，当虚拟栈剩余的空位不足时将会扩展堆栈容量，否则这个函数什么也不做。
 
-\textbf{警告}：如果发生了堆栈溢出，或者使用无效的索引访问堆栈都会导致程序崩溃。你可以打开调试开关\texttt{BE\_DEBUG}，这会打开断言功能，可以在运行时得到一些调试信息，以便捕获堆栈溢出或者无效索引这类错误。
+\textbf{警告}：如果发生了堆栈溢出，或者使用无效的索引访问堆栈都会导致程序崩溃。你可以打开调试开关 \texttt{BE\_DEBUG}，这会打开断言功能，可以在运行时得到一些调试信息，以便捕获堆栈溢出或者无效索引这类错误。
 
 \subsubsection{从栈中获取值}
 
@@ -83,6 +85,6 @@ int be_tobool(bvm *vm, int index);
 const char* be_tostring(bvm *vm, int index);
 void* be_tocomptr(bvm *vm, int index);
 \end{lstlisting}
-这些函数的参数形式相同，只是返回值不同。前4个函数的作用和容易理解，就像它们的名字一样，\texttt{be\_toint}的功能是将虚拟栈中的值转换为C的整型值（\texttt{bint}通常是\texttt{int}类型的别名）并返回。最后一个函数\texttt{be\_tocomptr}的作用是从虚拟栈中取出一个通用类型的指针值，这个指针具体有何意义由C程序自己解释。
+这些函数的参数形式相同，只是返回值不同。前4个函数的作用和容易理解，就像它们的名字一样，\texttt{be\_toint} 的功能是将虚拟栈中的值转换为C的整型值（\texttt{bint} 通常是 \texttt{int} 类型的别名）并返回。最后一个函数 \texttt{be\_tocomptr} 的作用是从虚拟栈中取出一个通用类型的指针值，这个指针具体有何意义由C程序自己解释。
 
-这些函数使用相同的方式去解释参数：参数\texttt{vm}是虚拟机实例的指针；\texttt{index}为待取出元素的索引。
+这些函数使用相同的方式去解释参数：参数 \texttt{vm} 是虚拟机实例的指针；\texttt{index} 为待取出元素的索引，它可以是相对索引或绝对索引。无法使用FFI将Berry的复杂数据类型从虚拟栈中取出，因此你无法将一个 \texttt{map} 类型或者 \texttt{class} 类型从栈中取出。这种设计的好处之一是不需要在原生函数中考虑垃圾回收的问题。

@@ -10,21 +10,21 @@ Berry是一款超轻量级的动态类型嵌入式脚本语言，该语言主要
 
 读者可以到项目的GitHub页面（\url{https://github.com/gztss/berry}）上获取Berry解释器的源代码。读者需要自行编译Berry解释器。具体的编译方法可以查阅源码根目录下的README.md文档，在项目的GitHub页面上也可以查看这份文档。
 
-首先要要安装好GCC和git等工具，对于Linux和macOS系统，还要安装readline库。准备工作完成后使用\texttt{git}命令把解释器源代码从远程仓库克隆到本地：
+首先要要安装好GCC和git等工具，对于Linux和macOS系统，还要安装readline库。准备工作完成后使用 \texttt{git} 命令把解释器源代码从远程仓库克隆到本地：
 \begin{lstlisting}[language=bash, numbers=none]
 git clone https://github.com/gztss/berry.git
 \end{lstlisting}
-进入berry目录，使用\texttt{make}命令编译解释器：
+进入berry目录，使用 \texttt{make} 命令编译解释器：
 \begin{lstlisting}[language=bash, numbers=none]
 cd berry
 make
 \end{lstlisting}
 
-现在应该能在berry目录下找到解释器的可执行文件（在Windows系统中，解释器程序的文件名是``berry.exe''，在Linux和macOS系统中的文件名是``berry''），你可以直接运行该可执行文件\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}来启动解释器。在Linux或者macOS系统下可以使用命令\texttt{sudo make install}安装解释器，此后你可以在终端中输入\texttt{berry}来启动解释器。
+现在应该能在berry目录下找到解释器的可执行文件（在Windows系统中，解释器程序的文件名是``berry.exe''，在Linux和macOS系统中的文件名是``berry''），你可以直接运行该可执行文件\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}来启动解释器。在Linux或者macOS系统下可以使用命令 \texttt{sudo make install} 安装解释器，此后你可以在终端中输入 \texttt{berry} 来启动解释器。
 
 \subsection{REPL环境}
 
-直接启动解释器（在终端或命令窗口里输入\texttt{berry}而不带参数，或者在Windows中双击berry.exe）时会看到以下界面：
+直接启动解释器（在终端或命令窗口里输入 \texttt{berry} 而不带参数，或者在Windows中双击berry.exe）时会看到以下界面：
 \begin{lstlisting}[language=berry, numbers=none]
 Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 [GCC 8.1.0] on Windows (default)
@@ -36,7 +36,7 @@ Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 
 \subsubsection{Hello World程序}
 
-以经典的``Hello World''程序为例，在REPL中输入\texttt{print('Hello World')}并执行，运行结果如下：
+以经典的``Hello World''程序为例，在REPL中输入 \texttt{print('Hello World')} 并执行，运行结果如下：
 \begin{lstlisting}[language=berry, numbers=none]
 Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 [GCC 8.1.0] on Windows (default)
@@ -44,13 +44,13 @@ Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 Hello World
 >
 \end{lstlisting}
-解释器输出了``\texttt{Hello World}''文本。这行代码通过调用\texttt{print}函数来实现对字符串\texttt{'Hello World'}的输出。在REPL中，如果表达式的返回值不是\texttt{nil}则会显示该返回值。例如输入表达式\texttt{1 + 2}会显示计算结果\texttt{3}：
+解释器输出了``\texttt{Hello World}''文本。这行代码通过调用 \texttt{print} 函数来实现对字符串 \texttt{'Hello World'} 的输出。在REPL中，如果表达式的返回值不是 \texttt{nil} 则会显示该返回值。例如输入表达式 \texttt{1 + 2} 会显示计算结果 \texttt{3}：
 \begin{lstlisting}[language=berry, numbers=none]
 > 1 + 2
 3
 \end{lstlisting}
 
-因此REPL下最简单的``Hello World''程序是直接输入字符串\texttt{'Hello World'}并运行：
+因此REPL下最简单的``Hello World''程序是直接输入字符串 \texttt{'Hello World'} 并运行：
 \begin{lstlisting}[language=berry, numbers=none]
 > 'Hello World'
 Hello World
@@ -58,7 +58,7 @@ Hello World
 
 \subsubsection{REPL的更多用法}
 
-你还可以把Berry解释器的交互模式当成一个科学计算器来使用，不过，一些数学函数不能直接使用，而要先使用\texttt{import math}语句来导入数学库，然后在使用数学库中的函数时要使用``\texttt{math.}''作为前缀，例如\texttt{sin}函数要写成\texttt{math.sin}：
+你还可以把Berry解释器的交互模式当成一个科学计算器来使用，不过，一些数学函数不能直接使用，而要先使用 \texttt{import math} 语句来导入数学库，然后在使用数学库中的函数时要使用``\texttt{math.}''作为前缀，例如 \texttt{sin} 函数要写成 \texttt{math.sin}：
 \begin{lstlisting}[language=berry, numbers=none]
 > import math
 > math.pi
@@ -75,13 +75,13 @@ Berry的脚本文件是存储Berry代码的文件，脚本文件可以由解释�
 \begin{lstlisting}[language=bash, numbers=none]
 berry script_file
 \end{lstlisting}
-\texttt{script\_file}是脚本文件的文件名。使用该命令会运行解释器执行\texttt{script\_file}脚本文件中的Berry代码，执行完毕后解释器会退出。
+\texttt{script\_file} 是脚本文件的文件名。使用该命令会运行解释器执行 \texttt{script\_file} 脚本文件中的Berry代码，执行完毕后解释器会退出。
 
-如果希望执行完脚本文件后解释器进入REPL模式可以在调用解释器的命令中加入\texttt{-i}参数：
+如果希望执行完脚本文件后解释器进入REPL模式可以在调用解释器的命令中加入 \texttt{-i} 参数：
 \begin{lstlisting}[language=bash, numbers=none]
 berry -i script_file
 \end{lstlisting}
-这条命令会先执行\texttt{script\_file}文件中的代码，然后进入REPL模式。
+这条命令会先执行 \texttt{script\_file} 文件中的代码，然后进入REPL模式。
 
 \section{词法}
 
@@ -93,9 +93,9 @@ end
 print('func(10) =', func(10))
 \end{lstlisting}
 
-这段代码中定义了一个函数\texttt{func}并在后面调用了它。在了解这段代码怎样工作之前，我们先介绍Berry语言的语法元素。
+这段代码中定义了一个函数 \texttt{func} 并在后面调用了它。在了解这段代码怎样工作之前，我们先介绍Berry语言的语法元素。
 
-以上代码中，语法元素的具体分类为：\texttt{def}、\texttt{return}和\texttt{end}是Berry语言的关键字；而第1行中的``\texttt{\# a function example}''被称为注释；\texttt{print}、\texttt{func}和\texttt{x}是一些标识符，它们通常用于表示一个变量；\texttt{1.5}和\texttt{10}这些数字被称为数值字面量，它们相当于日常生活中使用的数字；\texttt{'func(10) ='}是一个字符串字面量，他们大量用于需要表示文本的地方；\texttt{+}是一个加法运算符，这里使用加法运算符可以将变量\texttt{x}和数值\texttt{1.5}相加。
+以上代码中，语法元素的具体分类为： \texttt{def} 、 \texttt{return} 和 \texttt{end} 是Berry语言的关键字；而第1行中的``\texttt{\# a function example}''被称为注释； \texttt{print} 、 \texttt{func} 和 \texttt{x} 是一些标识符，它们通常用于表示一个变量； \texttt{1.5} 和 \texttt{10} 这些数字被称为数值字面量，它们相当于日常生活中使用的数字； \texttt{'func(10) ='} 是一个字符串字面量，他们大量用于需要表示文本的地方； \texttt{+} 是一个加法运算符，这里使用加法运算符可以将变量 \texttt{x} 和数值 \texttt{1.5} 相加。
 
 以上的分类实际上是从词法分析器的角度来做的。词法分析是Berry源代码解析的第一步，为了写出正确的源代码，我们先从最基础的词法开始介绍。
 
@@ -116,7 +116,7 @@ print('func(10) =', func(10))
 
 \subsection{字面值}
 
-字面值是编程时在源代码中直接写出的固定值。Berry的字面量有整数、实数、布尔量、字符串和nil。例如，数值\texttt{34}是一个整数字面值。
+字面值是编程时在源代码中直接写出的固定值。Berry的字面量有整数、实数、布尔量、字符串和nil。例如，数值 \texttt{34} 是一个整数字面值。
 
 \subsubsection{数值字面值}
 
@@ -128,21 +128,21 @@ print('func(10) =', func(10))
 1.1e-6  # real
 \end{lstlisting}
 
-数值字面值的写法和日常写法类似。Berry支持16进制的整数字面值，16进制字面值使用前缀\texttt{0x}或者\texttt{0X}开头，后面是一个16进制数。
+数值字面值的写法和日常写法类似。Berry支持16进制的整数字面值，16进制字面值使用前缀 \texttt{0x} 或者 \texttt{0X} 开头，后面是一个16进制数。
 
 \subsubsection{布尔字面值}
 
-布尔值（boolean）用来表示逻辑状态中的真和假。你可以使用\texttt{true}和\texttt{false}这两个关键字来表示布尔字面值。
+布尔值（boolean）用来表示逻辑状态中的真和假。你可以使用 \texttt{true} 和 \texttt{false} 这两个关键字来表示布尔字面值。
 
 \subsubsection{字符串字面值}
 
-字符串（string）是一段文本，它的字面值写法是使用一对\texttt{'}或\texttt{"}包围字符串文本：
+字符串（string）是一段文本，它的字面值写法是使用一对 \texttt{'} 或 \texttt{"} 包围字符串文本：
 \begin{lstlisting}[language=berry, numbers=none]
 'this is a string'
 "this is a string"
 \end{lstlisting}
 
-字符串字面值提供一些转义序列来表示不能直接输入的字符，转义序列以字符\texttt{'\textbackslash'}开始，然后紧跟一个特定的字符序列实现转义。Berry规定的转义序列有
+字符串字面值提供一些转义序列来表示不能直接输入的字符，转义序列以字符 \texttt{'\textbackslash'} 开始，然后紧跟一个特定的字符序列实现转义。Berry规定的转义序列有
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{4mm}
@@ -168,18 +168,18 @@ escape character LF
         new line
 \end{lstlisting}
 
-还可以使用泛化的转义序列，其形式是\texttt{\textbackslash x}后跟2个十六进制数，或者是\texttt{\textbackslash}3个八进制数，使用这种转义序列可以表示任意字符。下面是使用ASCII字符集的一些例子：
+还可以使用泛化的转义序列，其形式是 \texttt{\textbackslash x} 后跟2个十六进制数，或者是 \texttt{\textbackslash} 3个八进制数，使用这种转义序列可以表示任意字符。下面是使用ASCII字符集的一些例子：
 \begin{lstlisting}[language=berry, numbers=none]
 '\115' #- 'M' -#    '\x34' #- '4' -#    '\064' #- '4' -#
 \end{lstlisting}
 
 \subsubsection{Nil字面值}
 
-Nil表示空值，其字面值使用关键字\texttt{nil}来表示。
+Nil表示空值，其字面值使用关键字 \texttt{nil} 来表示。
 
 \subsection{标识符} \label{section:identifier}
 
-标识符(identifier)是由用户定义的名字，它由下划线或者字母作为开头，再由若干个下划线、字母或者数字的组合构成。和大多数语言类似，Berry是大小写敏感的，因此标识符\texttt{A}和标识符\texttt{a}会解析为两种标识符。
+标识符(identifier)是由用户定义的名字，它由下划线或者字母作为开头，再由若干个下划线、字母或者数字的组合构成。和大多数语言类似，Berry是大小写敏感的，因此标识符 \texttt{A} 和标识符 \texttt{a} 会解析为两种标识符。
 \begin{lstlisting}[language=berry, numbers=none]
 a
 TestVariable
@@ -198,4 +198,4 @@ Berry保留以下记号作为语言的关键字：
     false       nil         var         do          import      as
 \end{lstlisting}
 
-关键字的具体使用方法会在相关的章节中介绍。注意，不能将关键字作为标识符使用，由于Berry是大小写敏感的，因此\texttt{If}可以用于标识符。
+关键字的具体使用方法会在相关的章节中介绍。注意，不能将关键字作为标识符使用，由于Berry是大小写敏感的，因此 \texttt{If} 可以用于标识符。

@@ -1,7 +1,9 @@
 \documentclass[UTF8, oneside]{book}
     \usepackage{ctex}
+    \usepackage{xpatch}
     \input{../style.tex}
 
+    \xapptocmd{\ttfamily}{\frenchspacing}{}{}
     % 设置字体
     \setCJKmainfont[BoldFont=FZHei-B01S]{FZShuSong-Z01S}
     \setCJKmonofont{FZShuSong-Z01S}
