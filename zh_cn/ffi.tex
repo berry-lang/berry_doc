@@ -159,3 +159,37 @@ be_regfunc(vm, "myadd", l_add); // register the native function "myadd"
 > myadd(1, 2)
 3
 \end{lstlisting}
+
+\section{类型和函数}
+
+\subsection{类型}
+
+本节将介绍FFI中需要使用的一些类型，这些类型一般由FFI函数使用。
+
+\subsubsection{\texttt{bvm}}
+
+\texttt{bvm} 类型用于存储Berry虚拟机的状态信息。这个类型的细节对外部程序不可见。因此只能在 \textit{berry.h} 文件中找到这样的定义：
+\begin{lstlisting}[language=c, numbers=none]
+typedef struct bvm bvm;
+\end{lstlisting}
+
+大部分的FFI函数都使用 \texttt{bvm} 类型作为第一个参数，这是因为它们内部都要操作虚拟机。隐藏 \texttt{bvm} 的内部实现有利于降低 FFI 标准与 VM 之间的耦合性。在解释器外部，通常只用 \texttt{bvm} 的指针。创建一个新的 \texttt{bvm} 对象要使用 \texttt{be\_vm\_new} 函数，销毁 \texttt{bvm} 对象应使用 \texttt{be\_vm\_delete} 函数。
+
+\subsubsection{\texttt{bntvfunc}}
+
+原生函数类型。该类型的定义为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+typedef int (*bntvfunc)(bvm*);
+\end{lstlisting}
+
+\subsection{函数}
+
+\section{模块}
+
+\section{编译期 Hash 技术}
+
+\subsection{编译期字符串表}
+
+\subsection{编译期构造类}
+
+\subsection{编译期构造模块}

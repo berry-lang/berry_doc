@@ -200,11 +200,15 @@ Hi, I'm fine
 \end{lstlisting}
 可以看出，迭代变量 \texttt{i} 和外部变量 \texttt{i} 是两个不同的变量，它们只是名字相同，但是作用域不同。
 
+\subsubsection{\texttt{for} 语句原理}
+
 \section{跳转语句}
 
 Berry提供的的跳转语句用于在循环过程中实现程序流程的跳转。跳转语句分为 \texttt{break} 语句和 \texttt{continue} 语句，这两种语句必须在迭代语句内部使用，并且只能在函数内部实现跳转。有些语言提供 \texttt{goto} 语句来实现函数内部的任意跳转，这种语句Berry不提供，不过 \texttt{goto} 语句的效果完全可以用条件语句和迭代语句来代替。
 
 \subsection{\texttt{break} 语句}
+
+[未完成]
 
 \texttt{break} 用来终止迭代语句并跳出。执行 \texttt{break} 语句之后将立即终止最近一层迭代语句并从该迭代语句后的第一条语句位置继续执行。为了说明 \texttt{break} 语句的执行流程，我们使用一个例子来演示：
 \begin{lstlisting}[language=berry]
