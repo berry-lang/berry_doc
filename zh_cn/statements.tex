@@ -12,25 +12,25 @@ Berry是一种命令式编程语言，即程序式一步一步地执行的。通
 
 表达式语句主要是赋值表达式或者函数调用表达式构成的语句。其他表达式也可以构成语句，但是没有意义，例如表达式 \texttt{1+2} 单独写就是一条语句，但它没有任何作用。下面的例程给出了表达式语句和函数语句的例子：
 \begin{lstlisting}[language=berry, numbers=none]
-a = 1       # assignment statement
-print(a)    # call statement
+a = 1       # Assignment statement
+print(a)    # Call statement
 \end{lstlisting}
 第2行是一个简单的赋值语句，该语句将字面值 \texttt{i} 赋值给变量 \texttt{a}。第2行语句是函数调用语句，该语句通过调用 \texttt{print} 函数打印变量 \texttt{a} 的值。
 
 跨行表达式和单行表达式写法相同，不需要使用特殊的续行符号。例如：
 \begin{lstlisting}[language=berry, numbers=none]
 a = 1 +
-    func()      # wrap line
+    func()      # Wrap line
 \end{lstlisting}
 也可以将多个表达式语句写在一行，各种类型的语句都可以写在一行。这个例子就把两个表达式语句写在同一行：
 \begin{lstlisting}[language=berry, numbers=none]
-b = 1 c = 2     # multiple statements
+b = 1 c = 2     # Multiple statements
 \end{lstlisting}
 
 有些时候程序员希望写两条语句，但是解释器可能会错误的认为是一条语句。这个问题是由于语法解析的过程中存在歧义而产生的。以这段代码为例：
 \begin{lstlisting}[language=berry, numbers=none]
 a = c
-(b) = 1         # be regarded as a function call
+(b) = 1         # Be regarded as a function call
 \end{lstlisting}
 假设第4行和第5行本意是两条表达式语句：\texttt{a = c} 和 \texttt{(b) = 1}，然而解释器会把它们理解成一条语句：\texttt{a = c(b) = 1}。这个问题的成因在于解释器错误地将 \texttt{c} 和 \texttt{(b)} 解析成函数调用。为了避免歧义，我们可以在语句末尾加上分号来明确地分隔语句：
 \begin{lstlisting}[language=berry, numbers=none]
@@ -184,9 +184,9 @@ $\bm{varaible}$称为迭代变量，迭代变量总是在 \texttt{for} 语句中
 
 迭代变量$\bm{varaible}$的作用域仅限于循环体$\bm{block}$中，该变量不会和作用域外的同名变量有任何关系。为了说明这一点，我们通过一个例子来说明，在这个例子里，我们使用 \texttt{for} 语句来访问 \texttt{rang} 实例中的所有元素并打印出来。当然，我们还通过这个例子来演示循环变量的作用域。
 \begin{lstlisting}[language=berry]
-i = "Hi, I'm fine." # outer variable
+i = "Hi, I'm fine." # Outer variable
 for (i : 0 .. 2)
-    print(i)        # iteration variable
+    print(i)        # Iteration variable
 end
 print(i)
 \end{lstlisting}

@@ -12,11 +12,11 @@ FFI中最为重要的交互功能的应该是Berry代码与C函数相互调用�
 \begin{lstlisting}[language=c, style=berry]
 void berry_test(void)
 {
-    bvm *vm = be_vm_new();                     // construct a VM
-    be_loadlibs(vm);                           // add libraries
-    be_loadstring(vm, "print('Hello Berry')"); // compile test code
-    be_pcall(vm, 0);                           // call function
-    be_vm_delete(vm);                          // destroy the VM
+    bvm *vm = be_vm_new();                     // Construct a VM
+    be_loadlibs(vm);                           // Add libraries
+    be_loadstring(vm, "print('Hello Berry')"); // Compile test code
+    be_pcall(vm, 0);                           // Call function
+    be_vm_delete(vm);                          // Destroy the VM
 }
 \end{lstlisting}
 这段代码给出了一个完整的使用虚拟机例子，首先，调用 \texttt{be\_vm\_new} 函数来构造一个新的虚拟机，之后所有的操作都在这个虚拟机对象中完成。默认情况下，虚拟机中不会加载任何模块或者函数，所以要调用 \texttt{be\_loadlibs} 来加载库，到此虚拟机的初始化工作就完成了。5到6行的作用是将一个字符串中的源代码编译成Berry函数然后调用。最后在第7行调用 \texttt{be\_vm\_delete} 函数销毁虚拟机。执行该函数将会在终端中得到一行输出：
@@ -129,24 +129,24 @@ typedef int (*bntvfunc)(bvm*);
 \begin{lstlisting}[language=c, style=berry]
 static int l_add(bvm *vm)
 {
-    int top = be_top(vm); // get the number of arguments
-    /* verify the number and type of arguments */
+    int top = be_top(vm); // Get the number of arguments
+    /* Verify the number and type of arguments */
     if (top == 2 && be_isnumber(vm, 1) && be_isnumber(vm, 1)) {
-        breal x = be_toreal(vm, 1); // get the first argument
-        breal y = be_toreal(vm, 2); // get the second argument
-        be_pushreal(vm, x + y);     // push the result onto the stack
-        be_return(vm);              // return the value at the top of the stack
+        breal x = be_toreal(vm, 1); // Get the first argument
+        breal y = be_toreal(vm, 2); // Get the second argument
+        be_pushreal(vm, x + y);     // Push the result onto the stack
+        be_return(vm);              // Return the value at the top of the stack
     }
-    be_return_nil(vm); // return nil when something goes wrong
+    be_return_nil(vm); // Return nil when something goes wrong
 }
 \end{lstlisting}
 原生函数通常不需要在C文件外部使用，因此一般将它们声明为 \texttt{static} 类型。使用 \texttt{be\_top} 函数可以获得虚拟栈的栈顶绝对索引（\texttt{top} 值），也就是栈的容量。我们可以在原生函数进行虚拟栈的操作之前调用 \texttt{be\_top}，此时虚拟栈容量等于实参数量。对于 \texttt{add} 函数，我们需要两个参数参与运算，因此在第4行检查参数数量是否为2（\texttt{top == 2}）。并且我们需要检查两个参数是否都是数值类型，因此要调用 \texttt{be\_isnumber} 函数来检查。如果一切无误，就会从虚拟栈中取出参数，然后将计算结果入栈，最后使用 \texttt{be\_return} 返回。如果参数验证失败则会调用 \texttt{be\_return\_nil} 返回 \texttt{nil} 值。
 
 接下来我们将这个原生函数注册到全局变量中，简单起见，我们在加载库之后注册它：
 \begin{lstlisting}[language=c, style=berry]
-bvm *vm = be_vm_new();          // construct a VM
-be_loadlibs(vm);                // add libraries
-be_regfunc(vm, "myadd", l_add); // register the native function "myadd"
+bvm *vm = be_vm_new();          // Construct a VM
+be_loadlibs(vm);                // Add libraries
+be_regfunc(vm, "myadd", l_add); // Register the native function "myadd"
 \end{lstlisting}
 第3行就是注册该原生函数的位置，我们将它命名为 \texttt{myadd}。到此，原生函数的定义和注册就完成了。作为验证，你可以编译解释器，然后进入REPL，运行一些测试。你应该会得到这样的结果：
 \begin{lstlisting}[language=berry, numbers=none]
@@ -164,9 +164,9 @@ be_regfunc(vm, "myadd", l_add); // register the native function "myadd"
 
 \subsection{类型}
 
-本节将介绍FFI中需要使用的一些类型，这些类型一般由FFI函数使用。
+本节将介绍FFI中需要使用的一些类型，这些类型一般由FFI函数使用。通常，FFI中的类型和声明都可以在 \textit{berry.h} 文件中找到，本节内容如无特别说明，默认其定义或声明在 \textit{berry.h} 中提供。
 
-\subsubsection{\texttt{bvm}}
+\ffititle{bvm}
 
 \texttt{bvm} 类型用于存储Berry虚拟机的状态信息。这个类型的细节对外部程序不可见。因此只能在 \textit{berry.h} 文件中找到这样的定义：
 \begin{lstlisting}[language=c, numbers=none]
@@ -175,14 +175,51 @@ typedef struct bvm bvm;
 
 大部分的FFI函数都使用 \texttt{bvm} 类型作为第一个参数，这是因为它们内部都要操作虚拟机。隐藏 \texttt{bvm} 的内部实现有利于降低 FFI 标准与 VM 之间的耦合性。在解释器外部，通常只用 \texttt{bvm} 的指针。创建一个新的 \texttt{bvm} 对象要使用 \texttt{be\_vm\_new} 函数，销毁 \texttt{bvm} 对象应使用 \texttt{be\_vm\_delete} 函数。
 
-\subsubsection{\texttt{bntvfunc}}
+\ffititle{bntvfunc}
 
 原生函数类型。该类型的定义为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 typedef int (*bntvfunc)(bvm*);
 \end{lstlisting}
+这个类型是原生函数指针，一些将原生函数注册或添加到虚拟机中的FFI使用该类型的参数。该类型的变量或参数需要使用参数为 \texttt{bvm} 类型，返回值为 \texttt{int} 类型的函数名来初始化。
+
+\ffititle{bnfuncinfo}
+
+该类型用于批量注册原生函数或是构建原生类时使用，其定义为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+typedef struct {
+    const char *name;   // The name of the function or node
+    bntvfunc function;  // The function pointer
+} bnfuncinfo;
+\end{lstlisting}
+
+
+\ffititle{bint}
+
+该类型是Berry内置的整数类型。默认情况下 \texttt{bint} 使用 \texttt{int} 类型实现，其定义在 \textit{berry.h} 文件中：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+typedef int bint;
+\end{lstlisting}
+确实有必要的话，你可以修改此处的定义。但我们没有测试过其他的 \texttt{bint} 实现方式的可行性。
+
+\ffititle{breal}
+
+这是 Berry 内置的实数类型，实际上就是C语言中的浮点类型。\texttt{breal} 的定义为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+#if BE_SINGLE_FLOAT != 0
+    typedef float       breal;
+#else
+    typedef double      breal;
+#endif
+\end{lstlisting}
+你可以使用宏 \texttt{BE\_SINGLE\_FLOAT} 来控制 \texttt{breal} 的具体实现：当 \texttt{BE\_SINGLE\_FLOAT} 的值为 \texttt{0} 时将使用 \texttt{double} 类型实现 \texttt{breal}，否则使用 \texttt{float} 类型实现 \texttt{breal}。
+
+\ffititle{berrorcode}
+
 
 \subsection{函数}
+
+\section{配置文件}
 
 \section{模块}
 

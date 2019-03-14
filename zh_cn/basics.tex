@@ -103,15 +103,15 @@ print('func(10) =', func(10))
 
 注释是不会生成任何代码的一些文本，它们用于在源代码中做批注并给人们阅读，而编译器则不会解释它们的内容。Berry支持单行注释和跨行的块注释。单行注释从字符``\texttt{\#}'开始，直到换行字符结束。快注释从文本``\texttt{\#-}''开始，直到文本``\texttt{-\#}''结束。以下是使用注释的例子：
 \begin{lstlisting}[language=berry, numbers=none]
-# this is a line comment
-#- this is a
+# This is a line comment
+#- This is a
    block comment
 -#
 \end{lstlisting}
 
 和C语言类似，快注释不支持嵌套，以下代码将在第一个``\texttt{-\#}''文本处终止对注释的解析：
 \begin{lstlisting}[language=berry, numbers=none]
-#- some comments -# ... -#
+#- Some comments -# ... -#
 \end{lstlisting}
 
 \subsection{字面值}
@@ -122,10 +122,10 @@ print('func(10) =', func(10))
 
 数值字面值包括\textbf{整数}（integer）字面值和\textbf{实数}（real）字面值。
 \begin{lstlisting}[language=berry, numbers=none]
-40      # integer
-0x80    # hexadecimal literal (integer)
-3.14    # real
-1.1e-6  # real
+40      # Integer literal
+0x80    # Hexadecimal literal (integer)
+3.14    # Real literal
+1.1e-6  # Real literal
 \end{lstlisting}
 
 数值字面值的写法和日常写法类似。Berry支持16进制的整数字面值，16进制字面值使用前缀 \texttt{0x} 或者 \texttt{0X} 开头，后面是一个16进制数。

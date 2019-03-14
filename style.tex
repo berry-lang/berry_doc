@@ -57,6 +57,7 @@
 
 % set the code style
 \ifx \PrintStyle \undefined
+    \def \highlightcolor {\color[rgb]{0.5,0,0.5}}
     \lstset{
         commentstyle=\small\color{green!50!black}\itshape,
         keywordstyle=\small\color{cyan!50!black}\bfseries,
@@ -64,6 +65,7 @@
         numberstyle=\small\ttfamily\color{gray},
     }
 \else   % print style
+    \def \highlightcolor {}
     \lstset{
         commentstyle=\small\itshape,
         keywordstyle=\small\bfseries,
@@ -109,3 +111,6 @@
 \lstdefinestyle{berry} {%
     morekeywords={bint,breal,bvm}%
 }
+
+% set the FFI title style
+\newcommand{\ffititle}[1]{\subsubsection{\texttt{\large\highlightcolor\textsl{#1}}}}

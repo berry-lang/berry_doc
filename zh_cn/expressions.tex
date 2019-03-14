@@ -158,8 +158,8 @@ a = 45    b = 'string'    c = 0
 \end{lstlisting}
 而下列赋值表达式都是非法的：
 \begin{lstlisting}[language=berry, numbers=none]
-1 = 5           # trying to assign a constant 1
-a = b = 0       # continuous assignment
+1 = 5           # Trying to assign a constant 1
+a = b = 0       # Continuous assignment
 \end{lstlisting}
 
 赋值运算会将右侧操作数的值传递左侧操作数，对于 \texttt{nil}、整数、实数和布尔类型，赋值运算是会传递对象的值，而其他类型的赋值运算传递对象的引用。
@@ -175,6 +175,6 @@ s = l.item(0)       # 'item 0'
 
 下标运算符 \texttt{[]} 用于访问对象的元素，例如
 \begin{lstlisting}[language=berry, numbers=none]
-l[2] = 10   # read by index
-n = l[2]    # write by index
+l[2] = 10   # Read by index
+n = l[2]    # Write by index
 \end{lstlisting}

@@ -169,7 +169,7 @@ do
     var j = 'str'
     print(i, j)  # 0 str
 end
-# the variable j is not available here
+# The variable j is not available here
 print(i)         # 0
 \end{lstlisting}
 在这个例程中定义了名称 \texttt{i} 和 \texttt{j}。其中名称 \texttt{i} 定义于 \texttt{do} 语句外，这种定义于最外层块的名称具有\textbf{全局作用域}（global scope）。具有全局作用域作用域的名称自定义之后在整个程序中都可用。名称 \texttt{j} 定义在 \texttt{do} 语句内的块中，这类定义在非最外层块中的名称其具有\textbf{局部作用域}（local scope）。具有局部作用域的名字在作用域以外不能访问。
