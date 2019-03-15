@@ -188,11 +188,11 @@ typedef int (*bntvfunc)(bvm*);
 该类型用于批量注册原生函数或是构建原生类时使用，其定义为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 typedef struct {
-    const char *name;   // The name of the function or node
+    const char *name;   // The name of the function or object
     bntvfunc function;  // The function pointer
 } bnfuncinfo;
 \end{lstlisting}
-
+\texttt{bnfuncinfo} 的 \texttt{name} 成员表示函数或者对象的名字，而 \texttt{function} 成员为原生函数指针。
 
 \ffititle{bint}
 
@@ -216,8 +216,44 @@ typedef int bint;
 
 \ffititle{berrorcode}
 
+这个枚举类型在一些 FFI 的返回值中使用，此类型的定义为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+enum berrorcode {
+    BE_OK = 0,
+    BE_IO_ERROR,
+    BE_SYNTAX_ERROR,
+    BE_EXEC_ERROR,
+    BE_MALLOC_FAIL,
+    BE_EXIT
+};
+\end{lstlisting}
+这些枚举值的含义为：
+\begin{itemize}
+    \item \texttt{BE\_OK}：没有任何错误，函数执行成功。
+    \item \texttt{BE\_IO\_ERROR}：解释器在读取源文件时发生文件读取错误，该错误一般是由于文件不存在而导致的。
+    \item \texttt{BE\_SYNTAX\_ERROR}：解释器在编译源代码时发生语法错误。发生此错误以后解释器不会生成字节码，因此也不能继续执行字节码。
+    \item \texttt{BE\_EXEC\_ERROR}：运行时错误。发生此错误时会停止执行 Berry 代码并将环境恢复到最近的恢复点。
+    \item \texttt{BE\_MALLOC\_FAIL}：内存分配失败。此错误由堆空间不足导致。
+    \item \texttt{BE\_EXIT}：表示程序退出，该枚举值不是错误。执行 Berry 的 \texttt{exit} 函数会使解释器返回这个值。
+\end{itemize}
 
 \subsection{函数}
+
+\ffititle{be\_vm\_new}
+
+该函数用于建立一个新的虚拟机实例。其声明为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+bvm* be_vm_new(void);
+\end{lstlisting}
+函数的返回值是虚拟机实例的指针。使用 \texttt{be\_vm\_new} 创建虚拟机的过程仅初始化虚拟机必须的组件而不会加载库，因此所有的内置函数和类都不会在该函数的调用过程中加载。
+
+\ffititle{be\_vm\_delete}
+
+该函数用于销毁一个虚拟机实例，函数声明为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_vm_delete(bvm *vm);
+\end{lstlisting}
+参数 \texttt{vm} 是待销毁的虚拟机对象指针。销毁虚拟机将会连带释放虚拟机中所有的对象，包括栈中的值以及由 GC 管理的对象。销毁后的虚拟机指针将是一个无效值，不可以再引用它。
 
 \section{配置文件}
 
