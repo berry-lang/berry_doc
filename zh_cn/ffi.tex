@@ -214,7 +214,7 @@ typedef int bint;
 \end{lstlisting}
 你可以使用宏 \texttt{BE\_SINGLE\_FLOAT} 来控制 \texttt{breal} 的具体实现：当 \texttt{BE\_SINGLE\_FLOAT} 的值为 \texttt{0} 时将使用 \texttt{double} 类型实现 \texttt{breal}，否则使用 \texttt{float} 类型实现 \texttt{breal}。
 
-\ffititle{berrorcode}
+\ffititle{berrorcode} \label{section::errorcode}
 
 这个枚举类型在一些 FFI 的返回值中使用，此类型的定义为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
@@ -237,11 +237,13 @@ enum berrorcode {
     \item \texttt{BE\_EXIT}：表示程序退出，该枚举值不是错误。执行 Berry 的 \texttt{exit} 函数会使解释器返回这个值。
 \end{itemize}
 
-\subsection{函数}
+需要注意的是，发生 \texttt{BE\_MALLOC\_FAIL} 错误时不能够再进行动态内存分配，这意味着不能再分配字符串对象，因此返回这个错误的函数通常不会再给出更详细的错误信息。
+
+\subsection{函数和宏}
 
 \ffititle{be\_vm\_new}
 
-该函数用于建立一个新的虚拟机实例。其声明为：
+该函数用于建立一个新的虚拟机实例。函数原型为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 bvm* be_vm_new(void);
 \end{lstlisting}
@@ -249,11 +251,58 @@ bvm* be_vm_new(void);
 
 \ffititle{be\_vm\_delete}
 
-该函数用于销毁一个虚拟机实例，函数声明为：
+该函数用于销毁一个虚拟机实例，函数原型为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 void be_vm_delete(bvm *vm);
 \end{lstlisting}
 参数 \texttt{vm} 是待销毁的虚拟机对象指针。销毁虚拟机将会连带释放虚拟机中所有的对象，包括栈中的值以及由 GC 管理的对象。销毁后的虚拟机指针将是一个无效值，不可以再引用它。
+
+\ffititle{be\_loadlibs}
+
+该函数用于加载 Berry 库，包括原生函数，原生类和原生模块等。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_loadlibs(bvm *vm);
+\end{lstlisting}
+一般来说，在使用 \texttt{be\_vm\_new} 构造虚拟机之后都要使用该函数来加载库，否则将无法正常使用 Berry 的大部分功能。如果需要从标准库中移除某些功能，可以根据需要裁剪具体的模块，而不要忘了调用 \texttt{be\_loadlibs} 函数。
+
+\ffititle{be\_loadbuffer}
+
+这个函数用于从缓冲区中加载一段源代码并将其编译为字节码。函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_loadbuffer(bvm *vm, const char *name, const char *buffer, size_t length);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机指针。\texttt{name} 是一个字符串，它通常用来标记源代码的来源，例如从标准输入设备中输入的源代码可以把字符串 \texttt{"stdin"} 传给此参数，而从文件输入的源代码则可以将文件名传给此参数。\texttt{buffer} 参数是存放源代码的缓冲区，这个缓冲区的组织方式和C的字符串很相似，都是字符构成的连续序列，只是 \texttt{buffer} 指向的缓冲区不要求以 \texttt{'\textbackslash 0'} 字符作为结束符。\texttt{length} 参数表示缓冲区长度，这个长度是指缓冲区内源代码文本的字节数量。
+
+举一个简单的例子，如果我们要使用 \texttt{be\_loadbuffer} 函数来编译一个字符串，一般的用法是：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+const char *str = "print('Hello Berry')";
+be_loadbuffer(vm, "string", str, strlen(str));
+\end{lstlisting}
+这里我们使用字符串 \texttt{"string"} 来表示源码，你也可以把它修改为任何值。注意这里使用 C 标准库函数 \texttt{strlen} 函数来获取字符串缓冲区长度（其实就是字符串的字节数量）。
+
+如果编译成功，\texttt{be\_loadbuffer} 会把源代码编译成一个 Berry 函数，并把它放在虚拟栈顶部。如果编译遇到错误，\texttt{be\_loadbuffer} 会返回 \texttt{berrorcode} 类型的错误值（\ref{section::errorcode}节），如果可以的话，还会把具体的错误信息字符串存放在虚拟栈顶部。
+
+\ffititle{be\_loadstring}
+
+\texttt{be\_loadstring}是一个宏，其定义为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+#define be_loadstring(vm, str)  be_loadbuffer((vm), "string", (str), strlen(str))
+\end{lstlisting}
+这个宏只是对 \texttt{be\_loadbuffer} 函数的简单封装。\texttt{vm} 参数是虚拟机实例的指针，\texttt{str} 参数是源代码字符串的指针。使用 \texttt{be\_loadstring} 来编译字符串十分方便，例如：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+be_loadstring(vm, "print('Hello Berry')");
+\end{lstlisting}
+这种写法要比使用 \texttt{be\_loadbuffer} 时简洁，但是必须保证字符串以 \texttt{'\textbackslash 0'} 字符结尾。
+
+\ffititle{be\_loadfile}
+
+这个函数用于编译一个源代码文件。其函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_loadfile(bvm *vm, const char *name);
+\end{lstlisting}
+该函数的作用与 \texttt{be\_loadbuffer} 函数相似，只不过该函数会通过读取源代码文件来进行编译。参数 \texttt{vm} 为虚拟机实例的指针，参数 \texttt{name} 为源文件的文件名。这个函数会调用文件接口，默认情况下会使用 C 标准库中的 \texttt{fopen} 等函数来操作文件。
+
+如果使用 C 标准库的文件接口，你可以使用相对路劲或者绝对路径的文件名。如果文件不存在，\texttt{be\_loadfile} 将返回一个 \texttt{BE\_IO\_ERROR} 错误（\ref{section::errorcode}节），同时会将错误信息压入栈顶。其他的错误信息与 \texttt{be\_loadbuffer} 函数相同。建议用 \texttt{be\_loadfile} 函数来编译源文件，而不要将源文件全部读取到一个缓冲区中，然后调用 \texttt{be\_loadbuffer} 函数编译源代码。前者会分段读取源文件，并只在内存中建立小的读取缓冲区，因而更加节约内存。
 
 \section{配置文件}
 
