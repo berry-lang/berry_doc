@@ -73,7 +73,7 @@ void be_stack_require(bvm *vm, int count)；
 \end{lstlisting}
 参数 \texttt{count} 为需要的空间数量，当虚拟栈剩余的空位不足时将会扩展堆栈容量，否则这个函数什么也不做。
 
-\textbf{警告}：如果发生了堆栈溢出，或者使用无效的索引访问堆栈都会导致程序崩溃。你可以打开调试开关 \texttt{BE\_DEBUG}，这会打开断言功能，可以在运行时得到一些调试信息，以便捕获堆栈溢出或者无效索引这类错误。
+\textbf{警告}：如果发生了堆栈溢出，或者使用无效的索引访问堆栈都会导致程序崩溃。你可以打开调试开关 \texttt{BE\_DEBUG}（\ref{section::BE_DEBUG}节），这会打开断言功能，可以在运行时得到一些调试信息，以便捕获堆栈溢出或者无效索引这类错误。
 
 \subsubsection{从栈中获取值}
 
@@ -263,7 +263,7 @@ void be_vm_delete(bvm *vm);
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 void be_loadlibs(bvm *vm);
 \end{lstlisting}
-一般来说，在使用 \texttt{be\_vm\_new} 构造虚拟机之后都要使用该函数来加载库，否则将无法正常使用 Berry 的大部分功能。如果需要从标准库中移除某些功能，可以根据需要裁剪具体的模块，而不要忘了调用 \texttt{be\_loadlibs} 函数。
+一般来说，在使用 \texttt{be\_vm\_new} 构造虚拟机之后都要使用该函数来加载库，否则将无法正常使用 Berry 的大部分功能。如果需要从标准库中移除某些功能，可以根据需要裁剪具体的模块，但不要忘了调用 \texttt{be\_loadlibs} 函数。
 
 \ffititle{be\_loadbuffer}
 
@@ -305,6 +305,92 @@ int be_loadfile(bvm *vm, const char *name);
 如果使用 C 标准库的文件接口，你可以使用相对路劲或者绝对路径的文件名。如果文件不存在，\texttt{be\_loadfile} 将返回一个 \texttt{BE\_IO\_ERROR} 错误（\ref{section::errorcode}节），同时会将错误信息压入栈顶。其他的错误信息与 \texttt{be\_loadbuffer} 函数相同。建议用 \texttt{be\_loadfile} 函数来编译源文件，而不要将源文件全部读取到一个缓冲区中，然后调用 \texttt{be\_loadbuffer} 函数编译源代码。前者会分段读取源文件，并只在内存中建立小的读取缓冲区，因而更加节约内存。
 
 \section{配置文件}
+
+Berry 解释器的配置头文件为 \emph{berry\_conf.h}。此文件中包括一批用于配置的宏，并定义了一些平台相关的内容。
+
+\subsection{配置宏}
+
+本节介绍的配置宏通常用于某些源代码的编译开关，为了方便描述，我们把这种宏称为``宏开关''。对于宏开关而言，``打开''是指将宏开关设置为非零值，而``关闭''是指将宏开关的值设置为 \texttt{0}。
+
+有一些宏开关具有多种状态，而不仅仅是``打开''或者``关闭''，这些宏开关一般用于有多种选择的配置。还有一些配置宏不是宏开关，无论这些宏的值是多少，都不会有代码因此不参与编译，这些宏一般用于配置数量值。
+
+\ffititle{BE\_DEBUG} \label{section::BE_DEBUG}
+
+这个宏开关用于开启或关闭解释器本身的调试功能，\texttt{BE\_DEBUG} 的值为 \texttt{0} 时关闭调试，否则会打开调试。此处所说的调试功能是指对解释器的调试，而不是对 Berry 程序的调试功能。\texttt{BE\_DEBUG}的默认值为 \texttt{0}。如果你使用解释器项目自带的 \emph{Makefile} 来编译，使用 \texttt{make debug} 命令时会自动打开这个宏开关。
+
+打开这个宏时会开启一些断言，当解释器出现断言可以捕获的错误时将会输出错误信息。在调试解释器的时候可以打开 \texttt{BE\_DEBUG}，编译发行版时则要关闭它。
+
+\ffititle{BE\_SINGLE\_FLOAT}
+
+这个宏开关配置 \texttt{breal} 类型使用的浮点类型。当宏的值为 \texttt{0} 时将使用 \texttt{double} 类型来实现 \texttt{breal}，否则使用 \texttt{float} 类型实现 \texttt{breal}。在一些对性能或内存配置较低的环境中可以打开这个宏开关，默认实现中这个宏开关是关闭的。
+
+\ffititle{BE\_RUNTIME\_DEBUG\_INFO}
+
+这个宏用于配置 Berry 代码的运行时调试信息。它有 3 个可用的值：设置为 \texttt{0} 会关闭运行时调试信息的文件名和行号输出，设置为 \texttt{1} 时会在运行时调试信息中输出文件名和行号，设置为 \texttt{2} 时将使用 \texttt{uint16\_t}（16 位整数）类型存储行号信息。它的默认值为 \texttt{1}。
+
+将这个宏设置为 \texttt{0} 时不会因为存储文件名和行号信息，因此内存消耗最少。设置为 \texttt{2} 时消耗的内存也比较少，但是程序太长会使 \texttt{uint16\_t} 溢出。
+
+\ffititle{BE\_USE\_PRECOMPILED\_OBJECT}
+
+这个宏开关配置原生对象是否要在编译期生成。打开这个宏时，标准库中的原生对象将在编译期生成，而不是在运行时动态地构建。关闭这个宏会在运行时构建标准库中的对象。这个宏默认打开。
+
+编译期生成的对象和代码存放在一起，不会占用 RAM （或是内存中可读写的区域）资源，编译期生成对象还能减少解释器的启动时间，因此建议打开这个宏。
+
+\ffititle{BE\_STACK\_TOTAL\_MAX}
+
+这个宏定义了最大的 Berry 堆栈容量，该容量是指 Berry 对象的数量。当 Berry 代码使用了超过此数量的堆栈时将会停止执行程序并返回错误信息。这个宏的默认值是 \texttt{200}，可以根据系统的内存容量修改这个值。
+
+这个值不会影响 Berry 堆栈的内存使用量，因为 Berry 堆栈的容量是动态调节的，因此无论将它设置为多少都不能帮助减少内存使用。它的主要作用是在 Berry 程序因为消耗过多的堆栈时终止执行。这些程序很有可能是不正确的，例如没有返回条件的递归函数调用就会不断地消耗堆栈。
+
+\ffititle{BE\_STACK\_FREE\_MIN}
+
+这个宏定义了 Berry 堆栈最少的可用空间，其默认值为 \texttt{10}。原生函数可能会往 Berry 堆栈中压入值，此时堆栈不会自动增长，因此要保证堆栈中有足够的空位供原生函数使用。不建议修改这个值，而是在确实需要更多的栈空间的位置使用 \texttt{be\_stack\_require} 函数。
+
+为了在调试解释器时检测栈溢出错误，可以打开 \texttt{BE\_DEBUG} 宏（\ref{section::BE_DEBUG}节）。
+
+\ffititle{BE\_USE\_STRING\_MODULE}
+
+这个宏开关用于启用或关闭 \texttt{string} 模块，默认打开。
+
+\ffititle{BE\_USE\_JSON\_MODULE}
+
+这个宏开关用于启用或关闭 \texttt{json} 模块，默认打开。
+
+\ffititle{BE\_USE\_MATH\_MODULE}
+
+这个宏开关用于启用或关闭 \texttt{math} 模块，默认打开。
+
+\ffititle{BE\_USE\_TIME\_MODULE}
+
+这个宏开关用于启用或关闭 \texttt{time} 模块，默认打开。
+
+\ffititle{BE\_USE\_OS\_MODULE}
+
+这个宏开关用于启用或关闭 \texttt{os} 模块，默认打开。注意， \texttt{os} 模块目前只能在支持 POSIX 标准的环境中编译。
+
+\subsection{函数定义}
+
+配置文件中的一些宏用于定义平台相关的函数，默认的实现中使用 C 标准库中的函数来填充这些宏。在移植 Berry 解释器时可能需要修改这些宏。
+
+\ffititle{be\_assert}
+
+\ffititle{be\_fhandle}
+
+\ffititle{be\_fopen}
+
+\ffititle{be\_fclose}
+
+\ffititle{be\_fwrite}
+
+\ffititle{be\_fread}
+
+\ffititle{be\_fgets}
+
+\ffititle{be\_fseek}
+
+\ffititle{be\_ftell}
+
+\ffititle{be\_fflush}
 
 \section{模块}
 

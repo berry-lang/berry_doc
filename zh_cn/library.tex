@@ -1,12 +1,14 @@
 \chapter{库和模块}
 
-本章介绍Berry内置的库函数以及模块。
-
 %==============================================================================
-\section{基础库函数}
+\section{基础库}
+
+标准库中有一些可以直接使用的函数和类，它们为 Berry 程序提供基础的服务，因此也被称为基础库。基础库中的函数和类都是全局作用域可见的，因此可以在任何地方使用。不要定义和基础库中函数或类相同名称的变量，这样做会导致无法引用基础库中的函数和类。
+
+\subsection{函数}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{print} 函数}
+\libtitle{\texttt{print} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -24,7 +26,7 @@ print(print)          # <function: 0x561092293780>
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{type} 函数}
+\libtitle{\texttt{type} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -62,7 +64,7 @@ type(print)     # 'function'
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{classname} 函数}
+\libtitle{\texttt{classname} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -81,7 +83,7 @@ classname(0)        # nil
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{str} 函数}
+\libtitle{\texttt{str} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -100,7 +102,7 @@ str([0, 1, 2])  # '[0, 1, 2]'
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{number} 函数}
+\libtitle{\texttt{number} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -119,7 +121,7 @@ number(list)    # nil
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{length} 函数}
+\libtitle{\texttt{length} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -137,7 +139,7 @@ length('string')    # 6
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{super} 函数}
+\libtitle{\texttt{super} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -155,13 +157,12 @@ sl = super(l)   # classname(sl) --> 'list'
 \end{lstlisting}
 
 %==============================================================================
-\section{内置类类型}
 
-\subsection{List类}
+\subsection{\texttt{list} 类}
 
-\subsection{Map类}
+\subsection{\texttt{map} 类}
 
-\subsection{Range类}
+\subsection{\texttt{range} 类}
 
 %==============================================================================
 \section{JSON模块}
@@ -169,7 +170,7 @@ sl = super(l)   # classname(sl) --> 'list'
 JSON是一种轻量级的数据交换格式，它是JavaScript的一个子集，它使用完全独立于编程语言的文本格式来表示数据。Berry提供了JSON模块来提供对JSON数据的支持。JSON模块只包含有两个函数 \texttt{load} 和 \texttt{dump}，它们分别用于将JSON字符串解析乘Berry对象和将一个Berry对象序列化为JSON文本。
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{load} 函数}
+\libtitle{\texttt{load} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -202,7 +203,7 @@ json.load('[{"name": "liu", "age": 13}, 10.0]') # [{'name': 'liu', 'age': 13}, 1
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\texttt{dump} 函数}
+\libtitle{\texttt{dump} 函数}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
