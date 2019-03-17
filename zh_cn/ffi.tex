@@ -304,6 +304,126 @@ int be_loadfile(bvm *vm, const char *name);
 
 如果使用 C 标准库的文件接口，你可以使用相对路劲或者绝对路径的文件名。如果文件不存在，\texttt{be\_loadfile} 将返回一个 \texttt{BE\_IO\_ERROR} 错误（\ref{section::errorcode}节），同时会将错误信息压入栈顶。其他的错误信息与 \texttt{be\_loadbuffer} 函数相同。建议用 \texttt{be\_loadfile} 函数来编译源文件，而不要将源文件全部读取到一个缓冲区中，然后调用 \texttt{be\_loadbuffer} 函数编译源代码。前者会分段读取源文件，并只在内存中建立小的读取缓冲区，因而更加节约内存。
 
+\ffititle{be\_isnil}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为 \texttt{nil}，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isnil(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isbool}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为 \texttt{bool} 类型，如果是则函数返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isbool(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isint}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为整数类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isint(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isreal}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为实数类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isreal(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isnumber}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为整数或实数类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isnumber(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isstring}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为字符串类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isstring(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isclosure}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为闭包类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isclosure(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isntvclos}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为原生闭包类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isntvclos(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isfunction}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为函数类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isfunction(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。函数类型包括闭包、原生函数和原生闭包 3 种。
+
+\ffititle{be\_isproto}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为 \texttt{proto} 类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isproto(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。\texttt{proto} 类型是 Berry 闭包的函数原型。
+
+\ffititle{be\_isclass}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为 \texttt{class} 类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isclass(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_isinstance}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为 \texttt{instance} 类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_isinstance(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_islist}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为 \texttt{list} 类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_islist(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_ismap}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为 \texttt{map} 类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_ismap(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
+\ffititle{be\_iscomptr}
+
+该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为通用指针类型，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_iscomptr(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
+
 \section{配置文件}
 
 Berry 解释器的配置头文件为 \emph{berry\_conf.h}。此文件中包括一批用于配置的宏，并定义了一些平台相关的内容。
@@ -394,7 +514,11 @@ Berry 解释器的配置头文件为 \emph{berry\_conf.h}。此文件中包括�
 
 \section{模块}
 
+这个功能还不完善。
+
 \section{编译期 Hash 技术}
+
+这部分功能还没有完成。
 
 \subsection{编译期字符串表}
 
