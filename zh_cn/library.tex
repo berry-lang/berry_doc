@@ -26,7 +26,26 @@ print(print)          # <function: 0x561092293780>
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\libtitle{\texttt{type} 函数}
+\libtitle{\texttt{input} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+input()
+input(prompt)
+\end{lstlisting}
+
+\paragraph{说明}
+\texttt{input} 函数用于从标准输入设备输入一行字符串。该函数可以使用 \texttt{prompt} 参数作为输入提示，\texttt{prompt} 参数必须为字符串类型。
+调用 \texttt{input} 函数后会从键盘缓冲区中读取字符，直到遇到换行字符为止。
+
+\paragraph{例子}
+\begin{lstlisting}[language=berry, numbers=none]
+input('please enter a string: ') # please enter a string: 
+\end{lstlisting}
+\texttt{input} 函数在按下``Enter''键以后才会返回，因此程序``卡住''并不是错误。
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{type} 函数} \label{section::baselib_type}
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]

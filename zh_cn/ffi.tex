@@ -304,6 +304,84 @@ int be_loadfile(bvm *vm, const char *name);
 
 如果使用 C 标准库的文件接口，你可以使用相对路劲或者绝对路径的文件名。如果文件不存在，\texttt{be\_loadfile} 将返回一个 \texttt{BE\_IO\_ERROR} 错误（\ref{section::errorcode}节），同时会将错误信息压入栈顶。其他的错误信息与 \texttt{be\_loadbuffer} 函数相同。建议用 \texttt{be\_loadfile} 函数来编译源文件，而不要将源文件全部读取到一个缓冲区中，然后调用 \texttt{be\_loadbuffer} 函数编译源代码。前者会分段读取源文件，并只在内存中建立小的读取缓冲区，因而更加节约内存。
 
+\ffititle{be\_top}
+
+这个函数返回虚拟栈中栈顶元素的绝对索引值。这个值也是虚拟栈中的元素数量（虚拟栈的容量）。在未增减虚拟栈中的元素之前调用此函数可以得到原生函数的参数数量。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_top(bvm *vm);
+\end{lstlisting}
+
+这个函数通常用来获取原生函数的参数数量，用作此目的时，建议在原生函数体的最前面位置调用 \texttt{be\_top}。例如：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+static int native_function_example(bvm *vm)
+{
+    int argc = be_top(vm); // Get the number of arguments
+    // ...
+}
+\end{lstlisting}
+
+\ffititle{be\_typename}
+
+该函数会把 Berry 对象的类型转换为字符串返回，例如对整型对象会返回 \texttt{"int"}，而函数对象会返回 \texttt{"function"}。该函数的原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+const char* be_typename(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待操作对象的索引。标准库中的 \texttt{type} 函数就是通过调用 \texttt{be\_typename} 来实现的，参数类型对应的返回字符串请参看\ref{section::baselib_type}节。
+
+\ffititle{be\_classname}
+
+\ffititle{be\_strlen}
+
+\ffititle{be\_strconcat}
+
+\ffititle{be\_pop}
+
+\ffititle{be\_remove}
+
+\ffititle{be\_absindex}
+
+\ffititle{be\_newlist}
+
+\ffititle{be\_newmap}
+
+\ffititle{be\_getglobal}
+
+\ffititle{be\_setmember}
+
+\ffititle{be\_getmember}
+
+\ffititle{be\_getindex}
+
+\ffititle{be\_setindex}
+
+\ffititle{be\_getupval}
+
+\ffititle{be\_setupval}
+
+\ffititle{be\_getsuper}
+
+\ffititle{be\_data\_size}
+
+\ffititle{be\_data\_append}
+
+\ffititle{be\_data\_insert}
+
+\ffititle{be\_data\_remove}
+
+\ffititle{be\_data\_resize}
+
+\ffititle{be\_iter\_next}
+
+\ffititle{be\_iter\_hasnext}
+
+\ffititle{be\_refcontains}
+
+\ffititle{be\_refpush}
+
+\ffititle{be\_refpop}
+
+\ffititle{be\_stack\_require}
+
 \ffititle{be\_isnil}
 
 该函数返回虚拟栈中由 \texttt{index} 参数索引的值是否为 \texttt{nil}，如果是则返回 \texttt{1}，否则返回 \texttt{0}。该函数的原型为：
