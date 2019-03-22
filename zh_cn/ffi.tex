@@ -326,23 +326,73 @@ static int native_function_example(bvm *vm)
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 const char* be_typename(bvm *vm, int index);
 \end{lstlisting}
-参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待操作对象的索引。标准库中的 \texttt{type} 函数就是通过调用 \texttt{be\_typename} 来实现的，参数类型对应的返回字符串请参看\ref{section::baselib_type}节。
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待操作对象的索引。Berry 标准库中的 \texttt{type} 函数就是通过调用 \texttt{be\_typename} 来实现的，参数类型对应的返回字符串请参看\ref{section::baselib_type}节。
 
 \ffititle{be\_classname}
 
+这个函数用于获取对象或者类的类名，函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+const char* be_classname(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待操作对象的索引。如果 \texttt{index} 处的值为实例，\texttt{be\_classname} 函数会返回实例所属的类名称字符串，如果 \texttt{index} 处的值为类则直接返回类名称字符串。其他情况下 \texttt{be\_classname} 会返回 \texttt{NULL}。
+
 \ffititle{be\_strlen}
+
+这个函数返回指定 Berry 字符串的长度，函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_strlen(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待操作对象的索引。该函数返回 \texttt{index} 处字符串的字节数（Berry 字符串尾部的 \texttt{'\textbackslash 0'} 字符不计数）。如果 \texttt{index} 位置的值不是字符串，\texttt{be\_strlen} 函数会返回 \texttt{0}。
+
+虽然 \texttt{Berry} 字符串兼容 C 的字符串格式，但是不建议使用 C 标准库的 \texttt{strlen} 函数来测量 Berry 字符串的长度。对于 Berry 字符串而言，\texttt{be\_strlen} 比 \texttt{strlen} 更快，并且兼容性更好。
 
 \ffititle{be\_strconcat}
 
+这个函数用于拼接两个 Berry 字符串的，函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_strconcat(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针。该函数会将 \texttt{index} 参数位置的字符串与栈顶位置的字符串进行拼接，然后将所得的字符串放入 \texttt{index} 索引的位置。
+
 \ffititle{be\_pop}
+
+这个函数会将栈顶的值出栈，函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pop(bvm *vm, int n);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，参数 \texttt{n} 为需要出栈值的数量。注意，\texttt{n} 的值不能超过栈的容量。
 
 \ffititle{be\_remove}
 
+这个函数会移除栈中的某个值，函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_remove(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，参数 \texttt{index} 为待移除对象的索引。将 \texttt{index} 处的值移出后，后面的值会向前填充，栈的容量也会减一。\texttt{index} 的值不能超过栈的容量。
+
 \ffititle{be\_absindex}
+
+这个函数返回给定索引值的绝对索引值，其函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_absindex(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，参数 \texttt{index} 为输入索引值。如果 \texttt{index} 为正值，\texttt{be\_absindex} 的返回值就是 \texttt{index} 的值。如果 \texttt{index} 为负值，texttt{be\_absindex} 的返回值为 \texttt{index} 对应的绝对索引值。当 \texttt{index} 为负值（是相对索引）时，其索引位置不能低于栈底。
 
 \ffititle{be\_newlist}
 
+该函数会建立一个新的 \texttt{list} 值，其函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_newlist(bvm *vm);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针。该函数成功调用后会将新的 \texttt{list} 值压入栈顶。
+
 \ffititle{be\_newmap}
+
+该函数会建立一个新的 \texttt{map} 值，其函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_newmap(bvm *vm);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针。该函数成功调用后会将新的 \texttt{map} 值压入栈顶。
 
 \ffititle{be\_getglobal}
 
