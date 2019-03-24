@@ -179,9 +179,172 @@ def func()
     x = 1
 end
 \end{lstlisting}
+在这个例子里，\texttt{return} 语句后的 \texttt{x = 1} 语句不会得到执行，因此是多余的。如果避免这种冗余的代码，\texttt{return} 语句后面通常会跟随 \texttt{end}、\texttt{else} 或者 \texttt{elif} 等关键字，这种情况即使使用单独的 \texttt{return} 语句时也不用担心出现歧义。
 
 \section{闭包}
 
-你可以在一个函数中定义另一个函数。被嵌套的函数可以访问任何层级外层函数的局部变量，但是外层函数不能访问嵌套函数的局部变量，因为函数的局部变量作用域仅在函数内部。可以说嵌套函数的局部变量是它的私有成员，此时嵌套函数就构成了一个闭包。一个闭包是一个具有独立环境与变量的表达式（在Berry中是函数）。
+\subsection{基础概念}
 
-闭包可以使用外层函数的变量，即内部函数包含外层函数的作用域。如果在闭包中使用了外层函数中的局部变量则称这些变量为自由变量。由于外层函数可能先于闭包返回，因此闭包必须保存自由变量的环境以保证该变量可以被闭包正确访问直到闭包销毁。
+前面已经提到，函数在 Berry 中是第一类值，你可以在任何地方定义函数，也可以把函数作为参数或者返回值进行传递。在函数中定义另一个函数时，嵌套定义的函数可以访问任何外层函数的局部变量。我们把函数中使用的``外层函数的局部变量''称为函数的\textbf{自由变量}，广义的自由变量也包括全局变量，但是在 Berry 中没有这项规则。
+
+\textbf{闭包}是将函数和\textbf{环境}绑定的一种技术。环境是一个映射，它将函数的每个自由变量与一个值相关联。在实现上，闭包会将函数原型与自有变量关联存储。函数原型在编译期生成，而环境是一个运行时的概念，因此闭包也是在运行时动态生成的。每个闭包都是在生成时将函数原型和环境进行绑定，例如在下面的这个例子中：
+\begin{lstlisting}[language=berry]
+def func(i)     # The outer function
+    def foo()   # The inner function (closure)
+        print(i)
+    end
+    foo()
+end
+\end{lstlisting}
+内层函数 \texttt{foo} 是一个闭包，它有一个自由变量 \texttt{i}，该变量是外层函数 \texttt{func} 的一个参数。在生成闭包 \texttt{foo} 时会将它的函数原型和包含了自由变量 \texttt{i} 的环境绑定，当变量 \texttt{foo} 离开作用域以后闭包会被销毁。通常，内层函数会作为外层函数的返回值，例如：
+\begin{lstlisting}[language=berry]
+def func(i)         # The outer function
+    return def ()   # Return a closure (anonymous function)
+        print(i)
+        i = i + 1
+    end
+end
+\end{lstlisting}
+这里返回的闭包是一个匿名函数。当闭包被外层函数返回以后，外层函数的局部变量会被销毁，闭包将不能直接访问原来外层函数中的变量。系统会在自由变量被销毁时将自由变量的值复制到环境中。这些自由变量的生命周期和闭包一致，并且只能由闭包访问。返回的函数或闭包并不会自动执行，因此我们要调用 \texttt{func} 函数返回的闭包：
+\begin{lstlisting}[language=berry]
+f = func(0)
+f()
+\end{lstlisting}
+这段代码会输出 \texttt{0}，如果我们继续调用闭包 \texttt{f}，将会得到输出 \texttt{1}, \texttt{2}, \texttt{3}\ldots\ 这可能不是很好理解：变量 \texttt{i} 在函数 \texttt{func} 返回后被销毁，而作为闭包 \texttt{f} 的自由变量，\texttt{i} 会保存到闭包的环境中，因此每次调用 \texttt{f} 都会使 \texttt{i} 的值加 $1$（\texttt{func} 函数定义的第 4 行）。
+
+\subsubsection{闭包的用途}
+
+闭包有很多用途，这里介绍几种常见的用途：
+
+\paragraph{惰性求值}
+
+闭包在被调用前不会做任何事情。
+
+\paragraph{函数的私有通信}
+
+可以让一些闭包共用自由变量，这些自由变量仅对这些闭包可见，通过改变这些自由变量的值来进行函数间的通信。这样做可以避免使用外部变量。
+
+\paragraph{生成多个函数}
+
+有时候我们可能需要使用多个函数，这些函数可能只是一些变量的取值有所不同。我们可以实现一个函数，然后将这些不同的变量作为函数参数。更好的办法是通过一个工厂函数来返回闭包，并且把这些可能不同的变量作为闭包的自由变量，这样在调用函数时不必总是要写那些参数，而且可以生成任意数量的同类函数。
+
+\paragraph{模拟私有成员}
+
+有些语言支持在对象中使用私有成员，而 Berry 的类不支持私有成员。我们可以使用闭包的自由变量来模拟私有成员。这种用途并不是设计闭包的本意，不过在现在，这种对闭包的``误用''已经十分常见。
+
+\paragraph{缓存结果}
+
+如果有一个运行非常耗时的函数，那么每次调用它都会花费很多时间。我们可以缓存这个函数的结果，调用函数前先在缓存中查找，如果找到了就返回缓存值，否则调用函数并更新缓存值。我们可以利用闭包来保存缓存值，这样不会将它暴露到外层作用域，而缓存的结果也会被被保留（直到闭包销毁）。
+
+\subsection{绑定自由变量}
+
+如果多个闭包绑定了同一个自由变量，所有闭包将始终公用这个自由变量。例如：
+\begin{lstlisting}[language=berry]
+def func(i)     # The outer function
+    return [    # Return a closure list
+        def ()  # The closure #1
+            print("closure 1 log:", i)
+            i = i + 1
+        end,
+        def ()  # The closure #2
+            print("closure 2 log:", i)
+            i = i + 1
+        end
+    ]
+end
+\end{lstlisting}
+这个例子里的 \texttt{func} 函数将两个闭包通过一个列表来返回，这两个闭包公用自由变量 \texttt{i}。如果我们调用这些闭包：
+\begin{lstlisting}[language=berry]
+f = func(0)
+f[0]() # closure 1 log: 0
+f[1]() # closure 2 log: 1
+\end{lstlisting}
+可以看到，我们调用闭包 \texttt{f[0]} 时更新了自由变量 \texttt{i}，而这个变化影响了调用闭包 \texttt{f[1]} 的结果。这是由于如果一个自由变量被多个闭包使用，该自由变量也只有一份副本，所有的闭包都有一个对该自由变量实体的引用。因此，任何对该自由变量的修改都对所有使用了该自由变量的闭包可见。
+
+同理，在外层函数的局部变量没有销毁之前，修改自由变量的值也会影响到闭包：
+\begin{lstlisting}[language=berry]
+def func()
+    i = 0
+    def foo()
+        print(i)
+    end
+    i = 1
+    return foo
+end
+\end{lstlisting}
+在这个例子中，我们在外层函数 \texttt{func} 返回之前把变量 \texttt{i}（它是闭包 \texttt{foo} 的自由变量）的值从 \texttt{0} 改成了 \texttt{1}，那么我们在此后调用闭包 \texttt{foo} 时自由变量 \texttt{i} 的值也是 \texttt{1}：
+\begin{lstlisting}[language=berry]
+func()() # 1
+\end{lstlisting}
+
+\subsection{在循环中创建闭包}
+
+在循环体中构造闭包时，你可能不希望闭包的自由变量跟着循环循环变量变化。我们先来看一个在 \texttt{while} 循环中创建闭包的例子：
+\begin{lstlisting}[language=berry]
+def func()
+    l = [] i = 0
+    while (i <= 2)
+        l.append(def () print(i) end)
+        i = i + 1
+    end
+    return l
+end
+\end{lstlisting}
+这个例子中，我们在循环中构造闭包，并把这个闭包放在一个 \texttt{list} 中。很明显，当循环结束后，变量 \texttt{i} 的值将是 \texttt{3}，而列表 \texttt{l} 中所有的闭包也是使用这个变量的引用。如果我们执行 \texttt{func} 返回的闭包将得到相同的的结果：
+\begin{lstlisting}[language=berry]
+res = func()
+res[0]() # 3
+res[1]() # 3
+res[2]() # 3
+\end{lstlisting}
+如果我们希望每个闭包都引用不同的自由变量，我们可以再定义一层函数，然后用函数的参数绑定当前的循环变量：
+\begin{lstlisting}[language=berry]
+def func()
+    l = [] i = 0
+    while (i <= 2)
+        l.append(def (n)
+            return def () print(n) end
+        end (i))
+        i = i + 1
+    end
+    return l
+end
+\end{lstlisting}
+为了帮助理解这段看起来很难理解的代码，我们重点说明第 4 到第 6 行的代码：
+\begin{lstlisting}[language=berry]
+def (n)
+    return def ()
+        print(n)
+    end
+end (i)
+\end{lstlisting}
+这里实际上是定义了一个匿名函数并且立即调用它，这个临时的匿名函数的作用是将循环变量 \texttt{i} 的值绑定到它的参数 \texttt{n}，而变量 \texttt{n} 也是我们所需闭包的自由变量，这样在每次循环时所构造的闭包绑定的自由变量都不同。现在我们将得到期望的输出：
+\begin{lstlisting}[language=berry]
+res = func()
+res[0]() # 0
+res[1]() # 1
+res[2]() # 2
+\end{lstlisting}
+还有一些办法可以解决循环变量作为自由变量的问题。稍微简单一点的办法是在循环体中定义一个临时变量：
+\begin{lstlisting}[language=berry]
+def func()
+    l = [] i = 0
+    while (i <= 2)
+        temp = i
+        l.append(def () print(temp) end)
+        i = i + 1
+    end
+    return l
+end
+\end{lstlisting}
+这里的 \texttt{temp} 就是临时变量，该变量的作用域在循环体中，所以每次循环都会重新定义。我们还可以使用 \texttt{for} 语句来解决问题：
+\begin{lstlisting}[language=berry]
+def func()
+    l = []
+    for (i : 0 .. 2)
+        l.append(def () print(i) end)
+    end
+    return l
+end
+\end{lstlisting}
+这可能是最简洁的办法。\texttt{for} 语句的迭代变量会在每次循环中创建，其原理和与前一个办法类似。
