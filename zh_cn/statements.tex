@@ -202,7 +202,40 @@ Hi, I'm fine
 
 \subsubsection{\texttt{for} 语句原理}
 
-[未完成]
+与 \texttt{while} 这种传统的迭代语句不同，\texttt{for} 语句使用迭代器来遍历容器。如果需要对自定义的类使用 \texttt{for} 语句进行遍历，就需要了解它的实现机制。在使用 \texttt{for} 语句的时候，解释器隐藏了很多实现细节，实际上，对于这样的代码：
+\begin{lstlisting}[language=berry]
+for (i : 0 .. 2)
+    print(i)
+end
+\end{lstlisting}
+会被解释器翻译为以下等价代码：
+\begin{lstlisting}[language=berry]
+do
+    var it = __iterator__(0 .. 2)
+    while (__hasnext__(it))
+        var i = __next__(it)
+        print(i)
+    end
+end
+\end{lstlisting}
+
+从某种程度上讲，\texttt{for} 语句只是一个语法糖，它实质上只是一段复杂代码的简便写法。在这段等效代码中使用了一个中间变量 \texttt{it}，该变量的值是一个迭代器，在这个例子里，它是 \texttt{range} 容器 \texttt{0..2} 的迭代器。在处理 \texttt{for} 语句时，解释器会将迭代器中间变量隐藏起来，因此无法在代码中访问它。
+
+函数 \texttt{\_\_iterator\_\_} 的参数是一个容器，该函数会返回参数的迭代器。这个函数通过调用参数的 \text{iter} 方法来得到迭代器。因此，\texttt{iter} 方法的返回值要是实例（\texttt{instance}）类型，这个实例要有 \texttt{next} 方法和 \texttt{hasnext} 方法。
+
+函数 \texttt{\_\_hasnext\_\_} 的参数是一个迭代器，它通过调用迭代器的 \texttt{hasnext} 方法来检查迭代器是否有下一个元素。\texttt{hasnext} 方法的返回值是 \texttt{boolean} 类型。函数 \texttt{\_\_next\_\_} 的参数也是迭代器，它通过调用迭代器的 \texttt{next} 方法获取迭代器中的下一个元素。
+
+目前为止，\texttt{\_\_iterator\_\_}、\texttt{\_\_hasnext\_\_} 和 \texttt{\_\_next\_\_} 函数都只是简单地调用容器或者迭代器的一些方法然后返回这些方法的返回值。因此，\texttt{for} 语句的等效写法还可以简化成这种形式：
+\begin{lstlisting}[language=berry]
+do
+    var it = (0 .. 2).iter()
+    while (it.hasnext())
+        var i = it.next()
+        print(i)
+    end
+end
+\end{lstlisting}
+这段代码就比较易读了。从效代码中可以看出：迭代器变量 \texttt{it} 的作用域为整个 \texttt{for} 语句，但是在 \texttt{for} 语句外不可见，而迭代变量 \texttt{i} 的作用域在循环体内，因此每次迭代都会定义新的迭代变量。
 
 \section{跳转语句}
 
