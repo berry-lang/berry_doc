@@ -396,13 +396,41 @@ void be_newmap(bvm *vm);
 
 \ffititle{be\_getglobal}
 
+该函数会将指定名字的全局变量压入栈中，其函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_getglobal(bvm *vm, const char *name);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，参数 \texttt{name} 为全局变量的名字。该函数调用后，会将名为 \texttt{name} 的全局变量压入虚拟栈的栈顶。
+
 \ffititle{be\_setmember}
+
+该函数用于设置实例对象类成员变量的值，函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_setmember(bvm *vm, int index, const char *k);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，参数 \texttt{index} 为实例对象的索引，参数 \texttt{k} 为成员的名字。这个函数会把栈顶的值拷贝给索引位置实例的 \texttt{k} 的成员。注意栈顶元素不会自动弹出。
 
 \ffititle{be\_getmember}
 
+该函数用于获取实例对象类成员变量的值，函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_getmember(bvm *vm, int index, const char *k);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针，参数 \texttt{index} 为实例对象的索引，参数 \texttt{k} 为成员的名字。这个函数会把索引位置实例的 \texttt{k} 的成员的值压入虚拟栈栈顶。
+
 \ffititle{be\_getindex}
 
+该函数用于获取 \texttt{list} 或者 \texttt{map} 中的一项值。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_getindex(bvm *vm, int index);
+\end{lstlisting}
+
 \ffititle{be\_setindex}
+
+该函数用于设置 \texttt{list} 或者 \texttt{map} 中的一项值。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_setindex(bvm *vm, int index);
+\end{lstlisting}
 
 \ffititle{be\_getupval}
 
