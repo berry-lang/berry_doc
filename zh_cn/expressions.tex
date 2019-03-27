@@ -32,19 +32,24 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 \begin{table}[htb]
     \centering
-    \setlength{\tabcolsep}{4mm}
+    \setlength{\tabcolsep}{3mm}
     \begin{tabular}{cclc} \Xhline{1pt}
         \makecell[c]{\textbf{优先级}} & \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{说明}} & \makecell[c]{\textbf{结合性}} \\ \Xhline{1pt}
         1 & \texttt{()} & 分组符号 & - \\
         2 & \texttt{() [] .} & 函数调用，下标运算，域运算 & 左 \\
-        3 & \texttt{+ - !} & 正号，负号，逻辑非 & 左 \\
+        3 & \texttt{- ! \textasciitilde} & 负号，逻辑非，位翻转 & 左 \\
         4 & \texttt{* / \%} & 乘法，除法，取余数 & 左 \\
         5 & \texttt{+ -} & 加法，减法 & 左 \\
-        6 & \texttt{..} & 范围运算符 & 左 \\
-        7 & \texttt{< <= == != > >=} & 关系运算符 & 左 \\
-        8 & \texttt{\&\&} & 逻辑与 & 左 \\
-        9 & \texttt{||} & 逻辑或 & 左 \\
-        10 & \texttt{=} & 赋值 & 右 \\
+        6 & \texttt{<< >>} & 左移，右移 & 左 \\
+        7 & \texttt{\&} & 位与 & 左 \\
+        8 & \texttt{\textasciicircum} & 位异或 & 左 \\
+        9 & \texttt{|} & 位或 & 左 \\
+        10 & \texttt{..} & 范围运算符 & 左 \\
+        11 & \texttt{< <= > >=} & 小于，小于等于，大于，大于等于 & 左 \\
+        12 & \texttt{== !=} & 等于，不等于 & 左 \\
+        13 & \texttt{\&\&} & 逻辑与 & 左 \\
+        14 & \texttt{||} & 逻辑或 & 左 \\
+        15 & \texttt{=} & 赋值 & 右 \\
         \Xhline{1pt}
     \end{tabular}
     \caption{运算符列表}
@@ -100,7 +105,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
         \texttt{==} & 等于 & \texttt{expr == expr} \\
         \texttt{!=} & 不等于 & \texttt{expr != expr} \\
         \texttt{>=} & 大于等于 & \texttt{expr >= expr} \\
-        \texttt{>} & 大于 & \texttt{- expr} \\
+        \texttt{>} & 大于 & \texttt{-expr} \\
         \Xhline{1pt}
     \end{tabular}
     \caption{关系运算符}
@@ -133,7 +138,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
         \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
         \texttt{\&\&} & 逻辑与 & \texttt{expr \&\& expr} \\
         \texttt{||} & 逻辑或 & \texttt{expr || expr} \\
-        \texttt{!} & 逻辑非 & \texttt{! expr} \\
+        \texttt{!} & 逻辑非 & \texttt{!expr} \\
         \Xhline{1pt}
     \end{tabular}
     \caption{逻辑运算符}
@@ -149,6 +154,27 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 逻辑运算符要求操作数是布尔类型，如果操作数不是布尔类型则会进行转换。转换规则见\ref{section:type_bool}节。
 
 逻辑运算使用了一种称为\textbf{短路求值}（short-circuit evaluation）的求值策略。这种求值策略为：对于逻辑与运算符，当且仅当左操作数为真时才会对又操作数求值；对于逻辑或运算符来说，当且仅当左操作数为假时才会对右操作数求值。短路求值的性质导致逻辑表达式中的代码可能不会全部运行。
+
+\subsection{位运算符}
+
+位运算符能实现一些二进制位的操作，位运算只能对整数类型使用。位运算符的的详细信息如表\ref{tab::bitwise_operator}所示。目前 Berry 还没有支持位运算符。
+
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{10mm}
+    \begin{tabular}{ccc} \Xhline{1pt}
+        \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
+        \texttt{\textasciitilde} & 按位翻转 & \texttt{\textasciitilde expr} \\
+        \texttt{\&} & 按位与 & \texttt{expr \& expr} \\
+        \texttt{|} & 按位或 & \texttt{expr | expr} \\
+        \texttt{\textasciicircum} & 按位异或 & \texttt{expr \textasciicircum expr} \\
+        \texttt{<<} & 左移 & \texttt{expr << expr} \\
+        \texttt{>>} & 右移 & \texttt{expr >> expr} \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{关系运算符}
+    \label{tab::bitwise_operator}
+\end{table}
 
 \subsection{赋值运算符} \label{section::assign_operator}
 
