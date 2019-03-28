@@ -424,6 +424,13 @@ void be_getmember(bvm *vm, int index, const char *k);
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 void be_getindex(bvm *vm, int index);
 \end{lstlisting}
+参数 \texttt{vm} 是虚拟机实例的指针，参数 \texttt{index} 为待操作对象的索引。这个函数用于从 \texttt{map} 或 \texttt{list} 容器获取一个元素，而元素的下标存储在栈顶（相对索引为 $-1$）。调用此函数后，从容器中获取的值将压入栈顶，如果容器中没有下标指向的则会将 \texttt{nil} 值压入栈顶。举个例子，如果虚拟栈中索引为 $1$ 的元素是一个 \texttt{list}，我们想从中取出下标为 $0$ 的元素，那么可以使用下面的代码：
+
+\begin{lstlisting}[language=c, style=berry]
+be_pushint(vm, 0); // Push the index value 0 onto the virtual-stack
+be_getindex(vm, 1); // Get an element from the list container
+\end{lstlisting}
+我们首先将整数值 \texttt{0} 压入栈中，这个值将作为从 \texttt{list} 容器获取元素的下标。第 2 行代码实现了从 \texttt{list} 容器获取元素，示例里的 \texttt{list} 容器在虚拟栈中索引值为 $1$。获取的元素存储在栈顶，我们可以使用相对索引 $-1$ 来访问。
 
 \ffititle{be\_setindex}
 
@@ -431,6 +438,15 @@ void be_getindex(bvm *vm, int index);
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 void be_setindex(bvm *vm, int index);
 \end{lstlisting}
+参数 \texttt{vm} 是虚拟机实例的指针，参数 \texttt{index} 为待操作对象的下标。这个函数用于写入 \texttt{map} 或 \texttt{list} 容器的一个元素。待写入的值在虚拟栈中的索引为 $-1$，写入位置的下标在虚拟栈中的索引为 $-2$。如果容器中不存在指定下标的元素，写入操作将会失败。
+
+假设虚拟栈中索引为 \texttt{1} 的位置有一个 \texttt{map} 值，并且它有下标为 \texttt{"test"} 的元素，将 \texttt{"test"} 下标处的元素设置为 \texttt{100} 的示例为：
+\begin{lstlisting}[language=c, style=berry]
+be_pushstring(vm, "test"); // Push the index "index"
+be_pushint(vm, 100); // Push the value 100
+be_setindex(vm, 1); // Set the key-value pair to map["test"] = 100
+\end{lstlisting}
+我们要先按顺序将下标和要写入的值压栈，对于 \texttt{map} 来说是键值对（key-value pair），例中前两行代码完成这些工作。第三行调用 \texttt{be\_setindex} 函数将值写入 \texttt{map} 对象中。
 
 \ffititle{be\_getupval}
 

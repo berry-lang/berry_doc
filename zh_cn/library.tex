@@ -175,6 +175,45 @@ l = mylist()    # classname(l) --> 'mylist'
 sl = super(l)   # classname(sl) --> 'list'
 \end{lstlisting}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{assert} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+assert(expression)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数用于实现断言功能。\texttt{assert} 函数接受一个参数，当参数的值为 \texttt{false} 或者 \texttt{nil} 时该函数将会触发一个断言错误，否则该函数不会产生任何效果。需要注意的是，即使参数是逻辑运算中等效为 \texttt{false} 的值（例如 \texttt{0}）也不会触发断言错误。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+assert(false)   # assert failed
+assert(nil)     # assert failed
+assert()        # assert failed
+assert(true)    # pass
+assert(0)       # pass
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{compile} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+compile(string)
+compile(string, 'string')
+compile(filename, 'file')
+\end{lstlisting}
+
+\paragraph{说明}
+该函数将编译 Berry 源代码编译为一个函数，源代码可以是一个字符串，也可以是一个文本文件。\texttt{compile} 函数的第一个参数为一个字符串，第二个参数为字符串 \texttt{'string'} 或 \texttt{'file'}。当第二个参数为 \texttt{'string'} 或没有第二个参数时，\texttt{compile} 函数会将第一个参数作为源代码进行编译。当第二个参数为 \texttt{'file'} 时，\texttt{compile} 函数将会编译第一个参数对应的文件。如果编译成功，\texttt{compile} 将会返回编译生成的函数，否则返回 \texttt{nil}。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+compile('print(\'Hello World!\')')() # Hello World!
+compile('test.be', 'file')
+\end{lstlisting}
+
 %==============================================================================
 
 \subsection{\texttt{list} 类}
