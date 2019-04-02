@@ -50,7 +50,37 @@ print(object.method())
 
 \subsection{构造函数和析构函数}
 
+\subsubsection{构造函数}
+
+类的构造函数为 \texttt{init} 方法，构造函数会在类实例化的时候调用，因此构造函数一般用于成员的初始化工作，例如：
+\begin{lstlisting}[language=berry, numbers=none]
+class Test
+    var a
+    def init()
+        self.a = 'this is a test'
+    end
+end
+\end{lstlisting}
+这个例子中的构造函数将 \texttt{Test} 类的 \texttt{a} 成员初始化为字符串 \texttt{'this is a test'}。如果我们实例化该类，就可以获得成员 \texttt{a} 的值：
+\begin{lstlisting}[language=berry, numbers=none]
+print(Test().a) # this is a test
+\end{lstlisting}
+
+\subsubsection{析构函数}
+
+类的析构函数为 \texttt{deinit} 方法，析构函数会在实例被销毁时调用，析构函数一般用于完成一些清理工作。
+
 \section{类的继承}
+
+Berry 只支持单继承，也就是类只能有一个基类，基类使用运算符 \texttt{:} 来声明：
+\begin{lstlisting}[language=berry, numbers=none]
+class Test : Base
+    ...
+end
+\end{lstlisting}
+这里 \texttt{Test} 类继承自 \texttt{Base} 类。子类会继承基类的所有方法和属性，同时你可以在子类中覆盖它们，这个机制被称为\textbf{重载}。通常情况下，我们只会重载方法，而不必重载属性。
+
+Berry 类的继承机制比较简单，子类会包含基类的引用，实例对象也是类似。在实例化一个有基类的类时其实会生成多个对象，这些对象会根据继承关系链在一起，最后我们会拿到继承链最末端的实例对象。
 
 \section{方法重载}
 
