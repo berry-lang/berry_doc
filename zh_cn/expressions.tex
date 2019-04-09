@@ -157,7 +157,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 \subsection{位运算符}
 
-位运算符能实现一些二进制位的操作，位运算只能对整数类型使用。位运算符的的详细信息如表\ref{tab::bitwise_operator}所示。目前 Berry 还没有支持位运算符。
+位运算符能实现一些二进制位的操作，位运算只能对整数类型使用。位运算符的的详细信息如表\ref{tab::bitwise_operator}所示。位运算是指直接对整数进行二进制位的操作。逻辑运算都可以扩展为位运算，以逻辑与为例，我们可以在每个二进制位上执行该运算以实现按位与，例如 $110_b\ {\rm AND}\ 011_b = 010_b$。位运算还支持移位运算，该运算会在二进制的基础上对数字进行移动。
 
 \begin{table}[htb]
     \centering
@@ -167,14 +167,33 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
         \texttt{\textasciitilde} & 按位翻转 & \texttt{\textasciitilde expr} \\
         \texttt{\&} & 按位与 & \texttt{expr \& expr} \\
         \texttt{|} & 按位或 & \texttt{expr | expr} \\
-        \texttt{\textasciicircum} & 按位异或 & \texttt{expr \textasciicircum expr} \\
+        \texttt{\textasciicircum} & 按位异或 & \texttt{expr \textasciicircum\ expr} \\
         \texttt{<<} & 左移 & \texttt{expr << expr} \\
         \texttt{>>} & 右移 & \texttt{expr >> expr} \\
         \Xhline{1pt}
     \end{tabular}
-    \caption{关系运算符}
+    \caption{位运算符}
     \label{tab::bitwise_operator}
 \end{table}
+
+尽管只能用于整数，位运算依然用途广泛。位运算可以实现很多优化技巧，在很多算法中，使用位运算能节省不少代码。例如判断一个数 \texttt{n} 是否是 2 的整次幂，我么可以依据 \texttt{n \& (n - 1)} 的结果是否是 \texttt{0} 来判断。在一些执行效率比较高的语中，移位运算还可用来优化乘除法（在脚本语言中通常不会有明显的效果）。
+
+按位与运算符``\texttt{\&}''是二元运算符，它将两个整数操作数进行二进制位的与运算：只有操作数对应的二进制位都为 \texttt{1} 时，结果的该位才为 \texttt{1}。例如 $1110_b\ \&\ 0111_b = 0110_b$。
+
+按位或运算符``\texttt{|}''是二元运算符，它将两个整数操作数进行二进制位的或运算：只有操作数对应的二进制位都为 \texttt{0} 时，结果的该位才为 \texttt{0}。例如 $1000_b\ |\ 0001_b = 1001_b$。
+
+按位异或运算符``\texttt{\textasciicircum}''是二元运算符，它将两个整数操作数进行二进制位的异或运算：操作数对应的二进制位不同时，结果的该位值为 \texttt{1}。例如 $1100_b\ \hat{}\ 0101_b = 1001_b$。
+
+向左移位运算符``\texttt{<<}''是二元运算符，它在二进制的基础上把左操作数向左移动由右操作数指定的位数。例如 $00001010_b \ll 3 = 01010000_b$。
+
+向右移位运算符``\texttt{>>}''是二元运算符，它在二进制的基础上把左操作数向右移动由右操作数指定的位数。例如 $10100000_b \gg 3 = 00010100_b$。
+
+按位翻转运算符``\textasciitilde''是一元运算符，表达式的结果是把操作数的每个二进制位的值进行翻转。例如 $\mathtt{\sim}10100011_b = 01011100_b$。
+
+以下是一些使用位运算的例子，通常我们不会直接使用二进制，例子中的结果都已经转换成了常用的进制。
+\begin{lstlisting}[language=berry, numbers=none]
+~1 # -2
+\end{lstlisting}
 
 \subsection{赋值运算符} \label{section::assign_operator}
 

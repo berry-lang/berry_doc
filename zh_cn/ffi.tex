@@ -450,23 +450,43 @@ be_setindex(vm, 1); // Set the key-value pair to map["test"] = 100
 
 \ffititle{be\_getupval}
 
+该函数用于读取原生闭包的一个 Up Value。
+
 \ffititle{be\_setupval}
+
+该函数用于设置原生闭包的一个 Up Value。
 
 \ffititle{be\_getsuper}
 
+该函数用于获取类的基类或者实例的父对象。
+
 \ffititle{be\_data\_size}
+
+该函数用于获取容器的容量。
 
 \ffititle{be\_data\_append}
 
+该函数用于向容器尾部追加一个新的元素。
+
 \ffititle{be\_data\_insert}
+
+该函数用于向容器中插入一个元素。
 
 \ffititle{be\_data\_remove}
 
+该函数用于移除容器中的一个元素。
+
 \ffititle{be\_data\_resize}
+
+该函数用于重新设置容器的容量。
 
 \ffititle{be\_iter\_next}
 
+该函数用与获取迭代器的下一个元素。
+
 \ffititle{be\_iter\_hasnext}
+
+该函数用于测试迭代器中是否还有下一个元素。
 
 \ffititle{be\_refcontains}
 
@@ -475,6 +495,8 @@ be_setindex(vm, 1); // Set the key-value pair to map["test"] = 100
 \ffititle{be\_refpop}
 
 \ffititle{be\_stack\_require}
+
+该函数测试堆栈空闲空间数量，如果不足则扩展堆栈空间。
 
 \ffititle{be\_isnil}
 
