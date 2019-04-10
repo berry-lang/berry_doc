@@ -192,7 +192,12 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 以下是一些使用位运算的例子，通常我们不会直接使用二进制，例子中的结果都已经转换成了常用的进制。
 \begin{lstlisting}[language=berry, numbers=none]
-~1 # -2
+1 << 1      # 2
+168 >> 4    # 10
+456 & 127   # 72
+456 | 127   # 511
+0xA5 ^ 0x5A # 255
+~2          # -3
 \end{lstlisting}
 
 \subsection{赋值运算符} \label{section::assign_operator}
@@ -223,3 +228,11 @@ s = l.item(0)       # 'item 0'
 l[2] = 10   # Read by index
 n = l[2]    # Write by index
 \end{lstlisting}
+
+支持使用下标读取的类要实现 \texttt{item} 方法，支持使用下标写入的类要实现 \texttt{setitem} 方法。标准容器中的 map 和 list 实现了这两个方法，因此它们支持使用下标运算符读取和写入。字符串支持下标读取，但是不支持通过下标写入（字符串是只读的值）：
+\begin{lstlisting}[language=berry, numbers=none]
+'string'[2]         # 'r'
+'string'[2] = 'a'   # error: value 'string' does not support index assignment
+\end{lstlisting}
+
+目前字符串支持使用整数下标，且下标范围不能超过字符串的长度。

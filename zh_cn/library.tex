@@ -310,7 +310,170 @@ json.dump({0: 'item 0', 'list': [0, 1, 2], 'func': print}, 'format')
 
 \section{Math 模块}
 
-这个模块用于提供数学函数的支持，如常用的三角函数、开方函数等。
+这个模块用于提供数学函数的支持，如常用的三角函数、开方函数等。使用 math 模块要先使用 \texttt{import math} 语句来导入。本节所有的例子都假设该模块已经被正确导入。
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{pi} 常量}
+
+\paragraph{说明}
+圆周率 $\pi$ 的近似值，实数类型，约等于 $3.141592654$。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.pi # 3.14159
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{abs} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+abs(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的绝对值，参数可以是整数或实数。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{abs} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.abs(-1)    # 1
+math.abs(1.5)   # 1.5
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{ceil} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+ceil(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的向上取整值，也就是大于或者等参数的最小整数值，参数可以是整数或实数。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{ceil} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.ceil(-1.2) # -1
+math.ceil(1.5)  # 2
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{floor} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+floor(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的向下取整值，也就是不大于参数的最大整数值，参数可以是整数或实数。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{floor} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.floor(-1.2) # -2
+math.floor(1.5)  # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{sin} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+sin(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的正弦函数值，参数可以是整数或实数，单位为弧度。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{sin} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.sin(1)             # 0.841471
+math.sin(math.pi * 0.5) # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{cos} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+cos(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的余弦函数值，参数可以是整数或实数，单位为弧度。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{cos} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.cos(1)         # 0.540302
+math.cos(math.pi)   # -1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{tan} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+tan(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的正切函数值，参数可以是整数或实数，单位为弧度。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{tan} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.tan(1)             # 1.55741
+math.tan(math.pi / 4)   # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{asin} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+asin(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的反正弦函数值，参数可以是整数或实数，取值范围为 $[-1,1]$。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{asin} 函数的返回类型是实数，单位为弧度。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.asin(1)                    # 1.5708
+math.asin(0.5) * 180 / math.pi  # 30
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{acos} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+acos(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的反余弦函数值，参数可以是整数或实数，取值范围为 $[-1,1]$。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{acos} 函数的返回类型是实数，单位为弧度。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.acos(1)    # 0
+math.acos(0)    # 1.5708
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{atan} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+    atan(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的反正切函数值，参数可以是整数或实数，取值范围为 $[-\infty,+\infty]$。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{atan} 函数的返回类型是实数，单位为弧度。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.atan(1) * 180 / math.pi    # 45
+\end{lstlisting}
 
 \section{String 模块}
 
