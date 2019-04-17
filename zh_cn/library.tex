@@ -464,7 +464,7 @@ math.acos(0)    # 1.5708
 
 \paragraph{用法}
 \begin{lstlisting}[language=berry, numbers=none]
-    atan(value)
+atan(value)
 \end{lstlisting}
 
 \paragraph{说明}
@@ -473,6 +473,198 @@ math.acos(0)    # 1.5708
 \paragraph{示例}
 \begin{lstlisting}[language=berry, numbers=none]
 math.atan(1) * 180 / math.pi    # 45
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{sinh} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+sinh(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的双曲正弦函数值。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{sinh} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.sinh(1) # 1.1752
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{cosh} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+cosh(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的双曲余弦函数值。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{cosh} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.cosh(1) # 1.54308
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{tanh} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+tanh(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的双曲正切函数值。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{tanh} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.tanh(1) # 0.761594
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{sqrt} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+sqrt(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的平方根。该函数的参数不能是负数。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{sqrt} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.sqrt(2) # 1.41421
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{exp} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+exp(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的以自然常数 $e$ 为底的指数函数值。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{exp} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.exp(1) # 2.71828
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{log} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+log(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的自然对数。参数必须是一个正数。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{log} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.log(2.718282) # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{log10} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+log10(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数返回参数的以 $10$ 为底的对数。参数必须是一个正数。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{log10} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.log10(10) # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{deg} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+deg(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数用于将弧度转换为角度。参数的单位为弧度。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{deg} 函数的返回类型是实数，单位为角度。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.deg(math.pi) # 180
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{rad} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+rad(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数用于将角度转换为弧度。参数的单位为角度。如果没有参数，该函数返回 \texttt{0}，如果有多个参数则只处理第一个参数。\texttt{rad} 函数的返回类型是实数，单位为弧度。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.rad(180) # 3.14159
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{pow} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+pow(x, y)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数的返回值为表达式 $x^y$ 的结果，即参数 \texttt{x} 的 \texttt{y} 次方。如果参数不全，该函数返回 \texttt{0}，如果有多余的参数则只处理前两个参数。\texttt{pow} 函数的返回类型是实数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.pow(2, 3) # 8
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{srand} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+srand(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数用于设置随机数发生器的种子。参数的类型应当是一个整数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.srand(2)
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{rand} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+rand()
+\end{lstlisting}
+
+\paragraph{说明}
+该函数用于获取一个随机整数。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+math.rand()
 \end{lstlisting}
 
 \section{String 模块}
