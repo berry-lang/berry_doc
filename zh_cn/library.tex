@@ -129,7 +129,7 @@ number(value)
 \end{lstlisting}
 
 \paragraph{说明}
-该函数将输入的字符串或者数字转化为数值类型返回。如果输入参数为整数或者实数则直接返回。如果是字符串则试图将字符串按十进制格式转化为数值，转化时会自动判断整数或实数。其他类型返回 \texttt{nil}。
+该函数将输入的字符串或者数字转化为数值类型返回。如果输入参数为整数或者实数则直接返回。如果是字符串则尝试将字符串按十进制格式转化为数值，转化时会自动判断整数或实数。其他类型返回 \texttt{nil}。
 
 \paragraph{示例}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -137,6 +137,44 @@ number(5)       # 5
 number('45.6')  # 45.6
 number('50')    # 50
 number(list)    # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{int} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+int(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数将输入的字符串或者数字转化为整数并返回。如果输入参数为整数则直接返回，如果是实数则舍弃小数部分。如果是字符串则尝试将字符串按十进制转化为整数。其他类型返回 \texttt{nil}。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+int(5)       # 5
+int(45.6)    # 45
+int('50')    # 50
+int(list)    # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{real} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+real(value)
+\end{lstlisting}
+
+\paragraph{说明}
+该函数将输入的字符串或者数字转化为实数并返回。如果输入参数为实数则直接返回，如果是整数则转化为实数。如果是字符串则尝试将字符串按十进制转化为实数。其他类型返回 \texttt{nil}。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+real(5)       # 5, type(real(5)) → 'real'
+real(45.6)    # 45.6
+real('50.5')  # 50.5
+real(list)    # nil
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

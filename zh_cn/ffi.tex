@@ -1,6 +1,6 @@
 \chapter{语言交互接口}
 
-\textbf{语言交互接口}（Foreign Function Interface, FFI）是不同语言之间交互的接口。Berry提供了一套FFI来实现与C语言之间的交互，这套接口也非常容易在C++中使用。大部分的FFI接口是一些函数，它们的声明都放在\textit{berry.h}文件中。为了降低RAM的使用量，FFI还提供一套C编译期生成固定哈希表的机制，该机制必须要用到外部工具来生成C代码。
+\textbf{语言交互接口}（Foreign Function Interface, FFI）是不同语言之间交互的接口。Berry提供了一套FFI来实现与C语言之间的交互，这套接口也非常容易在C++中使用。大部分的FFI接口是一些函数，它们的声明都放在\textsl{berry.h}文件中。为了降低RAM的使用量，FFI还提供一套C编译期生成固定哈希表的机制，该机制必须要用到外部工具来生成C代码。
 
 \section{基础}
 
@@ -67,7 +67,7 @@ Berry使用的虚拟栈如图\ref{fig::virtual_stack}所示，虚拟栈从左往
 
 \subsubsection{索引和栈尺寸}
 
-前面已经提到，可以使用两种索引方式访问虚拟栈，并且要保证索引值有效。同时，在很多时候也需要将新的值压入堆栈，此时须要程序员自己保证堆栈不会溢出。默认情况下，Berry保证有 \texttt{BE\_STACK\_FREE\_MIN} 个空间供原生函数使用，这个值可以在文件\textit{berry.h}中修改，它的默认值通常是$10$，在大多数情况下应该够用。如果确实需要扩充堆栈则，可以通过调用FFI函数 \texttt{be\_stack\_require} 来实现。该函数的原型为：
+前面已经提到，可以使用两种索引方式访问虚拟栈，并且要保证索引值有效。同时，在很多时候也需要将新的值压入堆栈，此时须要程序员自己保证堆栈不会溢出。默认情况下，Berry保证有 \texttt{BE\_STACK\_FREE\_MIN} 个空间供原生函数使用，这个值可以在文件\textsl{berry.h}中修改，它的默认值通常是$10$，在大多数情况下应该够用。如果确实需要扩充堆栈则，可以通过调用FFI函数 \texttt{be\_stack\_require} 来实现。该函数的原型为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 void be_stack_require(bvm *vm, int count)；
 \end{lstlisting}
@@ -164,11 +164,11 @@ be_regfunc(vm, "myadd", l_add); // Register the native function "myadd"
 
 \subsection{类型}
 
-本节将介绍FFI中需要使用的一些类型，这些类型一般由FFI函数使用。通常，FFI中的类型和声明都可以在 \textit{berry.h} 文件中找到，本节内容如无特别说明，默认其定义或声明在 \textit{berry.h} 中提供。
+本节将介绍FFI中需要使用的一些类型，这些类型一般由FFI函数使用。通常，FFI中的类型和声明都可以在 \textsl{berry.h} 文件中找到，本节内容如无特别说明，默认其定义或声明在 \textsl{berry.h} 中提供。
 
 \ffititle{bvm}
 
-\texttt{bvm} 类型用于存储Berry虚拟机的状态信息。这个类型的细节对外部程序不可见。因此只能在 \textit{berry.h} 文件中找到这样的定义：
+\texttt{bvm} 类型用于存储Berry虚拟机的状态信息。这个类型的细节对外部程序不可见。因此只能在 \textsl{berry.h} 文件中找到这样的定义：
 \begin{lstlisting}[language=c, numbers=none]
 typedef struct bvm bvm;
 \end{lstlisting}
@@ -196,7 +196,7 @@ typedef struct {
 
 \ffititle{bint}
 
-该类型是Berry内置的整数类型。默认情况下 \texttt{bint} 使用 \texttt{int} 类型实现，其定义在 \textit{berry.h} 文件中：
+该类型是Berry内置的整数类型。默认情况下 \texttt{bint} 使用 \texttt{int} 类型实现，其定义在 \textsl{berry.h} 文件中：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 typedef int bint;
 \end{lstlisting}
@@ -620,7 +620,7 @@ int be_iscomptr(bvm *vm, int index);
 
 \section{配置文件}
 
-Berry 解释器的配置头文件为 \emph{berry\_conf.h}。此文件中包括一批用于配置的宏，并定义了一些平台相关的内容。
+Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括一批用于配置的宏，并定义了一些平台相关的内容。
 
 \subsection{配置宏}
 
@@ -630,7 +630,7 @@ Berry 解释器的配置头文件为 \emph{berry\_conf.h}。此文件中包括�
 
 \ffititle{BE\_DEBUG} \label{section::BE_DEBUG}
 
-这个宏开关用于开启或关闭解释器本身的调试功能，\texttt{BE\_DEBUG} 的值为 \texttt{0} 时关闭调试，否则会打开调试。此处所说的调试功能是指对解释器的调试，而不是对 Berry 程序的调试功能。\texttt{BE\_DEBUG}的默认值为 \texttt{0}。如果你使用解释器项目自带的 \emph{Makefile} 来编译，使用 \texttt{make debug} 命令时会自动打开这个宏开关。
+这个宏开关用于开启或关闭解释器本身的调试功能，\texttt{BE\_DEBUG} 的值为 \texttt{0} 时关闭调试，否则会打开调试。此处所说的调试功能是指对解释器的调试，而不是对 Berry 程序的调试功能。\texttt{BE\_DEBUG}的默认值为 \texttt{0}。如果你使用解释器项目自带的 \textsl{Makefile} 来编译，使用 \texttt{make debug} 命令时会自动打开这个宏开关。
 
 打开这个宏时会开启一些断言，当解释器出现断言可以捕获的错误时将会输出错误信息。在调试解释器的时候可以打开 \texttt{BE\_DEBUG}，编译发行版时则要关闭它。
 

@@ -8,11 +8,11 @@ Berry是一款超轻量级的动态类型嵌入式脚本语言，该语言主要
 
 \subsection{获取解释器}
 
-读者可以到项目的GitHub页面（\url{https://github.com/gztss/berry}）上获取Berry解释器的源代码。读者需要自行编译Berry解释器。具体的编译方法可以查阅源码根目录下的README.md文档，在项目的GitHub页面上也可以查看这份文档。
+读者可以到项目的GitHub页面 \url{https://github.com/skiars/berry} 获取Berry解释器的源代码。读者需要自行编译Berry解释器。具体的编译方法可以查阅源码根目录下的README.md文档，在项目的GitHub页面上也可以查看这份文档。
 
-首先要要安装好GCC和git等工具，对于Linux和macOS系统，还要安装readline库。准备工作完成后使用 \texttt{git} 命令把解释器源代码从远程仓库克隆到本地：
+首先要要安装 GCC、git 和 make 等软件，如果不使用版本控制便可以直接在 GitHub 上下载源码而不安装 git，读者可以使用搜索引擎检索这些软件的资料。使用 Linux 和 macOS 系统的读者还要安装 GNU Readline 库\footnote{对于 GNU Readline，Debian 系列 Linux 发行版下的安装命令是 \texttt{sudo apt install libreadline-dev}，RedHat 系列 Linux 发行版的安装命令是 \texttt{yum install readline-devel }，macOS 下的安装命令是 \texttt{brew install readline}。此外也很容易在搜索引擎中找到 GNU Readline 的文档及相关资料。}。准备工作完成后使用 \texttt{git} 命令\footnote{命令需要在``命令行界面''中使用，Windows 系统中的命令行环境通常是命令提示符（CMD）窗口，而类 Unix 系统的命令行环境通常称为``终端''（Terminal）。这样说其实并不十分准确，不过这里就不再拓展了。}把解释器源代码从远程仓库克隆到本地：
 \begin{lstlisting}[language=bash, numbers=none]
-git clone https://github.com/gztss/berry.git
+git clone https://github.com/skiars/berry.git
 \end{lstlisting}
 进入berry目录，使用 \texttt{make} 命令编译解释器：
 \begin{lstlisting}[language=bash, numbers=none]
@@ -20,19 +20,19 @@ cd berry
 make
 \end{lstlisting}
 
-现在应该能在berry目录下找到解释器的可执行文件（在Windows系统中，解释器程序的文件名是``berry.exe''，在Linux和macOS系统中的文件名是``berry''），你可以直接运行该可执行文件\footnote{在Windows中你可以直接双击运行可执行文件，在Linux或者macOS中通常要使用``终端''（Terminal）来运行。你也可以在Windows的``命令提示符''（cmd）窗口中运行解释器。具体的使用方法请参考README.md文档。}来启动解释器。在Linux或者macOS系统下可以使用命令 \texttt{sudo make install} 安装解释器，此后你可以在终端中输入 \texttt{berry} 来启动解释器。
+现在应该能在 \textsl{berry} 目录下找到解释器的可执行文件（在 Windows 系统中，解释器程序的文件名是``\textsl{berry.exe}''，而 Linux 和 macOS 系统中的文件名是``\textsl{berry}''），你可以直接运行该可执行文件\footnote{在 Windows 中你可以直接双击运行可执行文件，在 Linux 或者 macOS 中要使用终端来运行。你也可以在Windows的命令提示符窗口中运行解释器。具体的使用方法请参考 README.md 文档。}来启动解释器。Linux 或者 macOS 系统下可以使用命令 \texttt{sudo make install} 安装解释器，此后便可以在终端中通过 \texttt{berry} 命令来启动解释器。
 
-\subsection{REPL环境}
+\subsection{REPL 环境}
 
-直接启动解释器（在终端或命令窗口里输入 \texttt{berry} 而不带参数，或者在Windows中双击berry.exe）时会看到以下界面：
+REPL（Read Eval Print Loop）一般翻译为交互式解释器，本文也成为解释器的交互模式。该模式由四个要素组成：\textbf{读取}，从输入设备读取用户的输入的源代码；\textbf{求值},对用户输入的源代码进行编译并执行；\textbf{打印}，输出求值过程的结果；\textbf{循环}，循环上述操作。
+
+直接启动解释器（在终端或命令窗口里输入 \texttt{berry} 而不带参数，或者在Windows中双击berry.exe）会进入 REPL模式，此时会看到以下界面：
 \begin{lstlisting}[language=berry, numbers=none]
 Berry 0.0.4 (build in Feb  1 2019, 13:14:04)
 [GCC 8.1.0] on Windows (default)
 >
 \end{lstlisting}
-界面的前两行显示了Berry解释器的版本、编译时间、编译器和操作系统等信息，第三行的符号``\texttt{>}''叫做提示符，光标显示在提示符后面。
-
-不带参数地启动解释器会进入REPL（Read Eval Print Loop）模式，也就是交互模式。在REPL模式下，我们可以输入源代码然后按下``Enter''键之后执行。
+该界面的前两行显示了Berry解释器的版本、编译时间、编译器和操作系统等信息，第三行的符号``\texttt{>}''叫做提示符，光标显示在提示符后面。使用 REPL 模式时，输入完源代码后按``Enter''键将立即执行代码并输出结果。按 \texttt{Ctrl\,+\,C} 组合键会退出 REPL，在使用 Readline 库的情况下，当输入为空时使用 \texttt{Ctrl\,+\,D} 组合键也可以退出 REPL。由于不用编辑脚本文件，REPL 模式可以用于快捷的开发或者想法验证。
 
 \subsubsection{Hello World程序}
 
@@ -58,7 +58,7 @@ Hello World
 
 \subsubsection{REPL的更多用法}
 
-你还可以把Berry解释器的交互模式当成一个科学计算器来使用，不过，一些数学函数不能直接使用，而要先使用 \texttt{import math} 语句来导入数学库，然后在使用数学库中的函数时要使用``\texttt{math.}''作为前缀，例如 \texttt{sin} 函数要写成 \texttt{math.sin}：
+你还可以把 Berry 解释器的交互模式当成一个科学计算器来使用，不过一些数学函数不能直接使用，而要先使用 \texttt{import math} 语句来导入数学库，然后在使用数学库中的函数时要使用``\texttt{math.}''作为前缀，例如 \texttt{sin} 函数要写成 \texttt{math.sin}：
 \begin{lstlisting}[language=berry, numbers=none]
 > import math
 > math.pi
