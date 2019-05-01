@@ -63,7 +63,7 @@ type(value)
     \centering
     \setlength{\tabcolsep}{6mm}
     \begin{tabular}{cc!{\vrule width 1pt}cc} \Xhline{1pt}
-        \makecell{\textbf{参数类型}} & \makecell{\textbf{返回值}} & \makecell{\textbf{参数类型}} & \makecell{\textbf{返回值}} \\ \Xhline{1pt}
+        \textbf{参数类型} & \textbf{返回值} & \textbf{参数类型} & \textbf{返回值} \\ \hline
         Nil & \texttt{'nil'} & Integer & \texttt{'int'} \\
         Real & \texttt{'real'} & Boolean & \texttt{'bool'} \\
         Function & \texttt{'function'} & Class & \texttt{'class'} \\
@@ -279,7 +279,7 @@ load(text)
     \centering
     \setlength{\tabcolsep}{18mm}
     \begin{tabular}{cc} \Xhline{1pt}
-        \makecell{\textbf{JSON类型}} & \makecell{\textbf{Berry类型}} \\ \Xhline{1pt}
+        \textbf{JSON类型} & \textbf{Berry类型} \\ \hline
         \texttt{null} & \texttt{nil} \\
         \texttt{number} & \texttt{integer} or \texttt{real} \\
         \texttt{string} & \texttt{string} \\
@@ -312,7 +312,7 @@ dump(object， ['format'])
     \centering
     \setlength{\tabcolsep}{18mm}
     \begin{tabular}{cc} \Xhline{1pt}
-        \makecell{\textbf{Berry类型}} & \makecell{\textbf{JSON类型}} \\ \Xhline{1pt}
+        \textbf{Berry类型} & \textbf{JSON类型} \\ \hline
         \texttt{nil} & \texttt{null} \\
         \texttt{integer} & \texttt{number} \\
         \texttt{real} & \texttt{number} \\

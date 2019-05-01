@@ -34,7 +34,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
     \centering
     \setlength{\tabcolsep}{3mm}
     \begin{tabular}{cclc} \Xhline{1pt}
-        \makecell[c]{\textbf{优先级}} & \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{说明}} & \makecell[c]{\textbf{结合性}} \\ \Xhline{1pt}
+        \textbf{优先级} & \textbf{运算符} & \textbf{说明} & \textbf{结合性} \\ \hline
         1 & \texttt{()} & 分组符号 & - \\
         2 & \texttt{() [] .} & 函数调用，下标运算，域运算 & 左 \\
         3 & \texttt{- ! \textasciitilde} & 负号，逻辑非，位翻转 & 左 \\
@@ -49,7 +49,8 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
         12 & \texttt{== !=} & 等于，不等于 & 左 \\
         13 & \texttt{\&\&} & 逻辑与 & 左 \\
         14 & \texttt{||} & 逻辑或 & 左 \\
-        15 & \texttt{=} & 赋值 & 右 \\
+        15 & \makecell{\texttt{= += -= *= /= \%=} \\
+                       \texttt{\&= |= \textasciicircum= <<= >>=}} & 赋值 & 右 \\
         \Xhline{1pt}
     \end{tabular}
     \caption{运算符列表}
@@ -69,8 +70,8 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{10mm}
-    \begin{tabular}{ccc} \Xhline{1pt}
-        \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
+    \begin{tabular}{clc} \Xhline{1pt}
+        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \hline
         \texttt{-} & 一元负号 & \texttt{- expr} \\
         \texttt{+} & 加号/字符串连接 & \texttt{expr + expr} \\
         \texttt{-} & 减号 & \texttt{expr - expr} \\
@@ -98,8 +99,8 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{10mm}
-    \begin{tabular}{ccc} \Xhline{1pt}
-        \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
+    \begin{tabular}{clc} \Xhline{1pt}
+        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \hline
         \texttt{<} & 小于 & \texttt{expr < expr} \\
         \texttt{<=} & 小于等于 & \texttt{expr <= expr} \\
         \texttt{==} & 等于 & \texttt{expr == expr} \\
@@ -135,7 +136,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
     \centering
     \setlength{\tabcolsep}{10mm}
     \begin{tabular}{ccc} \Xhline{1pt}
-        \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
+        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \hline
         \texttt{\&\&} & 逻辑与 & \texttt{expr \&\& expr} \\
         \texttt{||} & 逻辑或 & \texttt{expr || expr} \\
         \texttt{!} & 逻辑非 & \texttt{!expr} \\
@@ -162,8 +163,8 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{10mm}
-    \begin{tabular}{ccc} \Xhline{1pt}
-        \makecell[c]{\textbf{运算符}} & \makecell[c]{\textbf{功能}} & \makecell[c]{\textbf{示例}} \\ \Xhline{1pt}
+    \begin{tabular}{clc} \Xhline{1pt}
+        \textbf{运算符} & \makecell[c]{\textbf{说明}} & \textbf{示例} \\ \hline
         \texttt{\textasciitilde} & 按位翻转 & \texttt{\textasciitilde expr} \\
         \texttt{\&} & 按位与 & \texttt{expr \& expr} \\
         \texttt{|} & 按位或 & \texttt{expr | expr} \\
@@ -202,17 +203,45 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 
 \subsection{赋值运算符} \label{section::assign_operator}
 
-赋值运算符 \texttt{=} 仅出现在赋值表达式中，其左操作数必须是可写对象。赋值表达式没有结果，因此不能使用连续的赋值运算。这是一些赋值表达式的例子：
+赋值运算符仅出现在赋值表达式中，该运算符的做操作数必须是一个可写的对象。赋值表达式没有结果，因此不能使用连续的赋值运算。
+
+\subsubsection{简单赋值运算符}
+
+简单赋值运算符 \texttt{=} 可以用于变量的赋值，如果左操作数变量没有定义则会定义该变量。赋值运算符用于将右操作数的值与左操作数进行绑定，该过程也称为``赋值''。因此左操作数不能是常量，也不能是任何不能写入的对象。这是一些合法的赋值表达式：
 \begin{lstlisting}[language=berry, numbers=none]
 a = 45    b = 'string'    c = 0
 \end{lstlisting}
-而下列赋值表达式都是非法的：
+而以下赋值表达式是错误的：
 \begin{lstlisting}[language=berry, numbers=none]
 1 = 5           # Trying to assign a constant 1
 a = b = 0       # Continuous assignment
 \end{lstlisting}
 
-赋值运算会将右侧操作数的值传递左侧操作数，对于 \texttt{nil}、整数、实数和布尔类型，赋值运算是会传递对象的值，而其他类型的赋值运算传递对象的引用。
+将 \texttt{nil}、整数、实数和布尔类型 赋值给变量时，对象的值会传递给左操作数，然而对于其他类型，赋值运算只是把对象的引用传递给左操作数。由于字符串、函数和类类型是只读的，所有传引用不会有副作用，但是对于实例类型则要格外小心。
+
+\subsubsection{复合赋值运算符}
+
+复合赋值运算符是将二元运算符与赋值运算符组合在一起构成的运算符，它们是对简单赋值运算符的实用扩充，复合赋值运算符可以使一些表达式的书写得到简化。表\ref{tab::compound_assign}列出了所有的复合赋值运算符
+
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{10mm}
+    \begin{tabular}{clcl} \Xhline{1pt}
+        \textbf{运算符} & \textbf{说明} & \textbf{运算符} & \textbf{说明} \\ \hline
+        \texttt{+=} & 加法赋值 & \texttt{-=} & 减法赋值 \\
+        \texttt{*=} & 乘法赋值 & \texttt{/=} & 初法赋值 \\
+        \texttt{\%=} & 取余赋值 & \texttt{\&=} & 按位与赋值 \\
+        \texttt{|=} & 按位或赋值 & \texttt{\textasciicircum=} & 按位异或赋值 \\
+        \texttt{<<=} & 左移赋值 & \texttt{>>=} & 右移赋值 \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{位运算符}
+    \label{tab::compound_assign}
+\end{table}
+
+复合赋值表达式会对左操作数和右操作数执行复合赋值运算符对应的二元运算，然后将结果赋值给左操作数。以 \texttt{+=} 为例，表达式 \texttt{a += b} 与 \texttt{a = a + b} 等效。复合赋值运算符也是赋值运算符，因此具有较低的优先级，复合赋值运算符对应的二元运算符总在右操作数之后求值，故类似 \texttt{a *= 1 + 2} 这样的表达式应该等效为 \texttt{a = a * (1 + 2)}。
+
+与简单赋值运算符不同，复合赋值运算符的左操作数要参与求值，因此复合赋值表达式没有定义变量的功能。赋值运算符本身不能在类中重载，用户只能重载复合赋值运算符对应的二元运算符，这也保证了复合赋值运算符总是会符合赋值运算的基本特征。
 
 \subsection{域运算符和下标运算符}
 
