@@ -196,11 +196,7 @@ typedef struct {
 
 \ffititle{bint}
 
-该类型是Berry内置的整数类型。默认情况下 \texttt{bint} 使用 \texttt{int} 类型实现，其定义在 \textsl{berry.h} 文件中：
-\begin{lstlisting}[language=c, style=berry, numbers=none]
-typedef int bint;
-\end{lstlisting}
-确实有必要的话，你可以修改此处的定义。但我们没有测试过其他的 \texttt{bint} 实现方式的可行性。
+该类型是Berry内置的整数类型。其定义在 \textsl{berry.h} 文件中。默认情况下 \texttt{bint} 使用 \texttt{long long} 类型实现，可以通过修改配置文件来修改 \texttt{bint} 的实现方式。
 
 \ffititle{breal}
 
@@ -638,6 +634,10 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 这个宏开关配置 \texttt{breal} 类型使用的浮点类型。当宏的值为 \texttt{0} 时将使用 \texttt{double} 类型来实现 \texttt{breal}，否则使用 \texttt{float} 类型实现 \texttt{breal}。在一些对性能或内存配置较低的环境中可以打开这个宏开关，默认实现中这个宏开关是关闭的。
 
+\ffititle{BE\_INTGER\_TYPE}
+
+这个宏配置 \texttt{bint} 类型的实现方式。当宏的值为 \texttt{0} 时将使用 \texttt{int} 类型来实现 \texttt{bint}，值为 \texttt{1} 的时候将使用 \texttt{long} 类型来实现 \texttt{bint}，值为 \texttt{2} 时将使用 $64$ 位有符号整数类型（Windows 下是 \texttt{\_\_int64}，其他平台为 \texttt{long long}）实现 \texttt{bint}。该宏的默认值为 \texttt{2}。如果想减少内存占用可以讲这个宏设置为 \texttt{0} 或者 \texttt{1} 来启用$32$位整数类型。
+
 \ffititle{BE\_RUNTIME\_DEBUG\_INFO}
 
 这个宏用于配置 Berry 代码的运行时调试信息。它有 3 个可用的值：设置为 \texttt{0} 会关闭运行时调试信息的文件名和行号输出，设置为 \texttt{1} 时会在运行时调试信息中输出文件名和行号，设置为 \texttt{2} 时将使用 \texttt{uint16\_t}（16 位整数）类型存储行号信息。它的默认值为 \texttt{1}。
@@ -652,7 +652,7 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 \ffititle{BE\_STACK\_TOTAL\_MAX}
 
-这个宏定义了最大的 Berry 堆栈容量，该容量是指 Berry 对象的数量。当 Berry 代码使用了超过此数量的堆栈时将会停止执行程序并返回错误信息。这个宏的默认值是 \texttt{200}，可以根据系统的内存容量修改这个值。
+这个宏定义了最大的 Berry 堆栈容量，该容量是指 Berry 对象的数量。当 Berry 代码使用了超过此数量的堆栈时将会停止执行程序并返回错误信息。这个宏的默认值是 \texttt{2000}，可以根据系统的内存容量修改这个值。
 
 这个值不会影响 Berry 堆栈的内存使用量，因为 Berry 堆栈的容量是动态调节的，因此无论将它设置为多少都不能帮助减少内存使用。它的主要作用是在 Berry 程序因为消耗过多的堆栈时终止执行。这些程序很有可能是不正确的，例如没有返回条件的递归函数调用就会不断地消耗堆栈。
 
@@ -661,6 +661,10 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 这个宏定义了 Berry 堆栈最少的可用空间，其默认值为 \texttt{10}。原生函数可能会往 Berry 堆栈中压入值，此时堆栈不会自动增长，因此要保证堆栈中有足够的空位供原生函数使用。不建议修改这个值，而是在确实需要更多的栈空间的位置使用 \texttt{be\_stack\_require} 函数。
 
 为了在调试解释器时检测栈溢出错误，可以打开 \texttt{BE\_DEBUG} 宏（\ref{section::BE_DEBUG}节）。
+
+\ffititle{BE\_STR\_HASH\_CACHE}
+
+这个宏打开时，短字符串对象会保存字符串的 Hash 值以提高运行速度，但是每个字符串对象的尺寸将增加 4 个字节。这个宏默认关闭，目前的测试也没有发现打开该宏会带来显著提升。
 
 \ffititle{BE\_USE\_STRING\_MODULE}
 
