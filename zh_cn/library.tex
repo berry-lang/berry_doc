@@ -5,7 +5,7 @@
 
 标准库中有一些可以直接使用的函数和类，它们为 Berry 程序提供基础的服务，因此也被称为基础库。基础库中的函数和类都是全局作用域可见的，因此可以在任何地方使用。不要定义和基础库中函数或类相同名称的变量，这样做会导致无法引用基础库中的函数和类。
 
-\subsection{函数}
+\subsection{内建函数}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \libtitle{\texttt{print} 函数}
@@ -256,12 +256,42 @@ compile('test.be', 'file')
 
 \subsection{\texttt{list} 类}
 
+\texttt{list} 是一个內建类类型，这是一种顺序存储容器，支持下标读写。\texttt{list} 类似其它编程语言中的数组（array）。\texttt{list} 类有以下可供调用的方法：
+
+\libtitle{\texttt{tostring} 方法}
+
+将 \texttt{list} 实例序列化为字符串并返回。
+
+\libtitle{\texttt{append} 方法}
+
+在 \texttt{list} 容器尾部增加一个元素。
+
+\libtitle{\texttt{insert} 方法}
+
+在 \texttt{list} 容器的指定位置插入一个元素。
+
+\libtitle{\texttt{remove} 方法}
+
+\libtitle{\texttt{item} 方法}
+
+\libtitle{\texttt{setitem} 方法}
+
+\libtitle{\texttt{size} 方法}
+
+\libtitle{\texttt{resize} 方法}
+
+\libtitle{\texttt{iter} 方法}
+
+%==============================================================================
 \subsection{\texttt{map} 类}
 
+%==============================================================================
 \subsection{\texttt{range} 类}
 
 %==============================================================================
-\section{JSON模块}
+\section{扩展模块}
+%==============================================================================
+\subsection{JSON模块}
 
 JSON是一种轻量级的数据交换格式，它是JavaScript的一个子集，它使用完全独立于编程语言的文本格式来表示数据。Berry提供了JSON模块来提供对JSON数据的支持。JSON模块只包含有两个函数 \texttt{load} 和 \texttt{dump}，它们分别用于将JSON字符串解析乘Berry对象和将一个Berry对象序列化为JSON文本。
 
@@ -346,7 +376,8 @@ json.dump({0: 'item 0', 'list': [0, 1, 2], 'func': print}, 'format')
 -#
 \end{lstlisting}
 
-\section{Math 模块}
+%==============================================================================
+\subsection{Math 模块}
 
 这个模块用于提供数学函数的支持，如常用的三角函数、开方函数等。使用 math 模块要先使用 \texttt{import math} 语句来导入。本节所有的例子都假设该模块已经被正确导入。
 
@@ -705,6 +736,6 @@ rand()
 math.rand()
 \end{lstlisting}
 
-\section{String 模块}
+\subsection{String 模块}
 
-\section{OS 模块}
+\subsection{OS 模块}

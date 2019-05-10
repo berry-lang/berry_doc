@@ -133,4 +133,26 @@ integer(1) + integer(2) * -integer(3) # -5
 
 重载后的运算符可以被赋予任何意义，甚至不满足运算符通常的性质。从代码的通用性和理解难度的方面来考虑，不建议用户对重载运算符赋予与普遍含义相差甚远的功能。
 
+\subsubsection{复合赋值运算符的重载}
+
+复合赋值运算符不能直接重载，但是我们可以通过重载复合赋值运算符对应的二元运算符来达到``重载''复合赋值运算符的目的。例如重载了``\texttt{+}''运算符之后即可对相关类的实例使用``\texttt{+=}''运算符。值得注意的是，对实例使用复合赋值运算将使绑定实例的变量失去对实例的引用。
+\begin{lstlisting}[language=berry]
+class integer
+    var value
+    def init(x)
+        self.value = x
+    end
+    def +(other)
+        return integer(self.value + other.value)
+    end
+end
+a = integer(4)  # a: <instance: 0x55edff400a78>
+a += integer(5) # a: <instance: 0x55edff4011b8>
+print(a.value)  # 9
+\end{lstlisting}
+
+在第 11 行代码被执行以后，变量 \texttt{a} 中所绑定的实例实际上已经发生了变化。这行代码等价于 \texttt{a = integer(4) + integer(5)}。如果类重载的二元运算符不会修改实例的状态，那么对应的复合赋值运算符也不会修改任何实例（可能会生成新的实例）。
+
 \section{访问基类对象}
+
+内建函数 \texttt{super} 用于访问基类对象。
