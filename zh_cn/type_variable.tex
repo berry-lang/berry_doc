@@ -22,7 +22,7 @@ Nil类型即空类型，它表示对象具有一个无效值，也可以说对�
 
 整数和实数同时参与运算时通常会将整数转换为实数。
 
-\subsubsection{布尔类型} \label{section:type_bool}
+\subsubsection{布尔类型} \label{section::type_bool}
 
 布尔类型（boolean）用于逻辑运算，其具有两个值 \texttt{true} 和 \texttt{false}，表示逻辑和布尔代数中的两个真值（真和假）。布尔类型主要用于条件判断。逻辑表达式和关系表达式的操作数以及返回值都是布尔类型，而且 \texttt{if}、\texttt{while} 等语句都使用布尔类型作为条件检测。
 
@@ -120,7 +120,7 @@ Range容器表示一个整数区间，它通常用于在一个整数范围中进
 \begin{algorithm}
 $\bm{variable}$\texttt{ = }$\bm{expression}$
 \end{algorithm}\vspace{-0.6em}\\
-$\bm{variable}$为变量的名字，变量名是一个标识符（见\ref{section:identifier}节）。$\bm{expression}$是初始化该变量的表达式。
+$\bm{variable}$为变量的名字，变量名是一个标识符（见\ref{section::identifier}节）。$\bm{expression}$是初始化该变量的表达式。
 \begin{lstlisting}[language=berry, numbers=none]
 a = 1    b = 'str'
 \end{lstlisting}
@@ -162,7 +162,7 @@ var a = 0, b, c = 'test'
 
 \textbf{作用域}（scope）是指名称和实体唯一绑定的代码区域。在作用域之外，名称可能绑定其他的实体，或者不绑定任何实体。实体只在与名称绑定的范围内可见，即变量仅在其作用域内有效。
 
-一个代码块（见\ref{section:block}）就是一个作用域。一个变量只在块内部可用，而名字在不同的块中则可能绑定不同的变量实体。下面的例子演示了变量的作用域：
+一个代码块（见\ref{section::block}）就是一个作用域。一个变量只在块内部可用，而名字在不同的块中则可能绑定不同的变量实体。下面的例子演示了变量的作用域：
 \begin{lstlisting}[language=berry]
 var i = 0
 do
@@ -173,6 +173,8 @@ end
 print(i)         # 0
 \end{lstlisting}
 在这个例程中定义了名称 \texttt{i} 和 \texttt{j}。其中名称 \texttt{i} 定义于 \texttt{do} 语句外，这种定义于最外层块的名称具有\textbf{全局作用域}（global scope）。具有全局作用域作用域的名称自定义之后在整个程序中都可用。名称 \texttt{j} 定义在 \texttt{do} 语句内的块中，这类定义在非最外层块中的名称其具有\textbf{局部作用域}（local scope）。具有局部作用域的名字在作用域以外不能访问。
+
+Berry 有一些内建（built-in）的对象，这些对象都处于全局作用域中。不过内建对象和脚本中定义的全局变量并不处于同一种全局作用域中，内建对象实际上属于\textbf{内建作用域}（built-in scope）。该作用域和普通的全局作用域一样全局可见，但是却能够被普通的全局作用域覆盖。内建对象包括标准库中的函数和类，这些对象包括 \texttt{print}函数、\texttt{type} 函数 和 \texttt{map} 类等。与其他的作用域不同，内建作用域中的变量都是只读的，因此对内建作用域中的变量进行``赋值''实际上是在全局作用域中定义了同名的变量，该变量覆盖了内建作用域中的符号。
 
 \subsubsection{嵌套作用域}
 

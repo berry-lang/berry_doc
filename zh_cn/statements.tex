@@ -42,7 +42,7 @@ a = c  b = 1
 \end{lstlisting}
 只在赋值号左边使用简单表达式不会引起语句断句方面的歧义。因此大部分场合下无需使用分号来分割表达式，我们也不推荐这种写法。
 
-\subsection{块} \label{section:block}
+\subsection{块} \label{section::block}
 
 一个\textbf{块}（block）是若干语句的集合。一个块就是一个作用域，因此在块中定义的变量只能在块及其子块内部访问。有很多地方使用块，例如 \texttt{if} 语句、 \texttt{while} 语句、函数声明等。这些语句都会通过一对关键字来包含一个块。例如在 \texttt{if} 语句中使用的块：
 \begin{lstlisting}[language=berry]

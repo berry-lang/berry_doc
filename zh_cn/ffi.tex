@@ -13,13 +13,12 @@ FFI中最为重要的交互功能的应该是Berry代码与C函数相互调用�
 void berry_test(void)
 {
     bvm *vm = be_vm_new();                     // Construct a VM
-    be_loadlibs(vm);                           // Add libraries
     be_loadstring(vm, "print('Hello Berry')"); // Compile test code
     be_pcall(vm, 0);                           // Call function
     be_vm_delete(vm);                          // Destroy the VM
 }
 \end{lstlisting}
-这段代码给出了一个完整的使用虚拟机例子，首先，调用 \texttt{be\_vm\_new} 函数来构造一个新的虚拟机，之后所有的操作都在这个虚拟机对象中完成。默认情况下，虚拟机中不会加载任何模块或者函数，所以要调用 \texttt{be\_loadlibs} 来加载库，到此虚拟机的初始化工作就完成了。5到6行的作用是将一个字符串中的源代码编译成Berry函数然后调用。最后在第7行调用 \texttt{be\_vm\_delete} 函数销毁虚拟机。执行该函数将会在终端中得到一行输出：
+这段代码给出了一个完整的使用虚拟机例子，首先，调用 \texttt{be\_vm\_new} 函数来构造一个新的虚拟机，之后所有的操作都在这个虚拟机对象中完成。\texttt{be\_vm\_new} 函数在创建虚拟机时还会自动链接标准库。4到5行的作用是将一个字符串中的源代码编译成Berry函数然后调用。最后在第6行调用 \texttt{be\_vm\_delete} 函数销毁虚拟机。执行该函数将会在终端中得到一行输出：
 \begin{lstlisting}[numbers=none]
 Hello Berry
 \end{lstlisting}
@@ -111,17 +110,17 @@ be_return_nil(bvm *vm);
 
 \subsubsection{使用原生函数}
 
-定义原生函数之后必须要使用某种方法添加到解释器中才能在Berry代码中调用。最简单的办法是把原生函数添加到Berry全局变量中。我们把使用FFI将某个原生对象添加到Berry全局变量中的过程称为\textbf{注册}。注册原生函数的FFI为：
+定义原生函数之后必须要使用某种方法添加到解释器中才能在Berry代码中调用。最简单的办法之一是把原生函数添加到Berry的内建对象表中。将原生对象设置为Berry内建对象的过程称为\textbf{注册}。注册原生函数的FFI为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 void be_regfunc(bvm *vm, const char *name, bntvfunc f);
 \end{lstlisting}
-\texttt{vm} 是当前的虚拟机实例，\texttt{name} 是该原生函数的全局变量名称，\texttt{f} 是原生函数的指针。类型 \texttt{bntvfunc} 的定义为：
+\texttt{vm} 是当前的虚拟机实例，\texttt{name} 是该原生函数的名称，\texttt{f} 是原生函数的指针。该函数的具体行为跟 \texttt{BE\_USE\_PRECOMPILED\_OBJECT} 宏的取值有关（尽管在使用编译期构造技术时该 FFI 依然可用，但是并不能动态地注册内建变量，这种情况下注册内建对象的方法请参考\ref{section::precompiled_build}节）。原生函数类型 \texttt{bntvfunc} 的定义为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 typedef int (*bntvfunc)(bvm*);
 \end{lstlisting}
 实际上 \texttt{bntvfunc} 类型就是参数为 \texttt{bvm} 且返回值类型为 \texttt{int} 的函数指针类型。\texttt{be\_regfunc} 函数要在解析Berry源代码之前调用。
 
-也可以将原生函数压入虚拟栈中，然后可以使用FFI \texttt{be\_call} 来调用它，更常见的用法是把虚拟栈中原生函数对象作为返回值。
+也可以将原生函数压入虚拟栈中，然后可以使用一个FFI函数 \texttt{be\_call} 来调用它，更常见的用法是把虚拟栈中原生函数对象作为返回值。
 
 \subsubsection{完整的例子}
 
@@ -142,13 +141,12 @@ static int l_add(bvm *vm)
 \end{lstlisting}
 原生函数通常不需要在C文件外部使用，因此一般将它们声明为 \texttt{static} 类型。使用 \texttt{be\_top} 函数可以获得虚拟栈的栈顶绝对索引（\texttt{top} 值），也就是栈的容量。我们可以在原生函数进行虚拟栈的操作之前调用 \texttt{be\_top}，此时虚拟栈容量等于实参数量。对于 \texttt{add} 函数，我们需要两个参数参与运算，因此在第4行检查参数数量是否为2（\texttt{top == 2}）。并且我们需要检查两个参数是否都是数值类型，因此要调用 \texttt{be\_isnumber} 函数来检查。如果一切无误，就会从虚拟栈中取出参数，然后将计算结果入栈，最后使用 \texttt{be\_return} 返回。如果参数验证失败则会调用 \texttt{be\_return\_nil} 返回 \texttt{nil} 值。
 
-接下来我们将这个原生函数注册到全局变量中，简单起见，我们在加载库之后注册它：
+接下来将这个原生函数注册到内建对象表中，简单起见，我们在加载库之后注册它：
 \begin{lstlisting}[language=c, style=berry]
 bvm *vm = be_vm_new();          // Construct a VM
-be_loadlibs(vm);                // Add libraries
 be_regfunc(vm, "myadd", l_add); // Register the native function "myadd"
 \end{lstlisting}
-第3行就是注册该原生函数的位置，我们将它命名为 \texttt{myadd}。到此，原生函数的定义和注册就完成了。作为验证，你可以编译解释器，然后进入REPL，运行一些测试。你应该会得到这样的结果：
+第2行就是注册该原生函数的位置，我们将它命名为 \texttt{myadd}。到此，原生函数的定义和注册就完成了。作为验证，你可以编译解释器，然后进入REPL，运行一些测试。你应该会得到这样的结果：
 \begin{lstlisting}[language=berry, numbers=none]
 > myadd
 <function: 0x562a210f0f90>
@@ -243,7 +241,7 @@ enum berrorcode {
 \begin{lstlisting}[language=c, style=berry, numbers=none]
 bvm* be_vm_new(void);
 \end{lstlisting}
-函数的返回值是虚拟机实例的指针。使用 \texttt{be\_vm\_new} 创建虚拟机的过程仅初始化虚拟机必须的组件而不会加载库，因此所有的内置函数和类都不会在该函数的调用过程中加载。
+函数的返回值是虚拟机实例的指针。\texttt{{be\_vm\_new}} 数是创建 Berry 解释器时调用的第一个函数，该函数会做大量的工作：为虚拟机申请内存、初始化虚拟机的状态和属性、初始化GC（垃圾回收器），以及将标准库加载到虚拟机实例中等。
 
 \ffititle{be\_vm\_delete}
 
@@ -252,14 +250,6 @@ bvm* be_vm_new(void);
 void be_vm_delete(bvm *vm);
 \end{lstlisting}
 参数 \texttt{vm} 是待销毁的虚拟机对象指针。销毁虚拟机将会连带释放虚拟机中所有的对象，包括栈中的值以及由 GC 管理的对象。销毁后的虚拟机指针将是一个无效值，不可以再引用它。
-
-\ffititle{be\_loadlibs}
-
-该函数用于加载 Berry 库，包括原生函数，原生类和原生模块等。函数原型为：
-\begin{lstlisting}[language=c, style=berry, numbers=none]
-void be_loadlibs(bvm *vm);
-\end{lstlisting}
-一般来说，在使用 \texttt{be\_vm\_new} 构造虚拟机之后都要使用该函数来加载库，否则将无法正常使用 Berry 的大部分功能。如果需要从标准库中移除某些功能，可以根据需要裁剪具体的模块，但不要忘了调用 \texttt{be\_loadlibs} 函数。
 
 \ffititle{be\_loadbuffer}
 
@@ -646,9 +636,9 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 \ffititle{BE\_USE\_PRECOMPILED\_OBJECT}
 
-这个宏开关配置原生对象是否要在编译期生成。打开这个宏时，标准库中的原生对象将在编译期生成，而不是在运行时动态地构建。关闭这个宏会在运行时构建标准库中的对象。这个宏默认打开。
+这个宏开关配置编译期构建对象的功能，打开这个宏就表示启用编译期构建对象，这个宏默认打开。打开这个宏时，标准库中的原生对象将在编译期生成，关闭这个宏会在运行时构建标准库中的对象。
 
-编译期生成的对象和代码存放在一起，不会占用 RAM （或是内存中可读写的区域）资源，编译期生成对象还能减少解释器的启动时间，因此建议打开这个宏。
+\texttt{be\_regfunc} 和 \texttt{be\_regclass} 函数会受到这个宏的影响。使用编译期对象构造时不能修改内建对象表，此时这两个函数不能向 built-in 作用域中注册对象，而是向 global 作用域中注册对象。关于编译期构建技术的更多细节请参考\ref{section::precompiled_build}节。
 
 \ffititle{BE\_STACK\_TOTAL\_MAX}
 
@@ -684,7 +674,7 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 \ffititle{BE\_USE\_OS\_MODULE}
 
-这个宏开关用于启用或关闭 \texttt{os} 模块，默认打开。注意， \texttt{os} 模块目前只能在支持 POSIX 标准的环境中编译。
+这个宏开关用于启用或关闭 \texttt{os} 模块，默认打开。
 
 \subsection{函数定义}
 
@@ -714,9 +704,11 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 这个功能还不完善。
 
-\section{编译期 Hash 技术}
+\section{编译期构建技术} \label{section::precompiled_build}
 
 这部分功能还没有完成。
+
+编译期构建的对象和代码存放在一起，不会占用 RAM （或是内存中可读写的区域）资源，编译期构建技术还能减少解释器的启动时间，因此建议打开这个宏。
 
 \subsection{编译期字符串表}
 

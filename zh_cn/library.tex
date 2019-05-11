@@ -3,7 +3,7 @@
 %==============================================================================
 \section{基础库}
 
-标准库中有一些可以直接使用的函数和类，它们为 Berry 程序提供基础的服务，因此也被称为基础库。基础库中的函数和类都是全局作用域可见的，因此可以在任何地方使用。不要定义和基础库中函数或类相同名称的变量，这样做会导致无法引用基础库中的函数和类。
+标准库中有一些可以直接使用的函数和类，它们为 Berry 程序提供基础的服务，因此也被称为基础库。基础库中的函数和类都是全局作用域可见的（属于内建作用域），因此可以在任何地方使用。不要定义和基础库中函数或类相同名称的变量，这样做会导致无法引用基础库中的函数和类。
 
 \subsection{内建函数}
 
@@ -735,6 +735,44 @@ rand()
 \begin{lstlisting}[language=berry, numbers=none]
 math.rand()
 \end{lstlisting}
+
+\subsection{Time 模块}
+
+该模块用于提供与时间相关的功能。
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{time} 函数}
+
+\paragraph{原型}
+\begin{lstlisting}[language=berry, numbers=none]
+time()
+\end{lstlisting}
+
+\paragraph{说明}
+返回当前时间戳，时间戳是自 UNIX 纪元时间（1970年1月1日00:00:00，UTC）起经过的时间，以秒为单位。
+
+\libtitle{\title{dump} 函数}
+
+\paragraph{原型}
+\begin{lstlisting}[language=berry, numbers=none]
+dump(ts)
+\end{lstlisting}
+
+\paragraph{说明}
+将输入的时间戳 \texttt{ts} 转化为一个表示时间的 \texttt{map}，其键值对应关系如表\ref{tab::time_dump_map}所示。
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{2mm}
+    \begin{tabular}{cccccc} \Xhline{1pt}
+        \textbf{键} & \textbf{值} & \textbf{键} & \textbf{值} & \textbf{键} & \textbf{值} \\ \hline
+        \texttt{'year'} & 年（从1900起） & \texttt{'month'} & 月（1-12） & \texttt{'day'} & 日（1-31） \\
+        \texttt{'hour'} & 时（0-23） & \texttt{'min'} & 分（0-59） & \texttt{'sec'} & 秒（0-59） \\
+        \texttt{'weekday'} & 星期（1-7） \\
+        \Xhline{1pt}
+    \end{tabular}
+    \caption{\texttt{time.dump} 函数返回值的键值关系}
+    \label{tab::time_dump_map}
+\end{table}
 
 \subsection{String 模块}
 
