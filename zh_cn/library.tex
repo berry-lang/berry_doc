@@ -256,31 +256,67 @@ compile('test.be', 'file')
 
 \subsection{\texttt{list} 类}
 
-\texttt{list} 是一个內建类类型，这是一种顺序存储容器，支持下标读写。\texttt{list} 类似其它编程语言中的数组（array）。\texttt{list} 类有以下可供调用的方法：
+\texttt{list} 是一个内建类类型，这是一种顺序存储容器，支持下标读写。\texttt{list} 类似其它编程语言中的数组（array）。获得一个 \texttt{list} 类的实例可以使用方括号对来构造：\texttt{[]} 将生成一个空的 \texttt{list} 实例，而 \texttt{[expr, expr, ...]} 将生成具有若干元素的 \texttt{list} 实例。还可以通过调用 \texttt{list} 类来实例化：执行 \texttt{list()} 将得到一个空的 \texttt{list} 实例，而 \texttt{list(expr, expr, ...)} 将返回一个具有若干元素的实例。
+
+\libtitle{\texttt{list} 方法（构造函数）} 
+
+初始化 \texttt{list} 容器。该方法可以接受 0 到多个参数，传递多个参数时生成的 \texttt{list} 实例将以这些参数作为元素，元素的排列顺序和参数的排列顺序一致。
 
 \libtitle{\texttt{tostring} 方法}
 
-将 \texttt{list} 实例序列化为字符串并返回。
+将 \texttt{list} 实例序列化为字符串并返回。例如执行 \texttt{[1, [], 1.5].tostring()} 的结果是 \texttt{'[1, [], 1.5]'}。如果 \texttt{list} 容器引用了自身，相应为位置将使用省略号来代替具体的值：
+\begin{lstlisting}[language=berry, numbers=none]
+l = [1, 2]
+l[0] = l
+print(l)    # [[...], 2]
+\end{lstlisting}
 
 \libtitle{\texttt{append} 方法}
 
-在 \texttt{list} 容器尾部增加一个元素。
+在 \texttt{list} 容器尾部追加一个元素。该方法的原型是 \texttt{append(value)}，参数 \texttt{value} 是要追加的值，追加的值存储在 \texttt{list} 容器的尾部。追加操作会使 \texttt{list} 容器的元素数量加1。可以向 \texttt{list} 实例中追加任何类型的值。
 
 \libtitle{\texttt{insert} 方法}
 
-在 \texttt{list} 容器的指定位置插入一个元素。
+在 \texttt{list} 容器的指定位置插入一个元素。该方法的原型是 \texttt{insert(index, value)}，参数 \texttt{index} 是待插入的位置，\texttt{value} 是待插入的值。在 \texttt{index} 位置上插入元素以后，原来从该位置开始的所有元素都会向后移动一个元素的位置。插入操作会使 \texttt{list} 容器的元素数量加1。可以向 \texttt{list} 容器中插入任何类型的值。
+
+假设一个 \texttt{list} 实例 \texttt{l} 的值为 \texttt{[0, 1, 2]}，我们在位置 1 插入一个字符串 \texttt{'string'}，则要调用 \texttt{l.insert(1, 'string')}。最后新的 \texttt{list} 值为 \texttt{[0, 'string', 1, 2]}。
+
+如果一个 \texttt{list} 容器的元素数量为 $S$，则插入位置的取值范围为 $\{i: -S\leqslant i<S, i\in\mathbb{Z}\}$。插入位置为正值时，从 \texttt{list} 容器的头部向后索引，否则从 \texttt{list} 容器的尾部向前索引。
 
 \libtitle{\texttt{remove} 方法}
 
+移除容器中的一个元素。该方法的原型是 \texttt{remove(index)}，参数 \texttt{index} 是待移除元素的位置。移除元素后，被移除元素后面的元素将向前移动一个元素的位置，容器的元素数量减1。和 \texttt{insert} 方法一样， \texttt{remove} 方法也可以使用正索引或者负索引。
+
 \libtitle{\texttt{item} 方法}
+
+获取 \texttt{list} 容器中的一个元素。该方法的原型是 \texttt{item(index)}，参数 \texttt{index} 是待获取元素的索引，方法的返回值是索引位置的元素。\texttt{list} 容器支持多种索引方式：
+
+\begin{itemize}
+    \item 整数索引：索引值可以是正整数或者是负整数（和 \texttt{insert} 的索引方式一样）。此时 \texttt{item} 的返回值是索引位置的元素。如果索引位置超过了容器的元素数量或者在第 0 个元素之前，\texttt{item} 方法将返回 \texttt{nil}。
+    \item \texttt{list} 索引：使用一个整数列表作为索引，\texttt{item} 返回一个 \texttt{list}，返回值 \texttt{list} 中的每个元素都是参数 \texttt{list} 中的每个整数索引对应的元素。表达式 \texttt{[3, 2, 1].item([0, 2])} 的值为 \texttt{[3, 1]}。如果参数 \texttt{list} 中的某个元素类型不是整数，那么返回值 \texttt{list} 中该位置的值为 \texttt{nil}。
+    \item \texttt{range} 索引：使用一个整数范围作为索引，\texttt{item} 返回一个 \texttt{list}。返回值中储存被索引 \texttt{list} 自参数 \texttt{range} 下限到上限被索引的元素。如果索引超出了被索引 \texttt{list} 的索引范围，返回值 \texttt{list} 会使用 \texttt{nil} 填充索引超出的位置。
+\end{itemize}
 
 \libtitle{\texttt{setitem} 方法}
 
+设置容器中指定位置的值。该方法的原型是 \texttt{setitem(index, value)}，\texttt{index} 是待写入元素的位置，\texttt{value} 是待写入的值。\texttt{index} 就是写入位置的整数索引值。索引位置超出容器的索引范围会导致 \texttt{setitem} 执行失败。
+
 \libtitle{\texttt{size} 方法}
+
+返回 \texttt{list} 容器的元素数量，也就是获取容器的长度。该方法的原型是 \texttt{size()}。
 
 \libtitle{\texttt{resize} 方法}
 
+重新设置 \texttt{list} 容器的长度。该方法的原型是 \texttt{resize(count)}，参数 \texttt{count} 是容器的新长度。使用 \texttt{resize} 增加容器的长度时，新增的元素将会被初始化为 \texttt{nil}。使用 \texttt{reszie} 减少容器的长度时会丢弃容器尾部的部分元素。例如：
+\begin{lstlisting}[language=berry, numbers=none]
+l = [1, 2, 3]
+l.resize(5)     # Expansion, l == [1, 2, 3, nil, nil]
+l.resize(2)     # Reduce, l == [1, 2]
+\end{lstlisting}
+
 \libtitle{\texttt{iter} 方法}
+
+返回一个用于遍历当前 \texttt{list} 容器的迭代器。
 
 %==============================================================================
 \subsection{\texttt{map} 类}

@@ -58,7 +58,7 @@ Berry使用一个虚拟栈（virtual stack）和C语言编写的原生函数传�
 \label{fig::virtual_stack}
 \end{wrapfigure}
 
-Berry使用的虚拟栈如图\ref{fig::virtual_stack}所示，虚拟栈从左往右增长。Berry代码调用一个原生函数时会得到一个初始的堆栈，该堆栈第一个值的位置称为\textbf{栈底}（\texttt{base}），而最后一个位置称为\textbf{栈顶}（\texttt{top}），原生函数只能访问从栈底到栈顶前一个位置间的值。栈底的位置是固定的，而栈顶的位置则可以移动，并且栈顶永远为空，产生这个性质的原因是：将新的值压入虚拟栈以后，原来栈顶的位置将会写入新的值，此时栈顶指针会向前挪到下一个位置；反过来，如果将虚拟栈顶部的值弹出，栈顶指针会减$1$，此时栈顶指针的位置虽然客观上有值，但是这个值是无效的，并随时可能被清除，因此栈顶指针位置依然是空的。虚拟栈为空时，栈底指针 \texttt{base} 等于栈顶指针 \texttt{top}。虚拟堆栈不严格遵循栈的操作规则：除了push和pop以外，虚拟栈还可以通过索引来访问，甚至可以在任意位置插入或者删除值。索引栈中元素的方法有两种：一种是以栈底为参考的\textbf{绝对索引}，绝对索引值是从$1$开始的正整数；另一种是以栈顶为参考的\textbf{相对索引}，相对索引值是从$-1$开始的负整数。以图\ref{fig::virtual_stack}为例，索引值$1,2\ldots 8$是绝对索引，元素的绝对索引就是该元素到栈底的距离。索引值$-1,-2\ldots -8$是相对索引，元素的相对索引值为该元素到栈顶距离的负数。如果一个索引值$index$有效，那么它所指的元素应该处于栈底到栈顶之间，也就是满足表达式$1\leq \mathrm{abs}(index)\leq top-base+1$。
+Berry使用的虚拟栈如图\ref{fig::virtual_stack}所示，虚拟栈从左往右增长。Berry代码调用一个原生函数时会得到一个初始的堆栈，该堆栈第一个值的位置称为\textbf{栈底}（\texttt{base}），而最后一个位置称为\textbf{栈顶}（\texttt{top}），原生函数只能访问从栈底到栈顶前一个位置间的值。栈底的位置是固定的，而栈顶的位置则可以移动，并且栈顶永远为空，产生这个性质的原因是：将新的值压入虚拟栈以后，原来栈顶的位置将会写入新的值，此时栈顶指针会向前挪到下一个位置；反过来，如果将虚拟栈顶部的值弹出，栈顶指针会减$1$，此时栈顶指针的位置虽然客观上有值，但是这个值是无效的，并随时可能被清除，因此栈顶指针位置依然是空的。虚拟栈为空时，栈底指针 \texttt{base} 等于栈顶指针 \texttt{top}。虚拟堆栈不严格遵循栈的操作规则：除了push和pop以外，虚拟栈还可以通过索引来访问，甚至可以在任意位置插入或者删除值。索引栈中元素的方法有两种：一种是以栈底为参考的\textbf{绝对索引}，绝对索引值是从$1$开始的正整数；另一种是以栈顶为参考的\textbf{相对索引}，相对索引值是从$-1$开始的负整数。以图\ref{fig::virtual_stack}为例，索引值$1,2\ldots 8$是绝对索引，元素的绝对索引就是该元素到栈底的距离。索引值$-1,-2\ldots -8$是相对索引，元素的相对索引值为该元素到栈顶距离的负数。如果一个索引值$index$有效，那么它所指的元素应该处于栈底到栈顶之间，也就是满足表达式$1\leqslant \mathrm{abs}(index)\leqslant top-base+1$。
 
 为了方便起见，我们规定以栈底指针 \texttt{base} 作为参考，其绝对索引$1$，并且不考虑 \texttt{base} 前面的值（通常，\texttt{base} 并不是整个栈最底部的位置）。例如，原生函数返回时，存储返回值的位置就在 \texttt{base} 之前，这些位置通常不允许原生函数访问。
 
@@ -130,7 +130,7 @@ static int l_add(bvm *vm)
 {
     int top = be_top(vm); // Get the number of arguments
     /* Verify the number and type of arguments */
-    if (top == 2 && be_isnumber(vm, 1) && be_isnumber(vm, 1)) {
+    if (top == 2 && be_isnumber(vm, 1) && be_isnumber(vm, 2)) {
         breal x = be_toreal(vm, 1); // Get the first argument
         breal y = be_toreal(vm, 2); // Get the second argument
         be_pushreal(vm, x + y);     // Push the result onto the stack
@@ -636,9 +636,11 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 \ffititle{BE\_USE\_PRECOMPILED\_OBJECT}
 
-这个宏开关配置编译期构建对象的功能，打开这个宏就表示启用编译期构建对象，这个宏默认打开。打开这个宏时，标准库中的原生对象将在编译期生成，关闭这个宏会在运行时构建标准库中的对象。
+这个宏开关配置编译期构造对象的功能，打开这个宏就表示启用编译期构造对象，这个宏默认打开。打开这个宏时，标准库中的原生对象将在编译期生成，关闭这个宏会在运行时构建标准库中的对象。
 
-\texttt{be\_regfunc} 和 \texttt{be\_regclass} 函数会受到这个宏的影响。使用编译期对象构造时不能修改内建对象表，此时这两个函数不能向 built-in 作用域中注册对象，而是向 global 作用域中注册对象。关于编译期构建技术的更多细节请参考\ref{section::precompiled_build}节。
+\texttt{be\_regfunc} 和 \texttt{be\_regclass} 函数会受到这个宏的影响。使用编译期对象构造时不能修改内建对象表，此时这两个函数不能向 built-in 作用域中注册对象，而是向 global 作用域中注册对象。
+
+编译期构造的对象和代码存放在一起，不会占用 RAM （或是内存中可读写的区域）资源，编译期构造技术还能减少解释器的启动时间，因此建议打开这个宏。有关编译期构造技术的更多细节请参考\ref{section::precompiled_build}节。
 
 \ffititle{BE\_STACK\_TOTAL\_MAX}
 
@@ -704,14 +706,14 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 这个功能还不完善。
 
-\section{编译期构建技术} \label{section::precompiled_build}
+\section{编译期构造技术} \label{section::precompiled_build}
 
-这部分功能还没有完成。
-
-编译期构建的对象和代码存放在一起，不会占用 RAM （或是内存中可读写的区域）资源，编译期构建技术还能减少解释器的启动时间，因此建议打开这个宏。
+编译期构造技术允许 Berry 解释器在编译时构造原生对象，以减少解释器运行时动态构造对象的内存开销。编译期构造技术带来了多项性能指标的提高，但是这项技术的实现需要依赖外部工具生成解释器的 C 代码，在使用上可能稍有门槛。
 
 \subsection{编译期字符串表}
 
 \subsection{编译期构造类}
 
 \subsection{编译期构造模块}
+
+这部分功能还没有完成。
