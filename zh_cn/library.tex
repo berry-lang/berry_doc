@@ -281,7 +281,7 @@ print(l)    # [[...], 2]
 
 假设一个 \texttt{list} 实例 \texttt{l} 的值为 \texttt{[0, 1, 2]}，我们在位置 1 插入一个字符串 \texttt{'string'}，则要调用 \texttt{l.insert(1, 'string')}。最后新的 \texttt{list} 值为 \texttt{[0, 'string', 1, 2]}。
 
-如果一个 \texttt{list} 容器的元素数量为 $S$，则插入位置的取值范围为 $\{i: -S\leqslant i<S, i\in\mathbb{Z}\}$。插入位置为正值时，从 \texttt{list} 容器的头部向后索引，否则从 \texttt{list} 容器的尾部向前索引。
+如果一个 \texttt{list} 容器的元素数量为 $S$，则插入位置的取值范围为 $\{i \in \mathbb{Z}: -S\leqslant i<S\}$。插入位置为正值时，从 \texttt{list} 容器的头部向后索引，否则从 \texttt{list} 容器的尾部向前索引。
 
 \libtitle{\texttt{remove} 方法}
 
@@ -321,8 +321,16 @@ l.resize(2)     # Reduce, l == [1, 2]
 %==============================================================================
 \subsection{\texttt{map} 类}
 
+\texttt{map} 类是一个内建类类型，用于提供一种无序键值对容器。在 Berry 解释器内部，\texttt{map} 使用 Hash 表来实现。可以使用花括号对来构造 \texttt{map} 容器，使用空的花括号对 \texttt{\{\}} 将生成一个空的 \texttt{map} 实例。如果需要构造非空的\texttt{map} 实例，则使用冒号分隔键和值，多个键值对之间使用分号分隔。例如 \texttt{\{0: 1, 2: 3\}} 中有两个键值对 $(0, 1)$ 和 $(2, 3)$。还可以通过调用 \texttt{map} 类来得到一个空的 \texttt{map} 实例。
+
+\libtitle{\texttt{map} 方法（构造函数）}
+
+初始化 \texttt{map} 容器，该方法不接受参数。
+
 %==============================================================================
 \subsection{\texttt{range} 类}
+
+\texttt{range} 类用于表示一个整数闭区间。使用二元运算符 \texttt{..} 来构造 \texttt{range} 实例，该运算符的左右操作数都要求是整数。例如 \texttt{0..10} 就表示整数区间 $[0,10]\cap\mathbb{Z}$。
 
 %==============================================================================
 \section{扩展模块}
