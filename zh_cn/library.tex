@@ -264,7 +264,7 @@ compile('test.be', 'file')
 
 \libtitle{\texttt{tostring} 方法}
 
-将 \texttt{list} 实例序列化为字符串并返回。例如执行 \texttt{[1, [], 1.5].tostring()} 的结果是 \texttt{'[1, [], 1.5]'}。如果 \texttt{list} 容器引用了自身，相应为位置将使用省略号来代替具体的值：
+将 \texttt{list} 实例序列化为字符串并返回。例如执行 \texttt{[1, [], 1.5].tostring()} 的结果是 \texttt{'[1, [], 1.5]'}。如果 \texttt{list} 容器引用了自身，相应的位置将使用省略号来代替具体的值：
 \begin{lstlisting}[language=berry, numbers=none]
 l = [1, 2]
 l[0] = l
@@ -325,7 +325,36 @@ l.resize(2)     # Reduce, l == [1, 2]
 
 \libtitle{\texttt{map} 方法（构造函数）}
 
-初始化 \texttt{map} 容器，该方法不接受参数。
+初始化 \texttt{map} 容器，该方法不接受参数。执行 \texttt{map()} 将得到一个空的 \texttt{map} 实例。
+
+\libtitle{\texttt{tostring} 方法}
+
+将 \texttt{map} 序列化为字符串并返回。序列化后的字符串与字面量写法相似，例如执行 \texttt{{'str': 1, 0: 2}} 的结果是 \texttt{"{'str': 1, 0: 2}"}。如果 \texttt{map} 容器引用了自身，相应的位置将使用省略号来代替具体的值：
+\begin{lstlisting}[language=berry, numbers=none]
+m = {'map': nil, 'text': 'hello'}
+m['map'] = m
+print(m)    # {'text': 'hello', 'map': {...}}
+\end{lstlisting}
+
+\libtitle{\texttt{insert} 方法}
+
+在 \texttt{map} 容器种插入一个键值对。该方法的原型是 \texttt{insert(key, value)}，参数 \texttt{key} 为待插入的键，\texttt{value} 为待插入的值。如果待插入的键 \texttt{map} 在容器中存在将会更新原来的键值对。
+
+\libtitle{\texttt{remove} 方法}
+
+移除 \texttt{map} 容器中的一个键值对。该方法的原型是 \texttt{remove(key)}，参数 \texttt{key} 为待删除键值对的键。
+
+\libtitle{\texttt{item} 方法}
+
+获取 \texttt{map} 容器中的一个值。该方法的原型是 \texttt{item(key)}，参数 \texttt{key} 是待获取值的键，方法的返回值是键所对应的值。
+
+\libtitle{\texttt{setitem} 方法}
+
+设置容器中指定键对应的值。该方法的原型是 \texttt{setitem(key, value)}，\texttt{key} 是待写入键值对的键，\texttt{value} 是待写入的值。如果容器中不存在键为 \texttt{key} 的键值对，则 \texttt{setitem} 方法将会执行失败。
+
+\libtitle{\texttt{size} 方法}
+
+返回 \texttt{map} 容器的键值对数量，也就是获取容器的长度。该方法的原型是 \texttt{size()}。
 
 %==============================================================================
 \subsection{\texttt{range} 类}
@@ -793,7 +822,7 @@ time()
 \end{lstlisting}
 
 \paragraph{说明}
-返回当前时间戳，时间戳是自 UNIX 纪元时间（1970年1月1日00:00:00，UTC）起经过的时间，以秒为单位。
+返回当前时间戳，时间戳是自 Unix 元年（Unix Epoch，1970年1月1日00:00:00，UTC）起经过的时间，以秒为单位。
 
 \libtitle{\title{dump} 函数}
 
@@ -820,4 +849,8 @@ dump(ts)
 
 \subsection{String 模块}
 
+String 模块提供字符串的处理功能。
+
 \subsection{OS 模块}
+
+OS 模块提供系统相关的功能，例如文件和路径相关的功能。这些功能是和平台相关的，目前 Berry 解释器中实现了 Windows VC 和 POSIX风格的代码。如果运行在其他平台则 OS 模块中的函数不保证被提供。
