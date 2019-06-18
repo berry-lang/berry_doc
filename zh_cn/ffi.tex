@@ -774,30 +774,58 @@ str_build generate src default generate
 @const_object_info_begin
 @const_object_info_end
 \end{lstlisting}
-常量对象声明信息不符合 C 语言语法，因此它们应该放在多行注释中（用 \texttt{/* */} 包含）。
-
+常量对象声明信息不符合 C 语言语法，因此它们应该放在多行注释中（用 \texttt{/* */} 包含）。所有的所有的常量对象都具有相同的声明形式，一个常量对象的声明结构称为``对象声明块''，其构成为
 \begin{lstlisting}[numbers=none]
-#include "../generate/be_fixed_be_class_map.h"
+type object_name (attributes) {
+    data_fields
+}
+\end{lstlisting}
+\texttt{type} 为常量对象的类型，它可以是 \texttt{map}、\texttt{class}、\texttt{module} 或者 \texttt{vartab}。\texttt{object\_name} 为常量对象在 C 语言中的变量名。\texttt{attributes} 为常量对象的属性列表，一个属性由属性名和属性值构成，属性名和属性值之间使用分号分隔，多个属性之间使用逗号分隔。例如属性列表 \texttt{scope: global, name: map} 表示某个常量对象的 \texttt{scope} 属性为 \texttt{global}，\texttt{name} 属性为 \texttt{map}。\texttt{data\_fields} 为常量对象的成员列表，一个成员由名称和值构成，其间使用逗号分隔，每一行可以声明一个成员，多个成员必须在多行中声明。
 
+为了方便理解，我们以一个简单的常量类进行说明：
+\begin{lstlisting}[language=c]
+/* @const_object_info_begin
 class be_class_map (scope: global, name: map) {
     .data, var
     init, func(m_init)
     tostring, func(m_tostring)
 }
-
-module math (scope: global) {
-    sin, func(m_sin)
-    cos, func(m_cos)
-    pi, real(M_PI)
-}
-
-vartab m_builtin (scope: local) {
-    assert, func(l_assert)
-    print, func(l_print)
-    list, class(be_class_list)
-}
+@const_object_info_end */
+#include "../generate/be_fixed_be_class_map.h"
 \end{lstlisting}
+在这个例子中，整个常量类的声明信息位于 C 语言的注释之中，因此不会影响到 C 代码的编译，将对象声明块放置在 \texttt{@const\_object\_info\_begin} 和 \texttt{@const\_object\_info\_end} 中间是为了保证 \textsl{map\_build} 工具能够识别出对象声明块。
+
+由于是声明常量类，对象声明块中的 \textsl{type} 值为 \texttt{class}，\texttt{be\_class\_map} 该常量对象在 C 代码中的变量名。[更多的说明...]
+
+为了使用 \texttt{be\_class\_map} 对象，我们需要在 C 代码中包含对应的头文件才能保证该对象会被编译，通常的做法是在对象声明块的附近包含相应的头文件，前面例子中第 8 行就包含了相应的头文件以实现在编译期构造 \texttt{be\_class\_map} 对象。
+
+\subsubsection{编译期构造表}
 
 \subsubsection{编译期构造类}
 
 \subsubsection{编译期构造模块}
+
+\subsubsection{编译期构造变量表}
+
+\begin{lstlisting}[numbers=none]
+    #include "../generate/be_fixed_be_class_map.h"
+    
+    class be_class_map (scope: global, name: map) {
+        .data, var
+        init, func(m_init)
+        tostring, func(m_tostring)
+    }
+    
+    module math (scope: global) {
+        sin, func(m_sin)
+        cos, func(m_cos)
+        pi, real(M_PI)
+    }
+    
+    vartab m_builtin (scope: local) {
+        assert, func(l_assert)
+        print, func(l_print)
+        list, class(be_class_list)
+    }
+    \end{lstlisting}
+    
