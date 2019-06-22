@@ -769,7 +769,7 @@ str_build generate src default generate
 
 \subsection{编译期构造对象}
 
-\texttt{map\_build} 工具中定义了一套声明规则用于生成常量对象的 C 代码。常量对象的声明信息被直接存放在源文件（\textsl{*.c}）中，为了和其他内容区别，一段完整的声明信息应该包含在以下引导代码中：
+编译期构造的对象也称为常量对象，这些对象的数据结构在编译解释器时构造，而运行时不能修改。\texttt{map\_build} 工具中定义了一套声明规则用于生成常量对象的 C 代码。常量对象的声明信息被直接存放在源文件（\textsl{*.c}）中，为了和其他内容区别，一段完整的声明信息应该包含在以下引导代码中：
 \begin{lstlisting}[numbers=none]
 @const_object_info_begin
 @const_object_info_end
@@ -777,12 +777,12 @@ str_build generate src default generate
 常量对象声明信息不符合 C 语言语法，因此它们应该放在多行注释中（用 \texttt{/* */} 包含）。所有的所有的常量对象都具有相同的声明形式，一个常量对象的声明结构称为``对象声明块''，其构成为
 \begin{lstlisting}[numbers=none]
 type object_name (attributes) {
-    data_fields
+    member_fields
 }
 \end{lstlisting}
-\texttt{type} 为常量对象的类型，它可以是 \texttt{map}、\texttt{class}、\texttt{module} 或者 \texttt{vartab}。\texttt{object\_name} 为常量对象在 C 语言中的变量名。\texttt{attributes} 为常量对象的属性列表，一个属性由属性名和属性值构成，属性名和属性值之间使用分号分隔，多个属性之间使用逗号分隔。例如属性列表 \texttt{scope: global, name: map} 表示某个常量对象的 \texttt{scope} 属性为 \texttt{global}，\texttt{name} 属性为 \texttt{map}。\texttt{data\_fields} 为常量对象的成员列表，一个成员由名称和值构成，其间使用逗号分隔，每一行可以声明一个成员，多个成员必须在多行中声明。
+\texttt{type} 为常量对象的类型，它可以是 \texttt{map}、\texttt{class}、\texttt{module} 或者 \texttt{vartab}。\texttt{object\_name} 为常量对象在 C 语言中的变量名。\texttt{attributes} 为常量对象的属性列表，一个属性由属性名和属性值构成，属性名和属性值之间使用分号分隔，多个属性之间使用逗号分隔。例如属性列表 \texttt{scope: global, name: map} 表示某个常量对象的 \texttt{scope} 属性为 \texttt{global}，\texttt{name} 属性为 \texttt{map}。\texttt{member\_fields} 为常量对象的成员域列表，一个成员由名称和值构成，其间使用逗号分隔，每一行可以声明一个成员，多个成员必须在多行中声明。
 
-\textsl{map\_build} 工具使用正则表达式解析对象声明块，解析过程中首先会匹配出整个对象声明块，并从中匹配出 \texttt{type} 和 \texttt{object\_name} 信息，对 \texttt{attributes} 和 \texttt{data\_fields} 信息则要进一步的解析。为了实现方便，该工具对对象声明块的语法要求并不严格，并且缺少完善的错误处理机制，因此在编写对象声明块时应该确保语法正确。
+\textsl{map\_build} 工具使用正则表达式解析对象声明块，解析过程中首先会匹配出整个对象声明块，并从中匹配出 \texttt{type} 和 \texttt{object\_name} 信息，对 \texttt{attributes} 和 \texttt{member\_fields} 信息则要进一步的解析。为了实现方便，该工具对对象声明块的语法要求并不严格，并且缺少完善的错误处理机制，因此在编写对象声明块时应该确保语法正确。
 
 为了方便理解，我们以一个简单的常量类进行说明：
 \begin{lstlisting}[language=c]
@@ -822,33 +822,42 @@ class be_class_map (scope: global, name: map) {
 
 \subsubsection{编译期构造 Map}
 
-编译期构造的 Map 也就是常量 Map 对象。该类对象的对象声明块使用类型 \texttt{map}。
+编译期构造的 Map 也就是常量 \texttt{map} 对象，它们一般不直接使用对象声明块进行声明，而是在其他的编译期构造结构中声明。进行常量 \texttt{map} 的构造时，将常量对象类型信息应当为 \texttt{map}，它支持一个 \texttt{scope} 属性，当 \texttt{scope} 属性值为 \texttt{local} 时，该常量对象是 \texttt{static} 的，属性为 \texttt{global} 时则是 \texttt{extern} 的，该属性的值默认为 \texttt{local}。常量 \texttt{map} 对象的 \texttt{member\_fields} 支持通用的成员名称/成员值规范，且成员值只作为数据存储而不做特殊的解释。下面是使用对象声明块直接声明常量 \texttt{map} 对象的例子：
+\begin{lstlisting}
+map map_name (scope: local/global) {
+    init, func(m_init)
+}
+\end{lstlisting}
 
 \subsubsection{编译期构造类}
 
-\subsubsection{编译期构造模块}
-
-\subsubsection{编译期构造变量表}
-
-\begin{lstlisting}[numbers=none]
-#include "../generate/be_fixed_be_class_map.h"
-
+编译期构造类要使用对象声明块进行声明，该对象的类型信息为 \texttt{class}。该对象的声明属性为 \texttt{scope} 和 \texttt{name}。\texttt{scope} 属性声明对象的 C 变量作用域，值为 \texttt{local}（默认）时作用域为 \texttt{static}，为 \texttt{global} 时作用域为 \texttt{extern}；\texttt{name} 属性的值是该类的名称，匿名类可以省略该参数。由于类的属性列表只存储方法和成员变量索引，因此编译期构造类的 \texttt{member\_fields} 只能使用 \texttt{var} 和 \texttt{func()} 值。一个简单的编译期构造类声明块为：
+\begin{lstlisting}
 class be_class_map (scope: global, name: map) {
     .data, var
     init, func(m_init)
     tostring, func(m_tostring)
 }
+\end{lstlisting}
 
+\subsubsection{编译期构造模块}
+
+编译期构造模块声明块的类型信息为 \texttt{module}。
+
+\begin{lstlisting}
 module math (scope: global) {
     sin, func(m_sin)
     cos, func(m_cos)
     pi, real(M_PI)
 }
+\end{lstlisting}
 
+\subsubsection{编译期构造 Built-in 域}
+
+\begin{lstlisting}
 vartab m_builtin (scope: local) {
     assert, func(l_assert)
     print, func(l_print)
     list, class(be_class_list)
 }
 \end{lstlisting}
-    
