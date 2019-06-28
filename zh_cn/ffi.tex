@@ -604,107 +604,31 @@ int be_iscomptr(bvm *vm, int index);
 \end{lstlisting}
 参数 \texttt{vm} 为虚拟机实例的指针，\texttt{index} 为待测值的索引。
 
-\section{配置文件}
+\ffititle{be\_toint}
 
-Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括一批用于配置的宏，并定义了一些平台相关的内容。
+从虚拟栈中获取 \texttt{index} 索引位置的值并作为整数类型返回。该函数不检查类型的正确性。
 
-\subsection{配置宏}
+\ffititle{be\_toreal}
 
-本节介绍的配置宏通常用于某些源代码的编译开关，为了方便描述，我们把这种宏称为``宏开关''。对于宏开关而言，``打开''是指将宏开关设置为非零值，而``关闭''是指将宏开关的值设置为 \texttt{0}。
+从虚拟栈中获取 \texttt{index} 索引位置的值并作为浮点数类型返回。该函数不检查类型的正确性。
 
-有一些宏开关具有多种状态，而不仅仅是``打开''或者``关闭''，这些宏开关一般用于有多种选择的配置。还有一些配置宏不是宏开关，无论这些宏的值是多少，都不会有代码因此不参与编译，这些宏一般用于配置数量值。
+\ffititle{be\_toindex}
 
-\ffititle{BE\_DEBUG} \label{section::BE_DEBUG}
+从虚拟栈中获取 \texttt{index} 索引位置的值并作为整数类型返回。该函数不检查类型的正确性。与 \texttt{be\_toint} 不同，\texttt{be\_toindex} 的返回值类型为 \texttt{int}，而前者的返回值为 \texttt{bint}。
 
-这个宏开关用于开启或关闭解释器本身的调试功能，\texttt{BE\_DEBUG} 的值为 \texttt{0} 时关闭调试，否则会打开调试。此处所说的调试功能是指对解释器的调试，而不是对 Berry 程序的调试功能。\texttt{BE\_DEBUG}的默认值为 \texttt{0}。如果你使用解释器项目自带的 \textsl{Makefile} 来编译，使用 \texttt{make debug} 命令时会自动打开这个宏开关。
+\ffititle{be\_tobool}
 
-打开这个宏时会开启一些断言，当解释器出现断言可以捕获的错误时将会输出错误信息。在调试解释器的时候可以打开 \texttt{BE\_DEBUG}，编译发行版时则要关闭它。
+从虚拟栈中获取 \texttt{index} 索引位置的值并作为布尔类型返回。如果被索引的值不是布尔类型，会按照 \ref{section::type_bool} 节的规则进行转换，转换过程不会导致被索引的值发生改变。
 
-\ffititle{BE\_SINGLE\_FLOAT}
+\ffititle{be\_tostring}
 
-这个宏开关配置 \texttt{breal} 类型使用的浮点类型。当宏的值为 \texttt{0} 时将使用 \texttt{double} 类型来实现 \texttt{breal}，否则使用 \texttt{float} 类型实现 \texttt{breal}。在一些对性能或内存配置较低的环境中可以打开这个宏开关，默认实现中这个宏开关是关闭的。
+从虚拟栈中获取 \texttt{index} 索引位置的值并作为字符串类型返回。如果被索引的值不是字符串类型，则会将被索引的值转换为字符串，转换过程会将虚拟栈中被索引位置的值替换为转换后的字符串。该函数返回的字符串总是以 \texttt{'\textbackslash 0'} 字符结尾。
 
-\ffititle{BE\_INTGER\_TYPE}
+\ffititle{be\_tocomptr}
 
-这个宏配置 \texttt{bint} 类型的实现方式。当宏的值为 \texttt{0} 时将使用 \texttt{int} 类型来实现 \texttt{bint}，值为 \texttt{1} 的时候将使用 \texttt{long} 类型来实现 \texttt{bint}，值为 \texttt{2} 时将使用 $64$ 位有符号整数类型（Windows 下是 \texttt{\_\_int64}，其他平台为 \texttt{long long}）实现 \texttt{bint}。该宏的默认值为 \texttt{2}。如果想减少内存占用可以讲这个宏设置为 \texttt{0} 或者 \texttt{1} 来启用$32$位整数类型。
+从虚拟栈中获取 \texttt{index} 索引位置的值并作为通用指针类型返回。该函数不检查类型的正确性。
 
-\ffititle{BE\_RUNTIME\_DEBUG\_INFO}
-
-这个宏用于配置 Berry 代码的运行时调试信息。它有 3 个可用的值：设置为 \texttt{0} 会关闭运行时调试信息的文件名和行号输出，设置为 \texttt{1} 时会在运行时调试信息中输出文件名和行号，设置为 \texttt{2} 时将使用 \texttt{uint16\_t}（16 位整数）类型存储行号信息。它的默认值为 \texttt{1}。
-
-将这个宏设置为 \texttt{0} 时不会因为存储文件名和行号信息，因此内存消耗最少。设置为 \texttt{2} 时消耗的内存也比较少，但是程序太长会使 \texttt{uint16\_t} 溢出。
-
-\ffititle{BE\_USE\_PRECOMPILED\_OBJECT}
-
-这个宏开关配置编译期构造对象的功能，打开这个宏就表示启用编译期构造对象，这个宏默认打开。打开这个宏时，标准库中的原生对象将在编译期生成，关闭这个宏会在运行时构建标准库中的对象。
-
-\texttt{be\_regfunc} 和 \texttt{be\_regclass} 函数会受到这个宏的影响。使用编译期对象构造时不能修改内建对象表，此时这两个函数不能向 built-in 作用域中注册对象，而是向 global 作用域中注册对象。
-
-编译期构造的对象和代码存放在一起，不会占用 RAM （或是内存中可读写的区域）资源，编译期构造技术还能减少解释器的启动时间，因此建议打开这个宏。有关编译期构造技术的更多细节请参考\ref{section::precompiled_build}节。
-
-\ffititle{BE\_STACK\_TOTAL\_MAX}
-
-这个宏定义了最大的 Berry 堆栈容量，该容量是指 Berry 对象的数量。当 Berry 代码使用了超过此数量的堆栈时将会停止执行程序并返回错误信息。这个宏的默认值是 \texttt{2000}，可以根据系统的内存容量修改这个值。
-
-这个值不会影响 Berry 堆栈的内存使用量，因为 Berry 堆栈的容量是动态调节的，因此无论将它设置为多少都不能帮助减少内存使用。它的主要作用是在 Berry 程序因为消耗过多的堆栈时终止执行。这些程序很有可能是不正确的，例如没有返回条件的递归函数调用就会不断地消耗堆栈。
-
-\ffititle{BE\_STACK\_FREE\_MIN}
-
-这个宏定义了 Berry 堆栈最少的可用空间，其默认值为 \texttt{10}。原生函数可能会往 Berry 堆栈中压入值，此时堆栈不会自动增长，因此要保证堆栈中有足够的空位供原生函数使用。不建议修改这个值，而是在确实需要更多的栈空间的位置使用 \texttt{be\_stack\_require} 函数。
-
-为了在调试解释器时检测栈溢出错误，可以打开 \texttt{BE\_DEBUG} 宏（\ref{section::BE_DEBUG}节）。
-
-\ffititle{BE\_STR\_HASH\_CACHE}
-
-这个宏打开时，短字符串对象会保存字符串的 Hash 值以提高运行速度，但是每个字符串对象的尺寸将增加 4 个字节。这个宏默认关闭，目前的测试也没有发现打开该宏会带来显著提升。
-
-\ffititle{BE\_USE\_STRING\_MODULE}
-
-这个宏开关用于启用或关闭 \texttt{string} 模块，默认打开。
-
-\ffititle{BE\_USE\_JSON\_MODULE}
-
-这个宏开关用于启用或关闭 \texttt{json} 模块，默认打开。
-
-\ffititle{BE\_USE\_MATH\_MODULE}
-
-这个宏开关用于启用或关闭 \texttt{math} 模块，默认打开。
-
-\ffititle{BE\_USE\_TIME\_MODULE}
-
-这个宏开关用于启用或关闭 \texttt{time} 模块，默认打开。
-
-\ffititle{BE\_USE\_OS\_MODULE}
-
-这个宏开关用于启用或关闭 \texttt{os} 模块，默认打开。
-
-\subsection{函数定义}
-
-配置文件中的一些宏用于定义平台相关的函数，默认的实现中使用 C 标准库中的函数来填充这些宏。在移植 Berry 解释器时可能需要修改这些宏。
-
-\ffititle{be\_assert}
-
-\ffititle{be\_fhandle}
-
-\ffititle{be\_fopen}
-
-\ffititle{be\_fclose}
-
-\ffititle{be\_fwrite}
-
-\ffititle{be\_fread}
-
-\ffititle{be\_fgets}
-
-\ffititle{be\_fseek}
-
-\ffititle{be\_ftell}
-
-\ffititle{be\_fflush}
-
-\section{模块}
-
-这个功能还不完善。
+\ffititle{be\_moveto}
 
 \section{编译期构造技术} \label{section::precompiled_build}
 
