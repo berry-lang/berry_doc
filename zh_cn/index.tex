@@ -1,4 +1,4 @@
-\documentclass[UTF8, oneside]{book}
+\documentclass[UTF8, twoside]{book}
     \usepackage{ctex}
     \usepackage{xpatch}
     \input{../style.tex}
@@ -18,19 +18,40 @@
     \renewcommand{\contentsname}{\huge{目\quad 录}}
 
 \begin{document}
+    \pagestyle{plain}
+    \cfoot{}
     \input{cover.tex} % 封面
     \input{preface.tex} % 序言
     
+\ifx \PrintStyle \undefined
     \clearpage
+\else
+    \cleardoublepage
+\fi
     \setcounter{page}{1} % 目录页码
-    \pagestyle{plain}
+    \pagestyle{fancy}
+    \fancyfoot[C]{\thepage}
     \pagenumbering{roman} % 罗马数字页码
     \setcounter{tocdepth}{2} % 目录深度
     \tableofcontents % 目录
 
-    \newpage
+\ifx \PrintStyle \undefined
+    \clearpage
+\else
+    \cleardoublepage
+\fi
     \setcounter{page}{1}    % 重置页码计数
-    \pagestyle{fancy}
+\ifx \PrintStyle \undefined
+    \fancyhead[L]{\bfseries \leftmark}
+    \fancyhead[R]{\bfseries \rightmark} %R右，L左，C中，O奇数页，E偶数页
+    \fancyfoot[C]{\thepage}
+\else
+    \fancyhead[RO,LE]{\bfseries \leftmark} %R右，L左，C中，O奇数页，E偶数页
+    \fancyhead[LO,RE]{\bfseries \rightmark}
+    \fancyfoot[RO,LE]{\thepage}
+    \fancyfoot[C]{}
+\fi
+    \renewcommand{\headrulewidth}{0.4pt}
     \pagenumbering{arabic}  % 数字页码
 
     \input{basics.tex}

@@ -824,7 +824,7 @@ time()
 \paragraph{说明}
 返回当前时间戳，时间戳是自 Unix 元年（Unix Epoch，1970年1月1日00:00:00，UTC）起经过的时间，以秒为单位。
 
-\libtitle{\title{dump} 函数}
+\libtitle{\texttt{dump} 函数}
 
 \paragraph{原型}
 \begin{lstlisting}[language=berry, numbers=none]
@@ -846,6 +846,17 @@ dump(ts)
     \caption{\texttt{time.dump} 函数返回值的键值关系}
     \label{tab::time_dump_map}
 \end{table}
+
+\libtitle{\texttt{clock} 函数}
+
+\paragraph{原型}
+\begin{lstlisting}[language=berry, numbers=none]
+clock()
+\end{lstlisting}
+
+\paragraph{说明}
+
+该函数返回从解释器开始执行到该函数被调用为止所经过的时间，单位为秒。该函数的返回值是 \texttt{real} 类型的，其计时精度由具体的平台所决定。
 
 \subsection{String 模块}
 
