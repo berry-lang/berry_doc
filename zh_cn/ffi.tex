@@ -628,9 +628,73 @@ int be_iscomptr(bvm *vm, int index);
 
 从虚拟栈中获取 \texttt{index} 索引位置的值并作为通用指针类型返回。该函数不检查类型的正确性。
 
+\ffititle{be\_pushnil}
+
+将一个 \texttt{nil} 值压入虚拟栈。
+
+\ffititle{be\_pushbool}
+
+将一个布尔值 \texttt{b} 压入虚拟栈。
+
+\ffititle{be\_pushint}
+
+将一个整数值 \texttt{i} 压入虚拟栈。
+
+\ffititle{be\_pushreal}
+
+将一个浮点数值 \texttt{r} 压入虚拟栈。
+
+\ffititle{be\_pushstring}
+
+将字符串 \texttt{str} 压入虚拟栈。参数 \texttt{str} 必须指向一个以空字符 \texttt{'\textbackslash 0'} 结束的 C 字符串。
+
+\ffititle{be\_pushnstring}
+
+将长度为 \texttt{n} 的字符串 \texttt{str} 压入虚拟栈。字符串的长度以参数 \texttt{n} 为准，此时空字符不作为字符串的结束标志。
+
+\ffititle{be\_pushfstring}
+
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+const char* be_pushfstring(bvm *vm, const char *format, ...);
+\end{lstlisting}
+
+将格式化的字符串压入虚拟栈中。
+
+\ffititle{be\_pushvalue}
+
+将索引为 \texttt{index} 的值压入虚拟栈顶。
+
+\ffititle{be\_pushntvclosure}
+
+将一个原生闭包压入虚拟栈顶。
+
+\ffititle{be\_pushntvfunction}
+
+将一个原生函数压入虚拟栈顶。
+
+\ffititle{be\_pushclass}
+
+将一个类压入虚拟栈顶。
+
+\ffititle{be\_pushcomptr}
+
+将一个通用指针压入虚拟栈顶。
+
+\ffititle{be\_pushiter}
+
+将一个迭代器压入虚拟栈顶。
+
+\ffititle{be\_pusherror}
+
+将一条错误信息压入栈顶。执行该 FFI 以后，解释器将直接返回至能够处理错误的位置，而紧跟在其后的代码不会被执行。
+
 \ffititle{be\_moveto}
 
+将 \texttt{from} 索引处的值移动到 \texttt{to} 索引位置。该函数不会删除 \texttt{from} 索引位置的值，只修改 \texttt{to} 索引位置的值。
+
 \section{编译期构造技术} \label{section::precompiled_build}
+
+\textbf{警告}：由于代码变动，该节所描述的内容已经过时。\\
 
 编译期构造技术允许 Berry 解释器在编译时构造原生对象，以减少解释器运行时由于动态构造对象所造成的的内存开销。编译期构造技术带来了多项性能指标的提高，但是这项技术的实现需要依赖外部工具生成解释器的 C 代码，在使用上可能稍有门槛。
 
