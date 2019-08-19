@@ -76,11 +76,29 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 这个宏开关用于启用或关闭 \texttt{os} 模块，默认打开。
 
-\subsubsection{函数定义}
+\ffititle{BE\_EXPLICIT\_ABORT}
+
+这个宏决定 Berry 解释器内部使用的 \texttt{abort} 函数，在默认情况下或者该宏未定义时将使用 C 标准库中的 \texttt{abort} 函数，该宏默认被定义为 \texttt{abort}。如果用户需要明确指定解释器所用的 \texttt{abort} 函数，则将该宏定义替换为用户所需的函数，此函数要和标准库中的 \texttt{abort} 函数声明形式相同。
+
+\ffititle{BE\_EXPLICIT\_EXIT}
+
+这个宏决定 Berry 解释器内部使用的 \texttt{exit} 函数，在默认情况下或者该宏未定义时将使用 C 标准库中的 \texttt{exit} 函数，该宏默认被定义为 \texttt{exit}。如果用户需要明确指定解释器所用的 \texttt{exit} 函数，则将该宏定义替换为用户所需的函数，此函数要和标准库中的 \texttt{exit} 函数声明形式相同。
+
+\ffititle{BE\_EXPLICIT\_MALLOC}
+
+这个宏决定 Berry 解释器内部使用的 \texttt{malloc} 函数，在默认情况下或者该宏未定义时将使用 C 标准库中的 \texttt{malloc} 函数，该宏默认被定义为 \texttt{malloc}。如果用户需要明确指定解释器所用的 \texttt{malloc} 函数，则将该宏定义替换为用户所需的函数，此函数要和标准库中的 \texttt{malloc} 函数声明形式相同。
+
+\ffititle{BE\_EXPLICIT\_FREE}
+
+这个宏决定 Berry 解释器内部使用的 \texttt{free} 函数，在默认情况下或者该宏未定义时将使用 C 标准库中的 \texttt{free} 函数，该宏默认被定义为 \texttt{free}。如果用户需要明确指定解释器所用的 \texttt{free} 函数，则将该宏定义替换为用户所需的函数，此函数要和标准库中的 \texttt{free} 函数声明形式相同。
+
+\ffititle{BE\_EXPLICIT\_REALLOC}
+
+这个宏决定 Berry 解释器内部使用的 \texttt{realloc} 函数，在默认情况下或者该宏未定义时将使用 C 标准库中的 \texttt{realloc} 函数，该宏默认被定义为 \texttt{realloc}。如果用户需要明确指定解释器所用的 \texttt{realloc} 函数，则将该宏定义替换为用户所需的函数，此函数要和标准库中的 \texttt{realloc} 函数声明形式相同。
 
 \ffititle{be\_assert}
 
-该宏用于定义断言函数的实现，默认情况下使用 C 标准库中的 \texttt{assert()} 函数来实现断言。如果目标系统不方便使用标准库中的 \texttt{assert()} 函数进行断言则可以修改 \texttt{be\_assert} 宏的定义。一个正确的断言函数应该使用如下声明：
+该宏用于定义断言函数的实现，默认情况下使用 C 标准库中的 \texttt{assert} 函数来实现断言。如果目标系统不方便使用标准库中的 \texttt{assert()} 函数进行断言则可以修改 \texttt{be\_assert} 宏的定义。一个正确的断言函数应该使用如下声明：
 
 \begin{lstlisting}[language=c, numbers=none]
 void assert(int condition);
@@ -88,6 +106,6 @@ void assert(int condition);
 
 其中，\texttt{condition} 是断言条件，该条件不满足时将会输出一条错误信息并终止程序运行。当然，“断言”函数通常使用一个宏来实现。
 
-\section{模块}
+\section{\textsl{berry\_port.c} 文件}
 
-这个功能还不完善。
+这个文件实现了 Berry 解释器的底层 IO 函数，包括标准输入输出和文件系统的支持。\textsl{default} 目录下的 \textsl{berry\_port.c} 文件包含了一套可移植的 IO 支持，其中文件操作和标准输入输出使用 C 标准库中的 API 实现，路径和文件夹操作同时支持 Windows 和 POSIX 标准的 API。该文件还实现了一套基于 FatFs 的 IO 操作函数可供用户直接使用。如果需要在其他环境下使用 Berry 解释器，那么这些函数必须另行实现（可能只需要实现一部分）。
