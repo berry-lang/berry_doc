@@ -6,9 +6,11 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 \subsection{\textsl{berry\_conf.h} 文件}
 
-本节介绍的配置宏通常用于某些源代码的编译开关，为了方便描述，我们把这种宏称为``宏开关''。对于宏开关而言，``打开''是指将宏开关设置为非零值，而``关闭''是指将宏开关的值设置为 \texttt{0}。
+\subsubsection{配置宏开关}
 
-有一些宏开关具有多种状态，而不仅仅是``打开''或者``关闭''，这些宏开关一般用于有多种选择的配置。还有一些配置宏不是宏开关，无论这些宏的值是多少，都不会有代码因此不参与编译，这些宏一般用于配置数量值。
+本节介绍的配置宏通常用于某些源代码的编译开关，为了方便描述，我们把这种宏称“宏开关”。对于宏开关而言，“打开”是指将宏开关设置为非零值，而“关闭”是指将宏开关的值设置为 \texttt{0}。
+
+有一些宏开关具有多种状态，而不仅仅是“打开”或者“关闭”，这些宏开关一般用于有多种选择的配置。还有一些配置宏不是宏开关，无论这些宏的值是多少，都不会有代码因此不参与编译，这些宏一般用于配置数量值。
 
 \ffititle{BE\_DEBUG} \label{section::BE_DEBUG}
 
@@ -74,29 +76,17 @@ Berry 解释器的配置头文件为 \textsl{berry\_conf.h}。此文件中包括
 
 这个宏开关用于启用或关闭 \texttt{os} 模块，默认打开。
 
-\subsection{函数定义}
-
-配置文件中的一些宏用于定义平台相关的函数，默认的实现中使用 C 标准库中的函数来填充这些宏。在移植 Berry 解释器时可能需要修改这些宏。
+\subsubsection{函数定义}
 
 \ffititle{be\_assert}
 
-\ffititle{be\_fhandle}
+该宏用于定义断言函数的实现，默认情况下使用 C 标准库中的 \texttt{assert()} 函数来实现断言。如果目标系统不方便使用标准库中的 \texttt{assert()} 函数进行断言则可以修改 \texttt{be\_assert} 宏的定义。一个正确的断言函数应该使用如下声明：
 
-\ffititle{be\_fopen}
+\begin{lstlisting}[language=c, numbers=none]
+void assert(int condition);
+\end{lstlisting}
 
-\ffititle{be\_fclose}
-
-\ffititle{be\_fwrite}
-
-\ffititle{be\_fread}
-
-\ffititle{be\_fgets}
-
-\ffititle{be\_fseek}
-
-\ffititle{be\_ftell}
-
-\ffititle{be\_fflush}
+其中，\texttt{condition} 是断言条件，该条件不满足时将会输出一条错误信息并终止程序运行。当然，“断言”函数通常使用一个宏来实现。
 
 \section{模块}
 

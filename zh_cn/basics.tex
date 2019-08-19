@@ -10,7 +10,7 @@ Berry是一款超轻量级的动态类型嵌入式脚本语言，该语言主要
 
 读者可以到项目的GitHub页面 \url{https://github.com/skiars/berry} 获取Berry解释器的源代码。读者需要自行编译Berry解释器。具体的编译方法可以查阅源码根目录下的README.md文档，在项目的GitHub页面上也可以查看这份文档。
 
-首先要要安装 GCC、git 和 make 等软件，如果不使用版本控制便可以直接在 GitHub 上下载源码而不安装 git，读者可以使用搜索引擎检索这些软件的资料。使用 Linux 和 macOS 系统的读者还要安装 GNU Readline 库\footnote{对于 GNU Readline，Debian 系列 Linux 发行版下的安装命令是 \texttt{sudo apt install libreadline-dev}，RedHat 系列 Linux 发行版的安装命令是 \texttt{yum install readline-devel }，macOS 下的安装命令是 \texttt{brew install readline}。此外也很容易在搜索引擎中找到 GNU Readline 的文档及相关资料。}。准备工作完成后使用 \texttt{git} 命令\footnote{命令需要在``命令行界面''中使用，Windows 系统中的命令行环境通常是命令提示符（CMD）窗口，而类 Unix 系统的命令行环境通常称为``终端''（Terminal）。这样说其实并不十分准确，不过这里就不再拓展了。}把解释器源代码从远程仓库克隆到本地：
+首先要要安装 GCC、git 和 make 等软件，如果不使用版本控制便可以直接在 GitHub 上下载源码而不安装 git，读者可以使用搜索引擎检索这些软件的资料。使用 Linux 和 macOS 系统的读者还要安装 GNU Readline 库\footnote{对于 GNU Readline，Debian 系列 Linux 发行版下的安装命令是 \texttt{sudo apt install libreadline-dev}，RedHat 系列 Linux 发行版的安装命令是 \texttt{yum install readline-devel }，macOS 下的安装命令是 \texttt{brew install readline}。此外也很容易在搜索引擎中找到 GNU Readline 的文档及相关资料。}。准备工作完成后使用 \texttt{git} 命令\footnote{命令需要在“命令行界面”中使用，Windows 系统中的命令行环境通常是命令提示符（CMD）窗口，而类 Unix 系统的命令行环境通常称为“终端”（Terminal）。这样说其实并不十分准确，不过这里就不再拓展了。}把解释器源代码从远程仓库克隆到本地：
 \begin{lstlisting}[language=bash, numbers=none]
 git clone https://github.com/skiars/berry.git
 \end{lstlisting}

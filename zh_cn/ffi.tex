@@ -8,7 +8,7 @@ FFI中最为重要的交互功能的应该是Berry代码与C函数相互调用�
 
 \subsection{虚拟机}
 
-与编译型语言不同，Berry语言不能直接在物理机器上运行，而是在特定的软件环境中运行，这个环境就是\textbf{虚拟机}（Virtual Machine, VM）。与真实的计算机相似，文本形式的源代码不能在虚拟机中执行，而要通过编译器将其转换为``字节码''才可以。Berry虚拟机定义为一个C结构体 \texttt{bvm}，这个结构体的内容对于FFI而言是不可见的。通过一些FFI函数，我们可以创建并初始化一个虚拟机。我们通过一个简单的例子来介绍虚拟机的使用：
+与编译型语言不同，Berry语言不能直接在物理机器上运行，而是在特定的软件环境中运行，这个环境就是\textbf{虚拟机}（Virtual Machine, VM）。与真实的计算机相似，文本形式的源代码不能在虚拟机中执行，而要通过编译器将其转换为“字节码”才可以。Berry虚拟机定义为一个C结构体 \texttt{bvm}，这个结构体的内容对于FFI而言是不可见的。通过一些FFI函数，我们可以创建并初始化一个虚拟机。我们通过一个简单的例子来介绍虚拟机的使用：
 \begin{lstlisting}[language=c, style=berry]
 void berry_test(void)
 {
@@ -762,7 +762,7 @@ str_build generate src default generate
 @const_object_info_begin
 @const_object_info_end
 \end{lstlisting}
-常量对象声明信息不符合 C 语言语法，因此它们应该放在多行注释中（用 \texttt{/* */} 包含）。所有的所有的常量对象都具有相同的声明形式，一个常量对象的声明结构称为``对象声明块''，其构成为
+常量对象声明信息不符合 C 语言语法，因此它们应该放在多行注释中（用 \texttt{/* */} 包含）。所有的所有的常量对象都具有相同的声明形式，一个常量对象的声明结构称为“对象声明块”，其构成为
 \begin{lstlisting}[numbers=none]
 type object_name (attributes) {
     member_fields
@@ -785,7 +785,7 @@ class be_class_map (scope: global, name: map) {
 \end{lstlisting}
 在这个例子中，整个常量类的声明信息位于 C 语言的注释之中，因此不会影响到 C 代码的编译，将对象声明块放置在 \texttt{@const\_object\_info\_begin} 和 \texttt{@const\_object\_info\_end} 中间是为了保证 \textsl{map\_build} 工具能够识别出对象声明块。
 
-由于是声明常量类，对象声明块中的 \textsl{type} 值为 \texttt{class}，\texttt{be\_class\_map} 为该常量对象在 C 代码中的变量名。该对象的属性列表（使用圆括号包围的部分）中声明了两个属性，在本节的``编译期构造类''小节中将会介绍这些属性的含义。使用花括号包围的成员列表中定义了 3 个成员，多个成员之间使用换行分隔，成员的名称和成员的值之间使用逗号分隔。
+由于是声明常量类，对象声明块中的 \textsl{type} 值为 \texttt{class}，\texttt{be\_class\_map} 为该常量对象在 C 代码中的变量名。该对象的属性列表（使用圆括号包围的部分）中声明了两个属性，在本节的“编译期构造类”小节中将会介绍这些属性的含义。使用花括号包围的成员列表中定义了 3 个成员，多个成员之间使用换行分隔，成员的名称和成员的值之间使用逗号分隔。
 
 成员名有以下几种合法的格式：
 \begin{itemize}
