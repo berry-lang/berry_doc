@@ -109,3 +109,31 @@ void assert(int condition);
 \section{\textsl{berry\_port.c} 文件}
 
 这个文件实现了 Berry 解释器的底层 IO 函数，包括标准输入输出和文件系统的支持。\textsl{default} 目录下的 \textsl{berry\_port.c} 文件包含了一套可移植的 IO 支持，其中文件操作和标准输入输出使用 C 标准库中的 API 实现，路径和文件夹操作同时支持 Windows 和 POSIX 标准的 API。该文件还实现了一套基于 FatFs 的 IO 操作函数可供用户直接使用。如果需要在其他环境下使用 Berry 解释器，那么这些函数必须另行实现（可能只需要实现一部分）。
+
+本节将介绍 \textsl{berry\_port.c} 文件中所实现函数的功能，并指导用户实现自己的版本。
+
+\ffititle{be\_writebuffer}
+
+\begin{lstlisting}[language=c, numbers=none]
+void be_writebuffer(const char *buffer, size_t length);
+\end{lstlisting}
+
+该函数用于向标准输出设备输出一段数据，参数 \texttt{buffer} 为输出数据块的首地址，\texttt{length} 为输出数据块的长度。这个函数默认向 \texttt{stdout} 文件进行输出。在解释器内部，该函数通常被用作字符流输出，而不是二进制流。
+
+\texttt{be\_writebuffer} 函数用途非常广泛，因此必须被实现。
+
+\ffititle{be\_readstring}
+
+\begin{lstlisting}[language=c, numbers=none]
+char* be_readstring(char *buffer, size_t size);
+\end{lstlisting}
+
+从标准输入设备中输入一段数据，每调用一次该函数最多读取一行数据。参数 \texttt{buffer} 为调用方传入的数据缓冲区，该缓冲区的容量为 \texttt{size}。该函数会在缓冲区容量被用完时停止读取并返回，否则将在读取到换行符或者文件结束符时返回。如果函数执行成功，它将直接把 \texttt{buffer} 参数作为返回值，否则返回 \texttt{NULL}。
+
+该函数会将读取到的换行符加入到读取数据中，每次调用 \texttt{be\_readstring} 函数都会从当前位置继续读取。该函数只在原生函数 \texttt{input} 的实现中被调用，在不必要等情况下可以不实现 \texttt{be\_readstring} 函数。
+
+\ffititle{be\_fopen}
+
+\begin{lstlisting}[language=c, numbers=none]
+void* be_fopen(const char *filename, const char *modes);
+\end{lstlisting}
