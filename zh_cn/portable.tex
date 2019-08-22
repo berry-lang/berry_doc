@@ -137,3 +137,66 @@ char* be_readstring(char *buffer, size_t size);
 \begin{lstlisting}[language=c, numbers=none]
 void* be_fopen(const char *filename, const char *modes);
 \end{lstlisting}
+
+打开一个文件，\texttt{filename} 为要打开的文件名，\texttt{modes} 为打开方式，函数将返回一个文件句柄或者文件操作结构的指针。该函数的使用方式和 C 标准库中的 \texttt{fopen} 函数相似。文件名是一个 C 风格的字符串（以 \texttt{\textbackslash 0} 字符结尾），而模式至少应该支持以下情况：
+
+\begin{itemize}
+    \item \texttt{r}、\texttt{rt}：以只读方式打开一个文本文件，文件必须存在。
+    \item \texttt{r+}、\texttt{rt+}：以读写方式打开一个文本文件，如果文件不存在则创建一个新文件。
+    \item \texttt{rb}：以只读方式打开一个二进制文件，文件必须存在。
+    \item \texttt{rb+}：以读写方式打开一个二进制文件，如果文件不存在则创建一个新文件。
+    \item \texttt{w}、\texttt{wt}：以只写方式新建并打开一个文本文件，已存在的文件将被删除。
+    \item \texttt{w+}、\texttt{wt+}：以读写方式新建并打开一个文本文件，已存在的文件将被删除。
+    \item \texttt{wb}：以只写方式新建并打开一个二进制文件，已存在的文件将被删除。
+    \item \texttt{wb+}：以读写方式新建并打开一个二进制文件，已存在的文件将被删除。
+\end{itemize}
+
+默认情况下使用 C 标准库中的 \texttt{fopen} 函数来实现 \texttt{be\_fopen}。如果使用其他方式来实现，则应该保证以上操作模式能够被实现。如果不需要任何文件操作则此函数可以留空，这里的文件操作包括在脚本中使用 \texttt{open} 函数、从文件中加载脚本（使用 \texttt{be\_loadfile} 函数）等在内的所有情景。
+
+\ffititle{be\_fclose}
+
+\begin{lstlisting}[language=c, numbers=none]
+int be_fclose(void *hfile);
+\end{lstlisting}
+
+\ffititle{be\_fwrite}
+
+\begin{lstlisting}[language=c, numbers=none]
+size_t be_fwrite(void *hfile, const void *buffer, size_t length);
+\end{lstlisting}
+
+\ffititle{be\_fwrite}
+
+\begin{lstlisting}[language=c, numbers=none]
+size_t be_fread(void *hfile, void *buffer, size_t length);
+\end{lstlisting}
+
+\ffititle{be\_fgets}
+
+\begin{lstlisting}[language=c, numbers=none]
+char* be_fgets(void *hfile, void *buffer, int size);
+\end{lstlisting}
+
+\ffititle{be\_fseek}
+
+\begin{lstlisting}[language=c, numbers=none]
+int be_fseek(void *hfile, long offset);
+\end{lstlisting}
+
+\ffititle{be\_ftell}
+
+\begin{lstlisting}[language=c, numbers=none]
+long int be_ftell(void *hfile);
+\end{lstlisting}
+
+\ffititle{be\_fflush}
+
+\begin{lstlisting}[language=c, numbers=none]
+long int be_fflush(void *hfile);
+\end{lstlisting}
+
+\ffititle{be\_fsize}
+
+\begin{lstlisting}[language=c, numbers=none]
+size_t be_fsize(void *hfile);
+\end{lstlisting}
