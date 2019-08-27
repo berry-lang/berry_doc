@@ -159,17 +159,23 @@ void* be_fopen(const char *filename, const char *modes);
 int be_fclose(void *hfile);
 \end{lstlisting}
 
+关闭一个文件，\texttt{hfile} 为被关闭的文件句柄。该函数的功能类似于 C 标准库中的 \texttt{fclose} 函数。
+
 \ffititle{be\_fwrite}
 
 \begin{lstlisting}[language=c, numbers=none]
 size_t be_fwrite(void *hfile, const void *buffer, size_t length);
 \end{lstlisting}
 
-\ffititle{be\_fwrite}
+向指定的文件中写入一段数据。参数 \texttt{hfile} 为待写入的文件句柄，\texttt{buffer} 为写入数据的指针，\texttt{length} 为待写入数据的数量（单位为字节）。
+
+\ffititle{be\_fread}
 
 \begin{lstlisting}[language=c, numbers=none]
 size_t be_fread(void *hfile, void *buffer, size_t length);
 \end{lstlisting}
+
+从指定的文件中读取一段数据。参数 \texttt{hfile} 为待读取的文件句柄，\texttt{buffer} 为读取缓冲区的指针，\texttt{length} 为需要读取的字节数。
 
 \ffititle{be\_fgets}
 
@@ -177,11 +183,15 @@ size_t be_fread(void *hfile, void *buffer, size_t length);
 char* be_fgets(void *hfile, void *buffer, int size);
 \end{lstlisting}
 
+从文件中读取一行，类似于 C 标准库中的 \texttt{fgets} 函数。参数 \texttt{hfile} 为待读取的文件句柄，\texttt{buffer} 为读取缓冲区的指针，\texttt{size} 为读取缓冲区的容量。当读取到 \texttt{size - 1} 字节、换行符以及文件结束符时该函数会返回，返回值为 \texttt{buffer}。
+
 \ffititle{be\_fseek}
 
 \begin{lstlisting}[language=c, numbers=none]
 int be_fseek(void *hfile, long offset);
 \end{lstlisting}
+
+设置文件读写指针的位置。参数 \texttt{hfile} 为待操作为文件句柄，\texttt{offset} 为需要设置的值。
 
 \ffititle{be\_ftell}
 
@@ -189,14 +199,20 @@ int be_fseek(void *hfile, long offset);
 long int be_ftell(void *hfile);
 \end{lstlisting}
 
+获得文件当前的读写指针，参数 \texttt{hfile} 为待操作文件的句柄，该函数的返回值为该文件的读写指针。
+
 \ffititle{be\_fflush}
 
 \begin{lstlisting}[language=c, numbers=none]
 long int be_fflush(void *hfile);
 \end{lstlisting}
 
+将文件缓冲区中的数据写入到文件中。参数 \texttt{hfile} 为待操作的文件。
+
 \ffititle{be\_fsize}
 
 \begin{lstlisting}[language=c, numbers=none]
 size_t be_fsize(void *hfile);
 \end{lstlisting}
+
+获取文件的大小。参数 \texttt{hfile} 为待操作的文件。
