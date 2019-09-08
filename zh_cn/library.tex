@@ -102,6 +102,25 @@ classname(0)        # nil
 \end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{classof} 函数}
+
+\paragraph{用法}
+\begin{lstlisting}[language=berry, numbers=none]
+classof(object)
+\end{lstlisting}
+
+\paragraph{说明}
+返回一个实例对象的类，参数 \texttt{object} 必须是一个实例。如果函数调用成功将返回实例所属的类，否则返回 \texttt{nil}。
+
+\paragraph{示例}
+\begin{lstlisting}[language=berry, numbers=none]
+classof(list)     # nil
+classof(list())   # <class: list>
+classof({})       # <class: map>
+classof(0)        # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \libtitle{\texttt{str} 函数}
 
 \paragraph{用法}
