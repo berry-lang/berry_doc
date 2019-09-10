@@ -1,0 +1,32 @@
+\chapter{编译解释器}
+
+\section*{1. 概述}
+
+Berry 解释器的源代码使用 ISO C99 标准编写，且核心代码不依赖第三方库，因此具有很强的通用性。以 Ubuntu 系统为例，在终端中执行下列命令即可安装 Berry 解释器：
+\begin{lstlisting}[numbers=none]
+apt install git gcc g++ make libreadline-dev
+git clone https://github.com/skiars/berry.git
+cd berry
+make
+make install
+\end{lstlisting}
+GitHub 仓库中提供的 Makefile 使用 GCC 编译器进行构建，其他编译器也可以正确编译 Berry 解释器，目前已经测试可用的编译器包括 GCC、Clang、MSVC、ARMCC 和 ICCARM。编译 Berry 解释器的编译器应该具有以下特性：
+\begin{itemize}
+    \item 支持 C99 标准的 C 编译器
+    \item 支持 C++11 标准的 C++ 编译器（仅用于本机编译）
+    \item 32 或 64 位目标平台
+\end{itemize}
+C++ 编译器只用于编译 \textsl{map\_build} 工具，因此进行交叉编译时不需要为 Berry 解释器提供 C++ 交叉编译器，但是用户应该准备一个本机 C++ 编译器（除非用户能获取 \textsl{map\_build} 工具的可执行文件）。
+
+\section*{2. 移植}
+
+以下是将 Berry 解释器移植到用户的工程中的方法：
+\begin{enumerate}
+    \item 将 \textsl{src} 目录下的所有源文件添加到用户工程，且该目录要添加到包含路径
+    \item 用户需要自己实现 \textsl{default} 目录下除 \textsl{berry.c} 以外的文件，条件允许的话可以不做修改
+    \item 使用 \textsl{map\_build} 工具生成常量对象的代码后即可进行编译
+\end{enumerate}
+
+\section*{3. 平台支持}
+
+目前 Berry 解释器在一些平台上运行过测试。运行于 X86 CPU 上的 Windows、Linux 和 MacOS 操作系统可以正常运行，已经测试过的嵌入式平台有 Cortex M3/M0/M4/M7。在实现了必要的 C 运行库的基础上 Berry 解释器应该能很好地运行。目前在仅编译 Berry 语言核心的情况下，使用 ARMCC 编译器生成的解释器代码仅有约 40KiB，该解释器可以在 RAM 仅有 8KiB 的设备上运行。
