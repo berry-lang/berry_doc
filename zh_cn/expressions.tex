@@ -49,7 +49,8 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
         12 & \texttt{== !=} & 等于，不等于 & 左 \\
         13 & \texttt{\&\&} & 逻辑与 & 左 \\
         14 & \texttt{||} & 逻辑或 & 左 \\
-        15 & \makecell{\texttt{= += -= *= /= \%=} \\
+        15 & \texttt{? :} & 条件运算符 & 右 \\
+        16 & \makecell{\texttt{= += -= *= /= \%=} \\
                        \texttt{\&= |= \textasciicircum= <<= >>=}} & 赋值 & 右 \\
         \Xhline{1pt}
     \end{tabular}
@@ -265,3 +266,37 @@ n = l[2]    # Write by index
 \end{lstlisting}
 
 目前字符串支持使用整数下标，且下标范围不能超过字符串的长度。
+
+\subsection{条件运算符}
+
+条件运算符（\texttt{? :}）的作用类似于 \textbf{if else} 语句，不过前者可以在表达式中使用。条件运算符的使用形式为：\vspace{-0.5em}
+\begin{gather*}
+    cond\ \bm{?}\ expr1\ \bm{:}\ expr2
+\end{gather*}
+
+$\bm{cond}$ 是用于判断条件的表达式，条件运算符的求值过程是：首先求出 $\bm{cond}$ 的值，如果条件为真就对 $\bm{expr1}$ 求值并返回该值，否则对 $\bm{expr2}$ 求值并返回该值。$\bm{expr1}$ 和 $\bm{expr2}$ 可以具有不同的类型，因此下面这种写法是正确的：
+\begin{lstlisting}[language=berry, numbers=none]
+result = scope < 6 ? 'bad' : scope
+\end{lstlisting}
+
+这个表达式首先判断 \texttt{scope} 是否小于 \texttt{6}，如果是则返回 \texttt{bad}，否则返回 \texttt{scope} 的值。无论条件表达式的条件为何，都只会执行 $\bm{expr1}$ 或者 $\bm{expr2}$ 中的一个，类似于逻辑与和逻辑或运算的短路特性。
+
+\subsubsection{嵌套条件运算符}
+
+可以在一个条件运算符中嵌套另一个条件运算符，即条件表达式可以作为另一个条件表达式的 $\bm{cond}$ 或者 $\bm{expr}$。例如，使用条件表达式将分数分为优秀（excellent），好（good）和差（bad）三档：
+\begin{lstlisting}[language=berry, numbers=none]
+result = scope >= 9 ? 'excellent' : scope >= 6 ? 'good' : 'bad'
+\end{lstlisting}
+
+第一个条件检查分数是否不低于 \texttt{9} 分，如果是则执行 \texttt{?} 后的分支，返回 \texttt{'excellent'}；否则执行 \texttt{:} 后的分支，这个分支也是一个条件表达式，它的条件检查分数是否不低于 \texttt{6}，如果是则返回 \texttt{'good'}，否则返回 \texttt{'bad'}。
+
+条件运算符满足右结合性，因此要先求出分支表达式的值才能得到条件表达式的值。因此在嵌套条件表达式中，会先对被嵌套的条件表达式求值，然后才对外层的条件表达式求值。
+
+\subsubsection{条件运算符的优先级}
+
+由于条件表达式的优先级非常低（仅次于赋值运算符），在很多时候需要在条件表达式外加上括号。例如将条件表达式作为算术表达式的操作数时，括号会对结果产生不同的影响：
+\begin{lstlisting}[language=berry, numbers=none]
+result = 10 * (sign < 0 ? -1 : 1) # the result is -10 or 10
+result = 10 * sign < 0 ? -1 : 1   # the result is -1 or 1
+\end{lstlisting}
+第一个表达式的结果是正确的，而第二个表达式将 \texttt{10 * sign < 0} 作为条件进行判断，与条件表达式作为乘法右操作数的期望不符合。

@@ -348,3 +348,23 @@ def func()
 end
 \end{lstlisting}
 这可能是最简洁的办法。\texttt{for} 语句的迭代变量会在每次循环中创建，其原理和与前一个办法类似。
+
+\section{Lambda 表达式}
+
+\textbf{Lambda 表达式}（lambda expression）表达式是一种特殊的匿名函数。Lambda 表达式由参数列表和函数体构成，但是形式和一般的函数不同：\vspace{-0.5em}
+\begin{gather*}
+    \texttt{/}\ args\ \texttt{->}\ expr
+\end{gather*}
+$\bm{args}$ 为参数列表，参数的数量可以是零到多个，多个参数之间使用逗号或者空格分开（不能同时混用）；$\bm{expr}$ 为返回表达式，lambda 表达式将返回该表达式的值。Lambda 表达式适合实现功能非常简单的函数，例如判断两个数大小的 lambda 表达式为：
+\begin{lstlisting}[language=berry, numbers=none]
+/ a b -> a < b
+\end{lstlisting}
+这比同样功能的函数书写更简单。在一些通用排序算法中可能需要大量使用此类大小比较函数，使用 lambda 表达式可以简化代码并提高可读性。
+
+与一般的函数相同，lambda 表达式可以构成闭包。Lambda 表达式的调用方式也和普通函数相同，如果使用类似匿名函数的立即调用方法：
+\begin{lstlisting}[language=berry, numbers=none]
+lambda = / a b -> a < b
+result = lambda(1, 2)           # normal calling
+result = (/ a b -> a < b)(1, 2) # direct calling
+\end{lstlisting}
+由于函数调用运算符的优先级比较高，进行直接调用时要在 lambda 表达式外加一对括号，这样会将其作为一个整体进行调用。
