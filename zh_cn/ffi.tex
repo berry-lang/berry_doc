@@ -436,27 +436,51 @@ be_setindex(vm, 1); // Set the key-value pair to map["test"] = 100
 
 \ffititle{be\_getupval}
 
-该函数用于读取原生闭包的一个 Up Value。
+该函数用于读取原生闭包的一个 Up Value。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_getupval(bvm *vm, int index, int pos);
+\end{lstlisting}
+参数 \texttt{vm} 是虚拟机实例的指针；\texttt{index} 为待读取 Up Value 的原生闭包索引值；\texttt{pos} 为 Up Value 在原生闭包 Up Value 表中的位置（从 0 开始编号）。读取到的 Up Value 将压入虚拟栈顶。
 
 \ffititle{be\_setupval}
 
-该函数用于设置原生闭包的一个 Up Value。
+该函数用于设置原生闭包的一个 Up Value。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_setupval(bvm *vm, int index, int pos);
+\end{lstlisting}
+参数 \texttt{vm} 是虚拟机实例的指针；\texttt{index} 为待写入 Up Value 的原生闭包索引值；\texttt{pos} 为 Up Value 在原生闭包 Up Value 表中的位置（从 0 开始编号）。该函数从虚拟栈顶取得一个值并将其写入目标 Up Value，操作完成后不会将栈顶值出栈。
 
 \ffititle{be\_getsuper}
 
-该函数用于获取类的基类或者实例的父对象。
+该函数用于获取类的基类或者实例的父对象。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_getsuper(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 是虚拟机实例的指针；\texttt{index} 为待操作的类或者对象。如果 \texttt{index} 处的值是一个存在基类的类，该函数会将它的基类压入栈顶；如果 \texttt{index} 处的值是一个存在父对象的对象，该函数会将它的父对象压入栈顶；其他情况下会将一个 \texttt{nil} 值压入栈顶。
 
 \ffititle{be\_data\_size}
 
-该函数用于获取容器的容量。
+该函数用于获取容器中所包含的元素数量。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_data_size(bvm *vm, int index)；
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作容器对象的索引。如果 \texttt{index} 处的值是一个 Map 值或者 List 值则该函数返回容器中所包含的元素数量，否则返回 \texttt{-1}。
 
 \ffititle{be\_data\_append}
 
-该函数用于向容器尾部追加一个新的元素。
+该函数用于向容器尾部追加一个新的元素。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_data_append(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作容器对象的索引。\texttt{index} 处的对象必须是一个 List 值，该函数从栈顶获取一个值并追加到容器尾部，操作完成后不会将栈顶的值出栈。
 
 \ffititle{be\_data\_insert}
 
-该函数用于向容器中插入一个元素。
+该函数用于向容器中插入一对元素。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_data_insert(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作容器对象的索引。\texttt{index} 处的对象必须是一个 List 值或 Map 值，插入的元素构成一对键值对，值存放在栈顶，键存放下栈顶的前一个索引。需要注意的是：插入 Map 容器的键不能是 \texttt{nil} 值，插入 List 容器的键必须是整数值。如果操作成功，该函数将返回 \texttt{bture}，否则返回 \texttt{bfalse}。
 
 \ffititle{be\_data\_remove}
 
