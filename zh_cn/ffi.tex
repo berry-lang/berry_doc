@@ -484,29 +484,81 @@ void be_data_insert(bvm *vm, int index);
 
 \ffititle{be\_data\_remove}
 
-该函数用于移除容器中的一个元素。
+该函数用于移除容器中的一个元素。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_data_remove(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作容器对象的索引。\texttt{index} 处的对象必须是一个 List 值或 Map 值。对于 Map 容器来说，要删除元素的键存放在虚拟栈顶（需在该函数调用前压入）；对于 List 容器来说，要删除元素的索引存放在虚拟栈顶（需在该函数调用前压入）。如果操作成功，该函数将返回 \texttt{bture}，否则返回 \texttt{bfalse}。
 
 \ffititle{be\_data\_resize}
 
-该函数用于重新设置容器的容量。
+该函数用于重新设置容器的容量。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_data_resize(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作容器对象的索引。该函数只对 List 容器可用，新的容量存放在虚拟栈顶（必须是整数）。
 
 \ffititle{be\_iter\_next}
 
-该函数用与获取迭代器的下一个元素。
+该函数用与获取迭代器的下一个元素。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_iter_next(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作迭代器的索引。迭代器对象可能是一个 List 容器或 Map 容器的迭代器。对于 List 迭代器，该函数会将迭代结果值压入栈顶，而对 Map 迭代器则分别把键值压入栈顶前一个位置和栈顶。调用该函数会更新迭代器。如果该函数返回 \texttt{0} 则调用失败，返回 \texttt{1} 表示当前迭代器为 List 迭代器，返回 \texttt{2} 表示当前迭代器为 Map 迭代器。
 
 \ffititle{be\_iter\_hasnext}
 
-该函数用于测试迭代器中是否还有下一个元素。
+该函数用于测试迭代器中是否还有下一个元素。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int map_hasnext(bvm *vm, int index)
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作迭代器的索引。迭代器对象可能是一个 List 容器或 Map 容器的迭代器。如果迭代器中还有可迭代的元素则返回 \texttt{1}，否则返回 \texttt{0}。
 
 \ffititle{be\_refcontains}
 
+该函数用于测试引用栈中是否存在指定对象的引用，须结合 \texttt{be\_refpush} 和 \texttt{be\_refpop} 一起使用。这个 API 可避免在遍历存在自身引用的对象时出现递归。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_refcontains(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作对象的索引。该函数对一个实例（instance）类型的值使用。如果引用栈中存在对象的引用则返回 \texttt{1}，否则返回 \texttt{0}。
+
 \ffititle{be\_refpush}
+
+将指定对象的引用压入引用栈中。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_refpush(bvm *vm, int index);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作对象的索引。该函数对一个实例（instance）类型的值使用。
 
 \ffititle{be\_refpop}
 
+将引用栈顶的对象出栈。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+int be_refpop(bvm *vm);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针。该函数和 \texttt{be\_refpush} 成对使用。以下是使用引用栈 API 来避免对象自身引用时无限递归遍历的问题：
+\begin{lstlisting}[language=c, style=berry]
+int list_traversal(bvm *vm)
+{
+    // ...
+    if (be_refcontains(vm, 1)) {
+        be_return(vm);
+    }
+    be_refpush(vm, 1);
+    // Traversing the container, may call list_traversal recursively.
+    be_refpop(vm);
+    be_return(vm);
+}
+\end{lstlisting}
+这是一个简化的 List 容器的遍历过程，完整代码可以参考 \textsl{be\_listlib.c} 中 \texttt{m\_tostring} 函数的源代码。我们假设 List 对象的索引为 \texttt{1}，首先我们检查该 List 是否已经存在于引用栈中（第 4 行），如果已经存在其引用则直接返回，否则进行后续的处理。为了让 \texttt{be\_refcontains} 可用，我们要在真正的遍历操作前后使用 \texttt{be\_refpush} 和 \texttt{be\_refpop} 来处理引用栈（第 7 和第 9 行）。
+
 \ffititle{be\_stack\_require}
 
-该函数测试堆栈空闲空间数量，如果不足则扩展堆栈空间。
+该函数测试堆栈空闲空间数量，如果不足则扩展堆栈空间。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_stack_require(bvm *vm, int count);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{count} 为需要的空闲栈容量，如果 VM 分配给原生函数的虚拟栈空闲容量低于这个值将进行一个扩容操作。
 
 \ffititle{be\_isnil}
 
