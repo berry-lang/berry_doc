@@ -762,11 +762,22 @@ const char* be_pushfstring(bvm *vm, const char *format, ...);
 
 \ffititle{be\_pusherror}
 
-将一条错误信息压入栈顶。执行该 FFI 以后，解释器将直接返回至能够处理错误的位置，而紧跟在其后的代码不会被执行。
+将一条错误信息压入栈顶。执行该 FFI 以后，解释器将直接返回至能够处理错误的位置，而紧跟在其后的代码不会被执行。函数原型为：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pusherror(bvm *vm, const char *msg);
+\end{lstlisting}
+参数 \texttt{vm} 为虚拟机实例的指针；\texttt{msg} 为包含错误信息的字符串。
 
 \ffititle{be\_moveto}
 
 将 \texttt{from} 索引处的值移动到 \texttt{to} 索引位置。该函数不会删除 \texttt{from} 索引位置的值，只修改 \texttt{to} 索引位置的值。
+
+\ffititle{be\_call}
+\ffititle{be\_pcall}
+\ffititle{be\_abort}
+\ffititle{be\_exit}
+\ffititle{be\_regfunc}
+\ffititle{be\_regclass}
 
 \section{编译期构造技术} \label{section::precompiled_build}
 
