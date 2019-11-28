@@ -151,7 +151,7 @@ res = add(1, 2) # 3
 \begin{lstlisting}[language=berry]
 var l = [], i = 0
 def func(a, b)
-    a.append(1)
+    a.push(1)
     b = 'string'
 end
 func(l, i)
@@ -284,7 +284,7 @@ func()() # 1
 def func()
     l = [] i = 0
     while (i <= 2)
-        l.append(def () print(i) end)
+        l.push(def () print(i) end)
         i = i + 1
     end
     return l
@@ -302,7 +302,7 @@ res[2]() # 3
 def func()
     l = [] i = 0
     while (i <= 2)
-        l.append(def (n)
+        l.push(def (n)
             return def () print(n) end
         end (i))
         i = i + 1
@@ -331,7 +331,7 @@ def func()
     l = [] i = 0
     while (i <= 2)
         temp = i
-        l.append(def () print(temp) end)
+        l.push(def () print(temp) end)
         i = i + 1
     end
     return l
@@ -342,7 +342,7 @@ end
 def func()
     l = []
     for (i : 0 .. 2)
-        l.append(def () print(i) end)
+        l.push(def () print(i) end)
     end
     return l
 end

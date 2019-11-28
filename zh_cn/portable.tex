@@ -118,7 +118,7 @@ void assert(int condition);
 void be_writebuffer(const char *buffer, size_t length);
 \end{lstlisting}
 
-该函数用于向标准输出设备输出一段数据，参数 \texttt{buffer} 为输出数据块的首地址，\texttt{length} 为输出数据块的长度。这个函数默认向 \texttt{stdout} 文件进行输出。在解释器内部，该函数通常被用作字符流输出，而不是二进制流。
+向标准输出设备输出一段数据，参数 \texttt{buffer} 为输出数据块的首地址，\texttt{length} 为输出数据块的长度。这个函数默认向 \texttt{stdout} 文件进行输出。在解释器内部，该函数通常被用作字符流输出，而不是二进制流。
 
 \texttt{be\_writebuffer} 函数用途非常广泛，因此必须被实现。
 

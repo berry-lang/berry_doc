@@ -466,11 +466,11 @@ int be_data_size(bvm *vm, int index)；
 \end{lstlisting}
 参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作容器对象的索引。如果 \texttt{index} 处的值是一个 Map 值或者 List 值则该函数返回容器中所包含的元素数量，否则返回 \texttt{-1}。
 
-\ffititle{be\_data\_append}
+\ffititle{be\_data\_push}
 
 该函数用于向容器尾部追加一个新的元素。函数原型为：
 \begin{lstlisting}[language=c, style=berry, numbers=none]
-void be_data_append(bvm *vm, int index);
+void be_data_push(bvm *vm, int index);
 \end{lstlisting}
 参数 \texttt{vm} 为虚拟机实例的指针；\texttt{index} 为待操作容器对象的索引。\texttt{index} 处的对象必须是一个 List 值，该函数从栈顶获取一个值并追加到容器尾部，操作完成后不会将栈顶的值出栈。
 
