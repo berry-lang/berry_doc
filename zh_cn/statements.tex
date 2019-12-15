@@ -296,3 +296,22 @@ math.sin(0)
 import hardware as hw
 hw.setled(true)
 \end{lstlisting}
+
+\section{异常处理}
+
+\textbf{异常处理}机制允许程序对运行时出现的异常进行捕获并进行处理。Berry 支持异常捕获机制，它允许将异常的捕获和处理过程分离开。即一部分程序用于检测并搜集异常，另一部分程序用于处理异常。
+
+首先，出现问题的程序需要先抛出异常，当这些程序位于一个异常处理块中时，将由特定的程序去捕获并处理该异常。
+
+\subsection{抛出异常}
+
+使用 \texttt{raise} 语句引发一个异常。\texttt{raise} 语句会传递一个值用于表示异常的类型，以便于特定的异常处理程序识别。以下是 \texttt{raise} 语句的使用方法：
+\begin{algorithm}
+    \texttt{raise} $\bm{exception}$ \\
+    \texttt{raise} $\bm{exception}$\texttt{,}  $\bm{message}$
+\end{algorithm}\vspace{-0.6em}\\
+表达式 $\bm{exception}$ 的值就是抛出的异常值；还可以使用一个额外的表达式 $\bm{message}$ 来传递一些信息，它通常一条说明异常信息的字符串。
+
+程序执行到 \texttt{raise} 语句后就不会继续执行它后面的语句，而是会跳转到最近的异常处理块。如果最近的异常处理块在其他函数中，则沿着调用链的函数会提早退出。如果没有异常处理块则会发生\textbf{异常退出}，此时解释器会打印异常报错信息和报错位置的调用栈。
+
+当 \texttt{raise} 语句处于 \texttt{try} 语句块中时，那么异常将被后者捕获。
