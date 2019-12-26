@@ -307,11 +307,34 @@ hw.setled(true)
 
 使用 \texttt{raise} 语句引发一个异常。\texttt{raise} 语句会传递一个值用于表示异常的类型，以便于特定的异常处理程序识别。以下是 \texttt{raise} 语句的使用方法：
 \begin{algorithm}
-    \texttt{raise} $\bm{exception}$ \\
-    \texttt{raise} $\bm{exception}$\texttt{,}  $\bm{message}$
+    \texttt{raise }$\bm{exception}$ \\
+    \texttt{raise }$\bm{exception}$\texttt{, }$\bm{message}$
 \end{algorithm}\vspace{-0.6em}\\
-表达式 $\bm{exception}$ 的值就是抛出的异常值；还可以使用一个额外的表达式 $\bm{message}$ 来传递一些信息，它通常一条说明异常信息的字符串。
+表达式 $\bm{exception}$ 的值就是抛出的\textbf{异常值}；还可以使用一个额外的表达式 $\bm{message}$ 来传递一些信息，它通常一条说明异常信息的字符串，我们称该参数为\textbf{异常参数}。
 
 程序执行到 \texttt{raise} 语句后就不会继续执行它后面的语句，而是会跳转到最近的异常处理块。如果最近的异常处理块在其他函数中，则沿着调用链的函数会提早退出。如果没有异常处理块则会发生\textbf{异常退出}，此时解释器会打印异常报错信息和报错位置的调用栈。
 
-当 \texttt{raise} 语句处于 \texttt{try} 语句块中时，那么异常将被后者捕获。
+当 \texttt{raise} 语句处于 \texttt{try} 语句块时，异常将被后者捕获。
+
+\subsection{捕获异常}
+
+使用 \texttt{excpet} 语句可以捕获异常，它必须和 \texttt{try} 语句配对使用，即一个 \texttt{try} 语句块后面必须跟随一至多个 \texttt{except} 语句块。\texttt{try-except} 语句的基本形式为
+\begin{algorithm}
+    \texttt{try} \\
+        \qquad $\bm{block}$ \\
+    \texttt{excpet (}$\bm{...}$\texttt{)} \\
+        \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}\\
+其中 \texttt{except} 分支可以具有以下几种形式
+\begin{algorithm}
+    \texttt{excpet ()} \\
+    \texttt{excpet (}$\bm{exceptions}$\texttt{)} \\
+    \texttt{excpet (}$\bm{exceptions}$\texttt{ as }$\bm{variable}$\texttt{)} \\
+    \texttt{excpet (}$\bm{exceptions}$\texttt{ as }$\bm{variable}$\texttt{, }$\bm{message}$\texttt{)} \\ 
+    \texttt{excpet (.. as }$\bm{variable}$\texttt{)} \\
+    \texttt{excpet (.. as }$\bm{variable}$\texttt{, }$\bm{message}$\texttt{)} \\
+\end{algorithm}\vspace{-0.6em}\\
+最基础的 \texttt{except} 语句不使用参数，此 \texttt{except} 分支将会捕获所有的异常；\textbf{捕获异常列表} $\bm{exceptions}$ 为对应 \texttt{except} 分支可以匹配的异常值列表，列表中多个值之间使用逗号分隔；$\bm{variable}$ 为\textbf{异常变量}，如果该分支捕获了异常则会将异常值绑定到该变量；$\bm{message}$ 为\textbf{异常参数变量}，如果该分支捕获了异常则会将异常参数值绑定到该变量。
+
+当 \texttt{try} 语句块捕获到一条异常时，解释器会逐个检测 \texttt{except} 分支。如果某分支的捕获列表存在该异常值则会调用该分支下的代码块以处理这个异常，代码块执行完后会退出整个 \texttt{try-except} 语句。如果所有的 \texttt{except} 分支都不匹配，该异常将被重新抛出并由更外层的异常处理程序捕获和处理。
