@@ -310,11 +310,15 @@ hw.setled(true)
     \texttt{raise }$\bm{exception}$ \\
     \texttt{raise }$\bm{exception}$\texttt{, }$\bm{message}$
 \end{algorithm}\vspace{-0.6em}\\
-表达式 $\bm{exception}$ 的值就是抛出的\textbf{异常值}；还可以使用一个额外的表达式 $\bm{message}$ 来传递一些信息，它通常一条说明异常信息的字符串，我们称该参数为\textbf{异常参数}。
+表达式 $\bm{exception}$ 的值就是抛出的\textbf{异常值}；可选的 $\bm{message}$ 表达式通常是一条说明异常信息的字符串，该表达式被称为\textbf{异常参数}。Berry 允许将任何值作为异常值，例如可以将字符串作为异常值：
+\begin{lstlisting}[language=berry, numbers=none]
+raise 'my_error', 'an example of raise'
+\end{lstlisting}
 
 程序执行到 \texttt{raise} 语句后就不会继续执行它后面的语句，而是会跳转到最近的异常处理块。如果最近的异常处理块在其他函数中，则沿着调用链的函数会提早退出。如果没有异常处理块则会发生\textbf{异常退出}，此时解释器会打印异常报错信息和报错位置的调用栈。
 
-当 \texttt{raise} 语句处于 \texttt{try} 语句块时，异常将被后者捕获。
+当 \texttt{raise} 语句处于 \texttt{try} 语句块中时，异常将被后者捕获。被捕获的异常将由与 \texttt{try} 块关联的 \texttt{except} 块去处理。如果抛出的异常可以被 \texttt{except} 块处理，那么执行完这个块后会从最后一个 \texttt{except} 块后的语句处继续执行。如果所有 \texttt{except} 语句都不能处理这个异常，那么该异常会重新抛出，直到能够被处理或者异常退出。
+
 
 \subsection{捕获异常}
 
