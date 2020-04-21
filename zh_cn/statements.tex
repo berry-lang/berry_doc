@@ -46,7 +46,7 @@ a = c  b = 1
 
 一个\textbf{块}（block）是若干语句的集合。一个块就是一个作用域，因此在块中定义的变量只能在块及其子块内部访问。有很多地方使用块，例如 \texttt{if} 语句、 \texttt{while} 语句、函数声明等。这些语句都会通过一对关键字来包含一个块。例如在 \texttt{if} 语句中使用的块：
 \begin{lstlisting}[language=berry]
-if (isOpen)
+if isOpen
     close()
     print('the device was closed')
 end
@@ -71,7 +71,7 @@ Berry提供 \texttt{if} 语句来实现条件控制执行的功能，这类程�
 
 \textbf{\texttt{if} 语句}用于实现分支结构，它根据某种判断条件的真假来选择程序运行的分支，该语句还可以包含 \texttt{else} 分支或者 \texttt{elif} 分支。不包含分支的简单 \texttt{if} 语句形式为
 \begin{algorithm}
-    \texttt{if (} $\bm{condition}$ \texttt{)} \\
+    \texttt{if} $\bm{condition}$ \\
     \qquad $\bm{block}$ \\
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}\\
@@ -79,7 +79,7 @@ $\bm{condition}$是条件表达式，当$\bm{condition}$的值为 \texttt{true} 
 
 下面通过一个例子来说明 \texttt{if} 语句的用法：
 \begin{lstlisting}[language=berry, numbers=none]
-if (8 % 2 == 0)
+if 8 % 2 == 0
     print('this number is even')
 end
 \end{lstlisting}
@@ -87,7 +87,7 @@ end
 
 如果希望条件满足和不满足时都有对应的分支可供执行则要使用具有 \texttt{else} 分支的 \texttt{if} 语句。\texttt{if else} 语句的形式为
 \begin{algorithm}
-    \texttt{if (} $\bm{condition}$ \texttt{)} \\
+    \texttt{if} $\bm{condition}$ \\
         \qquad $\bm{block}$ \\
     \texttt{else} \\
         \qquad $\bm{block}$ \\
@@ -97,7 +97,7 @@ end
 
 继续用判断奇偶数作为例子，这次把需求改为根据输入数字的奇偶性输出对应的信息。实现这项需求的代码是：
 \begin{lstlisting}[language=berry, numbers=none]
-if (x % 2 == 0)
+if x % 2 == 0
     print('this number is even')
 else
     print('this number is odd')
@@ -107,19 +107,19 @@ end
 
 有时候我们需要嵌套使用 \texttt{if} 语句，一种情是要在 \texttt{else} 分支下嵌套一个 \texttt{if} 语句，这是一种很常见的需求，因为很多时候要连续判断多个条件。对于这种需求，使用 \texttt{if else} 语句的写法是：
 \begin{lstlisting}[language=berry, numbers=none]
-if (expr)
+if expr
     block
 else
-    if (expr)
+    if expr
         block
     end
 end
 \end{lstlisting}
 很明显，这种写法会增加代码的缩进层次，并且结尾处要使用多个 \texttt{end}，比较繁琐。作为改进，Berry提供了 \texttt{elif} 分支来优化上面的写法。使用 \texttt{elif} 分支与上述代码等价，其形式为
 \begin{algorithm}
-    \texttt{if (} $\bm{condition}$ \texttt{)} \\
+    \texttt{if} $\bm{condition}$ \\
         \qquad $\bm{block}$ \\
-    \texttt{elif (} $\bm{condition}$ \texttt{)} \\
+    \texttt{elif} $\bm{condition}$ \\
         \qquad $\bm{block}$ \\
     \texttt{else} \\
     \qquad $\bm{block}$ \\
@@ -130,9 +130,9 @@ end
 
 我们用一段判断正数、负数和0的代码来演示 \texttt{elif} 分支：
 \begin{lstlisting}[language=berry, numbers=none]
-if (x > 0)
+if x > 0
     print('positive')
-elif (x == 0)
+elif x == 0
     print('zero')
 else
     print('negative')
@@ -150,7 +150,7 @@ end
 
 \textbf{\texttt{while} 语句}是一种基本的迭代语句，\texttt{while} 语句会使用一个判定条件，当条件为真时就重复执行循环体，否则结束循环。该语句的模式为
 \begin{algorithm}
-    \texttt{while } $\bm{condition}$ \\
+    \texttt{while} $\bm{condition}$ \\
         \qquad $\bm{block}$ \\
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}\\
@@ -223,6 +223,8 @@ end
 
 从某种程度上讲，\texttt{for} 语句只是一个语法糖，它实质上只是一段复杂代码的简便写法。在这段等效代码中使用了一个中间变量 \texttt{it}，该变量的值是一个迭代器，在这个例子里，它是 \texttt{range} 容器 \texttt{0..2} 的迭代器。在处理 \texttt{for} 语句时，解释器会将迭代器中间变量隐藏起来，因此无法在代码中访问它。
 
+% <UNUSED>
+\if{false}
 函数 \texttt{\_\_iterator\_\_} 的参数是一个容器，该函数会返回参数的迭代器。这个函数通过调用参数的 \text{iter} 方法来得到迭代器。因此，\texttt{iter} 方法的返回值要是实例（\texttt{instance}）类型，这个实例要有 \texttt{next} 方法和 \texttt{hasnext} 方法。
 
 函数 \texttt{\_\_hasnext\_\_} 的参数是一个迭代器，它通过调用迭代器的 \texttt{hasnext} 方法来检查迭代器是否有下一个元素。\texttt{hasnext} 方法的返回值是 \texttt{boolean} 类型。函数 \texttt{\_\_next\_\_} 的参数也是迭代器，它通过调用迭代器的 \texttt{next} 方法获取迭代器中的下一个元素。
@@ -238,6 +240,8 @@ do
 end
 \end{lstlisting}
 这段代码就比较易读了。从效代码中可以看出：迭代器变量 \texttt{it} 的作用域为整个 \texttt{for} 语句，但是在 \texttt{for} 语句外不可见，而迭代变量 \texttt{i} 的作用域在循环体内，因此每次迭代都会定义新的迭代变量。
+\fi
+% !<UNUSED>
 
 \section{跳转语句}
 
@@ -247,7 +251,7 @@ Berry提供的的跳转语句用于在循环过程中实现程序流程的跳转
 
 \texttt{break} 用来终止迭代语句并跳出。执行 \texttt{break} 语句之后将立即终止最近一层迭代语句并从该迭代语句后的第一条语句位置继续执行。为了说明 \texttt{break} 语句的执行流程，我们使用一个例子来演示：
 \begin{lstlisting}[language=berry]
-while (true)
+while true
     print('before break')
     break
     print('after break')
@@ -265,8 +269,8 @@ out of the loop
 
  \texttt{continue} 语句也在迭代语句内部使用，它的作用是结束一次迭代并立即开始下一轮。因此，执行 \texttt{continue} 语句之后，最近一层的迭代语句中的剩余代码将不再执行，而是开始新一轮迭代。这里我们使用一个 \texttt{for} 语句来演示 \texttt{continue} 语句的功能：
 \begin{lstlisting}[language=berry]
-for (i : 0 .. 5)
-    if (i >= 2)
+for i : 0 .. 5
+    if i >= 2
         continue
     end
     print('i =', i)
@@ -327,18 +331,18 @@ raise 'my_error', 'an example of raise'
 \begin{algorithm}
     \texttt{try} \\
         \qquad $\bm{block}$ \\
-    \texttt{excpet (}$\bm{...}$\texttt{)} \\
+    \texttt{excpet} $\bm{...}$ \\
         \qquad $\bm{block}$ \\
     \texttt{end}
 \end{algorithm}\vspace{-0.6em}\\
 其中 \texttt{except} 分支可以具有以下几种形式
 \begin{algorithm}
-    \texttt{excpet ()} \\
-    \texttt{excpet (}$\bm{exceptions}$\texttt{)} \\
-    \texttt{excpet (}$\bm{exceptions}$\texttt{ as }$\bm{variable}$\texttt{)} \\
-    \texttt{excpet (}$\bm{exceptions}$\texttt{ as }$\bm{variable}$\texttt{, }$\bm{message}$\texttt{)} \\ 
-    \texttt{excpet (.. as }$\bm{variable}$\texttt{)} \\
-    \texttt{excpet (.. as }$\bm{variable}$\texttt{, }$\bm{message}$\texttt{)} \\
+    \texttt{excpet ..} \\
+    \texttt{excpet }$\bm{exceptions}$ \\
+    \texttt{excpet }$\bm{exceptions}$\texttt{ as }$\bm{variable}$ \\
+    \texttt{excpet }$\bm{exceptions}$\texttt{ as }$\bm{variable}$\texttt{, }$\bm{message}$ \\ 
+    \texttt{excpet .. as }$\bm{variable}$ \\
+    \texttt{excpet .. as }$\bm{variable}$\texttt{, }$\bm{message}$ \\
 \end{algorithm}\vspace{-0.6em}\\
 最基础的 \texttt{except} 语句不使用参数，此 \texttt{except} 分支将会捕获所有的异常；\textbf{捕获异常列表} $\bm{exceptions}$ 为对应 \texttt{except} 分支可以匹配的异常值列表，列表中多个值之间使用逗号分隔；$\bm{variable}$ 为\textbf{异常变量}，如果该分支捕获了异常则会将异常值绑定到该变量；$\bm{message}$ 为\textbf{异常参数变量}，如果该分支捕获了异常则会将异常参数值绑定到该变量。
 

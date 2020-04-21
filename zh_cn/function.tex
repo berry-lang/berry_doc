@@ -93,7 +93,7 @@ print(func2(4))     # 16
 \textbf{递归函数}是指会直接或者间接调用自身的函数。递归是指一种将问题划分为同类子问题然后解决的策略。以阶乘为例，阶乘的递归定义为$0!=1, n!=n\cdot(n-1)!$，我们可以根据定义写出用于计算阶乘的递归函数：
 \begin{lstlisting}[language=berry]
 def fact(n)
-    if (n == 0)
+    if n == 0
         return 1
     end
     return n * fact(n - 1)
@@ -114,13 +114,13 @@ print(fact(5))  # 120
 \begin{lstlisting}[language=berry]
 var is_odd
 def is_even(n)
-    if (n == 0)
+    if n == 0
         return true
     end
     return is_odd(n - 1) 
 end
 def is_odd(n)
-    if (n == 0)
+    if n == 0
         return false
     end
     return is_even(n - 1) 
@@ -283,7 +283,7 @@ func()() # 1
 \begin{lstlisting}[language=berry]
 def func()
     l = [] i = 0
-    while (i <= 2)
+    while i <= 2
         l.push(def () print(i) end)
         i = i + 1
     end
@@ -301,7 +301,7 @@ res[2]() # 3
 \begin{lstlisting}[language=berry]
 def func()
     l = [] i = 0
-    while (i <= 2)
+    while i <= 2
         l.push(def (n)
             return def () print(n) end
         end (i))
@@ -329,7 +329,7 @@ res[2]() # 2
 \begin{lstlisting}[language=berry]
 def func()
     l = [] i = 0
-    while (i <= 2)
+    while i <= 2
         temp = i
         l.push(def () print(temp) end)
         i = i + 1
@@ -341,7 +341,7 @@ end
 \begin{lstlisting}[language=berry]
 def func()
     l = []
-    for (i : 0 .. 2)
+    for i : 0 .. 2
         l.push(def () print(i) end)
     end
     return l
