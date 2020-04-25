@@ -33,8 +33,8 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{3mm}
-    \begin{tabular}{cclc} \Xhline{1pt}
-        \textbf{优先级} & \textbf{运算符} & \textbf{说明} & \textbf{结合性} \\ \hline
+    \begin{tabular}{cclc} \toprule
+        \textbf{优先级} & \textbf{运算符} & \textbf{说明} & \textbf{结合性} \\ \midrule
         1 & \texttt{()} & 分组符号 & - \\
         2 & \texttt{() [] .} & 函数调用，下标运算，域运算 & 左 \\
         3 & \texttt{- ! \textasciitilde} & 负号，逻辑非，位翻转 & 左 \\
@@ -52,7 +52,7 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
         15 & \texttt{? :} & 条件运算符 & 右 \\
         16 & \makecell{\texttt{= += -= *= /= \%=} \\
                        \texttt{\&= |= \textasciicircum= <<= >>=}} & 赋值 & 右 \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{运算符列表}
     \label{tab::operator_list}
@@ -71,15 +71,15 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{10mm}
-    \begin{tabular}{clc} \Xhline{1pt}
-        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \hline
+    \begin{tabular}{clc} \toprule
+        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \midrule
         \texttt{-} & 一元负号 & \texttt{- expr} \\
         \texttt{+} & 加号/字符串连接 & \texttt{expr + expr} \\
         \texttt{-} & 减号 & \texttt{expr - expr} \\
         \texttt{*} & 乘号 & \texttt{expr * expr} \\
         \texttt{/} & 除号 & \texttt{expr / expr} \\
         \texttt{\%} & 取余数 & \texttt{expr \% expr} \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{算术运算符}
     \label{tab::arthmetic_operator}
@@ -100,15 +100,15 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{10mm}
-    \begin{tabular}{clc} \Xhline{1pt}
-        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \hline
+    \begin{tabular}{clc} \toprule
+        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \midrule
         \texttt{<} & 小于 & \texttt{expr < expr} \\
         \texttt{<=} & 小于等于 & \texttt{expr <= expr} \\
         \texttt{==} & 等于 & \texttt{expr == expr} \\
         \texttt{!=} & 不等于 & \texttt{expr != expr} \\
         \texttt{>=} & 大于等于 & \texttt{expr >= expr} \\
         \texttt{>} & 大于 & \texttt{-expr} \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{关系运算符}
     \label{tab::relop_operator}
@@ -136,12 +136,12 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{10mm}
-    \begin{tabular}{ccc} \Xhline{1pt}
-        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \hline
+    \begin{tabular}{ccc} \toprule
+        \textbf{运算符} & \textbf{说明} & \textbf{示例} \\ \midrule
         \texttt{\&\&} & 逻辑与 & \texttt{expr \&\& expr} \\
         \texttt{||} & 逻辑或 & \texttt{expr || expr} \\
         \texttt{!} & 逻辑非 & \texttt{!expr} \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{逻辑运算符}
     \label{tab::logic_operator}
@@ -164,15 +164,15 @@ Berry提供一些一元运算符（Unary Operator）和二元运算符（Binary 
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{10mm}
-    \begin{tabular}{clc} \Xhline{1pt}
-        \textbf{运算符} & \makecell[c]{\textbf{说明}} & \textbf{示例} \\ \hline
+    \begin{tabular}{clc} \toprule
+        \textbf{运算符} & \makecell[c]{\textbf{说明}} & \textbf{示例} \\ \midrule
         \texttt{\textasciitilde} & 按位翻转 & \texttt{\textasciitilde expr} \\
         \texttt{\&} & 按位与 & \texttt{expr \& expr} \\
         \texttt{|} & 按位或 & \texttt{expr | expr} \\
         \texttt{\textasciicircum} & 按位异或 & \texttt{expr \textasciicircum\ expr} \\
         \texttt{<<} & 左移 & \texttt{expr << expr} \\
         \texttt{>>} & 右移 & \texttt{expr >> expr} \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{位运算符}
     \label{tab::bitwise_operator}
@@ -227,14 +227,14 @@ a = b = 0       # Continuous assignment
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{10mm}
-    \begin{tabular}{clcl} \Xhline{1pt}
-        \textbf{运算符} & \textbf{说明} & \textbf{运算符} & \textbf{说明} \\ \hline
+    \begin{tabular}{clcl} \toprule
+        \textbf{运算符} & \textbf{说明} & \textbf{运算符} & \textbf{说明} \\ \midrule
         \texttt{+=} & 加法赋值 & \texttt{-=} & 减法赋值 \\
         \texttt{*=} & 乘法赋值 & \texttt{/=} & 初法赋值 \\
         \texttt{\%=} & 取余赋值 & \texttt{\&=} & 按位与赋值 \\
         \texttt{|=} & 按位或赋值 & \texttt{\textasciicircum=} & 按位异或赋值 \\
         \texttt{<<=} & 左移赋值 & \texttt{>>=} & 右移赋值 \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{位运算符}
     \label{tab::compound_assign}

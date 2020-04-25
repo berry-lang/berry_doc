@@ -146,13 +146,13 @@ print('func(10) =', func(10))
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{4mm}
-    \begin{tabular}{clclcl} \Xhline{1pt}
-        \textbf{转义字符} & \textbf{意义} & \textbf{转义字符} & \textbf{意义} & \textbf{转义字符} & \textbf{意义} \\ \hline
+    \begin{tabular}{clclcl} \toprule
+        \textbf{转义字符} & \textbf{意义} & \textbf{转义字符} & \textbf{意义} & \textbf{转义字符} & \textbf{意义} \\ \midrule
         \texttt{\textbackslash a} & 响铃 & \texttt{\textbackslash b} & 退格符 & \texttt{\textbackslash f} & 换页符 \\
         \texttt{\textbackslash n} & 换行符 & \texttt{\textbackslash r} & 回车符 & \texttt{\textbackslash t} & 水平制表符 \\
         \texttt{\textbackslash v} & 垂直制表符 & \texttt{\textbackslash \textbackslash} & 反斜线 & \texttt{\textbackslash '} & 单引号 \\
         \texttt{\textbackslash "} & 双引号 & \texttt{\textbackslash ?} & 问号 & \texttt{\textbackslash 0} & 空字符 \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{转义字符序列}
     \label{tab::escape_character}

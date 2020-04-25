@@ -62,13 +62,13 @@ type(value)
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{6mm}
-    \begin{tabular}{cc!{\vrule width 1pt}cc} \Xhline{1pt}
-        \textbf{参数类型} & \textbf{返回值} & \textbf{参数类型} & \textbf{返回值} \\ \hline
+    \begin{tabular}{cc!{\vrule width 1pt}cc} \toprule
+        \textbf{参数类型} & \textbf{返回值} & \textbf{参数类型} & \textbf{返回值} \\ \midrule
         Nil & \texttt{'nil'} & Integer & \texttt{'int'} \\
         Real & \texttt{'real'} & Boolean & \texttt{'bool'} \\
         Function & \texttt{'function'} & Class & \texttt{'class'} \\
         String & \texttt{'string'} & Instance & \texttt{'instance'} \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{类型名对照表}
     \label{tab::type_return_list}
@@ -402,14 +402,14 @@ load(text)
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{18mm}
-    \begin{tabular}{cc} \Xhline{1pt}
-        \textbf{JSON类型} & \textbf{Berry类型} \\ \hline
+    \begin{tabular}{cc} \toprule
+        \textbf{JSON类型} & \textbf{Berry类型} \\ \midrule
         \texttt{null} & \texttt{nil} \\
         \texttt{number} & \texttt{integer} or \texttt{real} \\
         \texttt{string} & \texttt{string} \\
         \texttt{array} & \texttt{list} \\
         \texttt{object} & \texttt{map} \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{JSON类型到Berry类型的转换规则}
     \label{tab::json2berry_rule}
@@ -435,8 +435,8 @@ dump(object， ['format'])
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{18mm}
-    \begin{tabular}{cc} \Xhline{1pt}
-        \textbf{Berry类型} & \textbf{JSON类型} \\ \hline
+    \begin{tabular}{cc} \toprule
+        \textbf{Berry类型} & \textbf{JSON类型} \\ \midrule
         \texttt{nil} & \texttt{null} \\
         \texttt{integer} & \texttt{number} \\
         \texttt{real} & \texttt{number} \\
@@ -444,7 +444,7 @@ dump(object， ['format'])
         \texttt{map} & \texttt{object} \\
         \texttt{map}的键 & \texttt{string} \\
         其他 & \texttt{string} \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{Berry类型到JSON类型的转换规则}
     \label{tab::berry2json_rule}
@@ -857,12 +857,12 @@ dump(ts)
 \begin{table}[htb]
     \centering
     \setlength{\tabcolsep}{2mm}
-    \begin{tabular}{cccccc} \Xhline{1pt}
-        \textbf{键} & \textbf{值} & \textbf{键} & \textbf{值} & \textbf{键} & \textbf{值} \\ \hline
+    \begin{tabular}{cccccc} \toprule
+        \textbf{键} & \textbf{值} & \textbf{键} & \textbf{值} & \textbf{键} & \textbf{值} \\ \midrule
         \texttt{'year'} & 年（从1900起） & \texttt{'month'} & 月（1-12） & \texttt{'day'} & 日（1-31） \\
         \texttt{'hour'} & 时（0-23） & \texttt{'min'} & 分（0-59） & \texttt{'sec'} & 秒（0-59） \\
         \texttt{'weekday'} & 星期（1-7） \\
-        \Xhline{1pt}
+        \bottomrule
     \end{tabular}
     \caption{\texttt{time.dump} 函数返回值的键值关系}
     \label{tab::time_dump_map}

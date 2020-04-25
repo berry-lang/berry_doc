@@ -325,6 +325,29 @@ raise 'my_error', 'an example of raise'
 
 当 \texttt{raise} 语句处于 \texttt{try} 语句块中时，异常将被后者捕获。被捕获的异常将由与 \texttt{try} 块关联的 \texttt{except} 块去处理。如果抛出的异常可以被 \texttt{except} 块处理，那么执行完这个块后会从最后一个 \texttt{except} 块后的语句处继续执行。如果所有 \texttt{except} 语句都不能处理这个异常，那么该异常会重新抛出，直到能够被处理或者异常退出。
 
+\subsubsection{异常值}
+
+在 Berry 中可以把任意值作为异常值，不过我们通常会使用简短的字符串。Berry 内部也可能抛出一些异常，我们把这些异常称为\textbf{标准异常},所有的标准异常值都是字符串类型，表 \ref{tab::stdexpect_list} 列出了所有的标准异常。
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{3mm}
+    \begin{tabular}{cll} \toprule
+        \textbf{异常值} & \textbf{说明} & \textbf{参数说明} \\ \midrule
+        \texttt{assert\_failed} & 断言失败 & 具体异常信息 \\
+        \texttt{index\_error} & 下标错误（通常是越界） & 具体的异常信息 \\
+        \texttt{io\_error} & IO 功能异常 & 具体异常信息 \\
+        \texttt{key\_error} & 键错误 & 具体异常信息 \\
+        \texttt{runtime\_error} & VM 运行时异常 & 具体异常信息 \\
+        \texttt{stop\_iteration} & 迭代器结束 & 无 \\
+        \texttt{syntax\_error} & 语法解析错误 & 编译器给出的具体报错信息 \\
+        \texttt{unrealized\_error} & 未实现的功能 & 具体的异常信息 \\
+        \texttt{type\_error} & 类型错误 & 具体异常信息 \\
+        \bottomrule
+    \end{tabular}
+    \caption{标准异常列表}
+    \label{tab::stdexpect_list}
+\end{table}
+
 \subsection{捕获异常}
 
 使用 \texttt{excpet} 语句可以捕获异常，它必须和 \texttt{try} 语句配对使用，即一个 \texttt{try} 语句块后面必须跟随一至多个 \texttt{except} 语句块。\texttt{try-except} 语句的基本形式为
@@ -347,27 +370,3 @@ raise 'my_error', 'an example of raise'
 最基础的 \texttt{except} 语句不使用参数，此 \texttt{except} 分支将会捕获所有的异常；\textbf{捕获异常列表} $\bm{exceptions}$ 为对应 \texttt{except} 分支可以匹配的异常值列表，列表中多个值之间使用逗号分隔；$\bm{variable}$ 为\textbf{异常变量}，如果该分支捕获了异常则会将异常值绑定到该变量；$\bm{message}$ 为\textbf{异常参数变量}，如果该分支捕获了异常则会将异常参数值绑定到该变量。
 
 当 \texttt{try} 语句块捕获到一条异常时，解释器会逐个检测 \texttt{except} 分支。如果某分支的捕获列表存在该异常值则会调用该分支下的代码块以处理这个异常，代码块执行完后会退出整个 \texttt{try-except} 语句。如果所有的 \texttt{except} 分支都不匹配，该异常将被重新抛出并由更外层的异常处理程序捕获和处理。
-
-\subsection{异常值}
-
-在 Berry 中可以把任意值作为异常值，不过我们通常会使用简短的字符串。Berry 内部也可能抛出一些异常，我们把这些异常称为\textbf{标准异常},所有的标准异常值都是字符串类型，表 \ref{tab::stdexpect_list} 列出了所有的标准异常。
-
-\begin{table}[htb]
-    \centering
-    \setlength{\tabcolsep}{3mm}
-    \begin{tabular}{cll} \Xhline{1pt}
-        \textbf{异常值} & \textbf{说明} & \textbf{参数说明} \\ \hline
-        \texttt{assert\_failed} & 断言失败 & 具体异常信息 \\
-        \texttt{index\_error} & 下标错误（通常是越界） & 具体的异常信息 \\
-        \texttt{io\_error} & IO 功能异常 & 具体异常信息 \\
-        \texttt{key\_error} & 键错误 & 具体异常信息 \\
-        \texttt{runtime\_error} & VM 运行时异常 & 具体异常信息 \\
-        \texttt{stop\_iteration} & 迭代器结束 & 无 \\
-        \texttt{syntax\_error} & 语法解析错误 & 编译器给出的具体报错信息 \\
-        \texttt{unrealized\_error} & 未实现的功能 & 具体的异常信息 \\
-        \texttt{type\_error} & 类型错误 & 具体异常信息 \\
-        \Xhline{1pt}
-    \end{tabular}
-    \caption{标准异常列表}
-    \label{tab::stdexpect_list}
-\end{table}

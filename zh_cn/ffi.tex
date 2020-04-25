@@ -734,15 +734,47 @@ int be_iscomptr(bvm *vm, int index);
 const char* be_pushfstring(bvm *vm, const char *format, ...);
 \end{lstlisting}
 
-将格式化的字符串压入虚拟栈中。
+将格式化的字符串压入虚拟栈中。参数 \texttt{format} 为格式化字符串，它包含了要被压入栈中的文本，\texttt{format} 参数包含标签，可被随后附加参数指定的值替换并按需进行格式化。\texttt{format} 标签的属性的规则是 \textsf{\%specifier}，表 \ref{tab::format_specifier} 给出了各字段的含义。根据 \texttt{format} 字符串的标签，可能需要一系列的附加参数，每个附加参数都会替换 \texttt{format} 参数中对应的 \texttt{\%} 标签。
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{3mm}
+    \begin{tabular}{cll} \toprule
+        \textbf{\textsf{specifier}} & \textbf{说明} \\ \midrule
+        \texttt{d} & 格式化为十进制带符号整数（正数不输出符号） \\
+        \texttt{f} & 格式化为小数形式的单精度或双精度浮点数 \\
+        \texttt{g} & 格式化为指数形式的单精度或双精度浮点数 \\
+        \texttt{s} & 格式化为字符串 \\
+        \texttt{c} & 格式化为单个字符 \\
+        \texttt{p} & 格式化为指针地址 \\
+        \texttt{\%} & 转义为 \texttt{\%} 字符（无参数） \\
+        \bottomrule
+    \end{tabular}
+    \caption{\texttt{format} 标签参数说明}
+    \label{tab::format_specifier}
+\end{table}
+
+\texttt{be\_pushfstring} 函数和 C 的标准函数 \texttt{printf} 类似，但是格式化字符串的功能比较基础，不支持定制宽度、小数位数等操作。一个典型的例子是：
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+be_pushfstring(vm, "%s: %d", "hello", 12); // Good, it works!
+be_pushfstring(vm, "%s: %.5d", "hello", 12); // Error, the specified width is not supported.
+\end{lstlisting}
+这意味着 \texttt{be\_pushfstring} 只能进行简单的格式化操作，如果无法满足需求，建议用 \texttt{sprintf} 格式化好的字符串进行操作。
 
 \ffititle{be\_pushvalue}
+
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushvalue(bvm *vm, int index);
+\end{lstlisting}
 
 将索引为 \texttt{index} 的值压入虚拟栈顶。
 
 \ffititle{be\_pushntvclosure}
 
-将一个原生闭包压入虚拟栈顶。
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushntvclosure(bvm *vm, bntvfunc f, int nupvals);
+\end{lstlisting}
+
+将一个原生闭包压入虚拟栈顶。参数 \texttt{f} 为原生闭包的 C 函数指针，\texttt{nupvals} 为闭包的 upvalue 数量。
 
 \ffititle{be\_pushntvfunction}
 
