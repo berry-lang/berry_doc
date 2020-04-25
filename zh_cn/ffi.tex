@@ -706,25 +706,49 @@ int be_iscomptr(bvm *vm, int index);
 
 \ffititle{be\_pushnil}
 
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushnil(bvm *vm);
+\end{lstlisting}
+
 将一个 \texttt{nil} 值压入虚拟栈。
 
 \ffititle{be\_pushbool}
 
-将一个布尔值 \texttt{b} 压入虚拟栈。
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushbool(bvm *vm, int b);
+\end{lstlisting}
+
+将一个布尔值压入虚拟栈。参数 \texttt{b} 为要入栈的布尔值，值为 \texttt{0} 时表示假，否则为真。
 
 \ffititle{be\_pushint}
 
-将一个整数值 \texttt{i} 压入虚拟栈。
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushint(bvm *vm, bint i);
+\end{lstlisting}
+
+将一个整数值 \texttt{i} 压入虚拟栈，。
 
 \ffititle{be\_pushreal}
+
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushreal(bvm *vm, breal r);
+\end{lstlisting}
 
 将一个浮点数值 \texttt{r} 压入虚拟栈。
 
 \ffititle{be\_pushstring}
 
-将字符串 \texttt{str} 压入虚拟栈。参数 \texttt{str} 必须指向一个以空字符 \texttt{'\textbackslash 0'} 结束的 C 字符串。
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushstring(bvm *vm, const char *str)
+\end{lstlisting}
+
+将字符串 \texttt{str} 压入虚拟栈。参数 \texttt{str} 必须指向一个以空字符 \texttt{'\textbackslash 0'} 结束的 C 字符串，不能传入空指针。
 
 \ffititle{be\_pushnstring}
+
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushnstring(bvm *vm, const char *str, size_t n);
+\end{lstlisting}
 
 将长度为 \texttt{n} 的字符串 \texttt{str} 压入虚拟栈。字符串的长度以参数 \texttt{n} 为准，此时空字符不作为字符串的结束标志。
 
@@ -778,15 +802,27 @@ void be_pushntvclosure(bvm *vm, bntvfunc f, int nupvals);
 
 \ffititle{be\_pushntvfunction}
 
-将一个原生函数压入虚拟栈顶。
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushntvfunction(bvm *vm, bntvfunc f);
+\end{lstlisting}
+
+将一个原生函数压入虚拟栈顶，参数 \texttt{f} 为原生函数指针。
 
 \ffititle{be\_pushclass}
 
-将一个类压入虚拟栈顶。
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushclass(bvm *vm, const char *name, const bnfuncinfo *lib);
+\end{lstlisting}
+
+将一个原生类压入虚拟栈顶。参数 \texttt{name} 为原生类的名称，参数 \texttt{lib} 为此原生类的属性说明。
 
 \ffititle{be\_pushcomptr}
 
-将一个通用指针压入虚拟栈顶。
+\begin{lstlisting}[language=c, style=berry, numbers=none]
+void be_pushcomptr(bvm *vm, void *ptr);
+\end{lstlisting}
+
+将一个通用指针压入虚拟栈顶。通用指针 \texttt{ptr} 指向某种 C 数据区域。由于此指针所指向的内容不受 Berry 的垃圾回收器维护，因此用户要自己维护数据的生命周期。
 
 \ffititle{be\_pushiter}
 
