@@ -1,0 +1,72 @@
+\documentclass[UTF8, oneside]{book}
+    \usepackage{ctex}
+    \usepackage{xpatch}
+    \input{../style.tex}
+
+    \xapptocmd{\ttfamily}{\frenchspacing}{}{}
+    % Set font
+    \setCJKmainfont[BoldFont=FZHei-B01S]{FZShuSong-Z01S}
+    \setCJKmonofont{FZFangSong-Z02S}
+    \setCJKsansfont{FZKai-Z03S}
+    \ziju{0.06} % Word spacing
+
+    % Set title and comment format
+    \titleformat{\chapter}{\chapterformat}{First chapter}{1em}{}
+    \captionsetup[figure]{name={figure},labelsep=quad}
+    \captionsetup[table]{name={table},labelsep=quad}
+    % Title style redefinition
+    \renewcommand{\contentsname}{\huge{Table of contents}}
+
+\begin{document}
+    \pagestyle{plain}
+    \cfoot{}
+    \input{cover.tex} % Cover
+    \input{preface.tex} % Preface
+
+\ifx \PrintStyle \undefined
+    \clearpage
+\else
+    \cleardoublepage
+\fi
+    \setcounter{page}{1} % Catalog page number
+    \pagestyle{fancy}
+    \fancyfoot[C]{\thepage}
+    \pagenumbering{roman} % Roman numeral page number
+    \setcounter{tocdepth}{2} % Directory depth
+    \tableofcontents % table of Contents
+
+\ifx \PrintStyle \undefined
+    \clearpage
+\else
+    \cleardoublepage
+\fi
+    \setcounter{page}{1} % Reset page count
+\ifx \PrintStyle \undefined
+    \fancyhead[L]{\bfseries \leftmark}
+    \fancyhead[R]{\bfseries \rightmark} %R right, L left, C middle, O odd page, E even page
+    \fancyfoot[C]{\thepage}
+\else
+    \fancyhead[RO,LE]{\bfseries \leftmark} %R right, L left, C middle, O odd page, E even page
+    \fancyhead[LO,RE]{\bfseries \rightmark}
+    \fancyfoot[RO,LE]{\thepage}
+    \fancyfoot[C]{}
+\fi
+    \renewcommand{\headrulewidth}{0.4pt}
+    \pagenumbering{arabic} % Digital page number
+
+    \input{basics.tex}
+    \input{type_variable.tex}
+    \input{expressions.tex}
+    \input{statements.tex}
+    \input{function.tex}
+    \input{class.tex}
+    \input{library.tex}
+    \input{ffi.tex}
+    \input{portable.tex}
+
+    \appendix % appendix
+    \titleformat{\chapter}{\chapterformat}{Appendix\Alph{chapter}}{1em}{}
+    \input{grammar.tex}
+    \input{build_info.tex}
+
+\end{document}

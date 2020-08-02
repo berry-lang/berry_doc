@@ -1,0 +1,872 @@
+\chapter {Libraries and Modules}
+
+%==============================================================================
+\section {Basic library}
+
+There are some functions and classes that can be used directly in the standard library. They provide basic services for Berry programs, so they are also called basic libraries. The functions and classes in the basic library are visible in the global scope (belonging to the built-in scope), so they can be used anywhere. Do not define variables with the same name as the functions or classes in the base library. Doing so will make it impossible to reference the functions and classes in the base library.
+
+\subsection {Built-in function}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{print} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+print(...)
+\end{lstlisting}
+
+\paragraph{Description}
+This function prints the input parameters to the standard output device. The function can accept any type and any number of parameters. All types will print their value directly, and for an instance, this function will check whether the instance has a \texttt{tostring()} method, and if there is, print the return value of the instance calling the \texttt{tostring()} method, otherwise it will print the address of the instance.
+
+\paragraph{example}
+\begin{lstlisting}[language=berry, numbers=none]
+print('Hello World!') # Hello World!
+print([1, 2, '3']) # [1, 2, '3']
+print(print) # <function: 0x561092293780>
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{input} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+input()
+input(prompt)
+\end{lstlisting}
+
+\paragraph{Description}
+\texttt{input} The function is used to input a line of character string from the standard input device. This function can use the \texttt{prompt} parameter as an input prompt, and the \texttt{prompt} parameter must be of string type.
+After calling the \texttt{input} function, characters will be read from the keyboard buffer until a newline character is encountered.
+
+\paragraph{example}
+\begin{lstlisting}[language=berry, numbers=none]
+input('please enter a string:') # please enter a string:
+\end{lstlisting}
+\texttt{input} The function does not return until the ``Enter'' key is pressed, so the program "stuck" is not an error.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{type} Function} \label{section::baselib_type}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+type(value)
+\end{lstlisting}
+
+\begin{itemize}
+    \item \emph{value}: Input parameter (expect to get its type).
+    \item \emph{return value}: A string describing the parameter type.
+\end{itemize}
+
+\paragraph{Description}
+This function receives a parameter of any type and returns the type of the parameter. The return value is a string describing the type of the parameter. Table \ref{tab::type_return_list} shows the return values   corresponding to the main parameter types:
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{6mm}
+    \begin{tabular}{cc!{\vrule width 1pt}cc} \toprule
+        \textbf{Parameter Type} & \textbf{return value} & \textbf{Parameter Type} & \textbf{return value} \\ \midrule
+        Nil & \texttt{'nil'} & Integer & \texttt{'int'} \\
+        Real & \texttt{'real'} & Boolean & \texttt{'bool'} \\
+        Function & \texttt{'function'} & Class & \texttt{'class'} \\
+        String & \texttt{'string'} & Instance & \texttt{'instance'} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Type name comparison table}
+    \label{tab::type_return_list}
+\end{table}
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+type(0) #'int'
+type(0.5) #'real'
+type('hello') #'string'
+type(print) #'function'
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{classname} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+classname(object)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the class name (string) of the parameter. Therefore the parameter must be a class or instance, and other types of parameters will return \texttt{nil}.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+classname(list) #'list'
+classname(list()) #'list'
+classname({}) #'map'
+classname(0) # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{classof} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+classof(object)
+\end{lstlisting}
+
+\paragraph{Description}
+Returns the class of an instance object. The parameter \texttt{object} must be an instance. If the function is successfully called, it will return the class to which the instance belongs, otherwise it will return \texttt{nil}.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+classof(list) # nil
+classof(list()) # <class: list>
+classof({}) # <class: map>
+classof(0) # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{str} Functions}\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+str(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function converts the parameters into strings and returns. \texttt{str} Functions can accept any type of parameters and convert them. When the parameter type is an instance, it will check whether the instance has a \texttt{tostring()} method, if there is, the return value of the method will be used, otherwise the address of the instance will be converted into a string.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+str(0) # '0'
+str(nil) #'nil'
+str(list) #'list'
+str([0, 1, 2]) #'[0, 1, 2]'
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{number} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+number(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function converts the input string or number into a numeric type and returns. If the input parameter is an integer or real number, it returns directly. If it is a character string, try to convert the character string to a numeric value in decimal format. The integer or real number will be automatically judged during the conversion. Other types return \texttt{nil}.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+number(5) # 5
+number('45.6') # 45.6
+number('50') # 50
+number(list) # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{int} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+int(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function converts the input string or number into an integer and returns it. If the input parameter is an integer, return directly, if it is a real number, discard the decimal part. If it is a string, try to convert the string to an integer in decimal. Other types return \texttt{nil}.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+int(5) # 5
+int(45.6) # 45
+int('50') # 50
+int(list) # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{real} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+real(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function converts the input string or number into a real number and returns. If the input parameter is a real number, it will return directly, if it is an integer, it will be converted to a real number. If it is a string, try to convert the string to a real number in decimal. Other types return \texttt{nil}.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+real(5) # 5, type(real(5)) →'real'
+real(45.6) # 45.6
+real('50.5') # 50.5
+real(list) # nil
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{length} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+length(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the length of the input string. If the input parameter is not a string, 0 is returned. The length of the string is calculated in bytes.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+length(10) # 0
+length('s') # 1
+length('string') # 6
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{super} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+super(object)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the parent object of the instance. When you instantiate a derived class, it will also instantiate its base class. The \texttt{super} function is required to access the instance of the base class (that is, the parent object).
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+class mylist: list end
+l = mylist() # classname(l) -->'mylist'
+sl = super(l) # classname(sl) -->'list'
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{assert} Function}\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+assert(expression)
+assert(expression, message)
+\end{lstlisting}
+
+\paragraph{Description}
+This function is used to implement the assertion function. \texttt{assert} The function accepts a parameter. When the value of the parameter is \texttt{false} or \texttt{nil}, the function will trigger an assertion error, otherwise the function will not have any effect. It should be noted that even if the parameter is a value equivalent to \texttt{false} in logical operations (for example, \texttt{0}), it will not trigger an assertion error. The parameter \texttt{message} is optional and must be a string. If this parameter is used, the text information given in \texttt{message} will be output when an assertion error occurs, otherwise the default ``\texttt{Assert Failed}'' message will be output.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+assert(false) # assert failed!
+assert(nil) # assert failed!
+assert() # assert failed!
+assert(0) # assert failed!
+assert(false,'user assert message.') # user assert message.
+assert(true) # pass
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{compile} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+compile(string)
+compile(string,'string')
+compile(filename,'file')
+\end{lstlisting}
+
+\paragraph{Description}
+This function compiles the Berry source code into a function. The source code can be a string or a text file. \texttt{compile} The first parameter of the function is a string, and the second parameter is a string \texttt{'string'} or \texttt{'file'}. When the second parameter is \texttt{'string'} or there is no second parameter, the \texttt{compile} function will compile the first parameter as the source code. When the second parameter is \texttt{'file'}, the \texttt{compile} function will compile the file corresponding to the first parameter. If the compilation is successful, \texttt{compile} will return the compiled function, otherwise it will return \texttt{nil}.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+compile('print(\'Hello World!\')')() # Hello World!
+compile('test.be','file')
+\end{lstlisting}
+
+%==============================================================================
+
+\subsection{\texttt{list} Class}
+
+\texttt{list} is a built-in type, which is a sequential storage container that supports subscript reading and writing. \texttt{list} Similar to arrays in other programming languages. Obtaining an instance of the \texttt{list} class can be constructed using a pair of square brackets: \texttt{[]} will generate an empty \texttt{list} instance, and \texttt{[expr, expr, ...]} will generate a \texttt{list} instance with several elements. It can also be instantiated by calling the \texttt{list} class: executing \texttt{list()} will get an empty \texttt{list} instance, and \texttt{list(expr, expr, ...)} will return an instance with several elements.
+
+\libtitle{\texttt{list} Method (Constructor)}
+
+Initialize the \texttt{list} container. This method can accept 0 to multiple parameters. The \texttt{list} instance generated when multiple parameters are passed will have these parameters as elements, and the arrangement order of the elements is consistent with the arrangement order of the parameters.
+
+\libtitle{\texttt{tostring} Method}
+
+Serialize the \texttt{list} instance to a string and return it. For example, the result of executing \texttt{[1, [], 1.5].tostring()} is \texttt{'[1, [], 1.5]'}. If the \texttt{list} container refers to itself, the corresponding position will use an ellipsis instead of the specific value:
+\begin{lstlisting}[language=berry, numbers=none]
+l = [1, 2]
+l[0] = l
+print(l) # [[...], 2]
+\end{lstlisting}
+
+\libtitle{\texttt{push} Method}
+
+Append an element to the end of the \texttt{list} container. The prototype of this method is \texttt{push(value)}, the parameter \texttt{value} is the value to be appended, and the appended value is stored at the end of the \texttt{list} container. The append operation increases the number of elements in the \texttt{list} container by 1. You can append any type of value to the \texttt{list} instance.
+
+\libtitle{\texttt{insert} Method}Insert an element at the specified position of the \texttt{list} container. The prototype of this method is \texttt{insert(index, value)}, the parameter \texttt{index} is the position to be inserted, and \texttt{value} is the value to be inserted. After inserting an element at the position \texttt{index}, all the elements that originally started from this position will move backward by one element. The insert operation increases the number of elements in the \texttt{list} container by 1. You can insert any type of value into the \texttt{list} container.
+
+Suppose that the value of a \texttt{list} instance \texttt{l} is \texttt{[0, 1, 2]}, and we insert a string \texttt{'string'} at position 1, and we need to call \texttt{l.insert(1, 'string')}. Finally, the new \texttt{list} value is \texttt{[0, 'string', 1, 2]}.
+
+If the number of elements in a \texttt{list} container is $S$, the value range of the insertion position is $\{i \in \mathbb{Z}: -S\leqslant i<S\}$. When the insertion position is positive, index backward from the head of the \texttt{list} container, otherwise index forward from the end of the \texttt{list} container.
+
+\libtitle{\texttt{remove} Method}
+
+Remove an element from the container. The prototype of this method is \texttt{remove(index)}, and the parameter \texttt{index} is the position of the element to be removed. After the element is removed, the element behind the removed element will move forward by one element, and the number of elements in the container will be reduced by 1. Like the \texttt{insert} method, the \texttt{remove} method can also use positive or negative indexes.
+
+\libtitle{\texttt{item} Methods}
+
+Get an element in the \texttt{list} container. The prototype of this method is \texttt{item(index)}, the parameter \texttt{index} is the index of the element to be obtained, and the return value of the method is the element at the index position. \texttt{list} The container supports multiple indexing methods:
+
+\begin{itemize}
+    \item Integer index: The index value can be a positive integer or a negative integer (the same as the index method in \texttt{insert}). At this time, the return value of \texttt{item} is the element at the index position. If the index position exceeds the number of elements in the container or is before the 0th element, the \texttt{item} method will return \texttt{nil}.
+    \item \texttt{list} Index: Using a list of integers as an index, \texttt{item} returns a \texttt{list}, and each element in the return value \texttt{list} is an element corresponding to each integer index in the parameter \texttt{list}. The value of the expression \texttt{[3, 2, 1].item([0, 2])} is \texttt{[3, 1]}. If an element type in the parameter \texttt{list} is not an integer, then the value at that position in the return value \texttt{list} is \texttt{nil}.
+    \item \texttt{range} Index: Using an integer range as an index, \texttt{item} returns a \texttt{list}. The returned value stores the indexed elements from \texttt{list} from the lower limit to the upper limit of the parameter \texttt{range}. If the index exceeds the index range of the indexed \texttt{list}, the return value \texttt{list} will use \texttt{nil} to fill the position beyond the index.
+\end{itemize}
+
+\libtitle{\texttt{setitem} Method}
+
+Set the value of the specified position in the container. The prototype of this method is \texttt{setitem(index, value)}, \texttt{index} is the position of the element to be written, and \texttt{value} is the value to be written. \texttt{index} is the integer index value of the writing position. Index positions outside the index range of the container will cause \texttt{setitem} to fail to execute.
+
+\libtitle{\texttt{size} Method}
+
+Returns \texttt{list} the number of elements in the container, which is the length of the container. The prototype of this method is \texttt{size()}.
+
+\libtitle{\texttt{resize} Method}
+
+Reset \texttt{list} the length of the container. The prototype of this method is \texttt{resize(count)}, and the parameter \texttt{count} is the new length of the container. When using \texttt{resize} to increase the length of the container, the new element will be initialized to \texttt{nil}. Using \texttt{reszie} to reduce the length of the container will discard some elements at the end of the container. E.g:
+\begin{lstlisting}[language=berry, numbers=none]
+l = [1, 2, 3]
+l.resize(5) # Expansion, l == [1, 2, 3, nil, nil]
+l.resize(2) # Reduce, l == [1, 2]
+\end{lstlisting}
+
+\libtitle{\texttt{iter} Method}
+
+Returns an iterator for traversing the current \texttt{list} container.
+
+%==============================================================================
+\subsection{\texttt{map} Class}
+
+\texttt{map} Class is a built-in class type used to provide an unordered container of key-value pairs. Inside the Berry interpreter, \texttt{map} uses the Hash table to implement. You can use curly brace pairs to construct a \texttt{map} container. Using an empty curly brace pair \texttt{\{\}} will generate an empty \texttt{map} instance. If you need to construct a non-empty \texttt{map} instance, use a colon to separate the key and value, and use a semicolon to separate multiple key-value pairs. For example, \texttt{\{0: 1, 2: 3\}} has two key-value pairs $(0, 1)$ and $(2, 3)$. You can also get an empty \texttt{map} instance by calling the \texttt{map} class.
+
+\libtitle{\texttt{map} Method (Constructor)}
+
+Initialize the \texttt{map} container, this method does not accept parameters. Executing \texttt{map()} will get an empty \texttt{map} instance.
+
+\libtitle{\texttt{tostring} Method}Serialize \texttt{map} as a string and return. The serialized string is similar to literal writing. For example, the result of executing \texttt{{'str': 1, 0: 2}} is \texttt{"{'str': 1, 0: 2}"}. If the \texttt{map} container refers to itself, the corresponding position will use an ellipsis instead of the specific value:
+\begin{lstlisting}[language=berry, numbers=none]
+m = {'map': nil,'text':'hello'}
+m['map'] = m
+print(m) # {'text':'hello','map': {...}}
+\end{lstlisting}
+
+\libtitle{\texttt{insert} Method}
+
+Insert a key-value pair in the \texttt{map} container. The prototype of this method is \texttt{insert(key, value)}, the parameter \texttt{key} is the key to be inserted, and \texttt{value} is the value to be inserted. If the key \texttt{map} to be inserted exists in the container, the original key-value pair will be updated.
+
+\libtitle{\texttt{remove} Method}
+
+Remove a key-value pair from the \texttt{map} container. The prototype of this method is \texttt{remove(key)}, and the parameter \texttt{key} is the key of the key-value pair to be deleted.
+
+\libtitle{\texttt{item} Method}
+
+Get a value in the \texttt{map} container. The prototype of this method is \texttt{item(key)}, the parameter \texttt{key} is the key of the value to be obtained, and the return value of the method is the value corresponding to the key.
+
+\libtitle{\texttt{setitem} Method}
+
+Set the value corresponding to the specified key in the container. The prototype of this method is \texttt{setitem(key, value)}, \texttt{key} is the key of the key-value pair to be written, and \texttt{value} is the value to be written. If there is no key-value pair with the key \texttt{key} in the container, the \texttt{setitem} method will fail.
+
+\libtitle{\texttt{size} Method}
+
+Return \texttt{map} The number of key-value pairs of the container, which is the length of the container. The prototype of this method is \texttt{size()}.
+
+%==============================================================================
+\subsection{\texttt{range} Class}
+
+\texttt{range} The class is used to represent an integer closed interval. Use the binary operator \texttt{..} to construct an instance of \texttt{range}. The left and right operands of the operator are required to be integers. For example, \texttt{0..10} means the integer interval $[0,10]\cap\mathbb{Z}$.
+
+%==============================================================================
+\section {Expansion Module}
+%==============================================================================
+\subsection {JSON Module}
+
+JSON is a lightweight data exchange format. It is a subset of JavaScript. It uses a text format that is completely independent of the programming language to represent data. Berry provides a JSON module to provide support for JSON data. The JSON module only contains two functions \texttt{load} and \texttt{dump}, which are used to parse JSON strings and multiply Berry objects and serialize a Berry object into JSON text.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{load} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+load(text)
+\end{lstlisting}
+
+\paragraph{Description}
+This function is used to convert the input JSON text into a Berry object and return it. The conversion rules are shown in Table \ref{tab::json2berry_rule}. If there is a syntax error in the JSON text, the function will return \texttt{nil}.
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{18mm}
+    \begin{tabular}{cc} \toprule
+        \textbf{JSON type} & \textbf{Berry type} \\ \midrule
+        \texttt{null} & \texttt{nil} \\
+        \texttt{number} & \texttt{integer} or \texttt{real} \\
+        \texttt{string} & \texttt{string} \\
+        \texttt{array} & \texttt{list} \\
+        \texttt{object} & \texttt{map} \\
+        \bottomrule
+    \end{tabular}
+    \caption{JSON type to Berry type conversion rules}
+    \label{tab::json2berry_rule}
+\end{table}
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+import json
+json.load('0') # 0
+json.load('[{"name": "liu", "age": 13}, 10.0]') # [{'name':'liu','age': 13}, 10]
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{dump} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+dump(object, ['format'])
+\end{lstlisting}
+
+\paragraph{Description}
+This function is used to serialize the Berry object into JSON text. The conversion rules for serialization are shown in Table \ref{tab::berry2json_rule}.
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{18mm}
+    \begin{tabular}{cc} \toprule
+        \textbf{Berry type} & \textbf{JSON type} \\ \midrule
+        \texttt{nil} & \texttt{null} \\
+        \texttt{integer} & \texttt{number} \\
+        \texttt{real} & \texttt{number} \\
+        \texttt{list} & \texttt{array} \\
+        \texttt{map} & \texttt{object} \\
+        \texttt{map}Key of & \texttt{string} \\
+        other & \texttt{string} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Berry type to JSON type conversion rules}
+    \label{tab::berry2json_rule}
+\end{table}
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+import json
+json.dump('string') #'"string"'
+json.dump('string') #'"string"'
+json.dump({0:'item 0','list': [0, 1, 2]}) #'{"0":"item 0","list":[0,1,2]}'
+json.dump({0:'item 0','list': [0, 1, 2],'func': print},'format')
+#-
+{
+    "0": "item 0",
+    "list": [
+        0,
+        1,
+        2
+    ],
+    "func": "<function: 00410310>"
+}
+-#
+\end{lstlisting}
+
+%==============================================================================
+\subsection {Math Module}This module is used to provide support for mathematical functions, such as commonly used trigonometric functions and square root functions. To use the math module, first use the \texttt{import math} statement to import. All examples in this section assume that the module has been imported correctly.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{pi} Constants}
+
+\paragraph{Description}
+The approximate value of Pi $\pi$, a real number type, approximately equal to $3.141592654$.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.pi # 3.14159
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{abs} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+abs(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the absolute value of the parameter, which can be an integer or a real number. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{abs} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.abs(-1) # 1
+math.abs(1.5) # 1.5
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{ceil} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+ceil(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the rounded up value of the parameter, that is, the smallest integer value greater than or equal to the parameter. The parameter can be an integer or a real number. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{ceil} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.ceil(-1.2) # -1
+math.ceil(1.5) # 2
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{floor} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+floor(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the rounded down value of the parameter, which is not greater than the maximum integer value of the parameter. The parameter can be an integer or a real number. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{floor} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.floor(-1.2) # -2
+math.floor(1.5) # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{sin} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+sin(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the sine function value of the parameter. The parameter can be an integer or a real number, and the unit is radians. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{sin} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.sin(1) # 0.841471
+math.sin(math.pi * 0.5) # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{cos} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+cos(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the value of the cosine function of the parameter. The parameter can be an integer or a real number in radians. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{cos} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.cos(1) # 0.540302
+math.cos(math.pi) # -1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{tan} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+tan(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the value of the tangent function of the parameter. The parameter can be an integer or a real number, in radians. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{tan} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.tan(1) # 1.55741
+math.tan(math.pi / 4) # 1
+\end{lstlisting}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{asin} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+asin(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the arc sine function value of the parameter. The parameter can be an integer or a real number. The value range is $[-1,1]$. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{asin} The return type of the function is a real number and the unit is radians.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.asin(1) # 1.5708
+math.asin(0.5) * 180 / math.pi # 30
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{acos} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+acos(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the arc cosine function value of the parameter. The parameter can be an integer or a real number. The value range is $[-1,1]$. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{acos} The return type of the function is a real number and the unit is radians.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.acos(1) # 0
+math.acos(0) # 1.5708
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{atan} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+atan(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the arctangent function value of the parameter. The parameter can be an integer or a real number. The value range is $[-\infty,+\infty]$. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{atan} The return type of the function is a real number and the unit is radians.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.atan(1) * 180 / math.pi # 45
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{sinh} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+sinh(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the hyperbolic sine function value of the parameter. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{sinh} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.sinh(1) # 1.1752
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{cosh} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+cosh(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the hyperbolic cosine function value of the parameter. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{cosh} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.cosh(1) # 1.54308
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{tanh} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+tanh(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the hyperbolic tangent function value of the parameter. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{tanh} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.tanh(1) # 0.761594
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{sqrt} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+sqrt(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the square root of the argument. The parameter of this function cannot be negative. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{sqrt} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.sqrt(2) # 1.41421
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{exp} Functions}\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+exp(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the value of the parameter's exponential function based on the natural constant $e$. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{exp} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.exp(1) # 2.71828
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{log} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+log(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the natural logarithm of the argument. The parameter must be a positive number. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{log} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.log(2.718282) # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{log10} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+log10(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function returns the logarithm of the parameter to the base $10$. The parameter must be a positive number. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{log10} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.log10(10) # 1
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{deg} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+deg(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function is used to convert radians to angles. The unit of the parameter is radians. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{deg} The return type of the function is a real number and the unit is an angle.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.deg(math.pi) # 180
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{rad} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+rad(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function is used to convert angles to radians. The unit of the parameter is angle. If there are no parameters, the function returns \texttt{0}, if there are multiple parameters, only the first parameter is processed. \texttt{rad} The return type of the function is a real number and the unit is radians.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.rad(180) # 3.14159
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{pow} Functions}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+pow(x, y)
+\end{lstlisting}
+
+\paragraph{Description}
+The return value of this function is the result of the expression $x^y$, which is the parameter \texttt{x} to the \texttt{y} power. If the parameters are not complete, the function returns \texttt{0}, if there are extra parameters, only the first two parameters are processed. \texttt{pow} The return type of the function is a real number.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.pow(2, 3) # 8
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{srand} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+srand(value)
+\end{lstlisting}
+
+\paragraph{Description}
+This function is used to set the seed of the random number generator. The type of the parameter should be an integer.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.srand(2)
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{rand} Function}
+
+\paragraph{usage}
+\begin{lstlisting}[language=berry, numbers=none]
+rand()
+\end{lstlisting}
+
+\paragraph{Description}
+This function is used to get a random integer.
+
+\paragraph{Example}
+\begin{lstlisting}[language=berry, numbers=none]
+math.rand()
+\end{lstlisting}
+
+\subsection {Time Module}
+
+This module is used to provide time-related functions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\libtitle{\texttt{time} Functions}\paragraph{prototype}
+\begin{lstlisting}[language=berry, numbers=none]
+time()
+\end{lstlisting}
+
+\paragraph{Description}
+Returns the current timestamp. The timestamp is the time elapsed since Unix Epoch (1st January 1970 00:00:00 UTC), in seconds.
+
+\libtitle{\texttt{dump} Functions}
+
+\paragraph{prototype}
+\begin{lstlisting}[language=berry, numbers=none]
+dump(ts)
+\end{lstlisting}
+
+\paragraph{Description}
+The input timestamp \texttt{ts} is converted into a time \texttt{map}, and the key-value correspondence is shown in Table \ref{tab::time_dump_map}.
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{2mm}
+    \begin{tabular}{cccccc} \toprule
+        \textbf{key} & \textbf{value} & \textbf{key} & \textbf{value} & \textbf{key} & \textbf{value} \\ \midrule
+        \texttt{'year'} & Year (from 1900) & \texttt{'month'} & Month (1-12) & \texttt{'day'} & Day (1-31) \\
+        \texttt{'hour'} & Hour (0-23) & \texttt{'min'} & Points (0-59) & \texttt{'sec'} & Seconds (0-59) \\
+        \texttt{'weekday'} & Week (1-7) \\
+        \bottomrule
+    \end{tabular}
+    \caption{\texttt{time.dump} The key-value relationship of the function return value}
+    \label{tab::time_dump_map}
+\end{table}
+
+\libtitle{\texttt{clock} Functions}
+
+\paragraph{prototype}
+\begin{lstlisting}[language=berry, numbers=none]
+clock()
+\end{lstlisting}
+
+\paragraph{Description}
+
+This function returns the elapsed time from the start of execution of the interpreter to when the function is called in seconds. The return value of this function is of type \texttt{real}, and its timing accuracy is determined by the specific platform.
+
+\subsection{String Module}
+
+The String module provides string processing functions.
+
+\subsection{OS Module}
+
+The OS module provides system-related functions, such as file and path-related functions. These functions are platform-related. Currently, Windows VC and POSIX style codes are implemented in the Berry interpreter. If it runs on other platforms, the functions in the OS module are not guaranteed to be provided.

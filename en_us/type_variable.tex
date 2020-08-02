@@ -1,0 +1,189 @@
+\chapter {Types and Variables}
+
+\textbf{Types of} is an attribute of data, which defines the meaning of the data and the operations that can be performed on the data. Types can be divided into built-in types and user-defined types. Built-in types refer to some basic types built into the Berry language, among which types that are not based on class definitions are called \textbf{Simple type}. Types based on class definitions are called \textbf{Class type}, some of the built-in types are class types, and user-defined types are also class types.
+
+\section {Built-in type}
+
+\subsection {Simple Type}
+
+\subsubsection{Nil}
+
+The Nil type is the null type, which means that the object has an invalid value, or it can be said that the object has no meaningful value. This is a very special type. Although we might say that a variable is \texttt{nil}, in fact the nil type has no value, so what we are talking about here is that the type of the variable is nil (not a value).
+
+The default value of a variable before assignment is \texttt{nil}. This type can be used in logic operations. In logic operations, \texttt{nil} is equivalent to \texttt{false}.
+
+\subsubsection {Integer type}
+
+The integer type (integer) represents a signed integer, referred to as an integer. The number of bits of the integer represented by this type depends on the specific implementation, and usually consists of a 32-bit signed integer on a 32-bit platform. Integer is an arithmetic type and supports all arithmetic operations. Pay attention to the value range of integers when using this type. The typical value range of 32-bit signed integers is between $-2147483648$ and $2147483647$.
+
+\subsubsection {Real Number Type}
+
+The real type (real), to be precise, is a floating-point type. Real number types are usually implemented as single-precision floating-point numbers or double-precision floating-point numbers. The real number type is also an arithmetic type. Compared with the integer type, the real number type has higher precision and a larger value range, so this type is more suitable for mathematical calculations. It should be noted that the real number type is actually a floating point number, so there are still precision problems. For example, it is not recommended to compare two values   of type \texttt{real} for equality.
+
+When integers and real numbers participate in operations at the same time, the integers are usually converted to real numbers.
+
+\subsubsection {Boolean type} \label{section::type_bool}
+
+The Boolean type (boolean) is used for logical operations. It has two values   \texttt{true} and \texttt{false}, which represent the two true values   (true and false) in logic and Boolean algebra. The Boolean type is mainly used for conditional judgment. The operands and return values   of logical expressions and relational expressions are all boolean types, and statements such as \texttt{if} and \texttt{while} all use boolean types as conditional checks.
+
+In many cases, non-boolean values   can also be used as boolean types. This is because the interpreter will implicitly convert the parameters. This is also the reason that conditional check expressions such as \texttt{if} statements can use any type of parameters. The rules for converting various types to Boolean types are:
+\begin{itemize}
+    \item Nil: converted to \texttt{false}.
+    \item Integer: When the value is \texttt{0}, it is converted to \texttt{false}, otherwise it is converted to \texttt{true}.
+    \item Real number: When the value is \texttt{0.0}, it is converted to \texttt{false}, otherwise it is converted to \texttt{true}.
+    \item Example: When there is a method \texttt{tobool()}, the return value of the method will be used, otherwise it will be converted to \texttt{true}.
+    \item Other: Convert to \texttt{true}.
+\end{itemize}
+
+\subsubsection {string}
+
+A string is a sequence of characters. In terms of storage, Berry divides strings into long strings and short strings. There is only one instance of the same short character string in memory, and all short character strings are linked in a hash table. This design helps to improve the performance of string equality comparison and can reduce memory usage. Since the use frequency of long strings is low, and the overhead of hash operation is quite high, they are not linked to the hash table, so there may be multiple identical instances in the memory. The string is read-only after it is created. Therefore, "modifying" the string will generate a new string, and the original string will not be modified.
+
+Berry does not care about the format or encoding of characters. For example, the string \texttt{'abc'} is actually the ASCII code of the characters \texttt{'a'}, \texttt{'b'} and \texttt{'c'}. Therefore, if there are wide characters in the string (the character length is greater than 1 byte), the number of characters in the string cannot be directly counted. In fact, using the \texttt{length()} function can only get the number of bytes in the string. In addition, in order to facilitate interaction with the C language, Berry's string always ends with \texttt{'\textbackslash 0'} characters. This feature is transparent to the Berry program.
+
+The string type can be compared in size, so it can be used in relational operations.
+
+\subsubsection {Function}
+
+A function is a piece of code that is encapsulated and available for call, generally used to implement a specific function. Function is actually a big category, which includes several subtypes such as closures, native functions, and native closures. For Berry code, all function subtypes have the same behavior. Functions belong to the first type of value in Berry, so they can be passed as values. In addition, it can be directly used in expressions through the "literal" form of "anonymous functions".
+
+A function is a read-only object and cannot be modified once defined. You can compare whether two functions are equal (whether they are the same function), but the function type cannot be compared.\textbf{Native function} (native function) and \textbf{Native closure} (native closure) refer to functions and closures implemented in C language. One of the main purposes of native functions and native closures is to provide functions that the Berry language does not provide, such as IO operations and low-level operations. If a piece of code is used frequently and has performance requirements, it is also recommended to rewrite it as a native function or native closure.
+
+\subsubsection {Class}
+
+In object-oriented programming, a class is an extensible program code template. Classes are used to create instance objects, so the class can be said to be the "type" of the instance. All instance objects are of type \texttt{instance} and they all have a corresponding class, which is called instance \textbf{Class type}. To put it simply, a class is a value representing the type of an instance object, and a class is an abstraction of the characteristics of an instance. A class is also a read-only object, once defined, it cannot be modified.
+
+Classes can only compare equals and unequals, but cannot compare sizes.
+
+\subsubsection {Examples}
+
+An instance is a materialized object generated by a class, and the process of generating an instance from a class is called \texttt{Instantiate}. In object-oriented programming, "instance" is usually synonymous with "object". However, in order to distinguish from non-instance objects, we do not use the term "object" alone, but use "instance" or "instance object". Berry instances are always allocated dynamically and need to be used with a garbage collector. In addition to memory allocation, the process of instantiation also needs to initialize the instance, this process is completed by \texttt{Constructor}. In addition, you can complete the destruction of the object through \texttt{Destructor} before reclaiming the object's memory.
+
+In the internal implementation, the instance will contain a reference to the class, and the instance itself only stores member variables and not methods.
+
+\subsection {Class Type}
+
+Some of the built-in types are class types, they are \texttt{list}, \texttt{map} and \texttt{range}. Unlike custom types, built-in class types can be constructed using literals, for example \texttt{[1, 2, 3]} is a literal of type \texttt{list}.
+
+\subsubsection{List}
+
+The List class is a container that provides support for list data types. Berry's list is an ordered collection of elements, and each element in the list has a unique integer index, and each element can be accessed directly according to the index. List supports inserting or deleting elements at any position, and the element can be of any type. In addition to using indexes, you can also use iterators to access elements in the list.
+
+The implementation of List is a dynamic array, and this data structure has good random access performance. The efficiency of adding and deleting elements at the end of the list is very high, but the efficiency of adding and deleting elements in the middle of the list is low.
+
+The literal initialization method of the List container is to use a list of objects surrounded by square brackets, and multiple objects are separated by commas, for example:
+\begin{lstlisting}[language=berry, numbers=none]
+[] ['string'] [0, 1, 2,'list']
+\end{lstlisting}
+
+Operation: \texttt{insert}, \texttt{push}, \texttt{item}, \texttt{setitem}.
+
+\subsubsection{Map}
+
+Map is also a kind of container, map is a collection of key-value pairs, and each possible key appears at most once in the collection. The Map container provides the following basic operations:
+\begin{itemize}
+    \item Add key-value pairs to the collection
+    \item Remove key-value pairs from the collection
+    \item Modify the value corresponding to an existing key
+    \item Find the corresponding value by key
+\end{itemize}
+
+Map is implemented using a hash table and has high search efficiency. The operation of adding and deleting key-value pairs will consume more time if "re-hashing" occurs.
+
+The Map container can also be initialized using literal values, written in curly braces to enclose a list of key-value pairs, separated by colons between keys and values, and separated by commas between key-value pairs. E.g:
+\begin{lstlisting}[language=berry, numbers=none]
+{} {'str':'hello'} {'str':'hello','int': 45, 78: nil}
+\end{lstlisting}
+
+\subsubsection{Range}
+
+The Range container represents an integer range, which is usually used to iterate in an integer range. This type has a \texttt{\_\_lower\_\_} member and \texttt{\_\_upper\_\_} member, which represent the lower and upper bounds of the range, respectively. The literal value of Range is a pair of integers connected using the .. operator:
+\begin{lstlisting}[language=berry, numbers=none]
+0 .. 10 -5 .. 5
+\end{lstlisting}
+
+When the Range class is used for iteration, the elements of the iteration are all integer values   from the lower bound to the upper bound, including boundary values. For example, the iteration result of \texttt{0..5} is:
+\begin{lstlisting}[language=berry, numbers=none]
+0 1 2 3 4 5
+\end{lstlisting}
+Therefore, it should be noted that for a range of $x\ ..\ (x+n)$, the number of iterations is $n+1$.
+
+\section {variables}A variable is a storage space with a name, and the data or information stored in the storage space is called the value of the variable. Variable names are used to refer to variables in source code. In different scopes, a variable name can bind multiple independent variables, but variables have no aliases. The value of the variable can be accessed or changed at any time during the running of the program. Berry is a dynamically typed language, so the type of variable value is determined at runtime, and the variable can store any type of value.
+
+\subsection {define variables}
+
+The first way to define a variable is to use an assignment statement to assign a value to a new variable name:
+\begin{algorithm}
+$\bm{variable}$\texttt{ = }$\bm{expression}$
+\end{algorithm}\vspace{-0.6em}\\
+$\bm{variable}$ is the name of the variable, and the variable name is an identifier (see section \ref{section::identifier}). $\bm{expression}$ is the expression to initialize the variable.
+\begin{lstlisting}[language=berry, numbers=none]
+a = 1 b ='str'
+\end{lstlisting}
+However, this method of defining variables has some limitations. Take the following code as an example:
+\begin{lstlisting}[language=berry]
+i = 0
+do
+    i = 1
+    print(i) # 1
+end
+print(i) # 1
+\end{lstlisting}
+The \texttt{do} statement in the routine constitutes the inner scope. We modified the value of the variable \texttt{i} at line 3, and the value of \texttt{i} is still \texttt{1} after leaving the inner scope at line 6 . If we want the variable \texttt{i} of the inner scope to be an independent variable, the method of defining the variable by directly assigning to the new variable name cannot meet the requirement, because the identifier \texttt{i} already exists in the outer scope. In this case, the variable can be defined by the \texttt{var} keyword:
+\begin{algorithm}
+\texttt{var }$\bm{variable}$ \\
+\texttt{var }$\bm{variable}$\texttt{ = }$\bm{expression}$
+\end{algorithm}\vspace{-0.6em}\\
+There are two ways of using \texttt{var} to define a variable: The first is to follow the variable name $\bm{variable}$ after the keyword \texttt{var}, in this case the variable will be initialized to \texttt{nil}, and the other is written in The variable is initialized at the same time as the variable is defined. In this case, an initial value expression $\bm{expression}$ is required. Using \texttt{var} to define a variable has two possible results: if the current scope does not define the variable of $\bm{variable}$, define and initialize the variable, otherwise it is equivalent to reinitialize the variable. Therefore, the variable defined with \texttt{var} will shield the variable with the same name in the outer scope.
+
+Now we change the previous example to use the \texttt{var} keyword to define variables:
+\begin{lstlisting}[language=berry]
+i = 0
+do
+    var i = 1
+    print(i) # 1
+end
+print(i) # 0
+\end{lstlisting}
+From the modified routine, it can be found that the value of the variable \texttt{i} in the inner scope is \texttt{1}, and its value in the outer scope is \texttt{0}. This proves that after using the \texttt{var} keyword, a new variable \texttt{i} is defined in the inner scope and the variable with the same name in the outer scope is blocked. After the inner scope ends, the identifier \texttt{i} is once again bound to the variable \texttt{i} in the outer scope.
+
+When using the \texttt{var} keyword to define a variable, you can also use a list of multiple variable names, separated by commas. You can also initialize one or more variables when defining variables:
+\begin{lstlisting}[language=berry, numbers=none]
+var a = 0, b, c ='test'
+\end{lstlisting}
+
+\subsection {Scope and Life Cycle} \label{section::scope_life}
+
+As mentioned earlier, variable names can be bound to multiple variable entities (storage spaces), and variable names are bound to only one entity at each position. The entity bound by the variable name needs to be determined according to the position where the variable name appears.
+
+\textbf{Scope} (scope) refers to the code area where the name and the entity are uniquely bound. Outside the scope, the name may be bound to other entities, or not bound to any entity. The entity is only visible in the scope bound to the name, that is, the variable is only valid in its scope.A code block (see \ref{section::block}) is a scope. A variable is only available inside the block, and names in different blocks may bind different variable entities. The following example demonstrates the scope of variables:
+\begin{lstlisting}[language=berry]
+var i = 0
+do
+    var j ='str'
+    print(i, j) # 0 str
+end
+# The variable j is not available here
+print(i) # 0
+\end{lstlisting}
+The names \texttt{i} and \texttt{j} are defined in this routine. The name \texttt{i} is defined outside the \texttt{do} sentence, and the name defined in the outermost block has \textbf{Global scope} (global scope). The name with global scope is available in the entire program after customization. The name \texttt{j} is defined in the block in the \texttt{do} sentence, and the name of this type of definition in the non-outermost block has \textbf{Local scope} (local scope). A name with a local scope cannot be accessed outside the scope.
+
+Berry has some built-in objects, which are all in the global scope. However, built-in objects and global variables defined in scripts are not in the same global scope. Built-in objects actually belong to \textbf{Built-in scope} (built-in scope). The scope is globally visible as the ordinary global scope, but can be covered by the ordinary global scope. Built-in objects include functions and classes in the standard library. These objects include \texttt{print} functions, \texttt{type} functions, and \texttt{map} classes. Different from other scopes, the variables in the built-in scope are read-only, so "assignment" to the variables in the built-in scope actually defines a variable with the same name in the global scope, which overrides The symbols in the built-in scope.
+
+\subsubsection {nested scope}
+
+Nested scope means that the scope contains another scope. We call the contained scope \textbf{Inner scope}, and the scope that contains the inner scope \textbf{Outer scope}. The name defined in the outer scope can be accessed in all inner scopes. The inner scope can also rebind the name already defined in the outer scope. The previous example using \texttt{var} to define variables describes this scenario.
+
+\subsubsection{Variable Life Cycle}
+
+There is no concept of variable names when the program is running, and variables exist in the form of entities at this time. The "validity period" of a variable during program execution is the variable's \textbf{Life cycle}. Variables at runtime are only valid within the scope. After leaving the scope, the variables will be destroyed to reclaim resources.
+
+Variables defined in the global scope are called \textbf{Global variable} and have \textbf{Static life cycle}. Such variables can be accessed during the entire program running and will not be destroyed. Variables defined in the local scope are called \textbf{Local variable} and have \textbf{Dynamic life cycle}. Such variables cannot be accessed after leaving the scope and will be destroyed.
+
+Due to the different life cycles, local variables and global variables use different ways to allocate storage space. Local variables are allocated on a structure called \textbf{Stack} (stack), and objects allocated based on the stack can be quickly reclaimed at the end of the scope. Global variables are allocated in \textbf{Global table} (global table). Objects in the global table will not be recycled once they are created, and the table can be accessed anywhere in the program.
+
+\subsection {Type of variable}
+
+Berry determines the type of the variable at runtime. In other words, the variable can store any type of value. Therefore Berry is a \textbf{Dynamic typing} language. The interpreter does not deduce the type of the variable at compile time, which may cause some errors to be exposed at runtime. For example, the error generated by executing the expression \texttt{'1' + 1} is a runtime error rather than a compiler error. The advantage of using dynamic types is that many designs can be simplified, and the program will be more flexible, not to mention the need to design a complex type inference system.
+
+Due to the lack of type checking by the interpreter, user code may need to determine the type of value by itself, and this feature can also be used to implement some special operations. This feature also makes overloaded functions unnecessary. For example, the native function \texttt{type} accepts any type of parameter and returns a string describing the parameter type.

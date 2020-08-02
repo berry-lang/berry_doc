@@ -1,0 +1,197 @@
+\chapter{Basic Information}
+
+\section {Introduction}
+
+Berry is an ultra-lightweight dynamic type embedded scripting language. The language mainly supports procedural programming, as well as object-oriented programming and functional programming. An important design goal of Berry is to be able to run on embedded devices with very small memory, so the language is very streamlined. Nevertheless, Berry is still a feature-rich scripting language.
+
+\section{Start using}
+
+\subsection{Get Interpreter}
+
+Readers can go to the project's GitHub page \url{https://github.com/skiars/berry} to get the source code of the Berry interpreter. Readers need to compile the Berry interpreter by themselves. The specific compilation method can be found in the README.md document in the root directory of the source code, which can also be viewed on the GitHub page of the project.
+
+First, you must install software such as GCC, git, and make. If you do not use version control, you can download the source code directly on GitHub without installing git. Readers can use search engines to retrieve information about these software. Readers using Linux and macOS systems should also install the GNU Readline library\footnote{For GNU Readline, the installation command for the Debian series of Linux distributions is \texttt{sudo apt install libreadline-dev}, and the installation command for the RedHat series of Linux distributions is \texttt{yum install readline-devel }, under macOS The installation command is \texttt{brew install readline}. In addition, it is easy to find GNU Readline documentation and related materials in search engines. }. Use \texttt{git} command \footnote {commands need to be used in the "command line interface" after the preparation work is completed. The command line environment in Windows systems is usually a command prompt (CMD) window, while the command line environment in Unix-like systems is usually Called "Terminal" (Terminal). This is not very accurate, but it will not be expanded here. } Clone the interpreter source code from the remote warehouse to the local:
+\begin{lstlisting}[language=bash, numbers=none]
+git clone https://github.com/skiars/berry.git
+\end{lstlisting}
+Enter the berry directory and use the \texttt{make} command to compile the interpreter:
+\begin{lstlisting}[language=bash, numbers=none]
+cd berry
+make
+\end{lstlisting}
+
+Now you should be able to find the executable file of the interpreter in the \textsl{berry} directory (in Windows systems, the file name of the interpreter program is ``\textsl{berry.exe}'', while in Linux and macOS systems the file name is ``\textsl{berry}''), you can run the executable file directly \footnote{In Windows, you can directly double-click to run the executable file. In Linux or macOS, use the terminal to run it. You can also run the interpreter in the Windows command prompt window. Please refer to the README.md file for specific usage. } To start the interpreter. In Linux or macOS, you can use the command \texttt{sudo make install} to install the interpreter, and then you can start the interpreter with the \texttt{berry} command in the terminal.
+
+\subsection {REPL environment}
+
+REPL (Read Eval Print Loop) is generally translated as an interactive interpreter, and this article has also become the interactive mode of the interpreter. This mode consists of four elements: \textbf{Read}, read the source code input by the user from the input device; \textbf{evaluate}, compile and execute the source code input by the user; \textbf{print}, output the result of the evaluation process; \textbf{cycle}, cycle the above operations.
+
+Start the interpreter directly (enter \texttt{berry} in the terminal or command window without parameters, or double-click berry.exe in Windows) to enter the REPL mode, and you will see the following interface:
+\begin{lstlisting}[language=berry, numbers=none]
+Berry 0.0.4 (build in Feb 1 2019, 13:14:04)
+[GCC 8.1.0] on Windows (default)
+>
+\end{lstlisting}
+The first two lines of the interface display the version, compilation time, compiler and operating system of the Berry interpreter. The symbol ``\texttt{>}'' in the third line is called the prompt, and the cursor is displayed behind the prompt. When using the REPL mode, after inputting the source code, pressing the “Enter” key will immediately execute the code and output the result. Press the \texttt{Ctrl\,+\,C} key combination to exit the REPL. In the case of using the Readline library, use the \texttt{Ctrl\,+\,D} key combination to exit the REPL when the input is empty. Since there is no need to edit script files, REPL mode can be used for quick development or idea verification.
+
+\subsubsection {Hello World Program}Take the classic ``Hello World'' program as an example. Enter \texttt{print('Hello World')} in the REPL and execute it. The results are as follows:
+\begin{lstlisting}[language=berry, numbers=none]
+Berry 0.0.4 (build in Feb 1 2019, 13:14:04)
+[GCC 8.1.0] on Windows (default)
+> print('Hello World')
+Hello World
+>
+\end{lstlisting}
+The interpreter output the text ``\texttt{Hello World}''. This line of code realizes the output of the string \texttt{'Hello World'} by calling the \texttt{print} function. In REPL, if the return value of the expression is not \texttt{nil}, the return value will be displayed. For example, entering the expression \texttt{1 + 2} will display the calculation result \texttt{3}:
+\begin{lstlisting}[language=berry, numbers=none]
+> 1 + 2
+3
+\end{lstlisting}
+
+Therefore, the simplest “Hello World” program under REPL is to directly enter the string \texttt{'Hello World'} and run:
+\begin{lstlisting}[language=berry, numbers=none]
+=>'Hello World'
+Hello World
+\end{lstlisting}
+
+\subsubsection {More usage of REPL}
+
+You can also use the interactive mode of the Berry interpreter as a scientific calculator. However, some mathematical functions cannot be used directly. Instead, use the \texttt{import math} statement to import the mathematical library, and then use the functions in the mathematical library. ``\texttt{math.}'' as a prefix, for example \texttt{sin} function should be written as \texttt{math.sin}:
+\begin{lstlisting}[language=berry, numbers=none]
+> import math
+> math.pi
+3.14159
+> math.sin(math.pi / 2)
+1
+> math.sqrt(2)
+1.41421
+\end{lstlisting}
+
+\subsection {Script file}
+
+Berry's script file is a file that stores Berry code, and the script file can be executed by an interpreter. Usually, the script file is a text file with the extension ".be". The command to execute the script using the interpreter is:
+\begin{lstlisting}[language=bash, numbers=none]
+berry script_file
+\end{lstlisting}
+\texttt{script\_file} is the file name of the script file. Using this command will run the interpreter to execute the Berry code in the \texttt{script\_file} script file, and the interpreter will exit after execution.
+
+If you want the interpreter to enter the REPL mode after executing the script file, you can add the \texttt{-i} parameter to the command to call the interpreter:
+\begin{lstlisting}[language=bash, numbers=none]
+berry -i script_file
+\end{lstlisting}
+This command will first execute the code in the \texttt{script\_file} file and then enter the REPL mode.
+
+\section {Words}
+
+Before introducing Berry's syntax, let's take a look at a simple code (you can run this code in REPL mode):
+\begin{lstlisting}[language=berry]
+def func(x) # a function example
+    return x + 1.5
+end
+print('func(10) =', func(10))
+\end{lstlisting}
+
+This code defines a function \texttt{func} and calls it later. Before understanding how this code works, we first introduce the syntax elements of the Berry language.
+
+In the above code, the specific classification of grammatical elements is: \texttt{def}, \texttt{return} and \texttt{end} are keywords of Berry language; and ``\texttt{\# a function example}'' in the first line is called a comment; \texttt{print} , \texttt{func} and \texttt{x} are some identifiers, they are usually used to represent a variable; \texttt{1.5} and \texttt{10} these numbers are called numerical literals, they are equivalent to the numbers used in daily life; \texttt{'func(10) ='} It is a string literal, they are used in places where you need to represent text; \texttt{+} is an addition operator, here the addition operator can be used to add the variable \texttt{x} and the value \texttt{1.5}.
+
+The above classification is actually done from the perspective of a lexical analyzer. Lexical analysis is the first step in Berry source code analysis. In order to write the correct source code, we start with the most basic lexical introduction.
+
+\subsection{Comment}
+
+Comments are some text that does not generate any code. They are used to make comments in the source code and be read by people, while the compiler will not interpret their content. Berry supports single-line comments and cross-line block comments. Single-line comments start with the character ``\texttt{\#}' until the end of the newline character. The quick note starts with the text ``\texttt{\#-}'' and ends with the text ``\texttt{-\#}''. The following is an example of using annotations:
+\begin{lstlisting}[language=berry, numbers=none]
+# This is a line comment
+#- This is a
+   block comment
+-#
+\end{lstlisting}Similar to C language, quick comments do not support nesting. The following code will terminate the analysis of comments at the first ``\texttt{-\#}'' text:
+\begin{lstlisting}[language=berry, numbers=none]
+#- Some comments -# ... -#
+\end{lstlisting}
+
+\subsection {literal value}
+
+The literal value is a fixed value written directly in the source code during programming. Berry's literals are integers, real numbers, booleans, strings, and nil. For example, the value \texttt{34} is an integer denomination.
+
+\subsubsection {Numerical Literal Value}
+
+Numerical literals include \textbf{Integer} (integer) literals and \textbf{Real number} (real) literals.
+\begin{lstlisting}[language=berry, numbers=none]
+40 # Integer literal
+0x80 # Hexadecimal literal (integer)
+3.14 # Real literal
+1.1e-6 # Real literal
+\end{lstlisting}
+
+Numeric literals are written similarly to everyday writing. Berry supports hexadecimal integer denominations. Hexadecimal literals start with the prefix \texttt{0x} or \texttt{0X}, followed by a hexadecimal number.
+
+\subsubsection {Boolean literal value}
+
+Boolean values   (boolean) are used to represent true and false in the logic state. You can use the keywords \texttt{true} and \texttt{false} to represent Boolean literals.
+
+\subsubsection{string literal}
+
+A string is a piece of text, and its literal writing is to use a pair of \texttt{'} or \texttt{"} to surround the string text:
+\begin{lstlisting}[language=berry, numbers=none]
+'this is a string'
+"this is a string"
+\end{lstlisting}
+
+String literals provide some escape sequences to represent characters that cannot be input directly. The escape sequence starts with the character \texttt{'\textbackslash'}, and then follows a specific sequence of characters to achieve escape. The escape sequences specified by Berry are
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{4mm}
+    \begin{tabular}{clclcl} \toprule
+        \textbf{Escape character} & \textbf{significance} & \textbf{Escape character} & \textbf{significance} & \textbf{Escape character} & \textbf{significance} \\ \midrule
+        \texttt{\textbackslash a} & Ring the bell & \texttt{\textbackslash b} & Backspace & \texttt{\textbackslash f} & Form feed \\
+        \texttt{\textbackslash n} & Newline & \texttt{\textbackslash r} & Carriage return & \texttt{\textbackslash t} & Horizontal tab \\
+        \texttt{\textbackslash v} & Vertical tab & \texttt{\textbackslash \textbackslash} & Backslash & \texttt{\textbackslash '} & apostrophe \\
+        \texttt{\textbackslash "} & Double quotes & \texttt{\textbackslash ?} & question mark & \texttt{\textbackslash 0} & Null character \\
+        \bottomrule
+    \end{tabular}
+    \caption{Escape character sequence}
+    \label{tab::escape_character}
+\end{table}
+
+Escape sequences can be used in strings, for example
+\begin{lstlisting}[language=berry, numbers=none]
+print('escape character LF\n\tnew line')
+\end{lstlisting}
+The result of the operation is
+\begin{lstlisting}[numbers=none]
+escape character LF
+        new line
+\end{lstlisting}
+
+You can also use generalized escape sequences, in the form of \texttt{\textbackslash x} followed by 2 hexadecimal digits, or \texttt{\textbackslash} 3 octal digits, using this escape sequence can represent any character. Here are some examples of using the ASCII character set:
+\begin{lstlisting}[language=berry, numbers=none]
+'\115' #-'M' -#'\x34' #- '4' -#'\064' #- '4' -#
+\end{lstlisting}
+
+\subsubsection {Nil literal value}
+
+Nil represents a null value, and its literal value is represented by the keyword \texttt{nil}.
+
+\subsection {identifier} \label{section::identifier}
+
+Identifier (identifier)   is a user-defined name, which starts with an underscore or letter, and then consists of a combination of several underscores, letters or numbers. Similar to most languages, Berry is case-sensitive, so identifiers \texttt{A} and identifiers \texttt{a} will be resolved into two identifiers.
+\begin{lstlisting}[language=berry, numbers=none]
+a
+TestVariable
+Test_Var
+_init
+baseCass
+_
+\end{lstlisting}
+
+\subsection{Keywords}
+
+Berry reserves the following tokens as language keywords:
+\begin{lstlisting}[language=berry, numbers=none]
+    if elif else while for def
+    end class break continue return true
+    false nil var do import as
+\end{lstlisting}
+
+The specific usage of keywords will be introduced in the relevant chapters. Note that keywords cannot be used as identifiers. Because Berry is case sensitive, \texttt{If} can be used for identifiers.

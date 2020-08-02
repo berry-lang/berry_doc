@@ -1,0 +1,360 @@
+\chapter {Statement}
+
+Berry is an imperative programming language. This paradigm assumes that programs are executed step by step. Normally, Berry statements are executed sequentially, and this program structure is called sequential structure. Although the sequence structure is very basic, branch structures and loop structures are usually used in actual programs. Berry provides several control statements to realize this complex flow structure, such as conditional statements and iteration statements.
+
+Except for line comments, carriage returns or line feeds ("\texttt{\textbackslash r}" and "\texttt{\textbackslash n}") are only used as blank characters, so statements can be written across lines. In addition, you can write multiple statements on the same line.
+
+You can add a semicolon at the end of the statement to indicate the end of the statement, but the interpreter can usually split the statement automatically without using a semicolon. You can use semicolons to tell the interpreter how to parse the code for the code that will be ambiguous. However, it is better not to write ambiguous code.
+
+\section {Simple sentence}
+
+\subsection {Expression statement}
+
+Expression statements are mainly statements composed of assignment expressions or function call expressions. Other expressions can also form sentences, but they have no meaning. For example, expression \texttt{1+2} is a sentence written alone, but it has no effect. The following routines give examples of expression statements and function statements:
+\begin{lstlisting}[language=berry, numbers=none]
+a = 1 # Assignment statement
+print(a) # Call statement
+\end{lstlisting}
+Line 2 is a simple assignment statement that assigns the literal value \texttt{i} to the variable \texttt{a}. The statement in line 2 is a function call statement, which prints the value of variable \texttt{a} by calling the \texttt{print} function.
+
+Cross-line expressions are written in the same way as single-line expressions, and no special line continuation symbols are required. E.g:
+\begin{lstlisting}[language=berry, numbers=none]
+a = 1 +
+    func() # Wrap line
+\end{lstlisting}
+You can also write multiple expression statements on one line, and various types of statements can be written on one line. This example puts two expression statements on the same line:
+\begin{lstlisting}[language=berry, numbers=none]
+b = 1 c = 2 # Multiple statements
+\end{lstlisting}
+
+Sometimes the programmer wants to write two statements, but the interpreter may mistakenly think it is one statement. This problem is caused by the ambiguity in the process of grammatical analysis. Take this code as an example:
+\begin{lstlisting}[language=berry, numbers=none]
+a = c
+(b) = 1 # Be regarded as a function call
+\end{lstlisting}
+Suppose the 4th and 5th lines are intended to be two expression sentences: \texttt{a = c} and \texttt{(b) = 1}, but the interpreter will interpret them as a sentence: \texttt{a = c(b) = 1}. The cause of this problem is that the interpreter incorrectly parses \texttt{c} and \texttt{(b)} into function calls. To avoid ambiguity, we can add a semicolon at the end of the statement to clearly separate the statement:
+\begin{lstlisting}[language=berry, numbers=none]
+a = c; (b) = 1;
+\end{lstlisting}
+A better way is not to use parentheses on the left side of the assignment number. Obviously, there is no reason to use parentheses here. Under normal circumstances, complex expressions should not appear on the left side of the assignment operator, but only simple expressions composed of variable names, domain operation expressions, and subscript operation expressions:
+\begin{lstlisting}[language=berry, numbers=none]
+a = c b = 1
+\end{lstlisting}
+Using simple expressions only on the left side of the assignment sign will not cause ambiguity in sentence segmentation. Therefore, in most cases, there is no need to use semicolons to separate expressions, and we do not recommend this way of writing.
+
+\subsection {Block} \label{section::block}
+
+A \textbf{Block} is a collection of several sentences. A block is a scope, so the variables defined in the block can only be accessed inside the block and its sub-blocks. There are many places where blocks are used, such as \texttt{if} statements, \texttt{while} statements, function declarations, etc. These statements will contain a block through a pair of keywords. For example, the block used in the \texttt{if} statement:
+\begin{lstlisting}[language=berry]
+if isOpen
+    close()
+    print('the device was closed')
+end
+\end{lstlisting}
+The statements in lines 2 to 3 constitute a block, which is sandwiched between the pair of keywords \texttt{if} and \texttt{end} (the conditional expression of the statement in \texttt{if} is not in the block). The block does not need to contain any statements, which constitutes an empty block, or it can be said to be a block containing an empty statement. Broadly speaking, any number of consecutive sentences can be called a block, but we prefer to expand the scope of the block as much as possible, which can ensure that the area of   the block is consistent with the scope of the scope. In the above example, we tend to think that rows 2 to 3 are a whole block, which is the largest range between \texttt{if} keywords and \texttt{end} keywords.
+
+\subsubsection {\texttt{do} Statement}Sometimes we just want to open up a new scope, but don't want to use any control statements. In this case, we can use the \texttt{do} statement to encapsulate the block. \texttt{do} The statement has no control function. \texttt{do} The sentence has the form
+\begin{algorithm}
+    \texttt{do}\\
+    \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}\\
+Among them $\bm{block}$ is the block we need. This statement uses a pair of \texttt{do} and \texttt{end} keywords to contain blocks. \texttt{do} The statement has no control function, nor does it generate any runtime instructions.
+
+\section {conditional statement}
+
+Berry provides \texttt{if} statements to realize the function of conditional control execution. This kind of program structure is generally called branch structure. \texttt{if} The statement will determine the branch of execution based on the true (\texttt{true}) or false (\texttt{false}) conditional expression. In some languages, there are other options for implementing conditional control. For example, languages   such as C and C++ provide \texttt{switch} statements, but in order to simplify the design, Berry does not support \texttt{switch} statements.
+
+\subsection{\texttt{if} Statement}
+
+\textbf{\texttt{if} statement} is used to implement the branch structure, which selects the branch of the program according to the true or false of a certain judgment condition. The statement can also include \texttt{else} branch or \texttt{elif} branch. The simple \texttt{if} statement form without branches is
+\begin{algorithm}
+    \texttt{if} $\bm{condition}$ \ \
+    \qquad $\bm{block}$ \ \
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}\\
+$\bm{condition}$ is a conditional expression. When the value of $\bm{condition}$ is \texttt{true}, $\bm{block}$ in the second line will be executed, otherwise the $\bm{block}$ will be skipped and the statement following \texttt{end} will be executed. In the case of $\bm{block}$ being executed, after the last statement in the block is executed, it will leave the \texttt{if} statement and start executing the statement following \texttt{end}.
+
+Here is an example to illustrate the usage of the \texttt{if} statement:
+\begin{lstlisting}[language=berry, numbers=none]
+if 8 % 2 == 0
+    print('this number is even')
+end
+\end{lstlisting}
+This code is used to judge whether the number \texttt{8} is even, and if it is, it will output \texttt{this number is even}. Although this example is very simple, it is enough to illustrate the basic usage of \texttt{if} sentences.
+
+If you want to have a corresponding branch for execution when the condition is met and not met, use the \texttt{if} statement with the \texttt{else} branch. \texttt{if else} The form of the sentence is
+\begin{algorithm}
+    \texttt{if} $\bm{condition}$ \ \
+        \qquad $\bm{block}$ \\
+    \texttt{else} \\
+        \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}
+Different from the simple \texttt{if} statement, the \texttt{if else} statement will execute $\bm{block}$ under the \texttt{else} branch when the value of $\bm{condition}$ is \texttt{false}. No matter which branch is executed under $\bm{block}$, after the last statement in the block is executed, the \texttt{if else} statement will pop out, that is, the statement after \texttt{end} will be executed. In other words, no matter whether the value of $\bm{condition}$ is \texttt{true} or \texttt{false}, one $\bm{block}$ will be executed.
+
+Continue to use the judgment of parity as an example, this time change the demand to output corresponding information according to the parity of the input number. The code to achieve this requirement is:
+\begin{lstlisting}[language=berry, numbers=none]
+if x % 2 == 0
+    print('this number is even')
+else
+    print('this number is odd')
+end
+\end{lstlisting}
+Before running this code, we must first assign an integer value to the variable \texttt{x}, which is the number we want to check for parity. If \texttt{x} is an even number, the program will output \texttt{this number is even}, otherwise it will output \texttt{this number is odd}.Sometimes we need to nest \texttt{if} statements. One way is to nest a \texttt{if} statement under the \texttt{else} branch. This is a very common requirement because many conditions need to be judged consecutively. For this kind of demand, use the \texttt{if else} statement to write:
+\begin{lstlisting}[language=berry, numbers=none]
+if expr
+    block
+else
+    if expr
+        block
+    end
+end
+\end{lstlisting}
+Obviously, this way of writing will increase the indentation level of the code, and it is more cumbersome to use multiple \texttt{end} at the end. As an improvement, Berry provides the \texttt{elif} branch to optimize the above writing. Using the \texttt{elif} branch is equivalent to the above code, in the form
+\begin{algorithm}
+    \texttt{if} $\bm{condition}$ \\
+        \qquad $\bm{block}$ \\
+    \texttt{elif} $\bm{condition}$ \\
+        \qquad $\bm{block}$ \\
+    \texttt{else} \\
+    \qquad $\bm{block}$ \\
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}
+
+\texttt{elif} The branch must be used after the \texttt{if} branch and before the \text{else} branch, and the \texttt{elif} branch can be used multiple times in succession. If the $\bm{condition}$ corresponding to the \texttt{elif} branch is satisfied, the $\bm{block}$ under the branch will be executed. \texttt{elif} Branching is suitable for situations that require multiple conditions to be judged in sequence.
+
+We use a piece of code that judges positive, negative, and 0 to demonstrate the \texttt{elif} branch:
+\begin{lstlisting}[language=berry, numbers=none]
+if x> 0
+    print('positive')
+elif x == 0
+    print('zero')
+else
+    print('negative')
+end
+\end{lstlisting}
+Here too, the variable \texttt{x} must be assigned first. This code is very simple and will not be explained.
+
+Some languages   have a problem called dangling "\texttt{else}", which refers to when a \texttt{if} sentence is nested inside another \texttt{if} sentence, where does the \texttt{else} branch belong? Problem with the sentence \texttt{if}. When using C/C++, we must consider the problem of dangling \texttt{else}. In order to avoid ambiguity on the problem of \texttt{if else}, C/C++ programmers often use curly braces to make a branch into a block. In Berry, the branch of the \texttt{if} statement must be a block, which also determines that Berry does not have the problem of overhanging \texttt{else}.
+
+\section {Iteration Statement}
+
+Iterative statements are also called loop statements, which are used to repeat certain operations until the termination condition is met. Berry provides \texttt{while} statement and \texttt{for} two iteration statements. Many languages   also provide these two statements for iteration. Berry’s \texttt{while} statement is similar to the \texttt{while} statement in C/C++, but Berry’s \texttt{for} statement is only used to traverse the elements in the container, similar to the \texttt{foreach} statement provided by some languages   and the one introduced by C++11 New \texttt{for} sentence style. The C-style \texttt{for} statement is not supported.
+
+\subsection{\texttt{while} Statement}
+
+\textbf{\texttt{while} statement} is a basic iterative statement. \texttt{while} statement uses a judgment condition. When the condition is true, the loop body is executed repeatedly, otherwise the loop is ended. The pattern of the statement is
+\begin{algorithm}
+    \texttt{while} $\bm{condition}$ \ \
+        \qquad $\bm{block}$ \ \
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}\\
+When the program runs to the \texttt{while} statement, it will check whether the expression $\bm{condition}$ is true or false. If it is true, execute the loop body $\bm{block}$, otherwise end the loop. After executing the last statement in $\bm{block}$, the program will jump to the beginning of the statement \texttt{while} and start the next round of detection. If the $\bm{condition}$ expression is false when it is first evaluated, the loop body $\bm{block}$ will not be executed at all (same as the $\bm{condition}$ expression of the \texttt{if} statement is false).Generally speaking, the value of $\bm{condition}$ expression should be able to change during the loop, rather than a constant or a variable modified outside the loop, which will cause the loop to not execute or fail to terminate. A loop that never ends is called an endless loop. Usually we usually expect the loop to execute a specified number of times and then terminate. For example, when using the \texttt{while} loop to access all elements in the array, we hope that the number of loop executions is the length of the array, for example:
+\begin{lstlisting}[language=berry, numbers=none]
+i = 0
+l = ['a','b','c']
+while i <l.size()
+    print(l[i])
+    i = i + 1
+end
+\end{lstlisting}
+This loop gets the elements from the array \texttt{l} and prints them. We use a variable \texttt{i} as the loop counter and array index. We let the value of \texttt{i} reach the length of the array \texttt{l} to end the loop. In the last line of the loop body, we add \texttt{1} to the value of \texttt{i} to ensure that the next element of the array is accessed in the next loop, and the \texttt{while} loop ends when the number of loops reaches the length of the array.
+
+\subsection{\texttt{for} Statement}
+
+Berry’s \textbf{\texttt{for} statement} is used to traverse the elements in the container, and its form is
+\begin{algorithm}
+    \texttt{for } $\bm{varaible}$ \texttt{:} $\bm{expression}$ \\
+        \qquad $\bm{block}$ \ \
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}
+
+$\bm{expression}$ The value of the expression must be an iterable container or function, such as the \texttt{range} class. \texttt{for} The statement obtains an iterator from the container, and obtains an element in the container every time through the call to the iterator.
+
+$\bm{varaible}$ is called an iteration variable, which is always defined in the statement \texttt{for}. Therefore $\bm{varaible}$ must be a variable name and not an expression. The container element obtained from the iterator in each loop will be assigned to the iteration variable. This process occurs before the first statement in $\bm{block}$.
+
+The \texttt{for} statement will check whether there are any unvisited elements in the iterator for iteration. If there are, the next iteration will start, otherwise it will end the \texttt{for} statement and execute the statement following \texttt{end}. Currently, Berry only provides read-only iterators, which means that the elements in the container cannot be modified through the iteration variables in the \texttt{for} statement.
+
+The scope of the iteration variable $\bm{varaible}$ is limited to the loop body $\bm{block}$, and the variable will not have any relationship with the variable with the same name outside the scope. To illustrate this point, let's use an example to illustrate. In this example, we use the \texttt{for} statement to access all the elements in the \texttt{rang} instance and print them out. Of course, we also use this example to demonstrate the scope of loop variables.
+\begin{lstlisting}[language=berry]
+i = "Hi, I'm fine." # Outer variable
+for i: 0 .. 2
+    print(i) # Iteration variable
+end
+print(i)
+\end{lstlisting}
+
+In this example, relative to the iteration variable \texttt{i} defined in line 2, the variable \texttt{i} defined in line 1 is an external variable. Running this example will get the following result
+\begin{lstlisting}[numbers=none]
+0
+1
+2
+Hi, I'm fine
+\end{lstlisting}
+It can be seen that the iteration variable \texttt{i} and the external variable \texttt{i} are two different variables. They just have the same name but different scopes.
+
+\subsubsection{\texttt{for} Principle of Statement}
+
+Unlike the traditional iterative statement \texttt{while}, the \texttt{for} statement uses iterators to traverse the container. If you need to use the \texttt{for} statement to traverse a custom class, you need to understand its implementation mechanism. When using the \texttt{for} statement, the interpreter hides a lot of implementation details. In fact, for such code:
+\begin{lstlisting}[language=berry]
+for i: 0 .. 2
+    print(i)
+end
+\end{lstlisting}
+Will be translated into the following equivalent code by the interpreter:
+\begin{lstlisting}[language=berry]
+var it = __iterator__(0 .. 2)
+try
+    while true
+        var i = it()
+        print(i)
+    end
+except'stop_iteration'
+    # do nothing
+end
+\end{lstlisting}To some extent, the \texttt{for} statement is just a syntactic sugar, it is essentially just a simple way of writing a piece of complex code. In this equivalent code, an intermediate variable \texttt{it} is used. The value of the variable is an iterator. In this example, it is an iterator of the \texttt{range} container \texttt{0..2}. When processing the \texttt{for} statement, the interpreter hides the intermediate variable of the iterator, so it cannot be accessed in the code.
+
+% <UNUSED>
+\if{false}
+The parameter of function \texttt{\_\_iterator\_\_} is a container, and the function returns an iterator of parameters. This function gets the iterator by calling the parameter \text{iter} method. Therefore, if the return value of the \texttt{iter} method is an instance (\texttt{instance}) type, this instance must have a \texttt{next} method and a \texttt{hasnext} method.
+
+The parameter of function \texttt{\_\_hasnext\_\_} is an iterator, which checks whether the iterator has the next element by calling the \texttt{hasnext} method of the iterator. \texttt{hasnext} The return value of the method is of type \texttt{boolean}. The parameter of function \texttt{\_\_next\_\_} is also an iterator, which gets the next element in the iterator by calling the \texttt{next} method of the iterator.
+
+So far, the \texttt{\_\_iterator\_\_}, \texttt{\_\_hasnext\_\_} and \texttt{\_\_next\_\_} functions simply call some methods of the container or iterator and then return the return value of these methods. Therefore, the equivalent writing of the \texttt{for} statement can also be simplified into this form:
+\begin{lstlisting}[language=berry]
+do
+    var it = (0 .. 2).iter()
+    while (it.hasnext())
+        var i = it.next()
+        print(i)
+    end
+end
+\end{lstlisting}
+This code is easier to read. It can be seen from the effective code that the scope of the iterator variable \texttt{it} is the entire \texttt{for} statement, but it is not visible outside the \texttt{for} statement, while the scope of the iteration variable \texttt{i} is in the loop body, so every time Iterations will define new iteration variables.
+\fi
+% !<UNUSED>
+
+\section {Jump Statement}
+
+The jump statement provided by Berry is used to realize the jump of the program flow in the loop process. Jump statements are divided into \texttt{break} statements and \texttt{continue} statements. These two statements must be used inside iterative statements and can only be used inside functions to jump. Some languages   provide \texttt{goto} statements to realize arbitrary jumps within functions, which Berry does not provide, but the effects of \texttt{goto} statements can be replaced by conditional statements and iteration statements.
+
+\subsection{\texttt{break} Statement}
+
+\texttt{break} Used to terminate the iteration statement and jump out. After the execution of the \texttt{break} statement, the nearest level of the iteration statement will be terminated immediately and execution will continue from the position of the first statement after the iteration statement. In order to illustrate the execution flow of the \texttt{break} statement, we use an example to demonstrate:
+\begin{lstlisting}[language=berry]
+while true
+    print('before break')
+    break
+    print('after break')
+end
+print('out of the loop')
+\end{lstlisting}
+In this code, the \texttt{break} statement is in a \texttt{while} loop. Before and after the \texttt{break} statement and after the \texttt{while} statement, we have placed a print statement to test the execution flow of the program. The result of this code is:
+\begin{lstlisting}[numbers=none]
+before break
+out of the loop
+\end{lstlisting}
+This shows that the \texttt{while} statement ends the loop at the \texttt{break} statement position on the 3rd line and the program continues to execute from the 6th line.
+
+\subsection{\texttt{continue} Statement}\texttt{continue} The statement is also used inside an iteration statement. Its function is to end an iteration and immediately start the next round. Therefore, after the execution of the \texttt{continue} statement, the remaining code in the iteration statement of the nearest layer will no longer be executed, but a new round of iteration will start. Here we use a \texttt{for} statement to demonstrate the function of the \texttt{continue} statement:
+\begin{lstlisting}[language=berry]
+for i: 0 .. 5
+    if i >= 2
+        continue
+    end
+    print('i =', i)
+end
+print('out of the loop')
+\end{lstlisting}
+Here, the \texttt{for} statement will iterate 6 times. When the iteration variable \texttt{i} is greater than or equal to \texttt{2}, the \texttt{continue} statement on line 3 will be executed, and the print statement on line 5 will not be executed thereafter. In other words, line 5 will only be executed in the first two iterations (at this time \texttt{i<2}). The running result of this routine is:
+\begin{lstlisting}[numbers=none]
+i = 0
+i = 1
+out of the loop
+\end{lstlisting}
+It can be seen that the value of the variable \texttt{i} is only printed twice, which is in line with expectations. Readers can try to print the value of the variable \texttt{i} before the \texttt{continue} statement. You will find that the \texttt{for} statement does iterate 6 times, indicating that the \texttt{continue} statement does not terminate the iteration.
+
+\section{\texttt{import} Statement}
+
+Berry has some predefined modules, such as the \texttt{math} module for mathematical calculations. These modules cannot be used directly, but must be imported with the \texttt{import} statement. There are two ways to import a module:
+\begin{algorithm}
+    \texttt{import} $\bm{name}$ \ \
+    \texttt{import} $\bm{name}$ \texttt{as} $\bm{varaible}$
+\end{algorithm}\vspace{-0.6em}\\
+$\bm{name}$ For the name of the module to be imported, when using the first writing method to import the module, the imported module can be called directly by using the module name. The second way of writing is to import a module named $\bm{name}$ and modify the module name when calling it to $\bm{varaible}$. For example, a module named \texttt{math}, we use the first method to import and use:
+\begin{lstlisting}[language=berry, numbers=none]
+import math
+math.sin(0)
+\end{lstlisting}
+Here directly use \texttt{math} to call the module. If the name of a module is relatively long and it is not convenient to write, you can use the \texttt{import as} statement. Here, assume a module named \texttt{hardware}. We want to call the function \texttt{setled} of the module, we can import the module \texttt{hardware} into the variable named \texttt{hw} and use:
+\begin{lstlisting}[language=berry, numbers=none]
+import hardware as hw
+hw.setled(true)
+\end{lstlisting}
+
+\section {Exception Handling}
+
+\textbf{Exception handling} The mechanism allows the program to capture and handle exceptions that occur during runtime. Berry supports an exception capture mechanism, which allows the exception capture and handling process to be separated. That is, part of the program is used to detect and collect exceptions, and the other part of the program is used to handle exceptions.
+
+First of all, the problematic program needs to throw an exception first. When these programs are in an exception handling block, a specific program will catch and handle the exception.
+
+\subsection {Throw an exception}
+
+Using the \texttt{raise} statement raises an exception. \texttt{raise} The statement will pass a value to indicate the type of exception so that it can be identified by a specific exception handler. Here is how to use the \texttt{raise} statement:
+\begin{algorithm}
+    \texttt{raise }$\bm{exception}$ \\
+    \texttt{raise }$\bm{exception}$\texttt{, }$\bm{message}$
+\end{algorithm}\vspace{-0.6em}\\
+The value of the expression $\bm{exception}$ is the thrown \textbf{Outliers}; the optional $\bm{message}$ expression is usually a string describing the exception information, and this expression is called \textbf{Abnormal parameter}. Berry allows any value to be used as an abnormal value, for example, a string can be used as an abnormal value:
+\begin{lstlisting}[language=berry, numbers=none]
+raise'my_error','an example of raise'
+\end{lstlisting}
+
+After the program executes to the \texttt{raise} statement, it will not continue to execute the statements following it, but will jump to the nearest exception handling block. If the most recent exception handling block is in other functions, the functions along the call chain will exit early. If there is no exception handling block, \textbf{Abnormal exit} will occur, and the interpreter will print the exception error message and the call stack of the error location.When the \texttt{raise} statement is in the \texttt{try} statement block, the exception will be caught by the latter. The caught exception will be handled by the \texttt{except} block associated with the \texttt{try} block. If the thrown exception can be handled by the \texttt{except} block, the execution of this block will continue from the statement after the last \texttt{except} block. If all \texttt{except} statements cannot handle the exception, the exception will be rethrown until it can be handled or the exception exits.
+
+\subsubsection {Outliers}
+
+In Berry, you can use any value as an outlier, but we usually use short strings. Berry may also throw some exceptions internally. We call these exceptions \textbf{Standard exception}. All standard exception values   are of string type. Table \ref{tab::stdexpect_list} lists all standard exceptions.
+\begin{table}[htb]
+    \centering
+    \setlength{\tabcolsep}{3mm}
+    \begin{tabular}{cll} \toprule
+        \textbf{Outliers} & \textbf{Description} & \textbf{Parameter Description} \\ \midrule
+        \texttt{assert\_failed} & Assertion failed & Specific exception information \\
+        \texttt{index\_error} & Subscript error (usually out of bounds) & Specific exception information \\
+        \texttt{io\_error} & IO Malfunction & Specific exception information \\
+        \texttt{key\_error} & Key error & Specific exception information \\
+        \texttt{runtime\_error} & VM runtime exception & Specific exception information \\
+        \texttt{stop\_iteration} & End of iterator & no \\
+        \texttt{syntax\_error} & Syntax error & The specific error message given by the compiler \\
+        \texttt{unrealized\_error} & Unrealized function & Specific exception information \\
+        \texttt{type\_error} & Type error & Specific exception information \\
+        \bottomrule
+    \end{tabular}
+    \caption{Standard exception list}
+    \label{tab::stdexpect_list}
+\end{table}
+
+\subsection {Catch exceptions}
+
+Use the \texttt{excpet} statement to catch exceptions. It must be paired with the \texttt{try} statement, that is, a \texttt{try} statement block must be followed by one or more \texttt{except} statement blocks. \texttt{try-except} The basic form of the sentence is
+\begin{algorithm}
+    \texttt{try} \ \
+        \qquad $\bm{block}$ \\
+    \texttt{excpet} $\bm{...}$ \ \
+        \qquad $\bm{block}$ \ \
+    \texttt{end}
+\end{algorithm}\vspace{-0.6em}\\
+The \texttt{except} branch can have the following forms
+\begin{algorithm}
+    \texttt{excpet ..} \ \
+    \texttt{excpet }$\bm{exceptions}$ \\
+    \texttt{excpet }$\bm{exceptions}$\texttt{ as }$\bm{variable}$ \\
+    \texttt{excpet }$\bm{exceptions}$\texttt{ as }$\bm{variable}$\texttt{, }$\bm{message}$ \\
+    \texttt{excpet .. as }$\bm{variable}$ \\
+    \texttt{excpet .. as }$\bm{variable}$\texttt{, }$\bm{message}$ \\
+\end{algorithm}\vspace{-0.6em}\\
+The most basic \texttt{except} statement does not use parameters, this \texttt{except} branch will catch all exceptions; \textbf{Catch exception list} $\bm{exceptions}$ is a list of outliers that can be matched by the corresponding \texttt{except} branch, used between multiple values   in the list Separate by commas; $\bm{variable}$ is \textbf{Abnormal variable}, if the branch catches an exception, the outlier will be bound to the variable; $\bm{message}$ is \textbf{Abnormal parameter variable}, if the branch catches an exception, the abnormal parameter value will be bound To the variable.
+
+When an exception is caught in the \texttt{try} statement block, the interpreter will check the \texttt{except} branch one by one. If the exception value exists in the capture list of a branch, the code block under the branch will be called to handle the exception, and the entire \texttt{try-except} statement will exit after the code block is executed. If all the \texttt{except} branches do not match, the exception will be re-thrown and caught and handled by the outer exception handler.
