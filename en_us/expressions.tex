@@ -36,7 +36,7 @@ Associativity refers to the evaluation order of the operands on both sides of th
     \begin{tabular}{cclc} \toprule
         \textbf{priority} & \textbf{Operator} & \textbf{Description} & \textbf{Associativity} \\ \midrule
         1 & \texttt{()} & Grouping symbol & - \\
-        2 & \texttt{() [] .} & Function call, subscript operation, field operation & left \\
+        2 & \texttt{() [] .} & \makecell[l]{Function call, subscript operation, \\ field operation} & left \\
         3 & \texttt{- ! \textasciitilde} & Negative sign, logical negation, bit flip & left \\
         4 & \texttt{* / \%} & Multiplication, division, and remainder & left \\
         5 & \texttt{+ -} & Addition, subtraction & left \\
@@ -45,7 +45,7 @@ Associativity refers to the evaluation order of the operands on both sides of th
         8 & \texttt{\textasciicircum} & Bitwise XOR & left \\
         9 & \texttt{|} & Bitwise OR & left \\
         10 & \texttt{..} & Concatenation operator & left \\
-        11 & \texttt{< <= > >=} & Less than, less than or equal to, greater than, greater than or equal to & left \\
+        11 & \texttt{< <= > >=} & \makecell[l]{Less than, less than or equal to, \\ greater than, greater than or equal to} & left \\
         12 & \texttt{== !=} & Equal to, not equal to & left \\
         13 & \texttt{\&\&} & Logical AND & left \\
         14 & \texttt{||} & Logical OR & left \\
@@ -224,12 +224,17 @@ Compound assignment operators are operators that combine binary operators and as
     \centering
     \setlength{\tabcolsep}{10mm}
     \begin{tabular}{clcl} \toprule
-        \textbf{Operator} & \textbf{Description} & \textbf{Operator} & \textbf{Description} \\ \midrule
-        \texttt{+=} & Addition assignment & \texttt{-=} & Subtraction assignment \\
-        \texttt{*=} & Multiplication assignment & \texttt{/=} & Preliminary assignment \\
-        \texttt{\%=} & Remainder assignment & \texttt{\&=} & Bitwise AND assignment \\
-        \texttt{|=} & Bitwise OR assignment & \texttt{\textasciicircum=} & Bitwise XOR assignment \\
-        \texttt{<<=} & Left shift assignment & \texttt{>>=} & Right shift assignment \\
+        \textbf{Operator} & \textbf{Description} \\ \midrule
+        \texttt{+=} & Addition assignment \\
+        \texttt{-=} & Subtraction assignment \\
+        \texttt{*=} & Multiplication assignment \\
+        \texttt{/=} & Preliminary assignment \\
+        \texttt{\%=} & Remainder assignment \\
+        \texttt{\&=} & Bitwise AND assignment \\
+        \texttt{|=} & Bitwise OR assignment \\
+        \texttt{\textasciicircum=} & Bitwise XOR assignment \\
+        \texttt{<<=} & Left shift assignment \\
+        \texttt{>>=} & Right shift assignment \\
         \bottomrule
     \end{tabular}
     \caption{Bit operator}
