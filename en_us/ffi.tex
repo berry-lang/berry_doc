@@ -27,7 +27,9 @@ In all scenarios, the virtual machine construction, library loading and destruct
 
 \subsection {Virtual Stack}
 
-Berry uses a virtual stack and native functions written in C to pass values. Each element in the stack is a Berry value. When Berry code calls a native function, it always creates a new stack and pushes all the parameters onto the stack. This virtual stack can also be used in C code to store data, and the value stored in the stack will not be reclaimed by the garbage collector.\begin{wrapfigure}{r}{0.5\textwidth}
+Berry uses a virtual stack and native functions written in C to pass values. Each element in the stack is a Berry value. When Berry code calls a native function, it always creates a new stack and pushes all the parameters onto the stack. This virtual stack can also be used in C code to store data, and the value stored in the stack will not be reclaimed by the garbage collector.
+
+\begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 \begin{tikzpicture}
     \begin{scope}[
@@ -46,10 +48,10 @@ Berry uses a virtual stack and native functions written in C to pass values. Eac
   }
   \node [on chain=1] {\ldots};
   \node (base) at (-0.5, -1.2) {base};
-  \node (top) at (3, -1.2) {top};
+  \node (top)  at (3, -1.2) {top};
 
-  \draw[->] (base) - (1);
-  \draw[->] (top) - (8);
+  \draw[->] (base) -- (1);
+  \draw[->] (top) -- (8);
   \end{scope}
 \end{tikzpicture}
 \caption{Virtual stack}
