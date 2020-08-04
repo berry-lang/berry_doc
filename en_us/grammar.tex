@@ -1,0 +1,24 @@
+\chapter {Grammar Definition}
+
+This chapter will give some grammar definitions related to Berry. We use \textbf{Extended Backus Normal Form} (EBNF) to define or express grammar. We did not use strict EBNF grammar to define, but made a lot of simplifications, but these simplifications will not affect readers' understanding of the grammar.
+
+The EBNF definition of Berry language grammar is as follows:
+
+\lstinputlisting[language=ebnf]{../ebnf/berry.ebnf}
+
+The standard EBNF format can be found in related materials. Here is an explanation of the details that need attention when reading the above grammar. The symbols that have appeared to the left of the equal sign are non-terminal symbols, and the others are terminal symbols. The terminator enclosed in quotation marks \texttt{'} is a fixed string, which is usually a language keyword or operator. There are several terminators that are inconvenient to describe directly in EBNF: \texttt{INTEGER} represents the integer face value; \texttt{REAL} represents the real number face value; \texttt{STRING} represents the string literal value; \texttt{ID} represents the identifier. These terminators can be defined using regular expressions:
+
+\begin{itemize}
+    \item \texttt{INTEGER}: \texttt{0x[a-fA-F0-9]+|\textbackslash d+}.
+    \item \texttt{REAR}: \texttt{(\textbackslash d+\textbackslash.?|\textbackslash.\textbackslash d)\textbackslash d*([eE][+-]?\textbackslash d+)?}.
+    \item \texttt{STRING}: \texttt{"(\textbackslash\textbackslash.|[\textasciicircum"])*"|'(\textbackslash\textbackslash.|[\textasciicircum'])*'}.
+    \item \texttt{ID}: \texttt{[\_a-zA-Z]\textbackslash w*}
+\end{itemize}
+
+The symbols that appear sequentially in the standard EBNF are separated by commas. For intuitiveness, I use spaces to implement the comma function. The vertical bar symbol ``|'' is pronounced as "or", it means that the left and right patterns can only match one of them, or has the lowest priority. For example, the grammar $a_0a_1|a_2$ means either the matching formula $a_0a_1$ or the matching $a_2$. The square brackets indicate that the sub-expression inside the parentheses are matched 0 or 1 times, the curly braces indicate that the internal sub-expression is matched 0 or more times, and the parentheses only have the function of taking the internal sub-expression as a whole.
+
+The following is the JSON grammar definition supported by the JSON module in the Berry standard library. The usage of EBNF still complies with the above conventions:
+
+\lstinputlisting[language=ebnf,morekeywords={string,number}]{../ebnf/json.ebnf}
+
+Non-terminal symbols \texttt{string} and \texttt{number} can also be defined using regular expressions. \url{http://www.json.org} gives the standard grammar of JSON, which also includes the definitions of \texttt{string} and \texttt{number}. The Berry JSON library's support for numbers is different from the standard. The standard JSON numbers must start with ``-'' or the number ``0-9'', while the Berry JSON library also accepts numbers starting with a decimal point.
