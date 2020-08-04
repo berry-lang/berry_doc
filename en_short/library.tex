@@ -1,0 +1,195 @@
+\section*{Basic Library}
+
+\subsection*{Global Functions}
+
+\hangpar \texttt{assert(}\textib{expr} [\texttt{,} \textib{msg}]\texttt{)}\\
+Throw \texttt{'assert\_failed'} when \textib{expr} is \textbf{false}, and \textib{msg} is an optional exception message.
+
+\hangpar \texttt{print(}\dots\texttt{)}\\
+Print all arguments to stdout.
+
+\hangpar \texttt{input(}[\textib{prompt}]\texttt{)}\\
+Read a line of text from stdin, \textib{prompt} is optional prompt message.
+
+\hangpar \texttt{super(}\textib{object}\texttt{)}\\
+Get the super class of \textib{object}. The \textib{object} is a class or an instance.
+
+\hangpar \texttt{type(}\textib{expr}\texttt{)}\\
+Get the type name string of \textib{expr}.
+
+\hangpar \texttt{classname(}\textib{object}\texttt{)}\\
+Get the class name of \textib{object}. The \textib{object} is a class or an instance.
+
+\hangpar \texttt{classof(}\textib{object}\texttt{)}\\
+Get the class of \textib{object}, and return nil when it fails.
+
+\hangpar \texttt{number(}\textib{expr}\texttt{)}\quad \hangpar \texttt{int(}\textib{expr}\texttt{)}\quad \hangpar \texttt{real(}\textib{expr}\texttt{)}\\
+Convert \textib{expr} to a number (automatically detect integer or real), integer or real respectively, and return \texttt{0} or \texttt{0.0} if the conversion fails.
+
+\hangpar \texttt{str(}\textib{expr}\texttt{)}\\
+Convert \textib{expr} to a string. For instance, it will try to call the \texttt{tostring} method.
+
+\hangpar \texttt{module(}[\textib{name}]\texttt{)}\\
+Create an empty module, and name is an optional module name.
+
+\hangpar \texttt{size(}\textib{expr}\texttt{)}\\
+Get the length of the string or instance (by calling the \texttt{size} method).
+
+\hangpar \texttt{compile(}\textib{text} [\texttt{,} \textib{mode}]\texttt{)}\\
+When \textib{mode} is \texttt{'string'}, \textib{text} is evaluated as a script, and when \textib{mode} is \texttt{'file'}, a script file whose path is \textib{text} is read and evaluated. The mode is \texttt{'string'} by default.
+
+\hangpar \texttt{issubclass(}\textib{sub}\texttt{,} \textib{sup}\texttt{)}\\
+Returns \texttt{true} if \textib{sub} (class) is \textib{sup} (class or instance) or its derived class, otherwise return \texttt{false}.
+
+\hangpar \texttt{isinstance(}\textib{obj}\texttt{,} \textib{base}\texttt{)}\\
+Returns \texttt{true} if \textib{obj} is an instance of \textib{base} (class or instance) or its derived class, otherwise return \texttt{false}.
+
+\subsection*{List Members}
+
+\hangpar \texttt{init(}\textib{args}\texttt{)}\\
+Constructor, put the elements in \textib{args} into list one by one.
+
+\hangpar \texttt{tostring()}\\
+Serialized the list instance.
+
+\hangpar \texttt{push(}\textib{value}\texttt{)}\\
+Append the \textib{value} to the tail of the list.
+
+\hangpar \texttt{pop(}[\textib{index}]\texttt{)}\\
+Remove the element at \textib{index} (the default index is $-1$) from the list.
+
+\hangpar \texttt{insert(}\textib{index}\texttt{, }\textib{value}\texttt{)}\\
+Insert the \textib{value} before the element at \textib{index}.
+
+\hangpar \texttt{item(}\textib{index}\texttt{)}\\
+Get the element at \textib{index}. The \textib{index} can be an \textsf{integer}, and a \textsf{list} or \textsf{range} instance.
+
+\hangpar \texttt{setitem}\textib{index}\texttt{, }\textib{value}\texttt{)}\\
+Set the element referenced at \textib{index} to \textib{value}.
+
+\hangpar \texttt{size()}\\
+Get the number of elements in the list instance.
+
+\hangpar \texttt{resize(}\textib{expr}\texttt{)}\\
+Modify the number of elements to the value of \textib{expr}. The added elements are set to \texttt{nil}, and the reduced elements are discarded.
+
+\hangpar \texttt{clear()}\\
+Clear all elements in the list instance.
+
+\hangpar \texttt{iter()}\\
+Get the iterator function of the list instance.
+
+\hangpar \texttt{concat()}\\
+Serialize and concatenate all elements in the list instance into a string.
+
+\hangpar \texttt{reverse()}\\
+Reverse the order of all elements in the list instance.
+
+\hangpar \texttt{copy()}\\
+Copy the list instance, not copy the element but keep the reference.
+
+\hangpar \textsf{list}\texttt{() .. }\textib{expr}\\
+Append the value of \textib{expr} to the tail of the list instance and return that instance.
+
+\hangpar \textsf{list}\texttt{() + }\textsf{list}\texttt{()}\\
+Concatenate two list instances and return the left operand instance.
+
+\hangpar \textsf{list}\texttt{() == }\textib{expr}\\
+Check if two list instances are equal. It checks all elements one by one.
+
+\hangpar \textsf{list}\texttt{() != }\textib{expr}\\
+Check if two list instances are not equal. It checks all elements one by one.
+
+\subsection*{Map Members}
+
+\hangpar \texttt{init()}\\
+Constructor.
+
+\hangpar \texttt{tostring()}\\
+Serialized the map instance.
+
+\hangpar \texttt{insert(}\textib{key}\texttt{, }\textib{value}\texttt{)}\\
+Insert a key-value pair and return \texttt{true}, and return \texttt{false} when the insertion fails (e.g. the pair already exists).
+
+\hangpar \texttt{remove(}\textib{key}\texttt{)}\\
+Remove the key-value pair by the \textib{key}.
+
+\hangpar \texttt{item(}\textib{key}\texttt{)}\\
+Get the value mapped by the \textib{key}. It will throw a \texttt{"key\_error"} exception when the key-value pair does not exist.
+
+\hangpar \texttt{setitem(}\textib{key}\texttt{, }\textib{value}\texttt{)}\\
+Set the \textib{value} mapped by the \textib{key}. If the key-value pair does not exist, a new one will be inserted.
+
+\hangpar \texttt{find(}\textib{key}\texttt{)}\\
+Get the value mapped by the \textib{key}. It will return \texttt{nil} when the key-value pair does not exist.
+
+\hangpar \texttt{size()}\\
+Get the number of key-value pairs in the map instance.
+
+\hangpar \texttt{iter()}\\
+Get the value iterator function of the map instance. 
+
+\section*{The String Library}
+
+\subsection*{Import Module}
+
+\hangpar \texttt{\textbf{import} string}
+
+\subsection*{Basic operations}
+
+\hangpar \texttt{string.count(}\textib{s}\texttt{,} \textib{sub}[\texttt{,} \textib{begin}[\texttt{,} \textib{end}]]\texttt{)}\\
+Count the number of occurrences of the \textib{sub} string in the string \textib{s}. Search from the position between \textib{begin} and \textib{end} of \textib{s} (default is $0$ and \texttt{size(}\textib{s}\texttt{)}).
+
+\hangpar \texttt{string.split(}\textib{s}\texttt{,} \textib{pos}\texttt{)}\\
+Split the string \textib{s} into two substrings at position \textib{pos}, and returns the list of those strings.
+
+\hangpar \texttt{string.split(}\textib{s}\texttt{,} \textib{sep}[\texttt{,} \textib{num}]\texttt{)}\\
+Splits the string \textib{s} into substrings wherever \textib{sep} occurs, and returns the list of those strings. Split at most \textib{num} times (default is \texttt{string.count(}\textib{s}\texttt{,} \textib{sep}\texttt{)}).
+
+\hangpar \texttt{string.find(}\textib{s}\texttt{,} \textib{sub}[\texttt{,} \textib{begin}[\texttt{,} \textib{end}]]\texttt{)}\\
+Check whether the string \textib{s} contains the substring \textib{sub}. If the \textib{begin} and \textib{end} (default is $0$ and \texttt{size(}\textib{s}\texttt{)}) are specified, they will be searched in this range.
+
+\hangpar \texttt{hex(}\textib{number}\texttt{)}\\
+Convert \textib{number} to hexadecimal string.
+
+\hangpar \texttt{byte(}\textib{s}\texttt{)}\\
+Get the code value of the first byte of the string \textib{s}.
+
+\hangpar \texttt{char(}\textib{number}\texttt{)}\\
+Convert the \textib{number} used as the code to a character.
+
+\subsection*{Formatting}
+
+\hangpar \texttt{string.format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}\\
+Returns a formatted string. The pattern starting with \texttt{'\%'} in the formatting template \textib{fmt} will be replaced by the value of [\textib{args}]: \texttt{\%}[\textsf{flags}][\textsf{fieldwidth}][\texttt{.}\textsf{precision}]\textsf{type}
+
+\hangpar \textsf{Types}\\
+\begin{tabular}{@{}llp{0.77\columnwidth}}
+    \texttt{\%d} & & Decimal integer. \\
+    \texttt{\%o} & & Octal integer. \\
+    \texttt{\%x} & \texttt{\%X} & Hexadecimal integer lowercase, uppercase. \\
+    \texttt{\%x} & \texttt{\%X} & Octal integer. \\
+    \texttt{\%f} & & Floating-point in the form [-]nnnn.nnnn. \\
+    \texttt{\%e} & \texttt{\%E} & Floating-point in exp. form [-]n.nnnn e [+|-]nnn,
+    uppercase if \texttt{\%E}. \\
+    \texttt{\%g} & \texttt{\%G} & Floating-point as \texttt{\%f} if $-4<\rm{exp.}\leq precision$, else as \texttt{\%e}; uppercase if \texttt{\%G}. \\
+    \texttt{\%c} & & Character having the code passed as integer. \\
+    \texttt{\%s} & & String with no embedded zeros. \\
+    \texttt{\%q} & & String between double quotes, with special characters escaped. \\
+    \texttt{\%\%} & & The \texttt{'\%'} character (escaped). \\
+\end{tabular}
+
+\hangpar \textsf{Flags}\\
+\begin{tabular}{@{}lp{0.77\columnwidth}}
+\texttt{-} & Left-justifies, default is right-justify. \\
+\texttt{+} & Prepends sign (applies to numbers). \\
+(space) & Prepends sign if negative, else space. \\
+\texttt{\#} & Adds \texttt{"0x"} before \texttt{\%x}, force decimal point; for \texttt{\%e}, \texttt{\%f}, leaves trailing zeros for \texttt{\%g}. \\
+\end{tabular}
+
+\hangpar \textsf{Field width} and \textsf{precision}\\
+\begin{tabular}{@{}lp{0.84\columnwidth}}
+\textsf{n} & Puts at least \textsf{n} characters, pad with blanks. \\
+\textsf{0n} & Puts at least \textsf{n} characters, left-pad with zeros \\
+\textsf{.n} & Use at least \textsf{n} digits for integers, rounds to \textsf{n} decimals for floating-point or no more than \textsf{n} chars. for strings. \\
+\end{tabular}
