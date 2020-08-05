@@ -1,21 +1,6 @@
 \documentclass[UTF8, oneside]{book}
-    \usepackage{ctex}
     \usepackage{xpatch}
     \input{../style.tex}
-
-    \xapptocmd{\ttfamily}{\frenchspacing}{}{}
-    % Set font
-    \setCJKmainfont[BoldFont=FZHei-B01S]{FZShuSong-Z01S}
-    \setCJKmonofont{FZFangSong-Z02S}
-    \setCJKsansfont{FZKai-Z03S}
-    \ziju{0.06} % Word spacing
-
-    % Set title and comment format
-    \titleformat{\chapter}{\chapterformat}{Chapter}{1em}{}
-    \captionsetup[figure]{name={Figure},labelsep=quad}
-    \captionsetup[table]{name={Table},labelsep=quad}
-    % Title style redefinition
-    \renewcommand{\contentsname}{\huge{Table of contents}}
 
 \begin{document}
     \pagestyle{plain}
@@ -65,7 +50,6 @@
     \input{portable.tex}
 
     \appendix % appendix
-    \titleformat{\chapter}{\chapterformat}{Appendix\Alph{chapter}}{1em}{}
     \input{grammar.tex}
     \input{build_info.tex}
 
