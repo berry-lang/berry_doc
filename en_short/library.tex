@@ -44,90 +44,145 @@ Returns \texttt{true} if \textib{sub} (class) is \textib{sup} (class or instance
 \hangpar \texttt{isinstance(}\textib{obj}\texttt{,} \textib{base}\texttt{)}\\
 Returns \texttt{true} if \textib{obj} is an instance of \textib{base} (class or instance) or its derived class, otherwise return \texttt{false}.
 
+\hangpar \texttt{open(}\textib{path}[\texttt{,} \textib{mode}]\texttt{)}\\
+Open a file by \textib{path} and return an instance of this file. The file is opened in the specified \textib{mode}:\\
+\begin{tabular}{@{}lp{0.82\columnwidth}}
+    \texttt{'r'} & \textsf{read}-only mode, the file must exist. \\
+    \texttt{'w'} & \textsf{write}-only mode, always create a empty file. \\
+    \texttt{'a'} & Create a empty file or \textsf{append} to the end of an existing file. \\
+    \texttt{'r+'} & \textsf{read}-\textsf{write} mode, the file must exist. \\
+    \texttt{'w+'} & \textsf{read}-\textsf{write} mode, always create a empty file. \\
+    \texttt{'a+'} & \textsf{read}-\textsf{write} mode, create a empty file or \textsf{append} to the end of an existing file. \\
+    \texttt{'b'} & \textsf{binary} mode, it can be combined with other access modes. \\
+\end{tabular}
+
+\subsection*{File Members}
+
+\hangpar \texttt{file.write(}\textib{text}\texttt{)}\\
+Write the \textib{text} to the file.
+
+\hangpar \texttt{file.read(}[\textib{count}]\texttt{)}\\
+If the \textib{count} is specified, the number of bytes will be read, otherwise the entire file will be read.
+
+\hangpar \texttt{file.readline()}\\
+Read a line from the file (the newline character is determined by the platform).
+
+\hangpar \texttt{file.seek(}\textib{offset}\texttt{)}\\
+Set the file pointer to \textib{offset}.
+
+\hangpar \texttt{file.tell()}\\
+Get the offset of the file pointer.
+
+\hangpar \texttt{file.size()}\\
+Get the size of the file.
+
+\hangpar \texttt{file.flush()}\\
+Flush the file buffer.
+
+\hangpar \texttt{file.close()}\\
+Close the file.
+
 \subsection*{List Members}
 
-\hangpar \texttt{init(}\textib{args}\texttt{)}\\
+\hangpar \texttt{list.init(}\textib{args}\texttt{)}\\
 Constructor, put the elements in \textib{args} into list one by one.
 
-\hangpar \texttt{tostring()}\\
+\hangpar \texttt{list.tostring()}\\
 Serialized the list instance.
 
-\hangpar \texttt{push(}\textib{value}\texttt{)}\\
+\hangpar \texttt{list.push(}\textib{value}\texttt{)}\\
 Append the \textib{value} to the tail of the list.
 
-\hangpar \texttt{pop(}[\textib{index}]\texttt{)}\\
+\hangpar \texttt{list.pop(}[\textib{index}]\texttt{)}\\
 Remove the element at \textib{index} (the default index is $-1$) from the list.
 
-\hangpar \texttt{insert(}\textib{index}\texttt{, }\textib{value}\texttt{)}\\
+\hangpar \texttt{list.insert(}\textib{index}\texttt{, }\textib{value}\texttt{)}\\
 Insert the \textib{value} before the element at \textib{index}.
 
-\hangpar \texttt{item(}\textib{index}\texttt{)}\\
+\hangpar \texttt{list.item(}\textib{index}\texttt{)}\\
 Get the element at \textib{index}. The \textib{index} can be an \textsf{integer}, and a \textsf{list} or \textsf{range} instance.
 
-\hangpar \texttt{setitem}\textib{index}\texttt{, }\textib{value}\texttt{)}\\
+\hangpar \texttt{list.setitem}\textib{index}\texttt{, }\textib{value}\texttt{)}\\
 Set the element referenced at \textib{index} to \textib{value}.
 
-\hangpar \texttt{size()}\\
+\hangpar \texttt{list.size()}\\
 Get the number of elements in the list instance.
 
-\hangpar \texttt{resize(}\textib{expr}\texttt{)}\\
+\hangpar \texttt{list.resize(}\textib{expr}\texttt{)}\\
 Modify the number of elements to the value of \textib{expr}. The added elements are set to \texttt{nil}, and the reduced elements are discarded.
 
-\hangpar \texttt{clear()}\\
+\hangpar \texttt{list.clear()}\\
 Clear all elements in the list instance.
 
-\hangpar \texttt{iter()}\\
+\hangpar \texttt{list.iter()}\\
 Get the iterator function of the list instance.
 
-\hangpar \texttt{concat()}\\
+\hangpar \texttt{list.concat()}\\
 Serialize and concatenate all elements in the list instance into a string.
 
-\hangpar \texttt{reverse()}\\
+\hangpar \texttt{list.reverse()}\\
 Reverse the order of all elements in the list instance.
 
-\hangpar \texttt{copy()}\\
+\hangpar \texttt{list.copy()}\\
 Copy the list instance, not copy the element but keep the reference.
 
-\hangpar \textsf{list}\texttt{() .. }\textib{expr}\\
+\hangpar \texttt{list() .. }\textib{expr}\\
 Append the value of \textib{expr} to the tail of the list instance and return that instance.
 
-\hangpar \textsf{list}\texttt{() + }\textsf{list}\texttt{()}\\
+\hangpar \texttt{list() + }\texttt{list()}\\
 Concatenate two list instances and return the left operand instance.
 
-\hangpar \textsf{list}\texttt{() == }\textib{expr}\\
+\hangpar \texttt{list() == }\textib{expr}\\
 Check if two list instances are equal. It checks all elements one by one.
 
-\hangpar \textsf{list}\texttt{() != }\textib{expr}\\
+\hangpar \texttt{list() != }\textib{expr}\\
 Check if two list instances are not equal. It checks all elements one by one.
 
 \subsection*{Map Members}
 
-\hangpar \texttt{init()}\\
+\hangpar \texttt{map.init()}\\
 Constructor.
 
-\hangpar \texttt{tostring()}\\
+\hangpar \texttt{map.tostring()}\\
 Serialized the map instance.
 
-\hangpar \texttt{insert(}\textib{key}\texttt{, }\textib{value}\texttt{)}\\
+\hangpar \texttt{map.insert(}\textib{key}\texttt{, }\textib{value}\texttt{)}\\
 Insert a key-value pair and return \texttt{true}, and return \texttt{false} when the insertion fails (e.g. the pair already exists).
 
-\hangpar \texttt{remove(}\textib{key}\texttt{)}\\
+\hangpar \texttt{map.remove(}\textib{key}\texttt{)}\\
 Remove the key-value pair by the \textib{key}.
 
-\hangpar \texttt{item(}\textib{key}\texttt{)}\\
+\hangpar \texttt{map.item(}\textib{key}\texttt{)}\\
 Get the value mapped by the \textib{key}. It will throw a \texttt{"key\_error"} exception when the key-value pair does not exist.
 
-\hangpar \texttt{setitem(}\textib{key}\texttt{, }\textib{value}\texttt{)}\\
+\hangpar \texttt{map.setitem(}\textib{key}\texttt{, }\textib{value}\texttt{)}\\
 Set the \textib{value} mapped by the \textib{key}. If the key-value pair does not exist, a new one will be inserted.
 
-\hangpar \texttt{find(}\textib{key}\texttt{)}\\
+\hangpar \texttt{map.find(}\textib{key}\texttt{)}\\
 Get the value mapped by the \textib{key}. It will return \texttt{nil} when the key-value pair does not exist.
 
-\hangpar \texttt{size()}\\
+\hangpar \texttt{map.size()}\\
 Get the number of key-value pairs in the map instance.
 
-\hangpar \texttt{iter()}\\
+\hangpar \texttt{map.iter()}\\
 Get the value iterator function of the map instance. 
+
+\subsection*{Range Members}
+
+\hangpar \texttt{rang.init(}\textib{lower}\texttt{,} \textib{upper}\texttt{)}\\
+The constructor. The range is from \textib{lower} to \textib{upper}, and the step is $1$.
+
+\hangpar \texttt{rang.tostring()}\\
+Serialized the rang instance.
+
+\hangpar \texttt{rang.lower()}\\
+Get the \textib{lower} value of the range instance.
+
+\hangpar \texttt{rang.upper()}\\
+Get the \textib{upper} value of the range instance.
+
+\hangpar \texttt{rang.iter()}\\
+Get the value iterator function of the range instance. 
 
 \section*{The String Library}
 
@@ -190,6 +245,6 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 \hangpar \textsf{Field width} and \textsf{precision}\\
 \begin{tabular}{@{}lp{0.84\columnwidth}}
 \textsf{n} & Puts at least \textsf{n} characters, pad with blanks. \\
-\textsf{0n} & Puts at least \textsf{n} characters, left-pad with zeros \\
+\textsf{0n} & Puts at least \textsf{n} characters, left-pad with zeros. \\
 \textsf{.n} & Use at least \textsf{n} digits for integers, rounds to \textsf{n} decimals for floating-point or no more than \textsf{n} chars. for strings. \\
 \end{tabular}
