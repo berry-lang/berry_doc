@@ -248,3 +248,21 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 \textsf{0n} & Puts at least \textsf{n} characters, left-pad with zeros. \\
 \textsf{.n} & Use at least \textsf{n} digits for integers, rounds to \textsf{n} decimals for floating-point or no more than \textsf{n} chars. for strings. \\
 \end{tabular}
+
+\section*{The OS Library}
+
+\hangpar \texttt{os.getcmd()} \\
+Get the path of the current directory.
+
+\hangpar \texttt{os.chdir(}\textib{path}\texttt{)} \\
+Switch the current folder to the \textib{path}.
+
+\hangpar \texttt{os.mkdir(}\textib{path}\texttt{)} \\
+Create a level of directory (with \textib{path}).
+
+\hangpar \texttt{os.remove(}\textib{path}\texttt{)} \\
+Delete file of directory form \textib{path}.
+
+\hangpar \texttt{os.listdir(}[\textib{path}]\texttt{)} \\
+
+
