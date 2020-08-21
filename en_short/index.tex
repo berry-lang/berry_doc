@@ -2,7 +2,9 @@
     \usepackage{xpatch}
     \input{../style.tex}
     \usepackage{fetamont}
+    \usepackage{lastpage}
 
+    \setlength{\footskip}{8mm}
     \geometry{left=0.5in, right=0.5in, top=0.5in, bottom=0.5in}
     \xapptocmd{\ttfamily}{\frenchspacing}{}{}
     \titlespacing*{\section}{0pt}{4pt}{0pt}
@@ -26,7 +28,8 @@
     \newcommand{\texttb}[1]{\texttt{\textbf{#1}}}
 
 \begin{document}
-    \pagestyle{empty}
+    \pagestyle{fancy}
+    \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
     %\input{cover.tex} % cover
     \input{core.tex}
     \input{library.tex}

@@ -96,13 +96,13 @@ Append the \textib{value} to the tail of the list.
 \hangpar \texttt{list.pop(}[\textib{index}]\texttt{)}\\
 Remove the element at \textib{index} (the default index is $-1$) from the list.
 
-\hangpar \texttt{list.insert(}\textib{index}\texttt{, }\textib{value}\texttt{)}\\
+\hangpar \texttt{list.insert(}\textib{index}\texttt{,} \textib{value}\texttt{)}\\
 Insert the \textib{value} before the element at \textib{index}.
 
 \hangpar \texttt{list.item(}\textib{index}\texttt{)}\\
 Get the element at \textib{index}. The \textib{index} can be an \textsf{integer}, and a \textsf{list} or \textsf{range} instance.
 
-\hangpar \texttt{list.setitem}\textib{index}\texttt{, }\textib{value}\texttt{)}\\
+\hangpar \texttt{list.setitem}\textib{index}\texttt{,} \textib{value}\texttt{)}\\
 Set the element referenced at \textib{index} to \textib{value}.
 
 \hangpar \texttt{list.size()}\\
@@ -146,7 +146,7 @@ Constructor.
 \hangpar \texttt{map.tostring()}\\
 Serialized the map instance.
 
-\hangpar \texttt{map.insert(}\textib{key}\texttt{, }\textib{value}\texttt{)}\\
+\hangpar \texttt{map.insert(}\textib{key}\texttt{,} \textib{value}\texttt{)}\\
 Insert a key-value pair and return \texttt{true}, and return \texttt{false} when the insertion fails (e.g. the pair already exists).
 
 \hangpar \texttt{map.remove(}\textib{key}\texttt{)}\\
@@ -155,7 +155,7 @@ Remove the key-value pair by the \textib{key}.
 \hangpar \texttt{map.item(}\textib{key}\texttt{)}\\
 Get the value mapped by the \textib{key}. It will throw a \texttt{"key\_error"} exception when the key-value pair does not exist.
 
-\hangpar \texttt{map.setitem(}\textib{key}\texttt{, }\textib{value}\texttt{)}\\
+\hangpar \texttt{map.setitem(}\textib{key}\texttt{,} \textib{value}\texttt{)}\\
 Set the \textib{value} mapped by the \textib{key}. If the key-value pair does not exist, a new one will be inserted.
 
 \hangpar \texttt{map.find(}\textib{key}\texttt{)}\\
@@ -264,5 +264,30 @@ Create a level of directory (with \textib{path}).
 Delete file of directory form \textib{path}.
 
 \hangpar \texttt{os.listdir(}[\textib{path}]\texttt{)} \\
+Return a list of file and folder names contained in the specified \textib{path} (the default is \texttt{'.'}).
 
+\hangpar \texttt{os.system(}\textib{cmd}[\texttt{,} \textib{args}]\texttt{)} \\
+Execute a system command.
 
+\hangpar \texttt{os.exit()}\\
+Exit the interpreter process.
+
+\subsection*{The \texttt{os.path} Module}
+
+\hangpar \texttt{os.path.isdir(}\textib{path}\texttt{)} \\
+Check if the \textib{path} is a folder.
+
+\hangpar \texttt{os.path.isfile(}\textib{path}\texttt{)} \\
+Check if the \textib{path} is a file.
+
+\hangpar \texttt{os.path.exists(}\textib{path}\texttt{)} \\
+Check if the \textib{path} already exists.
+
+\hangpar \texttt{os.path.split(}\textib{path}\texttt{)} \\
+Split the \textib{path} into dir-name and base-name.
+
+\hangpar \texttt{os.path.splitext(}\textib{path}\texttt{)} \\
+Split the \textib{path} into file-name and ext-name.
+
+\hangpar \texttt{os.path.splitext(}\textib{args}\texttt{)} \\
+Concatenate \textib{args} into a complete path.
