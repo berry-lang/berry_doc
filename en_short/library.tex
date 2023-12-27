@@ -305,28 +305,122 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 \textsf{.n} & Use at least \textsf{n} digits for integers, rounds to \textsf{n} decimals for floating-point or no more than \textsf{n} chars. for strings. \\
 \end{tabular}
 
+\section*{The Math Library}
+
+\hangpar \texttt{\textbf{import} math}
+
+\subsection*{Constants}
+
+\hangpar \texttt{math.pi}\\
+Pi number (\texttt{3.14159} or \texttt{3.141592654} depending or resolution).
+
+\hangpar \texttt{math.nan}\\
+\texttt{NaN} Not-a-Number used to indicate an invalid number.
+
+Fun fact: \texttt{math.nan != math.nan}
+
+\hangpar \texttt{math.imin}\\
+Smallest possible integer depending on compilation options (\texttt{-2147483648} or \texttt{-9223372036854775808}).
+
+\hangpar \texttt{math.imax}\\
+Biggest possible integer depending on compilation options (\texttt{2147483647} or \texttt{9223372036854775807}).
+
+\subsection*{Integer conversion}
+
+\hangpar \texttt{math.floor(}\textib{value}\texttt{)} \\
+Return the rounded down \textib{value} as \texttt{real}.
+
+\hangpar \texttt{math.ceil(}\textib{value}\texttt{)} \\
+Return the rounded up \textib{value} as \texttt{real}.
+
+\subsection*{General functions}
+
+\hangpar \texttt{math.abs(}\textib{value}\texttt{)} \\
+Return the positive absolute value of \textib{value} as \texttt{real}.
+
+\hangpar \texttt{math.rand()} \\
+Return a random \texttt{int}. This is not cryptographic quality.
+
+\hangpar \texttt{math.srand(}\textib{int}\texttt{)} \\
+Seed the random generator with \textib{int}.
+
+\hangpar \texttt{math.isnan(}\textib{value}\texttt{)} \\
+Return \texttt{true} if \textib{value} is a \texttt{NaN} Not-a-Number.
+
+\subsection*{Log \& Exponent}
+
+\hangpar \texttt{math.sqrt(}\textib{value}\texttt{)}\\
+Return the square root of \textib{value}.
+
+\hangpar \texttt{math.log(}\textib{value}\texttt{)}\\
+Return the natural logarithm of \textib{value}.
+
+\hangpar \texttt{math.log10(}\textib{value}\texttt{)}\\
+Return the logarithm in base $10$ of \textib{value}.
+
+\hangpar \texttt{math.exp(}\textib{value}\texttt{)}\\
+Return the natural exponent of \textib{value}.
+
+\hangpar \texttt{math.pow(}\textib{x}\texttt{, }\textib{y}\texttt{)}\\
+Return \textib{x} to the power of \textib{y}.
+
+
+\subsection*{Trigonometry}
+
+\hangpar \texttt{math.sin(}\textib{value}\texttt{)}
+
+\hangpar \texttt{math.cos(}\textib{value}\texttt{)}
+
+\hangpar \texttt{math.tan(}\textib{value}\texttt{)}\\
+Return the sine, cosine, tangent of \textib{value} (\texttt{int} or \texttt{real}) in radians, returns a \texttt{real}.
+
+\hangpar \texttt{math.asin(}\textib{value}\texttt{)}
+
+\hangpar \texttt{math.acos(}\textib{value}\texttt{)}
+
+\hangpar \texttt{math.atan(}\textib{value}\texttt{)}\\
+Return the arc sine, arc cosine, arc tangent of \textib{value} (\texttt{int} or \texttt{real}) in radians, returns a \texttt{real}.
+
+\hangpar \texttt{math.atan2(}\textib{y}\texttt{, }\textib{x}\texttt{)}\\
+Return the arc tangent of \textib{y} \texttt{/} \textib{x} in radians, works even if \textib{x} is zero.
+
+\hangpar \texttt{math.deg(}\textib{value}\texttt{)}\\
+Convert radians to degrees.
+
+\hangpar \texttt{math.rad(}\textib{value}\texttt{)}\\
+Convert degrees to radians.
+
+\subsection*{Hyperbolic}
+
+\hangpar \texttt{math.sinh(}\textib{value}\texttt{)}
+
+\hangpar \texttt{math.cosh(}\textib{value}\texttt{)}
+
+\hangpar \texttt{math.tanh(}\textib{value}\texttt{)}\\
+Return the hyperbolic sine, cosine, tangent of \textib{value} (\texttt{int} or \texttt{real}) in radians, returns a \texttt{real}.
+
 \section*{The Global Library}
 
 \hangpar \texttt{\textbf{import} global}\\
 
 \hangpar \texttt{global()}\\
-Returns the list of all global variables.
+Return the list of all global variables.
 
 \hangpar \texttt{global.contains(}\textib{id}\texttt{)} \\
-Returns \texttt{true} if the global variables exists.
+Return \texttt{true} if the global variables exists.
 
 \hangpar \texttt{global.member(}\textib{id}\texttt{)}
 
 \hangpar \texttt{global.}\textib{id} \\
-Returns value of global variable \textib{id} or \texttt{nil} if it does not exists.
+Return value of global variable \textib{id} or \texttt{nil} if it does not exists.
 
 \hangpar \texttt{global.(}\textib{string}\texttt{)} \\
-Returns value of global variable \textib{string} by name or \texttt{nil} if it does not exists. Example: \texttt{global.("a")}
+Return value of global variable \textib{string} by name or \texttt{nil} if it does not exists. Example: \texttt{global.("a")}
 
 \hangpar \texttt{global.setmember(}\textib{id}\texttt{, }\textib{value}\texttt{)}
 
 \hangpar \texttt{global.}\textib{id}\texttt{ = }\textib{value} \\
-Sets global variable \textib{id} to \textib{value}, create the global variable if needed.
+Set global variable \textib{id} to \textib{value}, create the global variable if needed.
 
 \section*{The JSON Library}
 
@@ -341,31 +435,31 @@ Convert \textib{any} to a JSON string.
 \hangpar \texttt{\textbf{import} introspect}\\
 
 \hangpar \texttt{introspect.members(}\textib{any}\texttt{)} \\
-Returns the list of names of members for the \texttt{class}, \texttt{instance} or \texttt{module}.
+Return the list of names of members for the \texttt{class}, \texttt{instance} or \texttt{module}.
 
 \hangpar \texttt{introspect.members()} \\
-Returns the list of global variables, equivalent to \texttt{global()}.
+Return the list of global variables, equivalent to \texttt{global()}.
 
 \hangpar \texttt{introspect.get(}\textib{any}\texttt{, }\textib{id}\texttt{)} \\
-Reads the attribute \textib{id} for \textib{any}, returns \texttt{nil} if key does not exist.
+Read the attribute \textib{id} for \textib{any}, returns \texttt{nil} if key does not exist.
 
 \hangpar \texttt{introspect.set(}\textib{any}\texttt{, }\textib{id}\texttt{, }\textib{value}\texttt{)} \\
-Sets the attribute \textib{id} for \textib{any} to \textib{value}.
+Set the attribute \textib{id} for \textib{any} to \textib{value}.
 
 \hangpar \texttt{introspect.name(}\textib{any}\texttt{)} \\
-Returns the name of \texttt{any} (function, class or module) or \textib{nil}.
+Return the name of \texttt{any} (function, class or module) or \textib{nil}.
 
 \hangpar \texttt{introspect.ismethod(}\textib{function}\texttt{)} \\
-Returns \texttt{true} if the \textib{function} is a method of a class, \texttt{false} it it's a standalone function.
+Return \texttt{true} if the \textib{function} is a method of a class, \texttt{false} it it's a standalone function.
 
 \hangpar \texttt{introspect.module(}\textib{name}\texttt{)} \\
-Imports module passed by \textib{name}.
+Import module passed by \textib{name}.
 
 \hangpar \texttt{introspect.setmodule(}\textib{name}\texttt{, }\textib{any}\texttt{)} \\
-Changes the value for module \textib{name}; use with caution as it can disrupt the runtime.
+Change the value for module \textib{name}; use with caution as it can disrupt the runtime.
 
 \hangpar \texttt{introspect.toptr(}\textib{int}\texttt{)}  \texttt{introspect.fromptr(}\textib{comptr}\texttt{)} \\
-Converts an \textib{int} to \textib{comptr} and backwards, works only for platforms where integers and pointers are the same size.
+Convert an \textib{int} to \textib{comptr} and backwards, works only for platforms where integers and pointers are the same size.
 
 \section*{The OS Library}
 

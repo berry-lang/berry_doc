@@ -145,6 +145,15 @@ The condition detection operation require a Boolean value, and non-boolean type 
 
 \hangpar \textsf{NOTE}: \textbf{expression} aka. \textbf{expr}; \textbf{identifier} aka. \textbf{id}; and \textbf{condition} aka. \textbf{cond}.
 
+\subsection*{Modules}
+
+Berry has some predefined modules (like \texttt{math}). You can extend the runtime with your own modules, either as Berry code or native code.
+
+\hangpar \texttt{import} \textib{name} \texttt{[}\texttt{as} \textib{variable}\texttt{]}\\
+Load the module \textib{name} and store in local or global variable \textib{name} or \textib{variable} if latter is defined.\\
+
+\hangpar Once a module is loaded, you can't change its content unless you use module \texttt{import introspect}, see below.
+
 \subsection*{Function and Lambda expression}
 
 \hangpar \texttb{def} \textib{name} \texttt{(}\textib{args}\texttt{)} \textib{block} \texttb{end} \\
