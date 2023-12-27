@@ -1,3 +1,9 @@
+# DEPRECATED
+
+The documentation was moved to Markdown in the main repository. The short documentation is also moved to main repository.
+
+The documents below are kept for reference.
+
 # berry_doc
 
 ## Chinese
