@@ -94,6 +94,7 @@ string delimiters; special characters need to be escaped:\\
     \texttt{+} & \parbox{4em}{\texttt{-}} \\
     \texttt{? :} & (conditional expression) \\
     \texttt{=} & (\texttt{=} and other assignment operators) \\
+    \texttt{:=} & (\texttt{:=} walrus operator assignment, as expression) \\
 \end{tabular}
 
 \subsection*{Conditional expression}
@@ -104,7 +105,10 @@ If the value of \textib{condition} is \texttt{true}, then \textib{expression1} w
 The condition detection operation require a Boolean value, and non-boolean type will do the following conversion:\\
 \begin{tabular}{lp{0.78\columnwidth}}
     \textsf{nil} & Convert to \texttt{false}. \\
-    \textsf{number} & 0 is converted to \texttt{false}, others are converted to \texttt{true}. \\
+    \textsf{number} & 0 is converted to \texttt{false}. \\
+    \textsf{string} & empty string converted to \texttt{false}. \\
+    \textsf{comptr} & 0 (NULL) converted to \texttt{false}. \\
+    \textsf{comobj} & 0 (NULL) converted to \texttt{false}. \\
     \textsf{instance} & Try to use the result of the \texttt{tobool()} method, otherwise it will be converted to \texttt{true}. \\
     \textsf{other} & Convert to \texttt{true}. \\
 \end{tabular}
@@ -130,8 +134,6 @@ The condition detection operation require a Boolean value, and non-boolean type 
 
 \hangpar \texttb{for} \textib{id} \texttt{:} \textib{expr} \textib{block} \texttb{end}\quad iterative statement.
 
-\hangpar \texttb{for} \textib{id} \texttt{=} \textib{expr}\texttt{,} \textib{cond}[\texttt{,} \textib{expr}] \textib{block} \texttb{end}\quad loop for statement, (not support now).
-
 \hangpar \texttb{break}\quad exits loop (must be in \texttt{while} or \texttt{for} statement).
 
 \hangpar \texttb{continue}\quad start the next iteration of the loop (must be in \texttt{while} or \texttt{for} statement).
@@ -156,7 +158,9 @@ Arguments list (aka. \textbf{args}), Lambda expression arguments list can omit `
 
 \subsection*{Class and Instance}
 \hangpar \texttb{class} \textib{name} [\texttt{:} \textib{super}]\\
-\{\texttb{var} \textib{id}\{\texttt{,} \textib{id}\} | \hangpar \texttb{def} \textib{id} \texttt{(}\textib{args}\texttt{)} \textib{block} \texttb{end}\}
+\{\texttb{var} \textib{id}\{\texttt{,} \textib{id}\}\}\\
+    | \{\texttb{static var} \textib{id}\{\texttb{=}\textib{expr}\}\}\{\texttt{,} \textib{id}\{\texttb{=}\textib{expr}\}\}\\
+    | \hangpar \{\texttt{static}\} \texttb{def} \textib{id} \texttt{(}\textib{args}\texttt{)} \textib{block} \texttb{end}\}
 
 \hangpar \texttb{end} \\
 class consists of the declaration of some member variables and methods. \textib{name} is the class name (an identifier); \textib{super} is the super class (an expression).
@@ -177,7 +181,7 @@ class consists of the declaration of some member variables and methods. \textib{
 
 \subsection*{Range Instance}
 \begin{tabular}{@{}lp{0.53\columnwidth}}
-    \texttt{r=0..5} & New range from \texttt{0} to \texttt{5}. \\
+    \texttt{r=0..5} & New range from \texttt{0} to \texttt{5} included. \\
 \end{tabular}
 
 \subsection*{Exception handling}

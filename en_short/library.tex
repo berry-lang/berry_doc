@@ -58,11 +58,14 @@ Open a file by \textib{path} and return an instance of this file. The file is op
 
 \subsection*{File Members}
 
-\hangpar \texttt{file.write(}\textib{text}\texttt{)}\\
-Write the \textib{text} to the file.
+\hangpar \texttt{file.write(}\textib{string} | \textib{bytes}\texttt{)}\\
+Write the \textib{text} or\textib{raw bytes} to the file.
 
 \hangpar \texttt{file.read(}[\textib{count}]\texttt{)}\\
 If the \textib{count} is specified, the number of bytes will be read, otherwise the entire file will be read.
+
+\hangpar \texttt{file.readbytes(}[\textib{count}]\texttt{)}\\
+Retruns raw bytes instead of string. If the \textib{count} is specified, the number of bytes will be read, otherwise the entire file will be read.
 
 \hangpar \texttt{file.readline()}\\
 Read a line from the file (the newline character is determined by the platform).
@@ -84,7 +87,16 @@ Close the file.
 
 \subsection*{List Members}
 
-\hangpar \texttt{list.init(}\textib{args}\texttt{)}\\
+\hangpar  \texttt{list[}\textib{index}\texttt{]}\\
+Can be used to read or write at \textib{index}, raises an exception if index is out of bounds. Equivalent to \texttt{list.item()} and \texttt{list.setitem()}.
+
+\hangpar  \texttt{list[}\textib{a} \texttt{..} \textib{b}\texttt{]}\\
+Returns a sub-list containing elements from index \textib{a} to \textib{b} included. If \textib{b} is omitted it includes all elements to the end of thelist. If \textib{b} is negative, it counts from the end of the list (ex \texttt{list[1 .. -2]} removes the first and last elements). Equivalent to \texttt{list.item()}.
+
+\hangpar  \texttt{list[}\textib{list}\texttt{]}\\
+Returns a sub-list from the indices of the list, returns \texttt{nil} element if an index is out of bounds. Equivalent to \texttt{list.item()}.
+
+\hangpar \texttt{list()} or \texttt{list(}\textib{args}\texttt{)}\\
 Constructor, put the elements in \textib{args} into list one by one.
 
 \hangpar \texttt{list.tostring()}\\
@@ -100,10 +112,10 @@ Remove the element at \textib{index} (the default index is $-1$) from the list.
 Insert the \textib{value} before the element at \textib{index}.
 
 \hangpar \texttt{list.item(}\textib{index}\texttt{)}\\
-Get the element at \textib{index}. The \textib{index} can be an \textsf{integer}, and a \textsf{list} or \textsf{range} instance.
+Get the element at \textib{index}. The \textib{index} can be an \textsf{integer}, and a \textsf{list} or \textsf{range} instance, raises an exception if index is out of bounds.
 
-\hangpar \texttt{list.setitem}\textib{index}\texttt{,} \textib{value}\texttt{)}\\
-Set the element referenced at \textib{index} to \textib{value}.
+\hangpar \texttt{list.setitem(}\textib{index}\texttt{,} \textib{value}\texttt{)}\\
+Set the element referenced at \textib{index} to \textib{value}, raises an exception if index is out of bounds.
 
 \hangpar \texttt{list.size()}\\
 Get the number of elements in the list instance.
@@ -165,24 +177,35 @@ Get the value mapped by the \textib{key}. It will return \texttt{nil} when the k
 Get the number of key-value pairs in the map instance.
 
 \hangpar \texttt{map.iter()}\\
-Get the value iterator function of the map instance. 
+Get the iterator function over the values of the map instance. 
+
+\hangpar \texttt{map.keys()}\\
+Get the iterator function over the keys of the map instance. 
+
+\hangpar \texttt{map.contains(}\textib{key}\texttt{)}\\
+Returns \texttt{true} if the map contains the \textib{key}.
 
 \subsection*{Range Members}
 
-\hangpar \texttt{rang.init(}\textib{lower}\texttt{,} \textib{upper}\texttt{)}\\
-The constructor. The range is from \textib{lower} to \textib{upper}, and the step is $1$.
+\hangpar \texttt{range.init(}\textib{lower}\texttt{,} \textib{upper}\{, \textib{increment}\}\texttt{)}\\
+The constructor. The range is from \textib{lower} to \textib{upper}, and the step is $1$ or \textib{increment}. \textib{increment} can be negative.
 
-\hangpar \texttt{rang.tostring()}\\
+\hangpar \texttt{range.tostring()}\\
 Serialized the rang instance.
+\hangpar \texttt{range.iter()}\\
+Get the value iterator function of the range instance. 
 
-\hangpar \texttt{rang.lower()}\\
+\hangpar \texttt{range.lower()}\\
 Get the \textib{lower} value of the range instance.
 
-\hangpar \texttt{rang.upper()}\\
+\hangpar \texttt{range.upper()}\\
 Get the \textib{upper} value of the range instance.
 
-\hangpar \texttt{rang.iter()}\\
-Get the value iterator function of the range instance. 
+\hangpar \texttt{range.incr()}\\
+Get the \textib{increment} value of the range instance.
+
+\hangpar \texttt{range.setrange(}\textib{lower}\texttt{,} \textib{upper}\{, \textib{increment}\}\texttt{)}\\
+Changes the \textib{lower}, \textib{upper}, and \textib{increment}, does not change an existing iterator.
 
 \section*{The String Library}
 
@@ -202,20 +225,35 @@ Split the string \textib{s} into two substrings at position \textib{pos}, and re
 Splits the string \textib{s} into substrings wherever \textib{sep} occurs, and returns the list of those strings. Split at most \textib{num} times (default is \texttt{string.count(}\textib{s}\texttt{,} \textib{sep}\texttt{)}).
 
 \hangpar \texttt{string.find(}\textib{s}\texttt{,} \textib{sub}[\texttt{,} \textib{begin}[\texttt{,} \textib{end}]]\texttt{)}\\
-Check whether the string \textib{s} contains the substring \textib{sub}. If the \textib{begin} and \textib{end} (default is $0$ and \texttt{size(}\textib{s}\texttt{)}) are specified, they will be searched in this range.
+Check whether the string \textib{s} contains the substring \textib{sub}. If the \textib{begin} and \textib{end} (default is $0$ and \texttt{size(}\textib{s}\texttt{)}) are specified, they will be searched in this range. Returns $-1$ if not found.
 
-\hangpar \texttt{hex(}\textib{number}\texttt{)}\\
+\hangpar \texttt{string.hex(}\textib{number}\texttt{)}\\
 Convert \textib{number} to hexadecimal string.
 
-\hangpar \texttt{byte(}\textib{s}\texttt{)}\\
+\hangpar \texttt{string.byte(}\textib{s}\texttt{)}\\
 Get the code value of the first byte of the string \textib{s}.
 
-\hangpar \texttt{char(}\textib{number}\texttt{)}\\
+\hangpar \texttt{string.char(}\textib{number}\texttt{)}\\
 Convert the \textib{number} used as the code to a character.
+
+\subsection*{Transformation}
+
+\hangpar \texttt{string.toupper(}\textib{text}\texttt{)} \texttt{string.tolower(}\textib{text}\texttt{)}\\
+Convert the \textib{text} to uppercase or lowercase; ASCII only no support for Unicode.
+
+\hangpar \texttt{string.tr(}\textib{char}\texttt{, }\textib{char\_or\_empty\_string}\texttt{)}\\
+Replaces any occurrence of single character \textib{char} to another character, or remove if empty string.
+
+\hangpar \texttt{string.replace(}\textib{text1}\texttt{, }\textib{text2}\texttt{)}\\
+Replaces any occurrence of \textib{text1} with \textib{text2} (this is slower than \texttt{string.tr()}
+
+\hangpar \texttt{string.escape(}\textib{text}\texttt{[, }\textib{berry\_mode}\texttt{] )}\\
+Escapes the string with double quotes suitable for C, if \textib{berry\_mode} is \texttt{true} escape to single quotes suitable for Berry.
 
 \subsection*{Formatting}
 
 \hangpar \texttt{string.format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}\\
+\hangpar \texttt{format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}\\
 Returns a formatted string. The pattern starting with \texttt{'\%'} in the formatting template \textib{fmt} will be replaced by the value of [\textib{args}]: \texttt{\%}[\textsf{flags}][\textsf{fieldwidth}][\texttt{.}\textsf{precision}]\textsf{type}
 
 \hangpar \textsf{Types}\\
@@ -230,7 +268,6 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
     \texttt{\%g} & \texttt{\%G} & Floating-point as \texttt{\%f} if $-4<\rm{exp.}\leq precision$, else as \texttt{\%e}; uppercase if \texttt{\%G}. \\
     \texttt{\%c} & & Character having the code passed as integer. \\
     \texttt{\%s} & & String with no embedded zeros. \\
-    \texttt{\%q} & & String between double quotes, with special characters escaped. \\
     \texttt{\%\%} & & The \texttt{'\%'} character (escaped). \\
 \end{tabular}
 
