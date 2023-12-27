@@ -67,14 +67,16 @@ string delimiters; special characters need to be escaped:\\
 \begin{tabular}{@{}lp{0.7\columnwidth}}
     \textsf{expression} & Consist of operators, operands, and grouping symbols (brackets), etc. All expressions are evaluable. \\
     \textsf{statement} & The most basic execution unit. Consists of an assignment expression or function call expression. \\
+    \textsf{walrus} & Combines an assignment to a variable which value can be used as an expression.\\
 \end{tabular}
 
-\hangpar Statement examples:\\
+\hangpar Examples:\\
 \begin{tabular}{@{}ll}
     \texttt{4.5} & A simple expression, just an operand. \\
     \texttt{!true} & Logical not expression, unary operation. \\
     \texttt{1+2} & An addition expression, binary operation. \\
     \texttt{print(12)} & Function call expression. \\
+    \texttt{print(a := 12)} & Walrus assigment and expression. \\
 \end{tabular}
 
 \subsection*{Operators in precedence order}
@@ -161,10 +163,32 @@ Arguments list (aka. \textbf{args}), Lambda expression arguments list can omit `
 \hangpar \texttb{class} \textib{name} [\texttt{:} \textib{super}]\\
 \{\texttb{var} \textib{id}\{\texttt{,} \textib{id}\}\}\\
     | \{\texttb{static var} \textib{id}\{\texttb{=}\textib{expr}\}\}\{\texttt{,} \textib{id}\{\texttb{=}\textib{expr}\}\}\\
-    | \hangpar \{\texttt{static}\} \texttb{def} \textib{id} \texttt{(}\textib{args}\texttt{)} \textib{block} \texttb{end}\}
+    | \hangpar \texttt{[}\texttb{static}\texttt{]} \texttb{def} \textib{id} \texttt{(}\textib{args}\texttt{)} \textib{block} \texttb{end}\}
 
 \hangpar \texttb{end} \\
 class consists of the declaration of some member variables and methods. \textib{name} is the class name (an identifier); \textib{super} is the super class (an expression).
+
+\subsection*{Members and static members}
+
+Methods have an implicit first argument \texttt{self} used to access members.\\
+Static methods (or Class methods) have an implicit \texttt{\_class} argument to access the \texttt{class} object.
+
+\subsection*{Accessing members}
+
+\hangpar \textib{instance}\texttt{.}\textib{key}\\
+Access the instance method or variable by literal name.
+
+\hangpar \textib{instance}\texttt{.(}\textib{string}\texttt{)}\\
+Access the instance method or variable dynamically by string.
+
+Use \textib{instance}\texttt{.a} or \textib{instance}\texttt{.("a")}
+
+\hangpar \textib{class}\texttt{.}\textib{key}\\
+Access the class (static) method or variable by literal name.
+
+\hangpar \textib{class}\texttt{.(}\textib{string}\texttt{)}\\
+Access the class (static) method or variable dynamically by string.
+
 
 \subsection*{List Instance}
 \begin{tabular}{@{}lp{0.74\columnwidth}}
@@ -187,7 +211,7 @@ class consists of the declaration of some member variables and methods. \textib{
 
 \subsection*{Exception handling}
 \hangpar \texttb{throw} \textib{exception} [\texttt{,} \textib{message}]\\
-Thorw a \textib{exception} value and unnecessary \textib{message} value.
+Throw a \textib{exception} value and unnecessary \textib{message} value.
 
 \noindent \texttb{try}\\
 \hphantom{m}\textib{block} \{\\
