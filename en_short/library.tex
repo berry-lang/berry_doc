@@ -305,6 +305,24 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 \textsf{.n} & Use at least \textsf{n} digits for integers, rounds to \textsf{n} decimals for floating-point or no more than \textsf{n} chars. for strings. \\
 \end{tabular}
 
+\subsection*{Simplified Formatting with f-strings}
+
+\hangpar An alternative syntax using f-strings allows more compact formatting.\\
+
+\hangpar \texttt{f"}\textib{f\_fmt}\texttt{"}
+
+\hangpar \texttt{f'}\textib{f\_fmt}\texttt{'}\\
+
+\textib{f\_fmt} is a template string in which value are surrounded by \texttt{\{ \}}
+
+'\texttt{f"a = \{self.a\}"}' is  '\texttt{format("a = \%s", self.a")}'
+
+'\texttt{f"\{self.a:04i\}"}' is  '\texttt{format("\%04i", self.a")}'
+
+'\texttt{f"\{self.a=\}"}' is  '\texttt{format("self.a=\%s", self.a")}'
+
+'\texttt{f"\{self.a=:g\}"}' is  '\texttt{format("self.a=\%g", self.a")}'
+
 \section*{The Math Library}
 
 \hangpar \texttt{\textbf{import} math}
@@ -464,11 +482,20 @@ Set the value at \textib{offset} as an unsigned integer of \textib{size} bytes w
 \hangpar \textib{bytes}\texttt{.seti(}\textib{offset}\texttt{, }\textib{size}\texttt{, }\textib{value}\texttt{)} \\
 Same as \texttt{set} above as signed integer.
 
+\hangpar \textib{bytes}\texttt{.add(}\textib{value}\texttt{, }\textib{size}\texttt{)} \\
+Append \textib{value} to the \textib{bytes} buffer as \textib{size} bytes (\textib{size} can be $1$, $2$, $3$, $4$ for Little Endian or $-2$, $-3$, $-4$ for Big Endian).
+
 \hangpar \textib{bytes}\texttt{.getfloat(}\textib{offset}\texttt{[, }\textib{big\_endian}\texttt{])} \\
 Read the value at \textib{offset} as a 4 bytes floating point number. If \textib{big\_endian} is \texttt{true} read as Big Endian.
 
 \hangpar \textib{bytes}\texttt{.setfloat(}\textib{offset}\texttt{, }\textib{value}\texttt{[, }\textib{big\_endian}\texttt{])} \\
 Set the value at \textib{offset} to a 4 bytes floating point number from \textib{value}. If \textib{big\_endian} is \texttt{true} read as Big Endian.
+
+\hangpar \textib{bytes}\texttt{.getbits(}\textib{offset\_bits}\texttt{, }\textib{len\_bits}\texttt{, }\textib{value}\texttt{)} \\
+Set at bit level from \textib{offset\_bits} of \textib{len\_bits} with \textib{value}.
+
+\hangpar \textib{bytes}\texttt{.setbits(}\textib{offset\_bits}\texttt{, }\textib{len\_bits}\texttt{)} \\
+Read at bit level from \textib{offset\_bits} of \textib{len\_bits}.
 
 \hangpar \textib{bytes}\texttt{.setbytes(}\textib{offset}\texttt{, }\textib{bytes2}\texttt{, [}\textib{start}\texttt{, [}\textib{len}\texttt{]])}\\
 Set buffer at \textib{offset} from \textib{bytes2}; copy entier buffer or only from \textib{start} with \textib{len}.
