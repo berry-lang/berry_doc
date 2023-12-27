@@ -69,7 +69,7 @@ Open a file by \textib{path} and return an instance of this file. The file is op
 \subsection*{File Members}
 
 \hangpar \textib{file}\texttt{.write(}\textib{string} | \textib{bytes}\texttt{)}\\
-Write the \textib{text} or\textib{raw bytes} to the file.
+Write the \textib{text} or \textib{raw bytes} to the file.
 
 \hangpar \textib{file}\texttt{.read(}[\textib{count}]\texttt{)}\\
 If the \textib{count} is specified, the number of bytes will be read, otherwise the entire file will be read.
@@ -96,6 +96,8 @@ Flush the file buffer.
 Close the file.
 
 \subsection*{List Members}
+
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#list-class}{Full documentation}
 
 \hangpar \texttt{list()} or \texttt{list(}\textib{args}\texttt{)}\\
 Constructor, put the elements in \textib{args} into list one by one. Also use \texttt{[]}.
@@ -165,6 +167,8 @@ Check if two list instances are not equal. It checks all elements one by one.
 
 \subsection*{Map Members}
 
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#map-class}{Full documentation}
+
 \hangpar \texttt{map()}\\
 Constructor. Also use \texttt{\{\}}.
 
@@ -200,7 +204,10 @@ Get the iterator function over the values of the map instance.
 
 \hangpar \textib{map}\texttt{.keys()}\\
 Get the iterator function over the keys of the map instance. 
+
 \subsection*{Range Members}
+
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#range-class}{Full documentation}
 
 \hangpar \texttt{range(}\textib{lower}\texttt{,} \textib{upper}\{, \textib{increment}\}\texttt{)}\\
 The constructor. The range is from \textib{lower} to \textib{upper}, and the step is $1$ or \textib{increment}. \textib{increment} can be negative.
@@ -225,9 +232,9 @@ Changes the \textib{lower}, \textib{upper}, and \textib{increment}, does not cha
 
 \section*{The String Library}
 
-\subsection*{Import Module}
-
 \hangpar \texttt{\textbf{import} string}
+
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#string-module}{Full documentation}
 
 \subsection*{Basic operations}
 
@@ -313,19 +320,21 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 
 \hangpar \texttt{f'}\textib{f\_fmt}\texttt{'}\\
 
-\textib{f\_fmt} is a template string in which value are surrounded by \texttt{\{ \}}
+\textib{f\_fmt} is a template string in which each value is surrounded by \texttt{\{ \}}
 
-'\texttt{f"a = \{self.a\}"}' is  '\texttt{format("a = \%s", self.a")}'
+'\texttt{f"a = \{self.a\}"}' is  '\texttt{format("a = \%s", self.a)}'
 
-'\texttt{f"\{self.a:04i\}"}' is  '\texttt{format("\%04i", self.a")}'
+'\texttt{f"\{self.a:04i\}"}' is  '\texttt{format("\%04i", self.a)}'
 
-'\texttt{f"\{self.a=\}"}' is  '\texttt{format("self.a=\%s", self.a")}'
+'\texttt{f"\{self.a=\}"}' is  '\texttt{format("self.a=\%s", self.a)}'
 
-'\texttt{f"\{self.a=:g\}"}' is  '\texttt{format("self.a=\%g", self.a")}'
+'\texttt{f"\{self.a=:g\}"}' is  '\texttt{format("self.a=\%g", self.a)}'
 
 \section*{The Math Library}
 
 \hangpar \texttt{\textbf{import} math}
+
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#math-module}{Full documentation}
 
 \subsection*{Constants}
 
@@ -419,7 +428,9 @@ Return the hyperbolic sine, cosine, tangent of \textib{value} (\texttt{int} or \
 
 \section*{The Bytes Library}
 
-\texttt{bytes()} is a native class used to manipulate raw bytes.\\
+\texttt{bytes()} is a native class used to manipulate raw bytes.
+
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#bytes-class}{Full documentation}
 
 \hangpar \texttt{bytes()}\\
 Constructor for an empty \texttt{bytes} object.
@@ -492,10 +503,10 @@ Read the value at \textib{offset} as a 4 bytes floating point number. If \textib
 Set the value at \textib{offset} to a 4 bytes floating point number from \textib{value}. If \textib{big\_endian} is \texttt{true} read as Big Endian.
 
 \hangpar \textib{bytes}\texttt{.getbits(}\textib{offset\_bits}\texttt{, }\textib{len\_bits}\texttt{, }\textib{value}\texttt{)} \\
-Set at bit level from \textib{offset\_bits} of \textib{len\_bits} with \textib{value}.
+Read at bit level from \textib{offset\_bits} of \textib{len\_bits}.
 
 \hangpar \textib{bytes}\texttt{.setbits(}\textib{offset\_bits}\texttt{, }\textib{len\_bits}\texttt{)} \\
-Read at bit level from \textib{offset\_bits} of \textib{len\_bits}.
+Set at bit level from \textib{offset\_bits} of \textib{len\_bits} with \textib{value}.
 
 \hangpar \textib{bytes}\texttt{.setbytes(}\textib{offset}\texttt{, }\textib{bytes2}\texttt{, [}\textib{start}\texttt{, [}\textib{len}\texttt{]])}\\
 Set buffer at \textib{offset} from \textib{bytes2}; copy entier buffer or only from \textib{start} with \textib{len}.
@@ -525,7 +536,9 @@ Replace \textib{bytes} buffer from \textib{string} as base64.
 
 \section*{The Global Library}
 
-\hangpar \texttt{\textbf{import} global}\\
+\hangpar \texttt{\textbf{import} global}
+
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#module-global}{Full documentation}
 
 \hangpar \texttt{global()}\\
 Return the list of all global variables.
@@ -548,6 +561,8 @@ Set global variable \textib{id} to \textib{value}, create the global variable if
 
 \section*{The JSON Library}
 
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#json-module}{Full documentation}
+
 \hangpar \texttt{json.load(}\textib{string}\texttt{)} \\
 Concatenate \textib{string} into a complete path.
 
@@ -556,7 +571,9 @@ Convert \textib{any} to a JSON string.
 
 \section*{The Instrospect Library}
 
-\hangpar \texttt{\textbf{import} introspect}\\
+\hangpar \texttt{\textbf{import} introspect}
+
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#module-introspect}{Full documentation}
 
 \hangpar \texttt{introspect.members(}\textib{any}\texttt{)} \\
 Return the list of names of members for the \texttt{class}, \texttt{instance} or \texttt{module}.
@@ -586,6 +603,8 @@ Change the value for module \textib{name}; use with caution as it can disrupt th
 Convert an \textib{int} to \textib{comptr} and backwards, works only for platforms where integers and pointers are the same size.
 
 \section*{The OS Library}
+
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#module-os}{Full documentation}
 
 \hangpar \texttt{os.getcmd()} \\
 Get the path of the current directory.
