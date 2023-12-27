@@ -29,6 +29,9 @@ Convert \textib{expr} to a number (automatically detect integer or real), intege
 \hangpar \texttt{str(}\textib{expr}\texttt{)}\\
 Convert \textib{expr} to a string. For instance, it will try to call the \texttt{tostring} method.
 
+\hangpar \texttt{bool(}\textib{expr}\texttt{)}\\
+Convert \textib{expr} to a bool.
+
 \hangpar \texttt{module(}[\textib{name}]\texttt{)}\\
 Create an empty module, and name is an optional module name.
 
@@ -43,6 +46,9 @@ Returns \texttt{true} if \textib{sub} (class) is \textib{sup} (class or instance
 
 \hangpar \texttt{isinstance(}\textib{obj}\texttt{,} \textib{base}\texttt{)}\\
 Returns \texttt{true} if \textib{obj} is an instance of \textib{base} (class or instance) or its derived class, otherwise return \texttt{false}.
+
+\hangpar \texttt{call(}\textib{function}\texttt{[, }\textib{args}\texttt{ ]}\texttt{[, }\textib{list}\texttt{ ]}\texttt{)}\\
+Call a \textib{function} with arbitrary number of arguments, all \textib{args} are pushed as static arguments. If the last argument is a \textib{list}, all elements are pushed as elementary arguments.
 
 \hangpar \texttt{open(}\textib{path}[\texttt{,} \textib{mode}]\texttt{)}\\
 Open a file by \textib{path} and return an instance of this file. The file is opened in the specified \textib{mode}:\\
@@ -129,6 +135,9 @@ Clear all elements in the list instance.
 \hangpar \texttt{list.iter()}\\
 Get the iterator function of the list instance.
 
+\hangpar \texttt{list.keys()}\\
+Return a \texttt{range} object containing indices of the list.
+
 \hangpar \texttt{list.concat()}\\
 Serialize and concatenate all elements in the list instance into a string.
 
@@ -169,6 +178,9 @@ Get the value mapped by the \textib{key}. It will throw a \texttt{"key\_error"} 
 
 \hangpar \texttt{map.setitem(}\textib{key}\texttt{,} \textib{value}\texttt{)}\\
 Set the \textib{value} mapped by the \textib{key}. If the key-value pair does not exist, a new one will be inserted.
+
+\hangpar \texttt{map.insert(}\textib{key}\texttt{,} \textib{value}\texttt{)}\\
+Set the \textib{value} mapped by the \textib{key} only if \textib{key} does not exist, and returns \texttt{true}. Returns \texttt{false} and do not update the value if \textib{key} already exists.
 
 \hangpar \texttt{map.find(}\textib{key}\texttt{)}\\
 Get the value mapped by the \textib{key}. It will return \texttt{nil} when the key-value pair does not exist.
@@ -252,9 +264,10 @@ Escapes the string with double quotes suitable for C, if \textib{berry\_mode} is
 
 \subsection*{Formatting}
 
-\hangpar \texttt{string.format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}\\
+\hangpar \texttt{string.format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}
+
 \hangpar \texttt{format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}\\
-Returns a formatted string. The pattern starting with \texttt{'\%'} in the formatting template \textib{fmt} will be replaced by the value of [\textib{args}]: \texttt{\%}[\textsf{flags}][\textsf{fieldwidth}][\texttt{.}\textsf{precision}]\textsf{type}
+Returns a formatted string. The pattern starting with \texttt{'\%'} in the formatting template \textib{fmt} will be replaced by the value of [\textib{args}]: \texttt{\%}[\textsf{flags}][\textsf{fieldwidth}][\texttt{.}\textsf{precision}]\textsf{type}\\
 
 \hangpar \textsf{Types}\\
 \begin{tabular}{@{}llp{0.77\columnwidth}}
@@ -269,7 +282,7 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
     \texttt{\%c} & & Character having the code passed as integer. \\
     \texttt{\%s} & & String with no embedded zeros. \\
     \texttt{\%\%} & & The \texttt{'\%'} character (escaped). \\
-\end{tabular}
+\end{tabular}\\
 
 \hangpar \textsf{Flags}\\
 \begin{tabular}{@{}lp{0.77\columnwidth}}
@@ -277,7 +290,7 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 \texttt{+} & Prepends sign (applies to numbers). \\
 (space) & Prepends sign if negative, else space. \\
 \texttt{\#} & Adds \texttt{"0x"} before \texttt{\%x}, force decimal point; for \texttt{\%e}, \texttt{\%f}, leaves trailing zeros for \texttt{\%g}. \\
-\end{tabular}
+\end{tabular}\\
 
 \hangpar \textsf{Field width} and \textsf{precision}\\
 \begin{tabular}{@{}lp{0.84\columnwidth}}
@@ -286,10 +299,64 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 \textsf{.n} & Use at least \textsf{n} digits for integers, rounds to \textsf{n} decimals for floating-point or no more than \textsf{n} chars. for strings. \\
 \end{tabular}
 
+\section*{The Global module}
+
+\hangpar \texttt{\textbf{import} global}\\
+
+\hangpar \texttt{global()}\\
+Returns the list of all global variables.
+
+\hangpar \texttt{global.contains(}\textib{id}\texttt{)} \\
+Returns \texttt{true} if the global variables exists.
+
+\hangpar \texttt{global.member(}\textib{id}\texttt{)}
+
+\hangpar \texttt{global.}\textib{id} \\
+Returns value of global variable \textib{id} or \texttt{nil} if it does not exists.
+
+\hangpar \texttt{global.setmember(}\textib{id}\texttt{, }\textib{value}\texttt{)}
+
+\hangpar \texttt{global.}\textib{id}\texttt{ = }\textib{value} \\
+Sets global variable \textib{id} to \textib{value}, create the global variable if needed.
+
 \section*{The JSON Library}
 
 \hangpar \texttt{json.load(}\textib{string}\texttt{)} \\
 Concatenate \textib{string} into a complete path.
+
+\hangpar \texttt{json.dump(}\textib{any}\texttt{)} \\
+Converts \textib{ant} to a JSON string.
+
+\section*{The Instrospect Library}
+
+\hangpar \texttt{\textbf{import} introspect}\\
+
+\hangpar \texttt{introspect.members(}\textib{any}\texttt{)} \\
+Returns the list of names of members for the \texttt{class}, \texttt{instance} or \texttt{module}.
+
+\hangpar \texttt{introspect.members()} \\
+Returns the list of global variables, equivalent to \texttt{global()}.
+
+\hangpar \texttt{introspect.get(}\textib{any}\texttt{, }\textib{id}\texttt{)} \\
+Reads the attribute \textib{id} for \textib{any}, returns \texttt{nil} if key does not exist.
+
+\hangpar \texttt{introspect.set(}\textib{any}\texttt{, }\textib{id}\texttt{, }\textib{value}\texttt{)} \\
+Sets the attribute \textib{id} for \textib{any} to \textib{value}.
+
+\hangpar \texttt{introspect.name(}\textib{any}\texttt{)} \\
+Returns the name of \texttt{any} (function, class or module) or \textib{nil}.
+
+\hangpar \texttt{introspect.ismethod(}\textib{function}\texttt{)} \\
+Returns \texttt{true} if the \textib{function} is a method of a class, \texttt{false} it it's a standalone function.
+
+\hangpar \texttt{introspect.module(}\textib{name}\texttt{)} \\
+Imports module passed by \textib{name}.
+
+\hangpar \texttt{introspect.setmodule(}\textib{name}\texttt{, }\textib{any}\texttt{)} \\
+Changes the value for module \textib{name}; use with caution as it can disrupt the runtime.
+
+\hangpar \texttt{introspect.toptr(}\textib{int}\texttt{)}  \texttt{introspect.fromptr(}\textib{comptr}\texttt{)} \\
+Converts an \textib{int} to \textib{comptr} and backwards, works only for platforms where integers and pointers are the same size.
 
 \section*{The OS Library}
 
