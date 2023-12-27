@@ -14,6 +14,7 @@ A string start with an underscore or letter, followed by some underscore, letter
 if       elif     else     while       for       def
 end      class    break    continue    return    true
 false    nil      var      do          import    as
+try      except   raise    static
 \end{lstlisting}
 
 \subsection*{Operators}
@@ -66,14 +67,16 @@ string delimiters; special characters need to be escaped:\\
 \begin{tabular}{@{}lp{0.7\columnwidth}}
     \textsf{expression} & Consist of operators, operands, and grouping symbols (brackets), etc. All expressions are evaluable. \\
     \textsf{statement} & The most basic execution unit. Consists of an assignment expression or function call expression. \\
+    \textsf{walrus} & Combines an assignment to a variable which value can be used as an expression.\\
 \end{tabular}
 
-\hangpar Statement examples:\\
+\hangpar Examples:\\
 \begin{tabular}{@{}ll}
     \texttt{4.5} & A simple expression, just an operand. \\
     \texttt{!true} & Logical not expression, unary operation. \\
     \texttt{1+2} & An addition expression, binary operation. \\
     \texttt{print(12)} & Function call expression. \\
+    \texttt{print(a := 12)} & Walrus assigment and expression. \\
 \end{tabular}
 
 \subsection*{Operators in precedence order}
@@ -94,6 +97,7 @@ string delimiters; special characters need to be escaped:\\
     \texttt{+} & \parbox{4em}{\texttt{-}} \\
     \texttt{? :} & (conditional expression) \\
     \texttt{=} & (\texttt{=} and other assignment operators) \\
+    \texttt{:=} & (\texttt{:=} walrus operator assignment, as expression) \\
 \end{tabular}
 
 \subsection*{Conditional expression}
@@ -104,7 +108,10 @@ If the value of \textib{condition} is \texttt{true}, then \textib{expression1} w
 The condition detection operation require a Boolean value, and non-boolean type will do the following conversion:\\
 \begin{tabular}{lp{0.78\columnwidth}}
     \textsf{nil} & Convert to \texttt{false}. \\
-    \textsf{number} & 0 is converted to \texttt{false}, others are converted to \texttt{true}. \\
+    \textsf{number} & 0 is converted to \texttt{false}. \\
+    \textsf{string} & empty string converted to \texttt{false}. \\
+    \textsf{comptr} & 0 (NULL) converted to \texttt{false}. \\
+    \textsf{comobj} & 0 (NULL) converted to \texttt{false}. \\
     \textsf{instance} & Try to use the result of the \texttt{tobool()} method, otherwise it will be converted to \texttt{true}. \\
     \textsf{other} & Convert to \texttt{true}. \\
 \end{tabular}
@@ -130,8 +137,6 @@ The condition detection operation require a Boolean value, and non-boolean type 
 
 \hangpar \texttb{for} \textib{id} \texttt{:} \textib{expr} \textib{block} \texttb{end}\quad iterative statement.
 
-\hangpar \texttb{for} \textib{id} \texttt{=} \textib{expr}\texttt{,} \textib{cond}[\texttt{,} \textib{expr}] \textib{block} \texttb{end}\quad loop for statement, (not support now).
-
 \hangpar \texttb{break}\quad exits loop (must be in \texttt{while} or \texttt{for} statement).
 
 \hangpar \texttb{continue}\quad start the next iteration of the loop (must be in \texttt{while} or \texttt{for} statement).
@@ -139,6 +144,15 @@ The condition detection operation require a Boolean value, and non-boolean type 
 \hangpar \texttb{return} [\textib{expr}]\quad exit function and return a (nil) value.
 
 \hangpar \textsf{NOTE}: \textbf{expression} aka. \textbf{expr}; \textbf{identifier} aka. \textbf{id}; and \textbf{condition} aka. \textbf{cond}.
+
+\subsection*{Modules}
+
+Berry has some predefined modules (like \texttt{math}). You can extend the runtime with your own modules, either as Berry code or native code.
+
+\hangpar \texttt{import} \textib{name} \texttt{[}\texttt{as} \textib{variable}\texttt{]}\\
+Load the module \textib{name} and store in local or global variable \textib{name} or \textib{variable} if latter is defined.\\
+
+\hangpar Once a module is loaded, you can't change its content unless you use module \texttt{import introspect}, see below.
 
 \subsection*{Function and Lambda expression}
 
@@ -156,10 +170,34 @@ Arguments list (aka. \textbf{args}), Lambda expression arguments list can omit `
 
 \subsection*{Class and Instance}
 \hangpar \texttb{class} \textib{name} [\texttt{:} \textib{super}]\\
-\{\texttb{var} \textib{id}\{\texttt{,} \textib{id}\} | \hangpar \texttb{def} \textib{id} \texttt{(}\textib{args}\texttt{)} \textib{block} \texttb{end}\}
+\{\texttb{var} \textib{id}\{\texttt{,} \textib{id}\}\}\\
+    | \{\texttb{static var} \textib{id}\{\texttb{=}\textib{expr}\}\}\{\texttt{,} \textib{id}\{\texttb{=}\textib{expr}\}\}\\
+    | \hangpar \texttt{[}\texttb{static}\texttt{]} \texttb{def} \textib{id} \texttt{(}\textib{args}\texttt{)} \textib{block} \texttb{end}\}
 
 \hangpar \texttb{end} \\
 class consists of the declaration of some member variables and methods. \textib{name} is the class name (an identifier); \textib{super} is the super class (an expression).
+
+\subsection*{Members and static members}
+
+Methods have an implicit first argument \texttt{self} used to access members.\\
+Static methods (or Class methods) have an implicit \texttt{\_class} argument to access the \texttt{class} object.
+
+\subsection*{Accessing members}
+
+\hangpar \textib{instance}\texttt{.}\textib{key}\\
+Access the instance method or variable by literal name.
+
+\hangpar \textib{instance}\texttt{.(}\textib{string}\texttt{)}\\
+Access the instance method or variable dynamically by string.
+
+Use \textib{instance}\texttt{.a} or \textib{instance}\texttt{.("a")}
+
+\hangpar \textib{class}\texttt{.}\textib{key}\\
+Access the class (static) method or variable by literal name.
+
+\hangpar \textib{class}\texttt{.(}\textib{string}\texttt{)}\\
+Access the class (static) method or variable dynamically by string.
+
 
 \subsection*{List Instance}
 \begin{tabular}{@{}lp{0.74\columnwidth}}
@@ -177,12 +215,12 @@ class consists of the declaration of some member variables and methods. \textib{
 
 \subsection*{Range Instance}
 \begin{tabular}{@{}lp{0.53\columnwidth}}
-    \texttt{r=0..5} & New range from \texttt{0} to \texttt{5}. \\
+    \texttt{r=0..5} & New range from \texttt{0} to \texttt{5} included. \\
 \end{tabular}
 
 \subsection*{Exception handling}
 \hangpar \texttb{throw} \textib{exception} [\texttt{,} \textib{message}]\\
-Thorw a \textib{exception} value and unnecessary \textib{message} value.
+Throw a \textib{exception} value and unnecessary \textib{message} value.
 
 \noindent \texttb{try}\\
 \hphantom{m}\textib{block} \{\\
