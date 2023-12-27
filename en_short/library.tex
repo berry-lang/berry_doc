@@ -399,6 +399,40 @@ Convert degrees to radians.
 \hangpar \texttt{math.tanh(}\textib{value}\texttt{)}\\
 Return the hyperbolic sine, cosine, tangent of \textib{value} (\texttt{int} or \texttt{real}) in radians, returns a \texttt{real}.
 
+\section*{The Bytes Library}
+
+\texttt{bytes()} is a native class used to manipulate raw bytes.\\
+
+\hangpar \texttt{bytes()}\\
+Constructor for an empty \texttt{bytes} object.
+
+\hangpar \texttt{bytes(}\textib{size}\texttt{)}\\
+Constructor for an empty \texttt{bytes} object, pre-allocate \textib{size} bytes to optimize memory allocation.\\
+If \textib{size} is negative, pre-allocate \texttt{(-}\textib{size}\texttt{)} bytes and make object fixed size, filling with zeros.
+
+\hangpar \texttt{bytes(}\textib{comptr}\texttt{, }\textib{size}\texttt{)}\\
+Constructor to a \texttt{bytes} object mapped at a fixed memory location \textib{comptr} and of fixed \textib{size}. 
+
+\subsection*{General Functions}
+
+\hangpar \textib{bytes}\texttt{.size()}\\
+Return the size of content in bytes; equivalent of \texttt{size(}\textib{bytes}\texttt{)}.
+
+\hangpar \texttt{bytes.resize(}\textib{size}\texttt{)} \\
+Resize the object to \textib{size} bytes, truncate or fill with zeros if needed; unless the buffer is fixed size.
+
+\hangpar \textib{bytes}\texttt{.clear()}\\
+Reset the object to an empty \texttt{bytes()}; unless the buffer is fixed size.
+
+\hangpar \textib{bytes}\texttt{.reverse([}\textib{start}\texttt{, [}\textib{len}\texttt{, [}\textib{grouplen}\texttt{]]])}\\
+Reverse the bytes from \textib{start} over \textib{len} (or full buffer if not specified) over groups of \textib{grouplen} bytes (or single bytes). This is useful for RGB pixel manipulation.
+
+\hangpar \textib{bytes}\texttt{.copy()}\\
+Copy to a new separate object.
+
+\hangpar \textib{bytes}\texttt{.ismapped()}\\
+Return \texttt{true} if the buffer is mapped to a fixed location in memory.
+
 \section*{The Global Library}
 
 \hangpar \texttt{\textbf{import} global}\\
