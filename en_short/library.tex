@@ -314,13 +314,40 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 
 \subsection*{Simplified Formatting with f-strings}
 
-\hangpar An alternative syntax using f-strings allows more compact formatting.\\
+\hangpar An alternative syntax using f-strings allows more compact formatting.
+They are synctactic sugar around \texttt{format()} function, so they have the same performance.\\
 
-\hangpar \texttt{f"}\textib{f\_fmt}\texttt{"}
+\hangpar f-strings are preceded by \texttt{f} and can use single or double quotes. String can be split on several literals and lines.
 
-\hangpar \texttt{f'}\textib{f\_fmt}\texttt{'}\\
+\texttt{f"This uses double quotes"}
 
-\textib{f\_fmt} is a template string in which each value is surrounded by \texttt{\{ \}}
+\texttt{f"This uses single quotes"}
+
+\texttt{f"This" 'uses' "a combination" 'of quotes'}\\
+
+\hangpar Values and expressions are  surrounded by \texttt{\{ \}}
+
+\texttt{f"Hello \{}\textib{name}\texttt{\}"}
+
+\texttt{f"1 + 1 is \{1 + 1\}"}\\
+
+\hangpar For braces, use double-braces, for example with JSON:
+
+\texttt{f'\{\{"name":"\{}\textib{name}\texttt{\}"\}\}'}\\
+
+\hangpar The default format is \texttt{\%s} (string). You can specify a format after a colon '\texttt{:}'. The character '\texttt{\%}' is not required.
+
+\texttt{f"The price is \{}\textib{price}\texttt{:.2g\}"}\\
+
+\hangpar For fast debugging, use equal sign '\texttt{=}' to dump a value with its name:
+
+\texttt{f"\{}\textib{name}\texttt{=\} \{}\textib{price}\texttt{=:.2g\}"}
+
+\texttt{\# format("name=\%s price=\%.2g", name, price")}
+
+\texttt{\# name=bob price=12.34}\\
+
+\hangpar More examples:
 
 '\texttt{f"a = \{self.a\}"}' is  '\texttt{format("a = \%s", self.a)}'
 
@@ -517,9 +544,9 @@ Set buffer at \textib{offset} from \textib{bytes2}; copy entier buffer or only f
 Convert \textib{bytes} buffer to a string representation. To prevent memory exhaustion, only $32$ bytes or to \textib{max\_size}.
 
 \hangpar \textib{bytes}\texttt{.tohex()}\\
-Convert \textib{bytes} buffer to a hex \texttt{string}.
+Convert \textib{bytes} buffer to a hex \texttt{string}, without \texttt{bytes()} decorator.
 
-\hangpar \textib{bytes}\texttt{.tohex(}\textib{string}\texttt{)}\\
+\hangpar \textib{bytes}\texttt{.fromhex(}\textib{string}\texttt{)}\\
 Replace \textib{bytes} buffer from \textib{string} as hex string.
 
 \hangpar \textib{bytes}\texttt{.asstring()}\\
