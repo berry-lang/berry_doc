@@ -452,11 +452,49 @@ Read or write byte at \textib{index} as \texttt{int}; throws an exception if ind
 \hangpar \textib{bytes}\texttt{[}\textib{start}\texttt{..}\textib{end}\texttt{]} \\
 Return a new instance of \texttt{bytes} containing bytes from \textib{start} to \textib{end} included. Indices can be out of bounds. If \textib{end} is omitted, copy to the end of the buffer. If \textib{start} or \textib{end} are negative, count from end of buffer (\texttt{-1} is last byte).
 
-\hangpar \textib{bytes}\texttt{.get(}\textib{offset}\texttt{, }\textib{size}\texttt{]} \\
-Read the value at \textib{offset} as an unsigned integer of \textib{size} bytes (can be $1$, $2$, $3$, $4$ for Little Endian or $-2$, $-3$, $-4$ for Big Endian). Return \texttt{0} if indices are out of bounds.
+\hangpar \textib{bytes}\texttt{.get(}\textib{offset}\texttt{, }\textib{size}\texttt{)} \\
+Read the value at \textib{offset} as an unsigned integer of \textib{size} bytes (\textib{size} can be $1$, $2$, $3$, $4$ for Little Endian or $-2$, $-3$, $-4$ for Big Endian). Return \texttt{0} if indices are out of bounds.
 
-\hangpar \textib{bytes}\texttt{.geti(}\textib{offset}\texttt{, }\textib{size}\texttt{]} \\
+\hangpar \textib{bytes}\texttt{.geti(}\textib{offset}\texttt{, }\textib{size}\texttt{)} \\
 Same as \texttt{get} above as signed integer.
+
+\hangpar \textib{bytes}\texttt{.set(}\textib{offset}\texttt{, }\textib{size}\texttt{, }\textib{value}\texttt{)} \\
+Set the value at \textib{offset} as an unsigned integer of \textib{size} bytes with \textib{value} (\textib{size} can be $1$, $2$, $3$, $4$ for Little Endian or $-2$, $-3$, $-4$ for Big Endian). No effect if indices are out of bounds.
+
+\hangpar \textib{bytes}\texttt{.seti(}\textib{offset}\texttt{, }\textib{size}\texttt{, }\textib{value}\texttt{)} \\
+Same as \texttt{set} above as signed integer.
+
+\hangpar \textib{bytes}\texttt{.getfloat(}\textib{offset}\texttt{[, }\textib{big\_endian}\texttt{])} \\
+Read the value at \textib{offset} as a 4 bytes floating point number. If \textib{big\_endian} is \texttt{true} read as Big Endian.
+
+\hangpar \textib{bytes}\texttt{.setfloat(}\textib{offset}\texttt{, }\textib{value}\texttt{[, }\textib{big\_endian}\texttt{])} \\
+Set the value at \textib{offset} to a 4 bytes floating point number from \textib{value}. If \textib{big\_endian} is \texttt{true} read as Big Endian.
+
+\hangpar \textib{bytes}\texttt{.setbytes(}\textib{offset}\texttt{, }\textib{bytes2}\texttt{, [}\textib{start}\texttt{, [}\textib{len}\texttt{]])}\\
+Set buffer at \textib{offset} from \textib{bytes2}; copy entier buffer or only from \textib{start} with \textib{len}.
+
+\subsection*{Conversion Functions}
+
+\hangpar \textib{bytes}\texttt{.tostring([}\textib{max\_size}\texttt{])}\\
+Convert \textib{bytes} buffer to a string representation. To prevent memory exhaustion, only $32$ bytes or to \textib{max\_size}.
+
+\hangpar \textib{bytes}\texttt{.tohex()}\\
+Convert \textib{bytes} buffer to a hex \texttt{string}.
+
+\hangpar \textib{bytes}\texttt{.tohex(}\textib{string}\texttt{)}\\
+Replace \textib{bytes} buffer from \textib{string} as hex string.
+
+\hangpar \textib{bytes}\texttt{.asstring()}\\
+Convert \textib{bytes} buffer to a \texttt{string} containing the raw bytes.
+
+\hangpar \textib{bytes}\texttt{.fromstring(}\textib{string}\texttt{)}\\
+Replace \textib{bytes} buffer from \textib{string} as raw bytes.
+
+\hangpar \textib{bytes}\texttt{.tob64()}\\
+Convert \textib{bytes} buffer to a base64 \texttt{string}.
+
+\hangpar \textib{bytes}\texttt{.fromb64(}\textib{string}\texttt{)}\\
+Replace \textib{bytes} buffer from \textib{string} as base64.
 
 \section*{The Global Library}
 
@@ -470,7 +508,7 @@ Return \texttt{true} if the global variables exists.
 
 \hangpar \texttt{global.member(}\textib{id}\texttt{)}
 
-\hangpar \texttt{global.}\textib{id} \\
+\hangpar \texttt{global.}\textib{id} \\	
 Return value of global variable \textib{id} or \texttt{nil} if it does not exists.
 
 \hangpar \texttt{global.(}\textib{string}\texttt{)} \\
