@@ -430,8 +430,33 @@ Reverse the bytes from \textib{start} over \textib{len} (or full buffer if not s
 \hangpar \textib{bytes}\texttt{.copy()}\\
 Copy to a new separate object.
 
+\hangpar \textib{bytes}\texttt{==}\textib{bytes}
+
+\hangpar \textib{bytes}\texttt{!=}\textib{bytes}\\
+Return \texttt{true} if content of \textib{bytes} are equal or different.
+
+\hangpar \textib{bytes}\texttt{ .. }\textib{bytes}\\
+Append the second \textib{bytes} to the first \textib{bytes}.
+
+\hangpar \textib{bytes}\texttt{ + }\textib{bytes}\\
+Create a new \textib{bytes} buffer containing the concatenation of both \textib{bytes}.
+
 \hangpar \textib{bytes}\texttt{.ismapped()}\\
 Return \texttt{true} if the buffer is mapped to a fixed location in memory.
+
+\subsection*{Accessor Functions}
+
+\hangpar \textib{bytes}\texttt{[}\textib{index}\texttt{]} \\
+Read or write byte at \textib{index} as \texttt{int}; throws an exception if index is out of bounds.
+
+\hangpar \textib{bytes}\texttt{[}\textib{start}\texttt{..}\textib{end}\texttt{]} \\
+Return a new instance of \texttt{bytes} containing bytes from \textib{start} to \textib{end} included. Indices can be out of bounds. If \textib{end} is omitted, copy to the end of the buffer. If \textib{start} or \textib{end} are negative, count from end of buffer (\texttt{-1} is last byte).
+
+\hangpar \textib{bytes}\texttt{.get(}\textib{offset}\texttt{, }\textib{size}\texttt{]} \\
+Read the value at \textib{offset} as an unsigned integer of \textib{size} bytes (can be $1$, $2$, $3$, $4$ for Little Endian or $-2$, $-3$, $-4$ for Big Endian). Return \texttt{0} if indices are out of bounds.
+
+\hangpar \textib{bytes}\texttt{.geti(}\textib{offset}\texttt{, }\textib{size}\texttt{]} \\
+Same as \texttt{get} above as signed integer.
 
 \section*{The Global Library}
 
