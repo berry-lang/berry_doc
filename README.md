@@ -1,19 +1,15 @@
-# DEPRECATED
+# Berry documentation
 
-The documentation was moved to Markdown in the main repository. The short documentation is also moved to main repository.
+This repository contains the short and full versions of [Berry](https://github.com/berry-lang/berry) documentation.
 
-The documents below are kept for reference.
+It is currently under high rework.
 
 # berry_doc
 
-## Chinese
-
-Folder: *./zh_ch*.
-
-Details: [./zh_cn/README.md](./zh_cn/README.md)
+Note: Chinese version of the documentation is outdated and no longer maintained. They are kept under `archive/` for reference.
 
 ## English
 
-Folder: *./en_us*.
+The Berry Short Manual is kept in XeLaTex format to make it concise and nice looking (and Skiars did most ot the heavy-lifting). The full documentation is migrated on-line to be edited directly as reStructuredText (RST).
 
-Details: [./en_us/README.md](./en_us/README.md)
+[Berry Short Manual](/pdf/berry_short_manual.pdf)

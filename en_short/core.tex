@@ -1,5 +1,7 @@
 \section*{Core Language}
 
+\hangpar \href{https://github.com/berry-lang/berry/wiki/Reference}{Full documentation}
+
 \subsection*{Comments}
 \begin{tabular}{@{}ll}
 \texttt{\#} & Comment to end of line. \\
@@ -110,6 +112,7 @@ The condition detection operation require a Boolean value, and non-boolean type 
     \textsf{nil} & Convert to \texttt{false}. \\
     \textsf{number} & 0 is converted to \texttt{false}. \\
     \textsf{string} & empty string converted to \texttt{false}. \\
+    \textsf{bytes} & empty bytes buffer converted to \texttt{false}. \\
     \textsf{comptr} & 0 (NULL) converted to \texttt{false}. \\
     \textsf{comobj} & 0 (NULL) converted to \texttt{false}. \\
     \textsf{instance} & Try to use the result of the \texttt{tobool()} method, otherwise it will be converted to \texttt{true}. \\
@@ -209,7 +212,7 @@ Access the class (static) method or variable dynamically by string.
 \subsection*{Map Instance}
 \begin{tabular}{@{}lp{0.53\columnwidth}}
     \texttt{m=\{\}} & New empty map value. \\
-    \texttt{m=[0:'ok','k':nil]} & \texttt{l[0]=='ok'} and \texttt{l['k']==nil}; the key can be any value that is not nil.\\
+    \texttt{m=\{0:'ok','k':nil\}} & \texttt{l[0]=='ok'} and \texttt{l['k']==nil}; the key can be any value that is not nil.\\
 \end{tabular}
 
 
@@ -220,7 +223,7 @@ Access the class (static) method or variable dynamically by string.
 
 \subsection*{Exception handling}
 \hangpar \texttb{throw} \textib{exception} [\texttt{,} \textib{message}]\\
-Throw a \textib{exception} value and unnecessary \textib{message} value.
+Throw a \textib{exception} value and optional \textib{message} value.
 
 \noindent \texttb{try}\\
 \hphantom{m}\textib{block} \{\\
@@ -228,7 +231,7 @@ Throw a \textib{exception} value and unnecessary \textib{message} value.
 \hphantom{m}\textbf{block}}\\
 \} \texttb{end}
 \begin{quote}
-    One or more \texttb{except} blocks must exist. Only runtime exceptions can be catch.
+    One or more \texttb{except} blocks must exist. Only runtime exceptions can be caught.
 \end{quote}
 
 \hangpar Some \texttb{except} statements examples:\\
