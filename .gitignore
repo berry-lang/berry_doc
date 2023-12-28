@@ -8,3 +8,4 @@
 *.fls
 
 .vscode
+build
