@@ -12,4 +12,4 @@ Note: Chinese version of the documentation is outdated and no longer maintained.
 
 The Berry Short Manual is kept in XeLaTex format to make it concise and nice looking (and Skiars did most ot the heavy-lifting). The full documentation is migrated on-line to be edited directly as reStructuredText (RST).
 
-[Berry Short Manual](/pdf/berry_short_manual.pdf)
+[Berry Short Manual](https://raw.githubusercontent.com/berry-lang/berry_doc/master/pdf/berry_short_manual.pdf)
