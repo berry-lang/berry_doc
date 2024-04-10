@@ -4,6 +4,8 @@
     \usepackage{fetamont}
     \usepackage{lastpage}
 
+    \widowpenalties 1 10000
+    \raggedbottom
     \setlength{\footskip}{8mm}
     \geometry{left=0.5in, right=0.5in, top=0.5in, bottom=0.5in}
     \xapptocmd{\ttfamily}{\frenchspacing}{}{}
@@ -24,6 +26,7 @@
         {\endlist}
 
     \newcommand{\hangpar}{\hangafter 1 \hangindent 1em \noindent}
+    \newcommand{\hangpartwo}{\hangafter 2 \hangindent 1em \noindent}
     \newcommand{\textib}[1]{\textit{\textbf{#1}}}
     \newcommand{\texttb}[1]{\texttt{\textbf{#1}}}
 

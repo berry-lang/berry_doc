@@ -250,6 +250,10 @@ Splits the string \textib{s} into substrings wherever \textib{sep} occurs, and r
 \hangpar \texttt{string.find(}\textib{s}\texttt{,} \textib{sub}[\texttt{,} \textib{begin}[\texttt{,} \textib{end}]]\texttt{)}\\
 Check whether the string \textib{s} contains the substring \textib{sub}. If the \textib{begin} and \textib{end} (default is $0$ and \texttt{size(}\textib{s}\texttt{)}) are specified, they will be searched in this range. Returns $-1$ if not found.
 
+\hangpartwo \texttt{string.startswith(}\textib{s}\texttt{,} \textib{sub}[\texttt{,} \textib{case\_insensitive}]\texttt{)}\\
+\texttt{string.endswith(}\textib{s}\texttt{,} \textib{sub}[\texttt{,} \textib{case\_insensitive}]\texttt{)}\\
+Check whether the string \textib{s} starts/ends with the substring \textib{sub}; case-insensitive if \textib{case\_insensitive} is \texttt{true}.
+
 \hangpar \texttt{string.hex(}\textib{number}\texttt{)}\\
 Convert \textib{number} to hexadecimal string.
 
@@ -261,13 +265,12 @@ Convert the \textib{number} used as the code to a character.
 
 \subsection*{Transformation}
 
-\hangpar \texttt{string.toupper(}\textib{text}\texttt{)}
-
-\hangpar \texttt{string.tolower(}\textib{text}\texttt{)}\\
+\hangpartwo \texttt{string.toupper(}\textib{text}\texttt{)}\\
+\texttt{string.tolower(}\textib{text}\texttt{)}\\
 Convert the \textib{text} to uppercase or lowercase; ASCII only no support for Unicode.
 
-\hangpar \texttt{string.tr(}\textib{char}\texttt{, }\textib{char\_or\_empty\_string}\texttt{)}\\
-Replaces any occurrence of single character \textib{char} to another character, or remove if empty string.
+\hangpar \texttt{string.tr(}\textib{text}\texttt{, }\textib{chars}\texttt{, }\textib{char\_or\_empty\_string}\texttt{)}\\
+Replaces from \textib{text} any occurrence of character(s) in \textib{from\_char} to a single character, or remove if empty string.
 
 \hangpar \texttt{string.replace(}\textib{text1}\texttt{, }\textib{text2}\texttt{)}\\
 Replaces any occurrence of \textib{text1} with \textib{text2} (this is slower than \texttt{string.tr()}
@@ -277,9 +280,8 @@ Escapes the string with double quotes suitable for C, if \textib{berry\_mode} is
 
 \subsection*{Formatting}
 
-\hangpar \texttt{string.format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}
-
-\hangpar \texttt{format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}\\
+\hangpartwo \texttt{string.format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}\\
+\texttt{format(}\textib{fmt}[\texttt{,} \textib{args}]\texttt{)}\\
 Returns a formatted string. The pattern starting with \texttt{'\%'} in the formatting template \textib{fmt} will be replaced by the value of [\textib{args}]: \texttt{\%}[\textsf{flags}][\textsf{fieldwidth}][\texttt{.}\textsf{precision}]\textsf{type}\\
 
 \hangpar \textsf{Types}\\
@@ -573,9 +575,8 @@ Return the list of all global variables.
 \hangpar \texttt{global.contains(}\textib{id}\texttt{)} \\
 Return \texttt{true} if the global variables exists.
 
-\hangpar \texttt{global.member(}\textib{id}\texttt{)}
-
-\hangpar \texttt{global.}\textib{id} \\	
+\hangpartwo \texttt{global.member(}\textib{id}\texttt{)}\\
+\texttt{global.}\textib{id} \\	
 Return value of global variable \textib{id} or \texttt{nil} if it does not exists.
 
 \hangpar \texttt{global.(}\textib{string}\texttt{)} \\
