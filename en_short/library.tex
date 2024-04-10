@@ -270,10 +270,10 @@ Convert the \textib{number} used as the code to a character.
 Convert the \textib{text} to uppercase or lowercase; ASCII only no support for Unicode.
 
 \hangpar \texttt{string.tr(}\textib{text}\texttt{, }\textib{chars}\texttt{, }\textib{char\_or\_empty\_string}\texttt{)}\\
-Replaces from \textib{text} any occurrence of character(s) in \textib{from\_char} to a single character, or remove if empty string.
+Replaces in \textib{text} any occurrence of character(s) from \textib{chars} to a single character, or remove if empty string.
 
-\hangpar \texttt{string.replace(}\textib{text1}\texttt{, }\textib{text2}\texttt{)}\\
-Replaces any occurrence of \textib{text1} with \textib{text2} (this is slower than \texttt{string.tr()}
+\hangpar \texttt{string.replace(}\textib{text}\texttt{, }\textib{text1}\texttt{, }\textib{text2}\texttt{)}\\
+Replaces in \textib{text} occurrence of \textib{text1} with \textib{text2} (this is slower than \texttt{string.tr()}
 
 \hangpar \texttt{string.escape(}\textib{text}\texttt{[, }\textib{berry\_mode}\texttt{] )}\\
 Escapes the string with double quotes suitable for C, if \textib{berry\_mode} is \texttt{true} escape to single quotes suitable for Berry.
