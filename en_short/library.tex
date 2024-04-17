@@ -286,16 +286,17 @@ Returns a formatted string. The pattern starting with \texttt{'\%'} in the forma
 
 \hangpar \textsf{Types}\\
 \begin{tabular}{@{}llp{0.77\columnwidth}}
-    \texttt{\%d} & & Decimal integer. \\
+    \texttt{\%d} & \texttt{\%i} & Decimal integer. \\
+    \texttt{\%u} & & Unsigned decimal integer. \\
     \texttt{\%o} & & Octal integer. \\
     \texttt{\%x} & \texttt{\%X} & Hexadecimal integer lowercase, uppercase. \\
-    \texttt{\%x} & \texttt{\%X} & Octal integer. \\
     \texttt{\%f} & & Floating-point in the form [-]nnnn.nnnn. \\
     \texttt{\%e} & \texttt{\%E} & Floating-point in exp. form [-]n.nnnn e [+|-]nnn,
     uppercase if \texttt{\%E}. \\
     \texttt{\%g} & \texttt{\%G} & Floating-point as \texttt{\%f} if $-4<\rm{exp.}\leq precision$, else as \texttt{\%e}; uppercase if \texttt{\%G}. \\
     \texttt{\%c} & & Character having the code passed as integer. \\
-    \texttt{\%s} & & String with no embedded zeros. \\
+    \texttt{\%s} & & String. \\
+    \texttt{\%q} & & Escaped string. \\
     \texttt{\%\%} & & The \texttt{'\%'} character (escaped). \\
 \end{tabular}\\
 
@@ -516,10 +517,10 @@ Read the value at \textib{offset} as an unsigned integer of \textib{size} bytes 
 \hangpar \textib{bytes}\texttt{.geti(}\textib{offset}\texttt{, }\textib{size}\texttt{)} \\
 Same as \texttt{get} above as signed integer.
 
-\hangpar \textib{bytes}\texttt{.set(}\textib{offset}\texttt{, }\textib{size}\texttt{, }\textib{value}\texttt{)} \\
-Set the value at \textib{offset} as an unsigned integer of \textib{size} bytes with \textib{value} (\textib{size} can be $1$, $2$, $3$, $4$ for Little Endian or $-2$, $-3$, $-4$ for Big Endian). No effect if indices are out of bounds.
+\hangpar \textib{bytes}\texttt{.set(}\textib{offset}\texttt{, }\textib{value}\texttt{[, }\textib{size}\texttt{])} \\
+Set the value at \textib{offset} as an unsigned integer of \textib{size} bytes (default 1) with \textib{value} (\textib{size} can be $1$, $2$, $3$, $4$ for Little Endian or $-2$, $-3$, $-4$ for Big Endian). No effect if indices are out of bounds.
 
-\hangpar \textib{bytes}\texttt{.seti(}\textib{offset}\texttt{, }\textib{size}\texttt{, }\textib{value}\texttt{)} \\
+\hangpar \textib{bytes}\texttt{.seti(}\textib{offset}\texttt{, }\textib{value}\texttt{[, }\textib{size}\texttt{])} \\
 Same as \texttt{set} above as signed integer.
 
 \hangpar \textib{bytes}\texttt{.add(}\textib{value}\texttt{, }\textib{size}\texttt{)} \\
