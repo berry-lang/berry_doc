@@ -86,7 +86,7 @@ breathe_projects = {"berry" : "../src"}
 breathe_default_project = "berry"
 breathe_projects_source = {
     "berry" : (
-        "../", ["src/berry.h"]
+        "berry/", ["berry/src/berry.h"]
     )
 }
 
