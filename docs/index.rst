@@ -77,5 +77,4 @@ Bytecode file support
    :hidden:
    
    English <source/en/Home>
-   Spanish <source/es/Home>
    Berry API <source/api>

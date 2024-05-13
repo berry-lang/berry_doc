@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'berry'
-copyright = '2022, Guan Wenliang & Stephan Hadinger'
+copyright = '2024, Guan Wenliang & Stephan Hadinger'
 author = 'Guan Wenliang & Stephan Hadinger'
 
 # The full version, including alpha/beta/rc tags
