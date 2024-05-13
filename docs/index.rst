@@ -82,6 +82,7 @@ Native C interface
 .. toctree::
    :hidden:
    
+   Reference Manual <source/en/Reference>
    Berry in 20 minutes or less <source/en/Berry-in-20-minutes>
    Memory Requirements <source/en/Memory-Requirements>
    Documentation <source/en/Home>
