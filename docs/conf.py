@@ -76,7 +76,7 @@ html_theme_options = {
    'logo': 'berry-logo.png',
    'logo_title' : 'The Berry Script Language',
    'logo_alt' : 'Berry',
-   'logo_url' : 'https://github.com/berry-lang/berry'
+   'logo_url' : 'https://berry-lang.github.io/'
 }
 
 source_suffix = {
