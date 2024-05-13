@@ -108,7 +108,7 @@ Then register it in the appropriate place:
    be_regcfunc(vm, "add", my_add_func);
 
 Instantiate a ``list`` object in a native function
-==================================================
+--------------------------------------------------
 
 Generating instantiated native classes in C can be cumbersome compared
 to simple types. This section will guide the reader to instantiate the
