@@ -788,91 +788,114 @@ Extra
 Here is a short comparison of Berry and Python syntax, courtesy of
 @Beormund
 
-+-------------------------------+-------------------+-------------------+
-| Berry vs Python               | Berry             | MicroPython       |
-+===============================+===================+===================+
-| Current object                | ``self``          | ``self``          |
-+-------------------------------+-------------------+-------------------+
-| Single line comments          | ``#``             | ``#``             |
-+-------------------------------+-------------------+-------------------+
-| Multi line comments           | ``#- ... -#``     |                   |
-+-------------------------------+-------------------+-------------------+
-| Logical ‘and’, ‘or’ and not   | ``&& || !``       | ``and or not``    |
-| operators                     |                   |                   |
-+-------------------------------+-------------------+-------------------+
-| Shift left, right             | ``<< >>``         | ``<< >>``         |
-+-------------------------------+-------------------+-------------------+
-| Integer division              | ``/``             | ``//``            |
-+-------------------------------+-------------------+-------------------+
-| Statement blocks/grouping     | (scope)           | (indent)          |
-+-------------------------------+-------------------+-------------------+
-| Class definition &            | ``class a:b``     | ``class a(b):``   |
-| inheritance                   |                   |                   |
-+-------------------------------+-------------------+-------------------+
-| Class constructor             | ``def             | ``def __i         |
-|                               | init(x) ... end`` | nit__(self, x):`` |
-+-------------------------------+-------------------+-------------------+
-| Class and superclass          | ``                | ``                |
-| constructors                  | def init(x)``\ \  | def __init__(self |
-|                               | ``super(self).ini | , x): super(b, se |
-|                               | t(x)``\ \ ``end`` | lf).__init__(x)`` |
-+-------------------------------+-------------------+-------------------+
-| Class constructor that        | ``def init        | ``d               |
-| assigns to fields             | (x)``\ \ ``self.x | ef __init__(self, |
-|                               |  = x``\ \ ``end`` |  x): self.x = x`` |
-+-------------------------------+-------------------+-------------------+
-| Check object’s type           | ``i               | ``i               |
-|                               | sinstance(b, a)`` | sinstance(b, a)`` |
-+-------------------------------+-------------------+-------------------+
-| Call method foo with 2        | ``foo(x, y)``     | ``foo(x,y)``      |
-| arguments                     |                   |                   |
-+-------------------------------+-------------------+-------------------+
-| Declare a member variable in  | ``self.x = nil``  | ``self.x = None`` |
-| a class                       |                   |                   |
-+-------------------------------+-------------------+-------------------+
-| Declare a local variable in a | ``var             | ``x = 2`          |
-| method                        |  x = 2, y = nil`` | `\ \ ``y = None`` |
-+-------------------------------+-------------------+-------------------+
-| Define a constant in a class  | ``static x = 2``  |                   |
-+-------------------------------+-------------------+-------------------+
-| Define a top level function   | ``d               | ``def foo(x,y):`` |
-|                               | ef foo(x,y) end`` |                   |
-+-------------------------------+-------------------+-------------------+
-| Define an instance method in  | ``d               | ``def f           |
-| a class                       | ef foo(x,y) end`` | oo(self, x, y):`` |
-+-------------------------------+-------------------+-------------------+
-| Define a static method in a   | ``static d        |                   |
-| class                         | ef foo(x,y) end`` |                   |
-+-------------------------------+-------------------+-------------------+
-| If statement                  | ``i               | ``if condition:`` |
-|                               | f condition end`` |                   |
-+-------------------------------+-------------------+-------------------+
-| Fixed loop                    | ``f               | ``for i           |
-|                               | or i: range end`` |  in range(end):`` |
-+-------------------------------+-------------------+-------------------+
-| Iterate over collection       | ``for k:          | `                 |
-|                               | coll.keys() end`` | `for x in coll:`` |
-+-------------------------------+-------------------+-------------------+
-| While loop                    | ``whil            | ``w               |
-|                               | e condition end`` | hile condition:`` |
-+-------------------------------+-------------------+-------------------+
-| Import from library           | `                 | `                 |
-|                               | `import library`` | `import library`` |
-+-------------------------------+-------------------+-------------------+
-| Print                         | ``print           | ``print           |
-|                               | ('hello world')`` | ('Hello world')`` |
-+-------------------------------+-------------------+-------------------+
-| Interpolation                 | `                 | ``print("Hel      |
-|                               | `string.format("H | lo %s" %(name))`` |
-|                               | ello %s", name)`` |                   |
-+-------------------------------+-------------------+-------------------+
-| Simple types                  | ``                | ``in              |
-|                               | int``\ \ ``real`` | t``\ \ ``float``\ |
-|                               | \ \ ``bool (true\ |  \ ``bool (True\| |
-|                               | |false)``\ \ ``st | False)``\ \ ``str |
-|                               | ring``\ \ ``nil`` | ing``\ \ ``None`` |
-+-------------------------------+-------------------+-------------------+
-| Class types                   | ``list``\ \ ``map | ``list``\         |
-|                               | ``\ \ ``range``\  | \ ``dict``\ \ ``t |
-|                               |                   | uple``\ \ ``set`` |
-+-------------------------------+-------------------+-------------------+
+.. list-table:: Title
+   :header-rows: 1
+
+   * - Berry vs Python
+     - Berry
+     - MicroPython
+   * - Current object
+     - ``self``
+     - ``self``
+   * - Single line comments
+     - ``#``
+     - ``#``
+   * - Multi line comments
+     - ``#- ... -#``
+     -
+   * - Logical ‘and’, ‘or’ and ‘not’ operators
+     - ``&& || !``
+     - ``and or not``
+   * - Shift left, right
+     - ``<< >>``
+     - ``<< >>``
+   * - Integer division
+     - ``/``
+     - ``/``
+   * - Statement blocks/grouping
+     - (scope)
+     - (indent)
+   * - Class definition & inheritance
+     - ``class a:b``
+     - ``class a(b):``
+   * - Class constructor
+     - ``def init(x) ... end``
+     - ``def __init__(self, x):``
+   * - Class and superclass constructors
+     - | ``def init(x)``
+       |   ``super(self).init(x)``
+       | ``end``
+     - ``def __init__(self, x): super(b, self).__init__(x)``
+   * - Class constructor that assigns to fields
+     - | ``def init(x)``
+       |  ``self.x = x``
+       | ``end``
+     - ``def __init__(self, x): self.x = x``
+   * - Check object’s type
+     - ``isinstance(b, a)``
+     - ``isinstance(b, a)``
+   * - Call method foo with 2 arguments
+     - ``foo(x, y)``
+     - ``foo(x, y)``
+   * - Declare a member variable in a class
+     - ``self.x = nil``
+     - ``self.x = None``
+   * - Declare a local variable in a method
+     - ``var x = 2, y = nil``
+     - | ``x = 2``
+       | ``y = None``
+   * - Define a constant in a class
+     - ``static x = 2``
+     - 
+   * - Define a top level function
+     - ``def foo(x,y) end``
+     - ``def foo(x,y):``
+   * - Define an instance method in a class
+     - ``def foo(x,y) end``
+     - ``def foo(self, x, y):``
+   * - Define a static method in a class
+     - ``static def foo(x,y) end``
+     - 
+   * - If statement
+     - ``if condition end``
+     - ``if condition:``
+   * - Fixed loop
+     - ``for i: range end``
+     - ``for i in range(end):``
+   * - Iterate over collection
+     - ``for k:coll.keys() end``
+     - ``for x in coll:``
+   * - While loop
+     - ``while condition end``
+     - ``while condition:``
+   * - Import from library
+     - ``import library``
+     - ``import library``
+   * - Print
+     - ``print('hello world')``
+     - ``print('hello world')``
+   * - Interpolation
+     - ``print(format("Hello %s", name))``
+     - ``print("Hello %s" %(name))```
+   * - f-strings
+     - ``print(f"Hello {name}"``
+     - ``print(f"Hello {name}"``
+   * - Simple types
+     - | ``int``
+       | ``real``
+       | ``bool (true\|false)``
+       | ``string``
+       | ``nil``
+     - | ``int``
+       | ``float``
+       | ``bool (True\|False)``
+       | ``string``
+       | ``None``
+   * - Class types
+     - | ``list``
+       | ``map``
+       | ``range``
+     - | ``list``
+       | ``dict``
+       | ``tuple``
+       | ``set``
