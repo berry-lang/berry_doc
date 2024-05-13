@@ -66,7 +66,7 @@ Module Management
     * Extension module support: script module, bytecode file module and shared library (like \*.so, \*.dll) module
     * Ability to solidify code, classes and modules in flash to reduce RAM usage
     * Optional Regex support
-    * Optional `LVGL <https://github.com/lvgl/lv_binding_berry>_` mapping
+    * Optional `LVGL <https://github.com/lvgl/lv_binding_berry>`_ mapping
 GC (Garbage collection)
     * Mark-Sweep GC
 Exceptional Handling
@@ -76,8 +76,8 @@ Bytecode file support
     * Export function to bytecode file
     * Load the bytecode file and execute
 Native C interface
-    * Can be easily embedded as a library in existing code like `Tasmota <https://tasmota.github.io/docs/>_`
-    * Optional `easy mapping <https://github.com/lvgl/lv_binding_berry>_` to call C code from Berry
+    * Can be easily embedded as a library in existing code like `Tasmota <https://tasmota.github.io/docs/>`_
+    * Optional `easy mapping <https://github.com/lvgl/lv_binding_berry>`_ to call C code from Berry
 
 .. toctree::
    :hidden:
