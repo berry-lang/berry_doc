@@ -788,7 +788,7 @@ Extra
 Here is a short comparison of Berry and Python syntax, courtesy of
 @Beormund
 
-.. list-table:: Title
+.. list-table::
    :header-rows: 1
 
    * - Berry vs Python
