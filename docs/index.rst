@@ -76,5 +76,5 @@ Bytecode file support
 .. toctree::
    :hidden:
    
-   English <source/en/Home>
+   Documentation <source/en/Home>
    Berry API <source/api>
