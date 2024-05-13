@@ -23,31 +23,32 @@ Features
 ^^^^^^^^
 
 Base Type
-    * Nil: nil
-    * Boolean: true and false
-    * Numerical: Integer (int) and Real (real)
+    * Nil: ``nil``
+    * Boolean: ``true`` and ``false``
+    * Numerical: Integer (``int``) and Real (``real``)
     * String: Single quotation-mark string and double quotation-mark string
     * Class: Instance template, read only
     * Instance: Object constructed by class
     * Module: Read-write key-value pair table
-    * List: Ordered container, like [1, 2, 3]
-    * Map: Hash Map container, like { 'a': 1, 2: 3, 'map': {} }
-    * Range: include a lower and a upper integer value, like 0..5
+    * List: Ordered container, like ``[1, 2, 3]``
+    * Map: Hash Map container, like ``{ 'a': 1, 2: 3, 'map': {} }``
+    * Range: include a lower and a upper integer value, like ``0..5``
 Operator and Expression
-    * Assign operator: =, +=, -=, \*=, /=, %=, &=, \|=, ^=, <<=, >>=
-    * Relational operator: <, <=, ==, !=, >, >=
-    * Logic operator: &&, \|\|, !
-    * Arithmetic operator: +, -, \*, /, %
-    * Bitwise operator: &, \|, ~, ^, <<, >>
-    * Field operator: .
-    * Subscript operator: []
-    * Connect string operator: +
-    * Conditional operator: ? :
-    * Brackets: ()
+    * Assign operator: ``=``, ``+=``, ``-=``, ``*=``, ``/=``, ``%=``, ``&=``, ``|=``, ``^=``, ``<<=``, ``>>=``
+    * Relational operator: ``<``, ``<=``, ``==``, ``!=``, ``>``, ``>=``
+    * Logic operator: ``&&``, ``||``, ``!``
+    * Arithmetic operator: ``+``, ``-``, ``*``, ``/``, ``%``
+    * Bitwise operator: ``&``, ``|``, ``~``, ``^``, ``<<``, ``>>``
+    * Field operator: ``.``
+    * Subscript operator: ``[]``
+    * Connect string operator: ``+``
+    * Conditional operator: condition ``?`` val_true ``:`` val_false
+    * Brackets: ``()``
+    * Bytes buffer support
 Control Structure
-    * Conditional statement: if-else
-    * Iteration statement: while and for
-    * Jump statement: break and continue
+    * Conditional statement: ``if`` ``elif`` ``else`` ``end``
+    * Iteration statement: ``while``, ``for``
+    * Jump statement: ``break``, ``continue``
 Function
     * Local variable and block scope
     * Return statement
@@ -63,15 +64,20 @@ Class
 Module Management
     * Built-in module that takes almost no RAM
     * Extension module support: script module, bytecode file module and shared library (like \*.so, \*.dll) module
+    * Ability to solidify code, classes and modules in flash to reduce RAM usage
+    * Optional Regex support
+    * Optional `LVGL <https://github.com/lvgl/lv_binding_berry>_` mapping
 GC (Garbage collection)
     * Mark-Sweep GC
 Exceptional Handling
-    * Throw any exception value using the raise statement
+    * Throw any exception value using the ``raise`` statement
     * Multiple catch mode
 Bytecode file support
     * Export function to bytecode file
     * Load the bytecode file and execute
-
+Native C interface
+    * Can be easily embedded as a library in existing code like `Tasmota <https://tasmota.github.io/docs/>_`
+    * Optional `easy mapping <https://github.com/lvgl/lv_binding_berry>_` to call C code from Berry
 
 .. toctree::
    :hidden:
