@@ -66,13 +66,14 @@ import sphinx_typo3_theme
 # a list of builtin themes.
 #
 html_theme = 'sphinx_typo3_theme'
-html_logo = 'berry-logo.png'
+html_logo = '../berry-logo.png'
     
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
 html_theme_options = {
+   'logo': '../berry-logo.png',
    'logo_title' : 'The Berry Script Language',
    'logo_alt' : 'Berry',
    'logo_url' : 'https://github.com/berry-lang/berry'
@@ -83,7 +84,7 @@ source_suffix = {
 }
 
 # Breathe Configuration
-breathe_projects = {"berry" : "../src"}
+breathe_projects = {"berry" : "../berry/src"}
 breathe_default_project = "berry"
 breathe_projects_source = {
     "berry" : (
@@ -105,12 +106,12 @@ def setup(sphinx):
     from berry import BerryLexer
     sphinx.add_lexer("berry", BerryLexer)
 
-try:
-    import sphinx_typo3_theme
-    is_imported = True
-except:
-    is_imported = False
-if is_imported:
-    version = sphinx_typo3_theme.__version__
-    release = sphinx_typo3_theme.__version__
-    html_theme = 'sphinx_typo3_theme'
+# try:
+#     import sphinx_typo3_theme
+#     is_imported = True
+# except:
+#     is_imported = False
+# if is_imported:
+#     version = sphinx_typo3_theme.__version__
+#     release = sphinx_typo3_theme.__version__
+#     html_theme = 'sphinx_typo3_theme'
