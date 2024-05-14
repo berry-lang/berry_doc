@@ -75,6 +75,7 @@ import sphinx_typo3_theme
 # a list of builtin themes.
 #
 html_theme = 'sphinx_typo3_theme'
+html_favicon = 'favicon.ico'
     
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -85,7 +86,8 @@ html_theme_options = {
    'logo_title' : 'The Berry Script Language',
    'logo_alt' : 'Berry',
    'logo_url' : 'https://berry-lang.github.io/',
-   'theme_avicon' : 'favicon.ico'
+   'theme_favicon' : 'favicon.ico',
+   'favicon' : 'favicon.ico'
 }
 
 source_suffix = {
