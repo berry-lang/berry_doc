@@ -5,7 +5,8 @@
 .. sidebar:: About
 
    foo
-   * :ref:`genindex`
+   
+   bar
 
 7.1 Basic library
 -----------------
