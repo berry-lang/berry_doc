@@ -474,7 +474,7 @@ the line.
 You can also use multi-line comments starting with ``#-`` and ending
 with ``-#``.
 
-.. code:: ruby
+.. code:: berry
 
    #-
     This is a comment
