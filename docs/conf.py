@@ -86,9 +86,7 @@ html_theme_options = {
    'logo_title' : 'The Berry Script Language',
    'logo_alt' : 'Berry',
    'logo_url' : 'https://berry-lang.github.io/',
-   'theme_favicon' : 'favicon.ico',
-   'favicon' : 'favicon.ico',
-   'version' : '1.1.0'
+   'theme_favicon' : 'favicon.ico'
 }
 
 source_suffix = {
