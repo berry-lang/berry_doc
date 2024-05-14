@@ -267,8 +267,12 @@ The conversion follows the following rules:
    otherwise it is converted to ``true``.
 -  **Real number**: when the value is ``0.0``, it is converted to
    ``false``, otherwise it is converted to ``true``.
--  **String**: when the value is "" (empty string) it is concerted to
+-  **String**: when the value is “” (empty string) it is converted to
    ``false`` otherwise it is converted to ``true``.
+-  **List**: when the list is empty ``[]`` it is converted to ``false``
+   otherwise it is converted to ``true``.
+-  **Map**: when the map is empty ``{}`` it is converted to ``false``
+   otherwise it is converted to ``true``.
 -  **Comobj** and **Comptr**: when the internal pointer is ``NULL`` it
    is converted to ``false``, otherwise it is converted to ``true``.
 -  **Instance**: if the instance contains a method ``tobool()``, the
@@ -465,6 +469,17 @@ container. The append operation increases the number of elements in the
 ``list`` container by 1. You can append any type of value to the
 ``list`` instance.
 
+``pop`` method
+^^^^^^^^^^^^^^
+
+Removes an element from the ``list`` container. The prototype of this
+method is ``pop(index)``, the parameter ``index`` is the position from
+which a value is to be removed, or the end if no index is used. If the
+index is negative, the position is the size of the list plus the index,
+effectively counting from the end, with -1 being the last element.
+Remaining elements after the position are shifted to lower positions.
+The return value of the method is the removed element.
+
 ``insert`` method
 ^^^^^^^^^^^^^^^^^
 
@@ -622,9 +637,9 @@ instead of the specific value:
 
 Insert a key-value pair in the ``map`` container. The prototype of this
 method is ``insert(key, value)``, the parameter ``key`` is the key to be
-inserted, and ``value`` is the value to be inserted. If the key ``map``
-to be inserted exists in the container, the original key-value pair will
-be updated.
+inserted, and ``value`` is the value to be inserted. Returns boolean
+``true`` when the key-value pair was inserted, or ``false`` when the
+insertion failed (e.g. the pair already exists).
 
 .. _remove-method-1:
 
@@ -682,6 +697,20 @@ The prototype of this method is ``find(key)`` or
 be accessed, and ``defaultvalue`` is the default value returned if the
 key is not found. If no default value is specified, ``nil`` is returned
 instead.
+
+``keys`` method
+^^^^^^^^^^^^^^^
+
+Returns an iterator function over the keys of the ``map`` container, to
+produce one key each call, or raising ``stop_iteration`` if at end. This
+works well with a ``for`` loop. Example of usage:
+
+.. code:: python
+
+   m = {'map': nil,'text':'hello'}
+   for k: m.keys()
+     print(k)
+   end
 
 ``range`` Class
 ~~~~~~~~~~~~~~~
@@ -1063,9 +1092,9 @@ characters, the string will be truncated.
 ``fromstring`` method
 ^^^^^^^^^^^^^^^^^^^^^
 
-Converts a bytes buffer to a string. The buffer is converted as-is
-without any encoding considerations. If the buffer contains NULL
-characters, the string will be truncated.
+Updates a bytes buffer from a string. The string is converted as-is
+without any encoding considerations. If the string contains NULL
+characters, it will be truncated.
 
 .. code:: python
 
@@ -1833,12 +1862,32 @@ Check whether the string s contains the substring sub. If the begin and
 end (default is 0 and size(s)) are specified, they will be searched in
 this range.
 
+``startswith`` function
+^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   string.startswith(s, sub[, case_insensitive])
+
+Check whether the string starts with the substring ``sub``;
+case-insensitive if ``case_insensitive`` is ``true``.
+
+``endswith`` function
+^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   string.endswith(s, sub[, case_insensitive])
+
+Check whether the string ends with the substring ``sub``;
+case-insensitive if ``case_insensitive`` is ``true``.
+
 ``hex`` function
 ^^^^^^^^^^^^^^^^
 
 ::
 
-   hex(number)
+   string.hex(number)
 
 Convert number to hexadecimal string.
 
@@ -1847,7 +1896,7 @@ Convert number to hexadecimal string.
 
 ::
 
-   byte(s)
+   string.byte(s)
 
 Get the code value of the first byte of the string s.
 
@@ -1856,9 +1905,57 @@ Get the code value of the first byte of the string s.
 
 ::
 
-   char(number)
+   string.char(number)
 
 Convert the number used as the code to a character.
+
+``tolower`` function
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   string.tolower(s)
+
+Transforms the string s to lowercase, A-Z only
+
+``toupper`` function
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   string.toupper(s)
+
+Transforms the string s to uppercase, a-z only
+
+``tr`` function
+^^^^^^^^^^^^^^^
+
+::
+
+   string.tr(s, chars, replacement)
+
+Replaces any occurrence of character(s) from ``chars`` to corresponding
+replacements, or remove if replacement is empty (or shorter)
+
+``replace`` function
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   string.replace(s, text1, text2)
+
+Replaces each occurrence of ``text1`` with ``text2`` (for single
+characters, this is slower than ``string.tr()``)
+
+``escape`` function
+^^^^^^^^^^^^^^^^^^^
+
+::
+
+   string.escape(s[, berry_mode] )
+
+Escapes the string with double quotes suitable for C, if ``berry_mode``
+is ``true`` escape to single quotes suitable for Berry.
 
 ``format`` function
 ^^^^^^^^^^^^^^^^^^^
@@ -1866,6 +1963,7 @@ Convert the number used as the code to a character.
 ::
 
    string.format(fmt[, args])
+   format(fmt[, args])
 
 Returns a formatted string. The pattern starting with ‘%’ in the
 formatting template fmt will be replaced by the value of [args]:
@@ -1874,17 +1972,15 @@ formatting template fmt will be replaced by the value of [args]:
 +-----------------------------------+-----------------------------------+
 | Type                              | Description                       |
 +===================================+===================================+
-| %d                                | Decimal integer                   |
+| %d %i                             | Decimal integer                   |
++-----------------------------------+-----------------------------------+
+| %u                                | Unsigned decimal integer          |
 +-----------------------------------+-----------------------------------+
 | %o                                | Octal integer                     |
 +-----------------------------------+-----------------------------------+
 | %x                                | Hexadecimal integer lowercase     |
 +-----------------------------------+-----------------------------------+
 | %X                                | Hexadecimal integer uppercase     |
-+-----------------------------------+-----------------------------------+
-| %x                                | Octal integer lowercase           |
-+-----------------------------------+-----------------------------------+
-| %X                                | Octal integer uppercase           |
 +-----------------------------------+-----------------------------------+
 | %f                                | Floating-point in the form        |
 |                                   | [-]nnnn.nnnn                      |
@@ -1900,10 +1996,9 @@ formatting template fmt will be replaced by the value of [args]:
 | %c                                | Character having the code passed  |
 |                                   | as integer                        |
 +-----------------------------------+-----------------------------------+
-| %s                                | String with no embedded zeros     |
+| %s                                | String                            |
 +-----------------------------------+-----------------------------------+
-| %q                                | String between double quotes,     |
-|                                   | with special characters escaped   |
+| %q                                | Escaped string                    |
 +-----------------------------------+-----------------------------------+
 | %%                                | The ‘%’ character (escaped)       |
 +-----------------------------------+-----------------------------------+
@@ -2048,6 +2143,9 @@ function is a method of an instance (taking self as first argument), or
 a plain function. This is mainly use to prevent a common mistake of
 passing an instance method as callbakc, where you should use a closure
 capturing the instance like ``/ -> self.do()``.
+
+``introspect.name(obj:any) -> string or nil`` returns the name of an
+object (function, class, module) if any or ``nil``.
 
 Module ``solidify``
 ~~~~~~~~~~~~~~~~~~~
