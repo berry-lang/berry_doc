@@ -40,7 +40,7 @@ of parentheses. We call the parameter when the function is defined as
 **Formal parameters**, and the parameter when calling the function as
 **Arguments**. The general form of the function definition is:
 
-.. code::
+.. code:: ebnf
 
       ’def’ name ´(´ arguments ´)´
         block
@@ -79,7 +79,7 @@ Anonymous Function
 Unlike named functions, **anonymous function** has no name, and its
 definition expression has the form:
 
-.. code::
+.. code:: ebnf
 
       ´def’ ´(´ arguments ´)´
         block
@@ -392,10 +392,10 @@ function.
 
 ``return`` The statement is used to return the result of a function,
 that is, the return value of the function. All functions in Berry have a
-return value, but you can not use any ``return`` statement in the
-function body. At this time, the interpreter will generate a default
-``return`` statement to ensure that the function returns. ``return``
-There are two ways to write sentences:
+return value, but you can choose not to use any ``return`` statement in
+the function body. At this time, the interpreter will generate a default
+``return`` statement to ensure that the function returns. There are two
+ways to write ``return`` statements:
 
 .. container:: algorithm
 
@@ -726,7 +726,7 @@ Lambda expression
 is composed of parameter list and function body, but the form is
 different from general function:
 
-.. code::
+.. code:: ebnf
 
    ´/´ args ´->´ expr ´end’
 
