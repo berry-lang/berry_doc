@@ -50,6 +50,15 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['conf.py', 'Doxyfile']
 
+# These folders are copied to the documentation's HTML output
+# html_static_path = ['_static']
+
+# These paths are either relative to html_static_path
+# or fully qualified paths (eg. https://...)
+html_css_files = [
+    'custom.css',
+]
+
 # on_rtd is whether we are on readthedocs.org
 import os
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
