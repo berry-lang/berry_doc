@@ -91,15 +91,19 @@ the parameter. The return value is a string describing the type of the
 parameter. Table below shows the return values corresponding to the main
 parameter types:
 
-============== ============== ============== ==============
-Parameter Type return value   Parameter Type return value
-============== ============== ============== ==============
-Nil            ``’nil’``      Integer        ``’int’``
-Real           ``’real’``     Boolean        ``’bool’``
-Function       ``’function’`` Class          ``’class’``
-String         ``’string’``   Instance       ``’instance’``
-native pointer ``’ptr’``                     
-============== ============== ============== ==============
+============== ==============
+Parameter Type return value
+============== ==============
+Nil            ``’nil’``
+Integer        ``’int’``
+Real           ``’real’``
+Boolean        ``’bool’``
+String         ``’string’``
+Function       ``’function’``
+Class          ``’class’``
+Instance       ``’instance’``
+native pointer ``’ptr’``
+============== ==============
 
 .. code:: python
 
