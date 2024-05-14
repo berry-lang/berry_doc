@@ -66,11 +66,11 @@ Boolean type
 ^^^^^^^^^^^^
 
 The Boolean type (boolean) is used for logical operations. It has two
-values ``true`` and ``false``, which represent the two true values (true
-and false) in logic and Boolean algebra. The Boolean type is mainly used
-for conditional judgment. The operands and return values of logical
-expressions and relational expressions are all boolean types, and
-statements such as ``if`` and ``while`` all use boolean types as
+values ``true`` and ``false``, which represent the two truth values
+(true and false) in logic and Boolean algebra. The Boolean type is
+mainly used for conditional judgment. The operands and return values of
+logical expressions and relational expressions are all boolean types,
+and statements such as ``if`` and ``while`` all use boolean types as
 conditional checks.
 
 In many cases, non-boolean values can also be used as boolean types.
@@ -142,7 +142,7 @@ can be directly used in expressions through the “literal” form of
 
 A function is a read-only object and cannot be modified once defined.
 You can compare whether two functions are equal (whether they are the
-same function), but the function type cannot be compared.\ **Native
+same function), but the function type cannot be compared. **Native
 function** (native function) and **Native closure** (native closure)
 refer to functions and closures implemented in C language. One of the
 main purposes of native functions and native closures is to provide
@@ -353,7 +353,7 @@ the new variable name cannot meet the requirement, because the
 identifier ``i`` already exists in the outer scope. In this case, the
 variable can be defined by the ``var`` keyword:
 
-.. code::
+.. code:: ebnf
 
    ’var’ variable
    ’var’ variable = expression

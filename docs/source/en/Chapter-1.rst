@@ -322,7 +322,7 @@ using the ASCII character set:
 
 .. code:: berry
 
-   '\115' #-'M' -#
+   '\115' #- 'M' -#
    '\x34' #- '4' -#
    '\064' #- '4' -#
 
