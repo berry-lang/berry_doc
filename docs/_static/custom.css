@@ -1,11 +1,12 @@
 /** custom.css **/
 
 ul ul ul {
-    list-style-type: none;
+    padding-inline-start: 10px;
 }
 ul ul {
-    list-style-type: none;
+    padding-inline-start: 10px;
 }
 ul {
     list-style-type: none;
+    padding-inline-start: 10px;
 }
