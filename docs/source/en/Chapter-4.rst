@@ -1,6 +1,12 @@
 4. Statement
 ============
 
+.. sidebar:: Table of Content
+
+   .. contents::
+      :depth: 2
+      :local:
+
 Berry is an imperative programming language. This paradigm assumes that
 programs are executed step by step. Normally, Berry statements are
 executed sequentially, and this program structure is called sequential

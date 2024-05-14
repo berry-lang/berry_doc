@@ -145,6 +145,7 @@ methods can be called via the class or via an instance.
    2
 
 .. code:: berry 
+
    > a.increment_static(1)              # call via instance
    > 
    > static_demo.increment_instance(1)
@@ -154,6 +155,7 @@ methods can be called via the class or via an instance.
       stdin:1: in function `main`
 
 .. code:: berry
+    
    > a.increment_instance(1)
    2
 

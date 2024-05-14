@@ -1,8 +1,7 @@
 7. Libraries and Modules
 ========================
 
-
-.. sidebar::
+.. sidebar:: Table of Content
 
    .. contents::
       :depth: 2

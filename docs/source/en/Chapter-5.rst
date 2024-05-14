@@ -1,6 +1,12 @@
 5. Function
 ===========
 
+.. sidebar:: Table of Content
+
+   .. contents::
+      :depth: 2
+      :local:
+
 **function** is a “subroutine” that can be called by external code. As a
 part of the program, the function itself is also a piece of code. A
 function can have 0 or more parameters and will return a result, which

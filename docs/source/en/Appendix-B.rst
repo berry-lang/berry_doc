@@ -1,6 +1,12 @@
 Compiler Interpreter
 ====================
 
+.. sidebar:: Table of Content
+
+   .. contents::
+      :depth: 2
+      :local:
+
 1. Overview
 -----------
 

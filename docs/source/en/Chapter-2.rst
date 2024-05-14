@@ -1,6 +1,12 @@
 2. Types and Variables
 ======================
 
+.. sidebar:: Table of Content
+
+   .. contents::
+      :depth: 2
+      :local:
+
 **Type** is an attribute of data, which defines the meaning of the data
 and the operations that can be performed on the data. Types can be
 divided into built-in types and user-defined types. Built-in types refer

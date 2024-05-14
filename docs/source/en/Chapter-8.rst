@@ -1,6 +1,12 @@
 8. Advanced features
 ====================
 
+.. sidebar:: Table of Content
+
+   .. contents::
+      :depth: 2
+      :local:
+
 8.1 ``strict`` mode
 -------------------
 

@@ -1,6 +1,12 @@
 3. Expression
 =============
 
+.. sidebar:: Table of Content
+
+   .. contents::
+      :depth: 2
+      :local:
+
 3.1 Basics
 ----------
 

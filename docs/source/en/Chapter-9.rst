@@ -1,6 +1,12 @@
 9. FFI
 ======
 
+.. sidebar:: Table of Content
+
+   .. contents::
+      :depth: 2
+      :local:
+
 **Foreign Function Interface** (FFI) is an interface for interaction
 between different languages. Berry provides a set of FFI to realize the
 interaction with C language, this set of interfaces is also very easy to
