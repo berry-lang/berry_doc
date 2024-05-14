@@ -4,8 +4,8 @@
 
 .. sidebar:: About
 
+   foo
    * :ref:`genindex`
-   * :ref:`search`
 
 7.1 Basic library
 -----------------
