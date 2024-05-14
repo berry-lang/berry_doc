@@ -153,28 +153,21 @@ return an error if the member was not previously added.
        end
    end
 
-Exemple of usage:
+Example of usage:
 
 .. code:: berry
 
-   a = dyn()
-   a.a
-
-attribute_error: the 'dyn' object has no attribute 'a'
-stack traceback:
-stdin:1: in function `main`
-
-.. code:: berry
-
-   a.a = 1
-   a.a
-
-1
-
-.. code:: berry
-
-   a.a = nil
-   a.a
+   > a = dyn()
+   > a.a
+   attribute_error: the 'dyn' object has no attribute 'a'
+   stack traceback:
+       stdin:1: in function `main`
+   > a.a = 1
+   > a.a
+   1
+   > a.a = nil
+   > a.a
+   >
 
 implicit call of ``member()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -233,7 +226,7 @@ might try to call methods like ``tostring()`` that will land on your
 
 To indicate that a member is invalid, ``setmember()`` should raise an
 exception or return ``undefined``. Returning anything else like ``nil``
-inficates that the assignment was succesful.
+indicates that the assignment was succesful.
 
 Be aware that you may receive member names that are not valid Berry
 identifiers. The syntax ``a.("<->")`` will call ``a.member("<->")`` with
@@ -241,14 +234,14 @@ a virtual member name that is not lexically valid, i.e. cannot be called
 in regular code, except by using indirect ways like ``introspect`` or
 ``member()``.
 
-Specificities for classes
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Specifics for classes
+~~~~~~~~~~~~~~~~~~~~~
 
 Access to members of class object do not trigger virtual members. Hence
 it is not possible to have virtual static methods.
 
-Specificities for modules
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Specifics for modules
+~~~~~~~~~~~~~~~~~~~~~
 
 Modules do support reading static members with ``member()``.
 
@@ -289,27 +282,14 @@ Now let’s try it:
 
 .. code:: berry
 
-   t.a
-
-'a'
-
-.. code:: berry
-
-   t.b
-
-'member b'
-
-.. code:: berry
-
-    t.foo
-
-'member foo'
-
-.. code:: berry
-
-   t.bar = 2
-
-Set 'bar': 2
+   > t.a
+   'a'
+   > t.b
+   'member b'
+   > t.foo
+   'member foo'
+   > t.bar = 2
+   Set 'bar': 2
 
 This works for modules too:
 
@@ -328,28 +308,19 @@ Trying:
 
 .. code:: berry
 
-   m.a
-  
-1
-
-.. code:: berry
-
-   m.b
-  
-'member b'
-  
-.. code:: berry
-
-   m.c = 3   # the allocation is valid so `setmember()` is not called
-   m.c
-  
-3
+   > m.a
+   1
+   > m.b
+   'member b'
+   > m.c = 3   # the allocation is valid so `setmember()` is not called
+   > m.c
+   3
 
 More advanced example:
 
 .. code:: berry
 
-   class A
+   > class A
        var i
      
        def member(n)
@@ -361,30 +332,20 @@ More advanced example:
          if n == 'ii' self.i = v end
        end
      end
-   a=A()
+   > a=A()
 
-   a.i      # returns nil
-   a.ii     # implicitly calls `a.member("ii")`
-   
-| attribute_error: the 'A' object has no attribute 'ii'
-| stack traceback:
-| stdin:1: in function `main`
-|
+   > a.i      # returns nil
+   > a.ii     # implicitly calls `a.member("ii")`
+   attribute_error: the 'A' object has no attribute 'ii'
+   stack traceback:
+       stdin:1: in function `main`
+   # returns an exception since the member is nil (considered is non-existent)
 
-.. code:: berry
-
-   # returns an exception since the member is nil (considered is non-existant)
-
-   a.ii = 42    # implicitly calls `a.setmember("ii", 42)`
-   a.ii         # implicitly calls `a.member("ii")` and returns `42`
-   
-42
-
-.. code:: berry
-
-   a.i          # the concrete variable was changed too
-
-42
+   > a.ii = 42    # implicitly calls `a.setmember("ii", 42)`
+   > a.ii         # implicitly calls `a.member("ii")` and returns `42`
+   42
+   > a.i          # the concrete variable was changed too
+   42
 
 8.3 How-to package a module
 ---------------------------
@@ -416,7 +377,7 @@ happen:
 -  The code loaded is executed. The code should finish with a ``return``
    statement. The object returned is stored in the global cache and made
    available to caller (in local or global scope).
--  If the returned object is a ``module`` and if the module as a
+-  If the returned object is a ``module`` and if the module has an
    ``init`` member, then an extra step is taken. The function
    ``<module>.init(m)`` is called passing as argument the module object
    itself. The value returned by ``init()`` replaces the value in the
@@ -452,27 +413,19 @@ Example of use:
 
 .. code:: berry
 
-   import demo_module
+   > import demo_module
 
-   demo_module
+   > demo_module
    <module: demo_module>
 
-   demo_module.say_hello()
+   > demo_module.say_hello()
+   Hello Berry!
 
-Hello Berry!
-
-.. code:: berry
-   
-   demo_module.foo
-
-'bar'
-
-.. code:: berry
-   
-   demo_module.foo = "baz"     # the module is writable, although this is highly discouraged
-   demo_module.foo
-   
-'baz'
+   > demo_module.foo
+   'bar'
+   > demo_module.foo = "baz"     # the module is writable, although this is highly discouraged
+   > demo_module.foo
+   'baz'
 
 Package a singleton (monad)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -507,7 +460,7 @@ Example of ``demo_monad.be``:
    # the module has a single member `init()` and delegates everything to the inner class
    demo_monad.init = def (m)
        
-       # inncer class
+       # inner class
        class my_monad
            var i
 
@@ -530,28 +483,21 @@ Example:
 
 .. code:: berry
 
-   import demo_monad
-   demo_monad
+   > import demo_monad
+   > demo_monad
    <instance: my_monad()>     # it's an instance not a module
 
-   demo_monad.say_hello()
+   > demo_monad.say_hello()
+   Hello Berry!
 
-Hello Berry!
+   > demo_monad.i = 42        # you can use it like any instance
+   > demo_monad.i
+   42
 
-.. code:: berry
-
-   demo_monad.i = 42        # you can use it like any instance
-   demo_monad.i
- 
-42
-
-.. code:: berry
-
-   demo_monad.j = 0         # there is strong member checking compared to modules
-   
-attribute_error: class 'my_monad' cannot assign to attribute 'j'
-stack traceback:
-stdin:1: in function `main`
+   > demo_monad.j = 0         # there is strong member checking compared to modules
+   attribute_error: class 'my_monad' cannot assign to attribute 'j'
+   stack traceback:
+       stdin:1: in function `main`
 
 8.4 Solidification
 ------------------
@@ -576,7 +522,7 @@ setting the second argument to ``true``.
 
 By default ``solidify.dump`` outputs the solidified code to standard
 output. You can specify a file as third argument. The file needs to be
-open in writeable mode, and is not closed so that you can concatenate
+open in writable mode, and is not closed so that you can concatenate
 multiple objects.
 
 ``solidify.dump(object:any, [, strings_weak:bool, file_out:file]) -> nil``
