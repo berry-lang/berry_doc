@@ -544,7 +544,7 @@ function ``find()`` to access a key and return a default value if the
 key is absent. ``contains()`` can also be used to check the presence of
 the key.
 
-.. code:: berry
+.. code:: ruby
 
    > m1 = {"foo":"bar"}
    > m1.contains("foo")
