@@ -91,6 +91,18 @@ the parameter. The return value is a string describing the type of the
 parameter. Table below shows the return values corresponding to the main
 parameter types:
 
+.. list-table::
+   :widths: 25 25
+   :header-rows: 1
+
+   * - Parameter Type
+     - return value
+   * - Nil
+     - ``’nil’``
+   * - Integer
+     - ``’int’``
+
+
 ============== ==============
 Parameter Type return value
 ============== ==============
