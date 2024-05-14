@@ -71,59 +71,6 @@ read from the keyboard buffer until a newline character is encountered.
 ``input`` The function does not return until the “Enter” key is pressed,
 so the program “stuck” is not an error.
 
-``type`` function
-^^^^^^^^^^^^^^^^^
-
-**Example**
-
-.. code:: python
-
-   type(value)
-
--  *value*: Input parameter (expect to get its type).
-
--  *return value*: A string describing the parameter type.
-
-**Description**
-
-This function receives a parameter of any type and returns the type of
-the parameter. The return value is a string describing the type of the
-parameter. Table below shows the return values corresponding to the main
-parameter types:
-
-.. list-table::
-   :width: 50 %
-   :header-rows: 1
-
-   * - Parameter Type
-     - return value
-   * - Nil
-     - ``’nil’``
-   * - Integer
-     - ``’int’``
-
-
-============== ==============
-Parameter Type return value
-============== ==============
-Nil            ``’nil’``
-Integer        ``’int’``
-Real           ``’real’``
-Boolean        ``’bool’``
-String         ``’string’``
-Function       ``’function’``
-Class          ``’class’``
-Instance       ``’instance’``
-native pointer ``’ptr’``
-============== ==============
-
-.. code:: python
-
-   type(0) #'int'
-   type(0.5) #'real'
-   type('hello') #'string'
-   type(print) #'function'
-
 ``classname`` function
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -195,7 +142,7 @@ string.
    str([0, 1, 2]) #'[0, 1, 2]'
 
 ``number`` function
-'''''''''''''''''''
+^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -220,7 +167,7 @@ types return ``nil``.
    number(list) # nil
 
 ``int`` function
-''''''''''''''''
+^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -247,7 +194,7 @@ method will be used.
    int(list) # nil
 
 ``real`` function
-'''''''''''''''''
+^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -271,7 +218,7 @@ Other types return ``nil``.
    real(list) # nil
 
 ``bool`` function
-'''''''''''''''''
+^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -323,8 +270,61 @@ The conversion follows the following rules:
    bool(introspect.toptr(0)) # false
    bool(introspect.toptr(0x1000)) # true
 
+
+``type`` function
+^^^^^^^^^^^^^^^^^
+
+**Example**
+
+.. code:: python
+
+   type(value)
+
+-  *value*: Input parameter (expect to get its type).
+
+-  *return value*: A string describing the parameter type.
+
+**Description**
+
+This function receives a parameter of any type and returns the type of
+the parameter. The return value is a string describing the type of the
+parameter. Table below shows the return values corresponding to the main
+parameter types:
+
+.. list-table::
+   :width: 50 %
+   :header-rows: 1
+
+   * - Parameter Type
+     - return value
+   * - Nil
+     - ``’nil’``
+   * - Integer
+     - ``’int’``
+   * - Real
+     - ``’real’``
+   * - Boolean
+     - ``’bool’``
+   * - String
+     - ``’string’``
+   * - Function
+     - ``’function’``
+   * - Class
+     - ``’class’``
+   * - Instance
+     - ``’instance’``
+   * - native pointer
+     - ``’ptr’``
+
+.. code:: python
+
+   type(0) #'int'
+   type(0.5) #'real'
+   type('hello') #'string'
+   type(print) #'function'
+
 ``size`` function
-'''''''''''''''''
+^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -348,7 +348,7 @@ instances and returns the number of elements.
    size({"a":1}) # 1
 
 ``super`` function
-''''''''''''''''''
+^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -373,7 +373,7 @@ calling a super method.
    sl = super(l) # classname(sl) -->'list'
 
 ``assert`` function
-'''''''''''''''''''
+^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -405,7 +405,7 @@ output when an assertion error occurs, otherwise the default
    assert(true) # pass
 
 ``compile`` function
-''''''''''''''''''''
+^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
