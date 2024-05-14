@@ -3,6 +3,7 @@
 ul ul ul {
     list-style-type: none;
     padding-inline-start: 14px;
+    margin-bottom: 0px;
 }
 ul ul {
     padding-inline-start: 14px;
