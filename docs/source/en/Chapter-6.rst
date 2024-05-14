@@ -1,6 +1,12 @@
 6. Object Oriented Function
 ===========================
 
+.. sidebar:: Table of Content
+
+   .. contents::
+      :depth: 2
+      :local:
+
 For optimization considerations, Berry did not consider simple types as
 objects. These simple types include ``nil`` types, numeric types,
 boolean types, and string types. But Berry provides classes to implement
@@ -155,7 +161,7 @@ methods can be called via the class or via an instance.
       stdin:1: in function `main`
 
 .. code:: berry
-    
+
    > a.increment_instance(1)
    2
 

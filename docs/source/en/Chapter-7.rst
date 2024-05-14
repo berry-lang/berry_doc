@@ -4,7 +4,7 @@
 .. sidebar:: Table of Content
 
    .. contents::
-      :depth: 2
+      :depth: 3
       :local:
 
 7.1 Basic library
