@@ -322,7 +322,9 @@ using the ASCII character set:
 
 .. code:: berry
 
-   '\115' #-'M' -#'\x34' #- '4' -#'\064' #- '4' -#
+   '\115' #-'M' -#
+   '\x34' #- '4' -#
+   '\064' #- '4' -#
 
 Nil literal value
 ^^^^^^^^^^^^^^^^^
@@ -345,7 +347,7 @@ resolved into two identifiers.
    TestVariable
    Test_Var
    _init
-   baseCass
+   baseClass
    _
 
 Keywords
