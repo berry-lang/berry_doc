@@ -1,9 +1,11 @@
 7. Libraries and Modules
 ========================
 
-.. sidebar::
-   foo
-   bar
+
+.. sidebar:: About
+
+   * :ref:`genindex`
+   * :ref:`search`
 
 7.1 Basic library
 -----------------
