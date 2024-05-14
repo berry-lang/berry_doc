@@ -8,6 +8,10 @@
    
    bar
 
+   .. contents::
+      :depth: 2
+      :local:
+
 7.1 Basic library
 -----------------
 
