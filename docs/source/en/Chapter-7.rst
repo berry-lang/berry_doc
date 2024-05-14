@@ -4,10 +4,6 @@
 
 .. sidebar:: About
 
-   foo
-   
-   bar
-
    .. contents::
       :depth: 2
       :local:
