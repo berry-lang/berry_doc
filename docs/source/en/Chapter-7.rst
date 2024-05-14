@@ -1,10 +1,9 @@
 7. Libraries and Modules
 ========================
 
-.. sidebar:: About
-   .. contents::
-      :depth: 2
-      :local:
+.. sidebar::
+   foo
+   bar
 
 7.1 Basic library
 -----------------
