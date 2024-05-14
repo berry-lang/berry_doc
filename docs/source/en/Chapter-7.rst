@@ -1,6 +1,10 @@
 7. Libraries and Modules
 ========================
 
+.. contents::
+   :depth: 1
+   :local:
+
 7.1 Basic library
 -----------------
 
