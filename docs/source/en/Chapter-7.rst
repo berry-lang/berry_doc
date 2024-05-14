@@ -2,7 +2,7 @@
 ========================
 
 
-.. sidebar:: About
+.. sidebar::
 
    .. contents::
       :depth: 2
