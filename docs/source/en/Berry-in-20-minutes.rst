@@ -576,7 +576,7 @@ If statements and basic expressions
 We can program a ridiculously inefficient Fibonacci sequence generator
 using if and recursion:
 
-.. code:: ruby
+.. code:: berry
 
    def fib(n)
      if n <= 1 return n end
