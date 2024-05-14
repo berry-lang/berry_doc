@@ -4,7 +4,7 @@
 .. sidebar:: Table of Content
 
    .. contents::
-      :depth: 2
+      :depth: 3
       :local:
 
 **Type** is an attribute of data, which defines the meaning of the data
