@@ -92,7 +92,7 @@ parameter. Table below shows the return values corresponding to the main
 parameter types:
 
 .. list-table::
-   :widths: 25 25
+   :width: 50 %
    :header-rows: 1
 
    * - Parameter Type
