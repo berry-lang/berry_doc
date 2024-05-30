@@ -84,6 +84,7 @@ Native C interface
    
    Reference Manual <source/en/Reference>
    Berry in 20 minutes or less <source/en/Berry-in-20-minutes>
+   Language fast reference PDF <source/en/berry_short_manual>
    Memory Requirements <source/en/Memory-Requirements>
    Documentation <source/en/Home>
    Berry API <source/api>
