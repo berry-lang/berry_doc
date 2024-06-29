@@ -1399,6 +1399,31 @@ type of the function is a real number.
    math.floor(-1.2) # -2
    math.floor(1.5) # 1
 
+``round`` function
+^^^^^^^^^^^^^^^^^^
+.. code:: python
+
+   round(value)
+
+**Description**
+
+This function returns the rounded value of the parameter following C convention,
+rounded down if value is positive and rounded up if value is negative.
+This rounding feels generally more intuitive.
+The parameter can be an integer or a real number. If there are no
+parameters, the function returns ``0``, if there are multiple
+parameters, only the first parameter is processed. ``floor`` The return
+type of the function is a real number.
+
+**Example**
+
+.. code:: python
+
+   math.round(-1.2) # -1
+   math.round(-1.5) # -2
+   math.round(1.2) # 1
+   math.round(1.5) # 2
+
 ``sin`` function
 ^^^^^^^^^^^^^^^^
 
