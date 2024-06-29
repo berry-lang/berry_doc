@@ -1424,6 +1424,54 @@ type of the function is a real number.
    math.round(1.2) # 1
    math.round(1.5) # 2
 
+``min`` function
+^^^^^^^^^^^^^^^^^^
+.. code:: python
+
+   min( [value] * )
+
+**Description**
+
+This function accepts any number of arguments and
+returns the minimum value of all arguments.
+Arguments can be of type `int` or `real`. The return value is `int`
+if all argments are `int`, or `real` if at least one argument is `real`.
+An exception is raised if any argument is neither `int` or `real` including `nil`.
+The function returns `nil` if no argument is passed.
+
+**Example**
+
+.. code:: python
+
+   math.min(0, -1, 2) # -1
+   math.min(10.2, 5, 3.5) # 3.5
+   math.min() # nil
+   math.min(1, nil) # "type_error" exception
+
+``max`` function
+^^^^^^^^^^^^^^^^^^
+.. code:: python
+
+   max( [value] * )
+
+**Description**
+
+This function accepts any number of arguments and
+returns the maximym value of all arguments.
+Arguments can be of type `int` or `real`. The return value is `int`
+if all argments are `int`, or `real` if at least one argument is `real`.
+An exception is raised if any argument is neither `int` or `real` including `nil`.
+The function returns `nil` if no argument is passed.
+
+**Example**
+
+.. code:: python
+
+   math.max(0, -1, 2) # 2
+   math.max(10.2, 5, 3.5) # 10.2
+   math.max() # nil
+   math.max(1, nil) # "type_error" exception
+
 ``sin`` function
 ^^^^^^^^^^^^^^^^
 
