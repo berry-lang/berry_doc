@@ -393,10 +393,18 @@ Return the rounded down \textib{value} as \texttt{real}.
 \hangpar \texttt{math.ceil(}\textib{value}\texttt{)} \\
 Return the rounded up \textib{value} as \texttt{real}.
 
+\hangpar \texttt{math.round(}\textib{value}\texttt{)} \\
+Return the rounded \textib{value} as \texttt{real}, rounded down for positive and up for negative.
+
 \subsection*{General functions}
 
 \hangpar \texttt{math.abs(}\textib{value}\texttt{)} \\
 Return the positive absolute value of \textib{value} as \texttt{real}.
+
+\hangpar \texttt{math.min(}\textib{[values]*}\texttt{)}
+
+\hangpar \texttt{math.max(}\textib{[values]*}\texttt{)} \\
+Return the minimum/maximum value among all \textib{values}, as \texttt{int} or as \texttt{real} any argument is \texttt{real}.
 
 \hangpar \texttt{math.rand()} \\
 Return a random \texttt{int}. This is not cryptographic quality.
