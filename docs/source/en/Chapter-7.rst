@@ -739,6 +739,21 @@ works well with a ``for`` loop. Example of usage:
 
 ``file`` is a built-in type, which handles files in the file-system (typically using Flash storage on embedded systems). ``file`` supports reading and writing for strings as well as binary data. ``file`` instances are only created via ``open()`` function.
 
+
+.. code:: python
+
+   f = open('test.txt', 'w')     # create the file or erase if already existing
+   f.write('foo bar')
+   f.seek(1)                     # seek to second character
+   f.write('ar')                 # file contains 'far bar'
+   f.close()
+   #
+   f = open('test.txt', 'r')     # open in read mode
+   s = f.readline()
+   f.close()
+   print(s)                      # 'far bar'
+
+
 ``open`` function
 ^^^^^^^^^^^^^^^
 
