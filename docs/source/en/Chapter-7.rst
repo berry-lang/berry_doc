@@ -749,24 +749,23 @@ When opening in write mode, a lock is generally created on the file,
 so that the file cannot be opened again until the lock is released.
 The lock is released when calling the ``close()`` method.
 
-+--------+-------------------------------------------------------+
-| `Mode  | Description                                           |
-+========+=======================================================+
-| 'r'    | read-only mode, the file must exist.                  |
-+--------+-------------------------------------------------------+
-| 'w'    | write-only mode, always create a empty file.          |
-+--------+-------------------------------------------------------+
-| 'a'    | create a empty file or append to the end of an existing file. |
-+--------+-------------------------------------------------------+
-| 'r+'   | read-write mode, the file must exist.                 |
-+--------+-------------------------------------------------------+
-| 'w+'   | read-write mode, always create a empty file.          |
-+--------+-------------------------------------------------------+
++--------+--------------------------------------------------------------------------------+
+| Mode   | Description                                                                    |
++========+================================================================================+
+| 'r'    | read-only mode, the file must exist.                                           |
++--------+--------------------------------------------------------------------------------+
+| 'w'    | write-only mode, always create a empty file.                                   |
++--------+--------------------------------------------------------------------------------+
+| 'a'    | create a empty file or append to the end of an existing file.                  |
++--------+--------------------------------------------------------------------------------+
+| 'r+'   | read-write mode, the file must exist.                                          |
++--------+--------------------------------------------------------------------------------+
+| 'w+'   | read-write mode, always create a empty file.                                   |
++--------+--------------------------------------------------------------------------------+
 | 'a+'   | read-write mode, create a empty file or append to the end of an existing file. |
-+--------+-------------------------------------------------------+
-| 'b'    | binary mode, it can be combined with other access modes (generally ignored) |
-+--------+-------------------------------------------------------+
-
++--------+--------------------------------------------------------------------------------+
+| 'b'    | binary mode, it can be combined with other access modes (generally ignored)    |
++--------+--------------------------------------------------------------------------------+
 
 ``write`` method
 ^^^^^^^^^^^^^^^^
@@ -774,7 +773,7 @@ The lock is released when calling the ``close()`` method.
 Write a string or a bytes buffer to the file. The file must be open
 in write mode, or an exception is raised.
 ``write()`` accepts either a ``string`` object, or a ``bytes`` object
-which allows to write raw bytes, inluding NULL characters (``\\x00``).
+which allows to write raw bytes, inluding NULL characters (``\\x00`).
 
 Writes are commonly buffered in memory and grouped in fewer actual
 writes to flash, in order to reduce wear leveling.
