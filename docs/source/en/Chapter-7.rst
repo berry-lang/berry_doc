@@ -789,6 +789,7 @@ Write a string or a bytes buffer to the file. The file must be open
 in write mode, or an exception is raised.
 ``write()`` accepts either a ``string`` object, or a ``bytes`` object
 which allows to write raw bytes, inluding NULL characters (``\x00``).
+Has no effect if the file is not open.
 
 Writes are commonly buffered in memory and grouped in fewer actual
 writes to flash, in order to reduce wear leveling.
@@ -803,6 +804,7 @@ or at most ``count`` characters if you pass an integer argument
 ``read(count)``. The result is a ``string``, which is not suited
 for binary data.
 If the end of file is reached, an empty ``string`` is returned.
+Returns ``nil`` if the file is not open.
 
 ``readbytes`` method
 ^^^^^^^^^^^^^^^^^^^^
@@ -812,11 +814,13 @@ or at most ``count`` characters if you pass an integer argument
 ``readbytes(count)``. The result is a ``bytes``, which is well suited
 for binary data.
 If the end of file is reached, an empty ``bytes()`` is returned.
+Returns ``nil`` if the file is not open.
 
 ``readlines`` method
 ^^^^^^^^^^^^^^^^^^^^
 
 Read a line from the file (the newline character is determined by the platform). Returns a ``string`` or an empty ``string`` if the end of file is reached.
+Returns ``nil`` if the file is not open.
 
 ``seek`` method
 ^^^^^^^^^^^^^^^
@@ -831,22 +835,26 @@ if it is bigger than the size of the file.
 ^^^^^^^^^^^^^^^
 
 Returns the offset, in bytes, from the beginning of the file.
+Returns ``nil`` if the file is not open.
 
 ``size`` method
 ^^^^^^^^^^^^^^^
 
 Returns the size, in bytes, of the file.
+Returns ``nil`` if the file is not open.
 
 ``flush`` method
 ^^^^^^^^^^^^^^^^
 
 Flush the file buffer, i.e. force writing to flash of all pending writes.
+Has no effect if the file is not open.
 
 ``close`` method
 ^^^^^^^^^^^^^^^^
 
 Closes the file and free all associated resources.
 If the file was open in write mode, the lock is released.
+Has no effect if the file is not open.
 
 
 ``range`` Class
