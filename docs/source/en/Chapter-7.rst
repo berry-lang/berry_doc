@@ -734,6 +734,110 @@ works well with a ``for`` loop. Example of usage:
      print(k)
    end
 
+``file`` Class
+~~~~~~~~~~~~~~
+
+``file`` is a built-in type, which handles files in the file-system (typically using Flash storage on embedded systems). ``file`` supports reading and writing for strings as well as binary data. ``file`` instances are only created via ``open()`` function.
+
+``open`` function
+^^^^^^^^^^^^^^^
+
+``open`` is a builtin function and returns an instance of ``file`` or raises an exception. ``open(path [, mode])`` is used to open a file provided a ``path`` (string) and an optional ``mode`` string. If an error occurs,
+an exception ``io_error`` is raised.
+
+When opening in write mode, a lock is generally created on the file,
+so that the file cannot be opened again until the lock is released.
+The lock is released when calling the ``close()`` method.
+
++--------+-------------------------------------------------------+
+| `Mode  | Description                                           |
++========+=======================================================+
+| 'r'    | read-only mode, the file must exist.                  |
++--------+-------------------------------------------------------+
+| 'w'    | write-only mode, always create a empty file.          |
++--------+-------------------------------------------------------+
+| 'a'    | create a empty file or append to the end of an
+existing file. |
++--------+-------------------------------------------------------+
+| 'r+'   | read-write mode, the file must exist.                 |
++--------+-------------------------------------------------------+
+| 'w+'   | read-write mode, always create a empty file.          |
++--------+-------------------------------------------------------+
+| 'a+'   | read-write mode, create a empty file or append to
+the end of an existing file. |
++--------+-------------------------------------------------------+
+| 'b'    | binary mode, it can be combined with other access
+modes (generally ignored) |
++--------+-------------------------------------------------------+
+
+
+``write`` method
+^^^^^^^^^^^^^^^^
+
+Write a string or a bytes buffer to the file. The file must be open
+in write mode, or an exception is raised.
+``write()`` accepts either a ``string`` object, or a ``bytes`` object
+which allows to write raw bytes, inluding NULL characters (\\x00).
+
+Writes are commonly buffered in memory and grouped in fewer actual
+writes to flash, in order to reduce wear leveling.
+You can always force writing to flash using the ``flush()`` method.
+
+
+``read`` method
+^^^^^^^^^^^^^^^
+
+Read from the file, either until the end of file if no arguments is passed
+or at most ``count`` characters if you pass an integer argument
+``read(count)``. The result is a ``string``, which is not suited
+for binary data.
+If the end of file is reached, an empty ``string`` is returned.
+
+``readbytes`` method
+^^^^^^^^^^^^^^^^^^^^
+
+Read from the file, either until the end of file if no arguments is passed
+or at most ``count`` characters if you pass an integer argument
+``readbytes(count)``. The result is a ``bytes``, which is well suited
+for binary data.
+If the end of file is reached, an empty ``bytes()`` is returned.
+
+``readlines`` method
+^^^^^^^^^^^^^^^^^^^^
+
+Read a line from the file (the newline character is determined by the platform). Returns a ``string`` or an empty ``string`` if the end of file is reached.
+
+``seek`` method
+^^^^^^^^^^^^^^^
+
+Takes a single integer argument ``seek(offset)``.
+Set the file pointer to ``offset`` bytes after the start of the file.
+No error is returned if ``offset`` is out of range, and points
+to the beginning of the file if it is negative, or the end of the file
+if it is bigger than the size of the file.
+
+``tell`` method
+^^^^^^^^^^^^^^^
+
+Returns the offset, in bytes, from the beginning of the file.
+
+``size`` method
+^^^^^^^^^^^^^^^
+
+Returns the size, in bytes, of the file.
+
+``flush`` method
+^^^^^^^^^^^^^^^^
+
+Flush the file buffer, i.e. force writing to flash of all pending writes.
+
+``close`` method
+^^^^^^^^^^^^^^^^
+
+Closes the file and free all associated resources.
+If the file was open in write mode, the lock is released.
+
+
 ``range`` Class
 ~~~~~~~~~~~~~~~
 
