@@ -773,7 +773,7 @@ The lock is released when calling the ``close()`` method.
 Write a string or a bytes buffer to the file. The file must be open
 in write mode, or an exception is raised.
 ``write()`` accepts either a ``string`` object, or a ``bytes`` object
-which allows to write raw bytes, inluding NULL characters (``\\x00`).
+which allows to write raw bytes, inluding NULL characters (``\x00``).
 
 Writes are commonly buffered in memory and grouped in fewer actual
 writes to flash, in order to reduce wear leveling.
