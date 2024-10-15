@@ -72,8 +72,8 @@ The above computations are made against integers. Berry supports either
 32 bits or 64 bits integers depending on the underlying platform
 (usually 32 bits on embedded systems).
 
-Berry supports floating point calculation, as soon as at lest one member
-if floating point. Floating point uses either 32 bits ``float`` or 64
+Berry supports floating point calculation, as soon as at least one member
+is floating point. Floating point uses either 32 bits ``float`` or 64
 bits ``double`` depending on compilation options (usually 32 bits on
 embedded systems).
 
