@@ -1079,6 +1079,35 @@ add an ``int`` (1 bytes) or a ``bytes`` object
    print(b)            # bytes('11223344')
    print(c)            # bytes('3344')
 
+``reverse`` method
+^^^^^^^^^^^^^^^^^^
+
+Changes in-place and reverses the order of bytes. Also
+returns the resulting bytes instance. By default reverses
+the entire buffer; you can apply to a limited range of bytes
+with `<start>` and `<len>` parameters. You can also reverse
+by groups of `<grouplen>` bytes.
+
+::
+
+   b.reverse([<start>, <len>, <grouplen>]) -> bytes object
+
+
+.. code:: python
+
+   b = bytes("112233445566")
+   b.reverse()        # bytes('665544332211') - reverse all bytes
+
+   b = bytes("112233445566")
+   b.reverse(2)       # bytes('112266554433') - skip 2 bytes and reverse all remaining bytes
+
+   b = bytes("112233445566")
+   b.reverse(1,3)     # bytes('114433225566') - skip 1 byte and reverse 3 bytes
+
+   b = bytes("112233445566")
+   b.reverse(0,-1,2)  # bytes('556633441122') - skip by groups of 2
+
+
 bytes access ``[]`` method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
