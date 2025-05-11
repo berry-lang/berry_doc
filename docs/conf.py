@@ -39,8 +39,6 @@ extensions = [
         'sphinx.ext.todo',
         'rst2pdf.pdfbuilder',
         'breathe',
-        'sphinx_typo3_theme',
-        'sphinx_wagtail_theme',
         'myst_parser'
 ]
 
@@ -72,9 +70,6 @@ subprocess.call('doxygen', shell=True)
 
 
 # -- Options for HTML output -------------------------------------------------
-
-#import sphinx_typo3_theme
-import sphinx_wagtail_theme
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -120,13 +115,3 @@ def setup(sphinx):
     sys.path.insert(0, os.path.abspath('../tools/highlighters/Pygments'))
     from berry import BerryLexer
     sphinx.add_lexer("berry", BerryLexer)
-
-# try:
-#     import sphinx_typo3_theme
-#     is_imported = True
-# except:
-#     is_imported = False
-# if is_imported:
-#     version = sphinx_typo3_theme.__version__
-#     release = sphinx_typo3_theme.__version__
-#     html_theme = 'sphinx_typo3_theme'
