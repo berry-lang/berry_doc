@@ -37,10 +37,10 @@ extensions = [
         'sphinx.ext.viewcode',
         'sphinx.ext.imgmath', 
         'sphinx.ext.todo',
+        'rst2pdf.pdfbuilder',
         'breathe',
         'sphinx_typo3_theme',
-        'myst_parser',
-        'rst2pdf.pdfbuilder'
+        'myst_parser'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
