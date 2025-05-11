@@ -74,6 +74,7 @@ subprocess.call('doxygen', shell=True)
 # -- Options for HTML output -------------------------------------------------
 
 #import sphinx_typo3_theme
+import sphinx-wagtail-theme
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
