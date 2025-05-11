@@ -40,6 +40,7 @@ extensions = [
         'rst2pdf.pdfbuilder',
         'breathe',
         'sphinx_typo3_theme',
+        'sphinx-wagtail-theme',
         'myst_parser'
 ]
 
@@ -72,12 +73,12 @@ subprocess.call('doxygen', shell=True)
 
 # -- Options for HTML output -------------------------------------------------
 
-import sphinx_typo3_theme
+#import sphinx_typo3_theme
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_typo3_theme'
+html_theme = 'sphinx-wagtail-theme'
 html_favicon = 'favicon.ico'
     
 # Theme options are theme-specific and customize the look and feel of a theme
