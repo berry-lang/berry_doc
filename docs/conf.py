@@ -39,7 +39,8 @@ extensions = [
         'sphinx.ext.todo',
         'breathe',
         'sphinx_typo3_theme',
-        'myst_parser'
+        'myst_parser',
+        'rst2pdf.pdfbuilder'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -58,6 +59,8 @@ html_static_path = ['_static']
 html_css_files = [
     'custom.css',
 ]
+
+pdf_documents = [('index', 'berry-docs', 'Berry Documentation', 'Berry Lang')]
 
 # on_rtd is whether we are on readthedocs.org
 import os
