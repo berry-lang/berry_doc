@@ -145,8 +145,12 @@ the addition operator is left-associative.
    | 15           | ``? :``        | Conditional    | right           |
    |              |                | operator       |                 |
    +--------------+----------------+----------------+-----------------+
-   | 16           | ``&= \|        | Assignment     | right           |
-   |              | = ^= <<= >>=`` |                |                 |
+   | 16           | ``= += -= *=   | Assignment     | right           |
+   |              | /= %= &= \|=   |                |                 |
+   |              | ^= <<= >>=``   |                |                 |
+   +--------------+----------------+----------------+-----------------+
+   | 17           | ``:=``         | Walrus         | right           |
+   |              |                | assignment     |                 |
    +--------------+----------------+----------------+-----------------+
 
    Operator list
@@ -475,6 +479,40 @@ can only overload the binary operator corresponding to the compound
 assignment operator. This also ensures that the compound assignment
 operator will always conform to the basic characteristics of assignment
 operations.
+
+Walrus Assignment Operator
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The walrus assignment operator ``:=`` combines assignment with expression evaluation.
+Unlike regular assignment, the walrus operator can be used within expressions and
+returns the assigned value. This allows for more compact code where you need to
+both assign a value and use it in the same expression.
+
+.. code:: berry
+
+   # Regular assignment (statement)
+   a = 12
+   print(a)
+
+   # Walrus assignment (expression)
+   print(a := 12)  # Assigns 12 to 'a' and prints 12
+
+The walrus operator is particularly useful in conditional statements and loops:
+
+.. code:: berry
+
+   # Using walrus in if statement
+   if (n := input("Enter a number: ")) != ""
+       print("You entered:", n)
+   end
+
+   # Using walrus in while loop
+   while (line := file.readline()) != nil
+       print(line)
+   end
+
+The walrus operator has lower precedence than regular assignment operators,
+so parentheses are often needed to control evaluation order.
 
 domain operator and subscript operator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

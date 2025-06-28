@@ -96,6 +96,9 @@ converting various types to Boolean types are:
 -  **String**: when the value is "" (empty string) it is concerted to
    ``false`` otherwise it is converted to ``true``.
 
+-  **Bytes**: when the buffer is empty it is converted to ``false``,
+   otherwise it is converted to ``true``.
+
 -  **Comobj** and **Comptr**: when the internal pointer is ``NULL`` it
    is converted to ``false``, otherwise it is converted to ``true``.
 
@@ -306,6 +309,22 @@ Bytes object denote a bytes buffer which can be used to manipulate bytes
 buffers or to read/write some C memory areas or structures.
 
 See Chapter 7.
+
+Comptr
+^^^^^^
+
+Comptr (C pointer) is a type that represents a pointer to memory, typically
+used for interfacing with C code. It can hold memory addresses and is used
+for low-level memory operations. When used in boolean context, a ``NULL``
+pointer (0) converts to ``false``, otherwise it converts to ``true``.
+
+Comobj
+^^^^^^
+
+Comobj (C object) is a type that represents a C object or structure. Like
+comptr, it's primarily used for C language interoperability. When used in
+boolean context, a ``NULL`` object converts to ``false``, otherwise it
+converts to ``true``.
 
 2.2 Variables
 -------------

@@ -2282,6 +2282,62 @@ formatting template fmt will be replaced by the value of [args]:
 |                                   | than n chars. for strings         |
 +-----------------------------------+-----------------------------------+
 
+F-strings (Formatted String Literals)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+F-strings provide a more compact and readable way to format strings. They are
+syntactic sugar around the ``format()`` function and have the same performance.
+
+F-strings are preceded by ``f`` and can use single or double quotes. Strings
+can be split across multiple literals and lines:
+
+.. code:: berry
+
+   f"This uses double quotes"
+   f'This uses single quotes'
+   f"This" 'uses' "a combination" 'of quotes'
+
+Values and expressions are surrounded by ``{ }``:
+
+.. code:: berry
+
+   name = "Alice"
+   f"Hello {name}"           # "Hello Alice"
+   f"1 + 1 is {1 + 1}"      # "1 + 1 is 2"
+
+For literal brackets in the output, use double-brackets:
+
+.. code:: berry
+
+   # JSON example
+   f'{{"name":"{name}"}}'    # '{"name":"Alice"}'
+
+The default format is ``%s`` (string). You can specify a format after a colon ``:``
+(the ``%`` character is not required):
+
+.. code:: berry
+
+   price = 12.34
+   f"The price is {price:.2g}"    # "The price is 12.34"
+
+For debugging, use the equal sign ``=`` to dump a value with its name:
+
+.. code:: berry
+
+   name = "bob"
+   price = 12.34
+   f"{name=} {price=:.2g}"        # "name=bob price=12.34"
+
+More examples:
+
+.. code:: berry
+
+   # Equivalent transformations
+   f"a = {self.a}"           # format("a = %s", self.a)
+   f"{self.a:04i}"          # format("%04i", self.a)
+   f"{self.a=}"             # format("self.a=%s", self.a)
+   f"{self.a=:g}"           # format("self.a=%g", self.a)
+
 Module ``os``
 ~~~~~~~~~~~~~
 

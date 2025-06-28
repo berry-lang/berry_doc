@@ -366,6 +366,7 @@ Berry reserves the following tokens as language keywords:
    if elif else while for def
    end class break continue return true
    false nil var do import as static
+   try except raise
 
 The specific usage of keywords will be introduced in the relevant
 chapters. Note that keywords cannot be used as identifiers. Because
