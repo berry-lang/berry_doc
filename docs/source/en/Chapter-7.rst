@@ -2347,7 +2347,178 @@ Windows VC and POSIX style codes are implemented in the Berry
 interpreter. If it runs on other platforms, the functions in the OS
 module are not guaranteed to be provided.
 
-TODO
+``os.getcwd`` function
+^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   os.getcwd()
+
+Get the path of the current working directory.
+
+**Returns:** String containing the current directory path.
+
+``os.chdir`` function
+^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   os.chdir(path)
+
+Switch the current working directory to the specified path.
+
+**Parameters:**
+- ``path``: String containing the target directory path.
+
+``os.mkdir`` function
+^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   os.mkdir(path)
+
+Create a directory at the specified path. Creates only one level of directory.
+
+**Parameters:**
+- ``path``: String containing the directory path to create.
+
+``os.remove`` function
+^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   os.remove(path)
+
+Delete a file or directory at the specified path.
+
+**Parameters:**
+- ``path``: String containing the path of the file or directory to remove.
+
+``os.listdir`` function
+^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   os.listdir([path])
+
+Return a list of file and folder names contained in the specified directory.
+
+**Parameters:**
+- ``path``: Optional string containing the directory path. Defaults to current directory (``'.'``).
+
+**Returns:** List of strings containing the names of files and directories.
+
+``os.system`` function
+^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   os.system(cmd[, args])
+
+Execute a system command.
+
+**Parameters:**
+- ``cmd``: String containing the command to execute.
+- ``args``: Optional additional arguments for the command.
+
+``os.exit`` function
+^^^^^^^^^^^^^^^^^^^^
+
+::
+
+   os.exit()
+
+Exit the interpreter process immediately.
+
+Module ``os.path``
+^^^^^^^^^^^^^^^^^^
+
+The ``os.path`` module provides path manipulation utilities.
+
+``os.path.isdir`` function
+""""""""""""""""""""""""""
+
+::
+
+   os.path.isdir(path)
+
+Check if the specified path is a directory.
+
+**Parameters:**
+- ``path``: String containing the path to check.
+
+**Returns:** ``true`` if the path is a directory, ``false`` otherwise.
+
+``os.path.isfile`` function
+"""""""""""""""""""""""""""
+
+::
+
+   os.path.isfile(path)
+
+Check if the specified path is a file.
+
+**Parameters:**
+- ``path``: String containing the path to check.
+
+**Returns:** ``true`` if the path is a file, ``false`` otherwise.
+
+``os.path.exists`` function
+"""""""""""""""""""""""""""
+
+::
+
+   os.path.exists(path)
+
+Check if the specified path exists (either as a file or directory).
+
+**Parameters:**
+- ``path``: String containing the path to check.
+
+**Returns:** ``true`` if the path exists, ``false`` otherwise.
+
+``os.path.split`` function
+""""""""""""""""""""""""""
+
+::
+
+   os.path.split(path)
+
+Split a path into directory name and base name components.
+
+**Parameters:**
+- ``path``: String containing the path to split.
+
+**Returns:** List containing two strings: ``[dirname, basename]``.
+
+``os.path.splitext`` function
+"""""""""""""""""""""""""""""
+
+::
+
+   os.path.splitext(path)
+
+Split a path into filename and extension components.
+
+**Parameters:**
+- ``path``: String containing the path to split.
+
+**Returns:** List containing two strings: ``[filename, extension]``.
+
+``os.path.join`` function
+"""""""""""""""""""""""""
+
+::
+
+   os.path.join(args)
+
+Concatenate path components into a complete path using the appropriate
+path separator for the current platform.
+
+**Parameters:**
+- ``args``: Variable number of string arguments representing path components.
+
+**Returns:** String containing the joined path.
 
 Module ``global``
 ~~~~~~~~~~~~~~~~~
