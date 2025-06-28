@@ -432,6 +432,108 @@ will return the compiled function, otherwise it will return ``nil``.
    compile('print(\'Hello World!\')')() # Hello World!
    compile('test.be','file')
 
+``module`` function
+^^^^^^^^^^^^^^^^^^^
+
+**Example**
+
+.. code:: python
+
+   module()
+   module(name)
+
+**Description**
+
+Create an empty module. The optional ``name`` parameter specifies the module name.
+If no name is provided, an anonymous module is created.
+
+**Example**
+
+.. code:: python
+
+   m = module()          # Create anonymous module
+   m.x = 10             # Add member to module
+   
+   named_m = module("mymodule")  # Create named module
+
+``issubclass`` function
+^^^^^^^^^^^^^^^^^^^^^^^
+
+**Example**
+
+.. code:: python
+
+   issubclass(sub, sup)
+
+**Description**
+
+Returns ``true`` if ``sub`` (class) is ``sup`` (class or instance) or its derived class,
+otherwise returns ``false``.
+
+**Example**
+
+.. code:: python
+
+   class A end
+   class B: A end
+   
+   issubclass(B, A)     # true
+   issubclass(A, B)     # false
+   issubclass(A, A)     # true
+
+``isinstance`` function
+^^^^^^^^^^^^^^^^^^^^^^^
+
+**Example**
+
+.. code:: python
+
+   isinstance(obj, base)
+
+**Description**
+
+Returns ``true`` if ``obj`` is an instance of ``base`` (class or instance) or its 
+derived class, otherwise returns ``false``.
+
+**Example**
+
+.. code:: python
+
+   class A end
+   class B: A end
+   
+   a = A()
+   b = B()
+   
+   isinstance(a, A)     # true
+   isinstance(b, A)     # true (B inherits from A)
+   isinstance(a, B)     # false
+
+``call`` function
+^^^^^^^^^^^^^^^^^
+
+**Example**
+
+.. code:: python
+
+   call(function[, args][, list])
+
+**Description**
+
+Call a function with an arbitrary number of arguments. All ``args`` are pushed as 
+static arguments. If the last argument is a ``list``, all elements are pushed as 
+elementary arguments.
+
+**Example**
+
+.. code:: python
+
+   def add(a, b, c) return a + b + c end
+   
+   call(add, 1, 2, 3)           # 6
+   call(add, 1, [2, 3])         # 6 - list elements become arguments
+   call(print, "Hello", "World") # Hello World
+
 ``list`` Class
 ~~~~~~~~~~~~~~
 
@@ -616,6 +718,38 @@ exception.
 Changes the list in-place and reverses the order of elements. Also
 returns the resulting list.
 
+``keys`` method
+^^^^^^^^^^^^^^^
+
+Returns a ``range`` object containing the indices of the list. This is useful
+for iterating over list indices.
+
+.. code:: python
+
+   l = ['a', 'b', 'c']
+   for i: l.keys()
+       print(i, l[i])
+   end
+   # Output: 0 a, 1 b, 2 c
+
+``copy`` method
+^^^^^^^^^^^^^^^
+
+Creates a shallow copy of the list. The list structure is copied, but the 
+elements themselves are not copied (references are kept).
+
+.. code:: python
+
+   l1 = [1, [2, 3]]
+   l2 = l1.copy()
+   l2[0] = 10
+   print(l1)  # [1, [2, 3]] - l1[0] unchanged
+   print(l2)  # [10, [2, 3]]
+   
+   l2[1][0] = 20
+   print(l1)  # [1, [20, 3]] - nested list is shared
+   print(l2)  # [10, [20, 3]]
+
 ``map`` Class
 ~~~~~~~~~~~~~
 
@@ -664,6 +798,10 @@ inserted, and ``value`` is the value to be inserted. Returns boolean
 insertion failed (e.g. the pair already exists).
 
 .. _remove-method-1:
+
+**Note on insert behavior:** The ``insert`` method has two possible behaviors depending on implementation:
+1. Always sets the value (standard behavior)
+2. Only inserts if key doesn't exist (conditional behavior)
 
 ``remove`` method
 ^^^^^^^^^^^^^^^^^
