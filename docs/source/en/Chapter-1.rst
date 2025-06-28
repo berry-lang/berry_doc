@@ -10,12 +10,12 @@ Basic Information
 1.1 Introduction
 ----------------
 
-Berry is an ultra-lightweight dynamic type embedded scripting language.
-The language mainly supports procedural programming, as well as
+Berry is an ultra-lightweight dynamically typed embedded scripting language.
+The language primarily supports procedural programming, as well as
 object-oriented programming and functional programming. An important
-design goal of Berry is to be able to run on embedded devices with very
-small memory, so the language is very streamlined. Nevertheless, Berry
-is still a feature-rich scripting language.
+design goal of Berry is to run on embedded devices with very
+limited memory, so the language is highly streamlined. Nevertheless, Berry
+remains a feature-rich scripting language.
 
 1.2 Start using
 ---------------
@@ -33,10 +33,10 @@ also be viewed on the GitHub page of the project.
 First, you must install software such as GCC, git, and make. If you do
 not use version control, you can download the source code directly on
 GitHub without installing git. Readers can use search engines to
-retrieve information about these software. Readers using Linux and macOS
-systems should also install the GNU Readline library[1]. Use ``git``
-command [2] Clone the interpreter source code from the remote warehouse
-to the local:
+retrieve information about installing these tools. Users on Linux and macOS
+systems should also install the GNU Readline library [1]. Use the ``git``
+command [2] to clone the interpreter source code from the remote repository
+to your local machine:
 
 .. code:: bash
 
@@ -62,15 +62,15 @@ REPL environment
 ~~~~~~~~~~~~~~~~
 
 REPL (Read Eval Print Loop) is generally translated as an interactive
-interpreter, and this article has also become the interactive mode of
+interpreter, which this document also refers to as the interactive mode of
 the interpreter. This mode consists of four elements: **Read**, read the
-source code input by the user from the input device; **evaluate**,
-compile and execute the source code input by the user; **print**, output
-the result of the evaluation process; **cycle**, cycle the above
+source code input by the user from the input device; **Eval**, 
+compile and execute the source code input by the user; **Print**, output
+the result of the evaluation process; **Loop**, repeat the above
 operations.
 
 Start the interpreter directly (enter ``berry`` in the terminal or
-command window without parameters, or double-click berry.exe in Windows)
+command window without parameters, or double-click berry.exe on Windows)
 to enter the REPL mode, and you will see the following interface:
 
 .. code:: berry
@@ -84,9 +84,9 @@ time, compiler and operating system of the Berry interpreter. The symbol
 “``>``” in the third line is called the prompt, and the cursor is
 displayed behind the prompt. When using the REPL mode, after inputting
 the source code, pressing the “Enter” key will immediately execute the
-code and output the result. Press the ``Ctrl + C`` key combination to
+code and output the result. Press the ``Ctrl + C`` key combination to
 exit the REPL. In the case of using the Readline library, use the
-``Ctrl + D`` key combination to exit the REPL when the input is empty.
+``Ctrl + D`` key combination to exit the REPL when the input is empty.
 Since there is no need to edit script files, REPL mode can be used for
 quick development or idea verification.
 
@@ -94,7 +94,7 @@ Hello World Program
 ^^^^^^^^^^^^^^^^^^^
 
 Take the classic “Hello World” program as an example. Enter
-``print(’Hello World’)`` in the REPL and execute it. The results are as
+``print('Hello World')`` in the REPL and execute it. The results are as
 follows:
 
 .. code:: berry
@@ -106,7 +106,7 @@ follows:
    >
 
 The interpreter output the text “``Hello World``”. This line of code
-realizes the output of the string ``’Hello World’`` by calling the
+realizes the output of the string ``'Hello World'`` by calling the
 ``print`` function. In REPL, if the return value of the expression is
 not ``nil``, the return value will be displayed. For example, entering
 the expression ``1 + 2`` will display the calculation result ``3``:
@@ -117,7 +117,7 @@ the expression ``1 + 2`` will display the calculation result ``3``:
    3
 
 Therefore, the simplest “Hello World” program under REPL is to directly
-enter the string ``’Hello World’`` and run:
+enter the string ``'Hello World'`` and run:
 
 .. code:: berry
 
@@ -195,7 +195,7 @@ is: ``def``, ``return`` and ``end`` are keywords of Berry language; and
 ``print`` , ``func`` and ``x`` are some identifiers, they are usually
 used to represent a variable; ``1.5`` and ``10`` these numbers are
 called numerical literals, they are equivalent to the numbers used in
-daily life; ``’func(10) =’`` It is a string literal, they are used in
+daily life; ``'func(10) ='`` It is a string literal, they are used in
 places where you need to represent text; ``+`` is an addition operator,
 here the addition operator can be used to add the variable ``x`` and the
 value ``1.5``.
@@ -212,7 +212,7 @@ Comments are some text that does not generate any code. They are used to
 make comments in the source code and be read by people, while the
 compiler will not interpret their content. Berry supports single-line
 comments and cross-line block comments. Single-line comments start with
-the character “``#``\ ’ until the end of the newline character. The
+the character “``#``\ ' until the end of the newline character. The
 quick note starts with the text “\ ``#-``” and ends with the text
 “``-#``”. The following is an example of using annotations:
 
@@ -237,13 +237,13 @@ literal value
 The literal value is a fixed value written directly in the source code
 during programming. Berry’s literals are integers, real numbers,
 booleans, strings, and nil. For example, the value ``34`` is an integer
-denomination.
+literal.
 
 Numerical Literal Value
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Numerical literals include **Integer** (integer) literals and **Real
-number** (real) literals.
+Numerical literals include **Integer** literals and **Real number** 
+(real) literals.
 
 .. code:: berry
 
@@ -252,22 +252,22 @@ number** (real) literals.
    3.14 # Real literal
    1.1e-6 # Real literal
 
-Numeric literals are written similarly to everyday writing. Berry
-supports hexadecimal integer denominations. Hexadecimal literals start
+Numeric literals are written similarly to everyday notation. Berry
+supports hexadecimal integer literals. Hexadecimal literals start
 with the prefix ``0x`` or ``0X``, followed by a hexadecimal number.
 
 Boolean literal value
 ^^^^^^^^^^^^^^^^^^^^^
 
-Boolean values (boolean) are used to represent true and false in the
-logic state. You can use the keywords ``true`` and ``false`` to
+Boolean values are used to represent true and false logical
+states. You can use the keywords ``true`` and ``false`` to
 represent Boolean literals.
 
 String literal
 ^^^^^^^^^^^^^^
 
 A string is a piece of text, and its literal writing is to use a pair of
-``’`` or ``"`` to surround the string text:
+``'`` or ``"`` to surround the string text:
 
 .. code:: berry
 
@@ -276,7 +276,7 @@ A string is a piece of text, and its literal writing is to use a pair of
 
 String literals provide some escape sequences to represent characters
 that cannot be input directly. The escape sequence starts with the
-character ``’\’``, and then follows a specific sequence of characters to
+character ``'\'``, and then follows a specific sequence of characters to
 achieve escape. The escape sequences specified by Berry are
 
 .. container::
@@ -293,7 +293,7 @@ achieve escape. The escape sequences specified by Berry are
    +----------------------+------------------+----------------------+------------------+
    | ``\v``               | Vertical tab     | ``\\``               | Backslash        |
    +----------------------+------------------+----------------------+------------------+
-   | ``\’``               | apostrophe       | ``\"``               | Double quotes    |
+   | ``\'``               | apostrophe       | ``\"``               | Double quotes    |
    +----------------------+------------------+----------------------+------------------+
    | ``\?``               | question mark    | ``\0``               | Null character   |
    +----------------------+------------------+----------------------+------------------+
@@ -341,11 +341,11 @@ keyword ``nil``.
 identifier
 ~~~~~~~~~~
 
-Identifier (identifier) is a user-defined name, which starts with an
-underscore or letter, and then consists of a combination of several
-underscores, letters or numbers. Similar to most languages, Berry is
-case-sensitive, so identifiers ``A`` and identifiers ``a`` will be
-resolved into two identifiers.
+An identifier is a user-defined name, which starts with an
+underscore or letter, followed by any combination of underscores, 
+letters, or numbers. Like most languages, Berry is
+case-sensitive, so identifier ``A`` and identifier ``a`` are
+resolved as two different identifiers.
 
 .. code:: berry
 
