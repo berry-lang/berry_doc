@@ -3,7 +3,7 @@
 \subsection*{Global Functions}
 
 \hangpar \texttt{assert(}\textib{expr} [\texttt{,} \textib{msg}]\texttt{)}\\
-Throw \texttt{'assert\_failed'} when \textib{expr} is \textbf{false}, and \textib{msg} is an optional exception message.
+Raises \texttt{'assert\_failed'} when \textib{expr} is \textbf{false}, and \textib{msg} is an optional exception message.
 
 \hangpar \texttt{print(}\dots\texttt{)}\\
 Print all arguments to stdout.
@@ -182,7 +182,7 @@ Insert a key-value pair and return \texttt{true}, and return \texttt{false} when
 Remove the key-value pair by the \textib{key}.
 
 \hangpar \textib{map}\texttt{.item(}\textib{key}\texttt{)}\\
-Get the value mapped by the \textib{key}. It will throw a \texttt{"key\_error"} exception when the key-value pair does not exist.
+Get the value mapped by the \textib{key}. It will raise a \texttt{"key\_error"} exception when the key-value pair does not exist.
 
 \hangpar \textib{map}\texttt{.setitem(}\textib{key}\texttt{,} \textib{value}\texttt{)}\\
 Set the \textib{value} mapped by the \textib{key}. If the key-value pair does not exist, a new one will be inserted.
@@ -520,7 +520,7 @@ Return \texttt{true} if the buffer is mapped to a fixed location in memory.
 \subsection*{Accessor Functions}
 
 \hangpar \textib{bytes}\texttt{[}\textib{index}\texttt{]} \\
-Read or write byte at \textib{index} as \texttt{int}; throws an exception if index is out of bounds.
+Read or write byte at \textib{index} as \texttt{int}; raises an exception if index is out of bounds.
 
 \hangpar \textib{bytes}\texttt{[}\textib{start}\texttt{..}\textib{end}\texttt{]} \\
 Return a new instance of \texttt{bytes} containing bytes from \textib{start} to \textib{end} included. Indices can be out of bounds. If \textib{end} is omitted, copy to the end of the buffer. If \textib{start} or \textib{end} are negative, count from end of buffer (\texttt{-1} is last byte).
