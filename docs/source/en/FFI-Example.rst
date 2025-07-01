@@ -5,7 +5,7 @@ Berry’s C FFI (Foreign Function Interface) operates on a virtual stack
 to interact with the VM. If we need to make an ``add`` function to add
 two numbers and use it in Berry in this way:
 
-.. code:: ruby
+.. code:: berry
 
    result = add(1, 2)
 
