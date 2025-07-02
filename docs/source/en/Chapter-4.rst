@@ -41,10 +41,10 @@ routines give examples of expression statements and function statements:
 .. code:: berry
 
    a = 1 # Assignment statement
-   print(a) # Call statement
+   print(a) # Function call statement
 
-Line 2 is a simple assignment statement that assigns the literal value
-``i`` to the variable ``a``. The statement in line 2 is a function call
+The first line is a simple assignment statement that assigns the literal value
+``1`` to the variable ``a``. The second line is a function call
 statement, which prints the value of variable ``a`` by calling the
 ``print`` function.
 

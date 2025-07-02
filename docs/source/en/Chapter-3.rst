@@ -10,14 +10,13 @@
 3.1 Basics
 ----------
 
-An expression (Statement) is composed of one to more operands and
-operators, and a result can be obtained by evaluating the expression.
-This result is called the value of the expression. The operand can be a
-literal value, variable, function call or sub-expression, etc. Simple
-expressions and operators can also be combined into more complex
-expressions. Similar to the four arithmetic operations, the precedence
-of operators affects the evaluation order of expressions. The higher the
-precedence of the operator, the earlier the expression is evaluated.
+An expression is composed of one or more operands and operators, and
+produces a result when evaluated. This result is called the value of the
+expression. Operands can be literal values, variables, function calls,
+or sub-expressions. Simple expressions and operators can be combined
+into more complex expressions. Like arithmetic operations, operator
+precedence affects the evaluation order of expressions. Operators with
+higher precedence are evaluated first.
 
 Operators and expressions
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,52 +97,49 @@ the addition operator is left-associative.
    :name: tab::operator_list
 
    +--------------+----------------+----------------+-----------------+
-   | **priority** | **Operator**   | **Description**|**Associativity**|
+   | **Priority** | **Operator**   | **Description**|**Associativity**|
    +==============+================+================+=================+
    | 1            | ``()``         | Grouping       | -               |
-   |              |                | symbol         |                 |
    +--------------+----------------+----------------+-----------------+
-   | 2            | ``() [] .``    | Field          | left            |
-   |              |                | operation      |                 |
+   | 2            | ``() [] .``    | Function call, | left            |
+   |              |                | subscript,     |                 |
+   |              |                | member access  |                 |
    +--------------+----------------+----------------+-----------------+
-   | 3            | ``- ! ~``      | Negative sign, | left            |
-   |              |                | logical        |                 |
-   |              |                | negation, bit  |                 |
-   |              |                | flip           |                 |
+   | 3            | ``- ! ~``      | Unary minus,   | right           |
+   |              |                | logical NOT,   |                 |
+   |              |                | bitwise NOT    |                 |
    +--------------+----------------+----------------+-----------------+
-   | 4            | ``* / %``      | M              | left            |
-   |              |                | ultiplication, |                 |
-   |              |                | division, and  |                 |
-   |              |                | remainder      |                 |
+   | 4            | ``* / %``      | Multiplication,| left            |
+   |              |                | division,      |                 |
+   |              |                | modulo         |                 |
    +--------------+----------------+----------------+-----------------+
    | 5            | ``+ -``        | Addition,      | left            |
    |              |                | subtraction    |                 |
    +--------------+----------------+----------------+-----------------+
-   | 6            | ``<< >>``      | Move left,     | left            |
-   |              |                | move right     |                 |
+   | 6            | ``<< >>``      | Left shift,    | left            |
+   |              |                | right shift    |                 |
    +--------------+----------------+----------------+-----------------+
    | 7            | ``&``          | Bitwise AND    | left            |
    +--------------+----------------+----------------+-----------------+
    | 8            | ``^``          | Bitwise XOR    | left            |
    +--------------+----------------+----------------+-----------------+
-   | 9            | ``\|``         | Bitwise OR     | left            |
+   | 9            | ``|``          | Bitwise OR     | left            |
    +--------------+----------------+----------------+-----------------+
-   | 10           | ``..``         | Concatenation  | left            |
-   |              |                | operator       |                 |
+   | 10           | ``..``         | Range/         | left            |
+   |              |                | concatenation  |                 |
    +--------------+----------------+----------------+-----------------+
-   | 11           | ``< <= > >=``  | Greater than,  | left            |
-   |              |                | greater than   |                 |
-   |              |                | or equal to    |                 |
+   | 11           | ``< <= > >=``  | Relational     | left            |
+   |              |                | comparison     |                 |
    +--------------+----------------+----------------+-----------------+
-   | 12           | ``== !=``      | Equal to, not  | left            |
-   |              |                | equal to       |                 |
+   | 12           | ``== !=``      | Equality       | left            |
+   |              |                | comparison     |                 |
    +--------------+----------------+----------------+-----------------+
    | 13           | ``&&``         | Logical AND    | left            |
    +--------------+----------------+----------------+-----------------+
    | 14           | ``\|\|``       | Logical OR     | left            |
    +--------------+----------------+----------------+-----------------+
    | 15           | ``? :``        | Conditional    | right           |
-   |              |                | operator       |                 |
+   |              |                | (ternary)      |                 |
    +--------------+----------------+----------------+-----------------+
    | 16           | ``= += -= *=   | Assignment     | right           |
    |              | /= %= &= \|=   |                |                 |
@@ -153,7 +149,7 @@ the addition operator is left-associative.
    |              |                | assignment     |                 |
    +--------------+----------------+----------------+-----------------+
 
-   Operator list
+   Operator precedence and associativity
 
 Use brackets to increase priority
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

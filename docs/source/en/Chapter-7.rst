@@ -27,7 +27,7 @@ library.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    print(...)
 
@@ -40,7 +40,7 @@ check whether the instance has a ``tostring()`` method, and if there is,
 print the return value of the instance calling the ``tostring()``
 method, otherwise it will print the address of the instance.
 
-.. code:: python
+.. code:: berry
 
    print('Hello World!') # Hello World!
    print([1, 2, '3']) # [1, 2, '3']
@@ -51,7 +51,7 @@ method, otherwise it will print the address of the instance.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    input()
    input(prompt)
@@ -64,7 +64,7 @@ parameter as an input prompt, and the ``prompt`` parameter must be of
 string type. After calling the ``input`` function, characters will be
 read from the keyboard buffer until a newline character is encountered.
 
-.. code:: python
+.. code:: berry
 
    input('please enter a string:') # please enter a string:
 
@@ -76,7 +76,7 @@ so the program “stuck” is not an error.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    classname(object)
 
@@ -86,7 +86,7 @@ This function returns the class name (string) of the parameter.
 Therefore the parameter must be a class or instance, and other types of
 parameters will return ``nil``.
 
-.. code:: python
+.. code:: berry
 
    classname(list) #'list'
    classname(list()) #'list'
@@ -98,7 +98,7 @@ parameters will return ``nil``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    classof(object)
 
@@ -109,7 +109,7 @@ be an instance. If the function is successfully called, it will return
 the class to which the instance belongs, otherwise it will return
 ``nil``.
 
-.. code:: python
+.. code:: berry
 
    classof(list) # nil
    classof(list()) # <class: list>
@@ -121,7 +121,7 @@ the class to which the instance belongs, otherwise it will return
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    str(value)
 
@@ -134,7 +134,7 @@ parameter type is an instance, it will check whether the instance has a
 be used, otherwise the address of the instance will be converted into a
 string.
 
-.. code:: python
+.. code:: berry
 
    str(0) # '0'
    str(nil) #'nil'
@@ -144,7 +144,7 @@ string.
 ``number`` function
 ^^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    number(value)
 
@@ -159,7 +159,7 @@ types return ``nil``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    number(5) # 5
    number('45.6') # 45.6
@@ -169,7 +169,7 @@ types return ``nil``.
 ``int`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    int(value)
 
@@ -185,7 +185,7 @@ method will be used.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    int(5) # 5
    int(45.6) # 45
@@ -196,7 +196,7 @@ method will be used.
 ``real`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    real(value)
 
@@ -210,7 +210,7 @@ Other types return ``nil``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    real(5) # 5, type(real(5)) →'real'
    real(45.6) # 45.6
@@ -220,7 +220,7 @@ Other types return ``nil``.
 ``bool`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    bool(value)
 
@@ -251,7 +251,7 @@ The conversion follows the following rules:
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    bool() # false
    bool(nil) # false
@@ -276,7 +276,7 @@ The conversion follows the following rules:
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    type(value)
 
@@ -316,7 +316,7 @@ parameter types:
    * - native pointer
      - ``’ptr’``
 
-.. code:: python
+.. code:: berry
 
    type(0) #'int'
    type(0.5) #'real'
@@ -326,7 +326,7 @@ parameter types:
 ``size`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    size(value)
 
@@ -339,7 +339,7 @@ instances and returns the number of elements.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    size(10) # 0
    size('s') # 1
@@ -350,7 +350,7 @@ instances and returns the number of elements.
 ``super`` function
 ^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    super(object)
 
@@ -366,7 +366,7 @@ calling a super method.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    class mylist: list end
    l = mylist() # classname(l) -->'mylist'
@@ -375,7 +375,7 @@ calling a super method.
 ``assert`` function
 ^^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    assert(expression)
    assert(expression, message)
@@ -395,7 +395,7 @@ output when an assertion error occurs, otherwise the default
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    assert(false) # assert failed!
    assert(nil) # assert failed!
@@ -407,7 +407,7 @@ output when an assertion error occurs, otherwise the default
 ``compile`` function
 ^^^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    compile(string)
    compile(string, 'string')
@@ -427,7 +427,7 @@ will return the compiled function, otherwise it will return ``nil``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    compile('print(\'Hello World!\')')() # Hello World!
    compile('test.be','file')
@@ -437,7 +437,7 @@ will return the compiled function, otherwise it will return ``nil``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    module()
    module(name)
@@ -449,7 +449,7 @@ If no name is provided, an anonymous module is created.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    m = module()          # Create anonymous module
    m.x = 10             # Add member to module
@@ -461,7 +461,7 @@ If no name is provided, an anonymous module is created.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    issubclass(sub, sup)
 
@@ -472,7 +472,7 @@ otherwise returns ``false``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    class A end
    class B: A end
@@ -486,7 +486,7 @@ otherwise returns ``false``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    isinstance(obj, base)
 
@@ -497,7 +497,7 @@ derived class, otherwise returns ``false``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    class A end
    class B: A end
@@ -514,7 +514,7 @@ derived class, otherwise returns ``false``.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    call(function[, args][, list])
 
@@ -526,7 +526,7 @@ elementary arguments.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    def add(a, b, c) return a + b + c end
    
@@ -565,7 +565,7 @@ the result of executing ``[1, [], 1.5].tostring()`` is
 corresponding position will use an ellipsis instead of the specific
 value:
 
-.. code:: python
+.. code:: berry
 
    l = [1, 2]
    l[0] = l
@@ -577,7 +577,7 @@ value:
 Converts each element of the list to strings, and concatenate using the
 provided string.
 
-.. code:: python
+.. code:: berry
 
    l = [1, 2, 3]
    l.concat()  # '123'
@@ -694,7 +694,7 @@ container, the new element will be initialized to ``nil``. Using
 ``resize`` to reduce the length of the container will discard some
 elements at the end of the container. E.g:
 
-.. code:: python
+.. code:: berry
 
    l = [1, 2, 3]
    l.resize(5) # Expansion, l == [1, 2, 3, nil, nil]
@@ -724,7 +724,7 @@ returns the resulting list.
 Returns a ``range`` object containing the indices of the list. This is useful
 for iterating over list indices.
 
-.. code:: python
+.. code:: berry
 
    l = ['a', 'b', 'c']
    for i: l.keys()
@@ -738,7 +738,7 @@ for iterating over list indices.
 Creates a shallow copy of the list. The list structure is copied, but the 
 elements themselves are not copied (references are kept).
 
-.. code:: python
+.. code:: berry
 
    l1 = [1, [2, 3]]
    l2 = l1.copy()
@@ -780,7 +780,7 @@ similar to literal writing. For example, the result of executing
 refers to itself, the corresponding position will use an ellipsis
 instead of the specific value:
 
-.. code:: python
+.. code:: berry
 
    m = {'map': nil,'text':'hello'}
    m['map'] = m
@@ -865,7 +865,7 @@ Returns an iterator function over the keys of the ``map`` container, to
 produce one key each call, or raising ``stop_iteration`` if at end. This
 works well with a ``for`` loop. Example of usage:
 
-.. code:: python
+.. code:: berry
 
    m = {'map': nil,'text':'hello'}
    for k: m.keys()
@@ -878,7 +878,7 @@ works well with a ``for`` loop. Example of usage:
 ``file`` is a built-in type, which handles files in the file-system (typically using Flash storage on embedded systems). ``file`` supports reading and writing for strings as well as binary data. ``file`` instances are only created via ``open()`` function.
 
 
-.. code:: python
+.. code:: berry
 
    f = open('test.txt', 'w')     # create the file or erase if already existing
    f.write('foo bar')
@@ -1008,7 +1008,7 @@ If you don’t specify the high range, it is set to ``MAXINT``. Example:
 
 There are typically two ways to traverse a list:
 
-.. code:: python
+.. code:: berry
 
    l = [1,2,3,4]
    for e:l print(e) end # 1/2/3/4
@@ -1022,7 +1022,7 @@ constructor takes a string of Hex and builds the in-memory buffer.
 
 Example:
 
-.. code:: python
+.. code:: berry
 
    b = bytes()
    print(b)   # bytes('')
@@ -1050,7 +1050,7 @@ size needed.
 Similarly the buffer is automatically shrunk if it is used less than its
 needed size.
 
-.. code:: python
+.. code:: berry
 
    b = bytes(4096)   # pre-allocated 4096 bytes
 
@@ -1059,7 +1059,7 @@ needed size.
 If first argument is a ``string`` it is parsed as a list of Hex values.
 You can add an optional second argument to pre-allocate a bigger buffer.
 
-.. code:: python
+.. code:: berry
 
    b = bytes("BEEF0000")
    print(b)   # bytes('beef0000')
@@ -1071,7 +1071,7 @@ You can add an optional second argument to pre-allocate a bigger buffer.
 If the size provided is negative, the array size is fixed and cannot be
 lowered nor raised.
 
-.. code:: python
+.. code:: berry
 
    b = bytes(-8)
    print(b)   # bytes('0000000000000000')
@@ -1099,7 +1099,7 @@ if sub-elements need to be explicitly deallocated.
 
 Example:
 
-.. code:: python
+.. code:: berry
 
    import introspect
    def f() return 0 end
@@ -1118,7 +1118,7 @@ Example:
 
 Returns the number of bytes in the bytes array
 
-.. code:: python
+.. code:: berry
 
    b = bytes("1122334455")
    b.size()   # 5
@@ -1137,7 +1137,7 @@ convert. ``tostring`` is internally used when you print an object.
 from ``asstring`` which turns a bytes array to the equivalent low-level
 string object without any encoding.
 
-.. code:: python
+.. code:: berry
 
    b = bytes("1122334455")
    b.tostring()   # 'bytes(\'1122334455\')'
@@ -1153,7 +1153,7 @@ string object without any encoding.
 Converts the bytes array in an hex string, similar to the one returned
 by ``tostring()`` but without decorators.
 
-.. code:: python
+.. code:: berry
 
    b = bytes("1122334455")
    b.tohex()   # '1122334455'
@@ -1164,7 +1164,7 @@ by ``tostring()`` but without decorators.
 Updates the content of the bytes array from a new hex string. This
 allows to load a new hex string without allocating a new bytes object.
 
-.. code:: python
+.. code:: berry
 
    b = bytes("1122334455")
    b.fromhex("AABBCC")  # bytes('AABBCC')
@@ -1174,7 +1174,7 @@ allows to load a new hex string without allocating a new bytes object.
 
 Sets back the bytes array to empty
 
-.. code:: python
+.. code:: berry
 
    b = bytes("1122")
    b.clear()
@@ -1188,7 +1188,7 @@ Sets back the bytes array to empty
 Shrink or expand the bytes array to match the specified size. If
 expanded, NULL (0x00) bytes are added at the end of the buffer.
 
-.. code:: python
+.. code:: berry
 
    b = bytes("11223344")
    b.resize(6)
@@ -1231,7 +1231,7 @@ by groups of `<grouplen>` bytes.
    b.reverse([<start>, <len>, <grouplen>]) -> bytes object
 
 
-.. code:: python
+.. code:: berry
 
    b = bytes("112233445566")
    b.reverse()        # bytes('665544332211') - reverse all bytes
@@ -1252,7 +1252,7 @@ bytes access ``[]`` method
 You can access individual bytes as integers, to read and write. Values
 not in the range 0..255 are silently choped.
 
-.. code:: python
+.. code:: berry
 
    b = bytes("010203")
    print(b[0])         # 1
@@ -1279,7 +1279,7 @@ array.
 This construct cannot be used a an *lvalue*, i.e. you can’t splice like
 ``b[1..2] = bytes("0011")  # not allowed``.
 
-.. code:: python
+.. code:: berry
 
    b = bytes("001122334455")
    print(b[1..2])      # bytes('1122')
@@ -1305,7 +1305,7 @@ transparently mapped to ``[]`` operator.
 Creates a fresh new copy of the ``bytes`` object. A new memory buffer is
 allocated and data is duplicated.
 
-.. code:: python
+.. code:: berry
 
    b = bytes("1122")
    print(b)          # bytes('1122')
@@ -1333,7 +1333,7 @@ If the offset is out of range, ``0`` is returned (no exception raised).
 
 Example:
 
-.. code:: python
+.. code:: berry
 
    b = bytes("010203040506")
    print(b.get(2,2))         # 1027 - 0x0403 read 2 bytes little endian
@@ -1372,7 +1372,7 @@ endian.
 
 Example:
 
-.. code:: python
+.. code:: berry
 
    b = bytes("0011")
    b.add(0x22, 1)
@@ -1396,7 +1396,7 @@ Converts a bytes buffer to a string. The buffer is converted as-is
 without any encoding considerations. If the buffer contains NULL
 characters, the string will be truncated.
 
-.. code:: python
+.. code:: berry
 
    b=bytes("3344")
    print(b.asstring())   # '3D'
@@ -1408,7 +1408,7 @@ Updates a bytes buffer from a string. The string is converted as-is
 without any encoding considerations. If the string contains NULL
 characters, it will be truncated.
 
-.. code:: python
+.. code:: berry
 
    b=bytes().fromstring("Hello")
    print(b)              # bytes('48656C6C6F')
@@ -1430,7 +1430,7 @@ base64 encode ``tob64`` method
 
 Converts a bytes array to a base64 string.
 
-.. code:: python
+.. code:: berry
 
    b = bytes('deadbeef0011')
    s = b.tob64()
@@ -1441,7 +1441,7 @@ base64 decode ``fromb64`` method
 
 Converts a base64 string into a bytes array.
 
-.. code:: python
+.. code:: berry
 
    s = '3q2+7wAR'
    b = bytes().fromb64(s)
@@ -1523,7 +1523,7 @@ and multiply Berry objects and serialize a Berry object into JSON text.
 ``load`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    load(text)
 
@@ -1547,7 +1547,7 @@ JSON type to Berry type conversion rules
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    import json
    json.load('0') # 0
@@ -1556,7 +1556,7 @@ JSON type to Berry type conversion rules
 ``dump`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    dump(object, ['format'])
 
@@ -1581,7 +1581,7 @@ Berry type to JSON type conversion rules
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    import json
    json.dump('string') #'"string"'
@@ -1617,14 +1617,14 @@ to 3.141592654.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.pi # 3.14159
 
 ``abs`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    abs(value)
 
@@ -1638,7 +1638,7 @@ real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.abs(-1) # 1
    math.abs(1.5) # 1.5
@@ -1646,7 +1646,7 @@ real number.
 ``ceil`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    ceil(value)
 
@@ -1661,7 +1661,7 @@ type of the function is a real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.ceil(-1.2) # -1
    math.ceil(1.5) # 2
@@ -1669,7 +1669,7 @@ type of the function is a real number.
 ``floor`` function
 ^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    floor(value)
 
@@ -1684,14 +1684,14 @@ type of the function is a real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.floor(-1.2) # -2
    math.floor(1.5) # 1
 
 ``round`` function
 ^^^^^^^^^^^^^^^^^^
-.. code:: python
+.. code:: berry
 
    round(value)
 
@@ -1707,7 +1707,7 @@ type of the function is a real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.round(-1.2) # -1
    math.round(-1.5) # -2
@@ -1716,7 +1716,7 @@ type of the function is a real number.
 
 ``min`` function
 ^^^^^^^^^^^^^^^^^^
-.. code:: python
+.. code:: berry
 
    min( [value] * )
 
@@ -1731,7 +1731,7 @@ The function returns `nil` if no argument is passed.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.min(0, -1, 2) # -1
    math.min(10.2, 5, 3.5) # 3.5
@@ -1740,7 +1740,7 @@ The function returns `nil` if no argument is passed.
 
 ``max`` function
 ^^^^^^^^^^^^^^^^^^
-.. code:: python
+.. code:: berry
 
    max( [value] * )
 
@@ -1755,7 +1755,7 @@ The function returns `nil` if no argument is passed.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.max(0, -1, 2) # 2
    math.max(10.2, 5, 3.5) # 10.2
@@ -1765,7 +1765,7 @@ The function returns `nil` if no argument is passed.
 ``sin`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    sin(value)
 
@@ -1779,7 +1779,7 @@ return type of the function is a real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.sin(1) # 0.841471
    math.sin(math.pi * 0.5) # 1
@@ -1787,7 +1787,7 @@ return type of the function is a real number.
 ``cos`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    cos(value)
 
@@ -1801,7 +1801,7 @@ type of the function is a real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.cos(1) # 0.540302
    math.cos(math.pi) # -1
@@ -1809,7 +1809,7 @@ type of the function is a real number.
 ``tan`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    tan(value)
 
@@ -1823,7 +1823,7 @@ return type of the function is a real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.tan(1) # 1.55741
    math.tan(math.pi / 4) # 1
@@ -1831,7 +1831,7 @@ return type of the function is a real number.
 ``asin`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    asin(value)
 
@@ -1845,7 +1845,7 @@ return type of the function is a real number and the unit is radians.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.asin(1) # 1.5708
    math.asin(0.5) * 180 / math.pi # 30
@@ -1853,7 +1853,7 @@ return type of the function is a real number and the unit is radians.
 ``acos`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    acos(value)
 
@@ -1868,7 +1868,7 @@ radians.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.acos(1) # 0
    math.acos(0) # 1.5708
@@ -1876,7 +1876,7 @@ radians.
 ``atan`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    atan(value)
 
@@ -1891,14 +1891,14 @@ is radians.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.atan(1) * 180 / math.pi # 45
 
 ``sinh`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    sinh(value)
 
@@ -1911,14 +1911,14 @@ there are multiple parameters, only the first parameter is processed.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.sinh(1) # 1.1752
 
 ``cosh`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    cosh(value)
 
@@ -1931,14 +1931,14 @@ there are multiple parameters, only the first parameter is processed.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.cosh(1) # 1.54308
 
 ``tanh`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    tanh(value)
 
@@ -1951,14 +1951,14 @@ there are multiple parameters, only the first parameter is processed.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.tanh(1) # 0.761594
 
 ``sqrt`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    sqrt(value)
 
@@ -1972,14 +1972,14 @@ real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.sqrt(2) # 1.41421
 
 ``exp`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    exp(value)
 
@@ -1993,14 +1993,14 @@ real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.exp(1) # 2.71828
 
 ``log`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    log(value)
 
@@ -2014,14 +2014,14 @@ real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.log(2.718282) # 1
 
 ``log10`` function
 ^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    log10(value)
 
@@ -2035,14 +2035,14 @@ real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.log10(10) # 1
 
 ``deg`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    deg(value)
 
@@ -2056,14 +2056,14 @@ the unit is an angle.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.deg(math.pi) # 180
 
 ``rad`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    rad(value)
 
@@ -2077,14 +2077,14 @@ the unit is radians.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.rad(180) # 3.14159
 
 ``pow`` function
 ^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    pow(x, y)
 
@@ -2098,14 +2098,14 @@ The return type of the function is a real number.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.pow(2, 3) # 8
 
 ``srand`` function
 ^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    srand(value)
 
@@ -2116,14 +2116,14 @@ The type of the parameter should be an integer.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.srand(2)
 
 ``rand`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    rand()
 
@@ -2133,7 +2133,7 @@ This function is used to get a random integer.
 
 **Example**
 
-.. code:: python
+.. code:: berry
 
    math.rand()
 
@@ -2145,7 +2145,7 @@ This module is used to provide time-related functions.
 ``time`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    time()
 
@@ -2159,7 +2159,7 @@ Unix Epoch (1st January 1970 00:00:00 UTC), in seconds.
 ``dump`` function
 ^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    dump(ts)
 
@@ -2187,7 +2187,7 @@ key-value correspondence is shown in Table below:
 ``clock`` function
 ^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code:: berry
 
    clock()
 

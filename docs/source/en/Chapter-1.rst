@@ -10,12 +10,12 @@ Basic Information
 1.1 Introduction
 ----------------
 
-Berry is an ultra-lightweight dynamically typed embedded scripting language.
-The language primarily supports procedural programming, as well as
-object-oriented programming and functional programming. An important
-design goal of Berry is to run on embedded devices with very
-limited memory, so the language is highly streamlined. Nevertheless, Berry
-remains a feature-rich scripting language.
+Berry is an ultra-lightweight, dynamically typed embedded scripting language
+designed for resource-constrained environments. The language primarily supports
+procedural programming, with additional support for object-oriented and
+functional programming paradigms. Berry's key design goal is to run efficiently
+on embedded devices with very limited memory, making the language highly
+streamlined while maintaining rich scripting capabilities.
 
 1.2 Start using
 ---------------
@@ -61,17 +61,15 @@ the interpreter with the ``berry`` command in the terminal.
 REPL environment
 ~~~~~~~~~~~~~~~~
 
-REPL (Read Eval Print Loop) is generally translated as an interactive
-interpreter, which this document also refers to as the interactive mode of
-the interpreter. This mode consists of four elements: **Read**, read the
-source code input by the user from the input device; **Eval**, 
-compile and execute the source code input by the user; **Print**, output
-the result of the evaluation process; **Loop**, repeat the above
-operations.
+REPL (Read-Eval-Print Loop) is an interactive interpreter environment
+that allows you to execute Berry code interactively. This mode consists
+of four elements: **Read** user input from the terminal; **Eval** (evaluate)
+by compiling and executing the input code; **Print** the result of the
+evaluation; **Loop** back to read the next input.
 
-Start the interpreter directly (enter ``berry`` in the terminal or
-command window without parameters, or double-click berry.exe on Windows)
-to enter the REPL mode, and you will see the following interface:
+Start the interpreter without arguments (enter ``berry`` in the terminal
+or double-click berry.exe on Windows) to enter REPL mode. You will see
+an interface similar to this:
 
 .. code:: berry
 
