@@ -33,7 +33,7 @@ Hello, Berry
 
 In the console type:
 
-.. code:: ruby
+.. code:: berry
 
    > print("Hello, Berry")
    Hello, Berry
@@ -47,7 +47,7 @@ you don’t need any separator like ``;``. Unlike ``Python`` indentation
 has no importance. Commands need only to be separated by at least one
 space-like character: space, tab, newline.
 
-.. code:: ruby
+.. code:: berry
 
    > print("Hello, Berry") print("Hello, Berry")
    Hello, Berry
@@ -77,7 +77,7 @@ is floating point. Floating point uses either 32 bits ``float`` or 64
 bits ``double`` depending on compilation options (usually 32 bits on
 embedded systems).
 
-.. code:: ruby
+.. code:: berry
 
    > 3/2
    1
@@ -93,7 +93,7 @@ at least one operand is floating point.
 You can convert an integer to floating point using ``real()`` and
 truncate to integer with ``int()``.
 
-.. code:: ruby
+.. code:: berry
 
    > 3/2
    1
@@ -106,7 +106,7 @@ Beyond the core Berry language, advanced math function are available via
 the additional module ``math`` `see
 documentation <https://github.com/berry-lang/berry/wiki/Chapter-7#math-module>`__.
 
-.. code:: ruby
+.. code:: berry
 
    > import math
    > math.sqrt(2)       # square root of 2
@@ -121,14 +121,14 @@ Defining a function
 What if you want to say “Hello” a lot without getting your fingers all
 tired? You should define another function:
 
-.. code:: ruby
+.. code:: berry
 
    > def hi() print("Hello, Berry") end
    > 
 
 Now let’s call the function:
 
-.. code:: ruby
+.. code:: berry
 
    > hi()
    Hello, Berry
@@ -138,7 +138,7 @@ a message in the console. Calling a function always requires sending
 arguments between parenthesis ``()``. Otherwise Berry thinks that you
 want to manipulate the function itself as an entity.
 
-.. code:: ruby
+.. code:: berry
 
    > hi           # return the function entity itself
    <function: 0x3ffdac6c>
@@ -149,13 +149,13 @@ want to manipulate the function itself as an entity.
 What if we want to say hello to one person, and not only to Berry? Just
 redefine hi function to take a name as an argument.
 
-.. code:: ruby
+.. code:: berry
 
    > def hi(name) print("Hello, " + name) end
 
 This way, ``hi`` is a function that takes a single argument as string.
 
-.. code:: ruby
+.. code:: berry
 
    > hi("Skiars") hi("Theo")
    Hello, Skiars
@@ -165,7 +165,7 @@ This function only works if the argument is a string, and fails if you
 use any other type of argument. Let’s use ``str()`` built-in function to
 force-convert the argument to a string.
 
-.. code:: ruby
+.. code:: berry
 
    > def hi(name) print("Hello, " + str(name)) end
 
@@ -179,7 +179,7 @@ force-convert the argument to a string.
 What happens if you don’t send any argument to a function that expects
 one? Let’s try:
 
-.. code:: ruby
+.. code:: berry
 
    > def hi(name) print("Hello, " + str(name)) end
 
@@ -194,7 +194,7 @@ What is this ``nil`` thing? Berry has a special value ``nil`` meaning
 argument is sent, or the value returned by a function that does not
 return anything.
 
-.. code:: ruby
+.. code:: berry
 
    > nil
    nil
@@ -216,7 +216,7 @@ more advanced scheme to format numerical values as well. It is widely
 inspired from ``C`` formatting used by ``printf``. Don’t forget to
 import the ``string`` module first.
 
-.. code:: ruby
+.. code:: berry
 
    > import string
    > def say_hi(name) print(string.format("Hello, %s!", name)) end
@@ -230,7 +230,7 @@ import the ``string`` module first.
 You can combine with string functions like ``toupper()`` to convert to
 uppercase
 
-.. code:: ruby
+.. code:: berry
 
    > import string
    > name = "Bob"
@@ -251,7 +251,7 @@ an object for that. Let’s create a “Greeter” class.
 Note: since it’s a multi-line example, you may need to copy the entire
 block and paste it at once in the console (not line-by-line).
 
-.. code:: ruby
+.. code:: berry
 
    class Greeter
      var name
@@ -293,7 +293,7 @@ Creating a greeter object
 
 Now let’s create a greeter object and use it:
 
-.. code:: ruby
+.. code:: berry
 
    > greeter = Greeter("Pat")
    > greeter.say_hi()
@@ -305,7 +305,7 @@ Once the ``greeter`` object is created, it remembers that the name is
 Pat. If you want to get the ``name`` from a greeter, you can ask a
 greeter by accessing the name variable on it (without parenthesis):
 
-.. code:: ruby
+.. code:: berry
 
    > greeter.name
    Pat
@@ -317,7 +317,7 @@ Methods and instance variables are defined at the class creation. You
 can’t add method or instance variables to an already existing class. To
 extend a class you can create a sub-class:
 
-.. code:: ruby
+.. code:: berry
 
    class SurGreeter : Greeter     # subclass of Greeter
      var surname
@@ -347,7 +347,7 @@ method.
 
 Now let’s try this new class:
 
-.. code:: ruby
+.. code:: berry
 
    > greet = SurGreeter("John", "Smith")
    > greet.say_hi()
@@ -368,7 +368,7 @@ one person at a time. What if we had some kind of MegaGreeter that could
 either greet the world, one person, or a whole list of people? Let’s try
 to build that. We will start with a class definition:
 
-.. code:: ruby
+.. code:: berry
 
    class MegaGreeter
      var names
@@ -390,7 +390,7 @@ the body of the constructor.
 
 Let’s try it:
 
-.. code:: ruby
+.. code:: berry
 
    > greeter = MegaGreeter()
    > greeter.names
@@ -403,7 +403,7 @@ Let’s try it:
 We can now go ahead and add greeter methods that add more names and show
 all the names:
 
-.. code:: ruby
+.. code:: berry
 
    class MegaGreeter
      var names
@@ -440,7 +440,7 @@ following code for each value in ``self.names``.
 
 Let’s try the full example now:
 
-.. code:: ruby
+.. code:: berry
 
    > greeter = MegaGreeter()
    > greeter.add("Skiars")
@@ -464,7 +464,7 @@ Sometimes, it is nice just to add comments that explain interesting
 things related to your code. In the example in the last section, there
 were a few single line comments:
 
-.. code:: ruby
+.. code:: berry
 
      self.names = []          # empty list
 
@@ -497,7 +497,7 @@ Maps
 Maps are a very common and powerful feature to store key/value pairs.
 They are declared using ``{}``.
 
-.. code:: ruby
+.. code:: berry
 
    > m1 = {}           # empty map
    > m
@@ -509,7 +509,7 @@ They are declared using ``{}``.
 
 Actually keys and values can be of arbitrary type.
 
-.. code:: ruby
+.. code:: berry
 
    > m3 = { 1.5: 3, 2:"two", true:1, false:nil }
    > m3
@@ -518,7 +518,7 @@ Actually keys and values can be of arbitrary type.
 The main restriction is that a key can’t be ``nil``. Setting adding a
 key of value ``nil`` is silently ignored.
 
-.. code:: ruby
+.. code:: berry
 
    > m4 = { nil:"foo" }
    > m4
@@ -526,7 +526,7 @@ key of value ``nil`` is silently ignored.
 
 Accessing a value in the map uses ``[<key>]``:
 
-.. code:: ruby
+.. code:: berry
 
    > m1 = {}
    > m1['k1'] = "value1"
@@ -544,7 +544,7 @@ function ``find()`` to access a key and return a default value if the
 key is absent. ``contains()`` can also be used to check the presence of
 the key.
 
-.. code:: ruby
+.. code:: berry
 
    > m1 = {"foo":"bar"}
    > m1.contains("foo")
@@ -593,7 +593,7 @@ Berry also has the usual array of infix operators, ``+``, ``-``, ``*``,
 ``/``, ``%`` etc. and the relational operators ``<``, ``<=``, ``>``,
 ``>=``, ``==`` and ``!=``.
 
-.. code:: ruby
+.. code:: berry
 
    > fib(10)
    55
@@ -608,7 +608,7 @@ Iterators can also be used over ranges like ``for i:0..4`` which will
 iterate over all values between ``0`` and ``4`` inclusive (5 iterations
 in total).
 
-.. code:: ruby
+.. code:: berry
 
    > for i:0..4 print(i) end
    0
@@ -620,7 +620,7 @@ in total).
 Iterating over maps goes in two flavors: iterating over values, or over
 keys.
 
-.. code:: ruby
+.. code:: berry
 
    > m = {"k1":"v1", "k2":"v2", "k3":"v3"}
    > print(m)     # keep in mind that there is no order in a map
@@ -663,7 +663,7 @@ fine.
 
 A function only defines the number of arguments it receives:
 
-.. code:: ruby
+.. code:: berry
 
    > def f(a, b) return str(a) + str(b) end        # takes only 2 arguments
 
@@ -671,7 +671,7 @@ A function only defines the number of arguments it receives:
 are set to ``nil``. If you provide more than 2, the extra-arguments are
 silently ignored.
 
-.. code:: ruby
+.. code:: berry
 
    > def f(a, b) return str(a) + str(b) end        # takes only 2 arguments
    > f("foo", "bar")
@@ -696,7 +696,7 @@ documentation <https://github.com/berry-lang/berry/wiki/Chapter-5#closure>`__.
 
 Let’s go back to our simple Byer example (class that says Bye).
 
-.. code:: ruby
+.. code:: berry
 
    class Byer
      var name
@@ -711,7 +711,7 @@ Let’s go back to our simple Byer example (class that says Bye).
 
 Let’s define an instance of this class:
 
-.. code:: ruby
+.. code:: berry
 
    > bye_bob = Byer("Bob")
    > bye_pat = Byer("Pat")
@@ -727,7 +727,7 @@ The naive approach would be to use ``bye_bob.say_bye`` method, which is
 a valid function. However this function has no context and can’t know
 which instance you are referring to.
 
-.. code:: ruby
+.. code:: berry
 
    > bye_bob.say_bye
    <function: 0x3ffb3200>
@@ -741,7 +741,7 @@ same function.
 Closure allows to create a new synthetic function that encapsulates
 transparently the context.
 
-.. code:: ruby
+.. code:: berry
 
    > cb = def () bye_bob.say_bye() end
    > cb
@@ -756,7 +756,7 @@ transparently the context.
 ``bye_bob`` and then calls ``say_bye()`` on it. Let’s call the closures
 to check they are working.
 
-.. code:: ruby
+.. code:: berry
 
    > cb()
    Bye Bob, see you soon.
@@ -765,7 +765,7 @@ to check they are working.
 functions. For example if you want to run ``bye_bob.say_bye()`` in 5
 seconds in the future:
 
-.. code:: ruby
+.. code:: berry
 
    > tasmota.set_timer(5000, cb)     # cb() is called in 5000 milliseconds
 
