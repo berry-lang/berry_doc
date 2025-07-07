@@ -668,6 +668,21 @@ methods:
    ``list``, the return value ``list`` will use ``nil`` to fill the
    position beyond the index.
 
+   Examples of range-based indexing (slicing):
+
+   .. code:: berry
+
+      l = [1, 2, 3, 4, 5]
+      l[1..3]      # Returns [2, 3, 4] (elements from index 1 to 3)
+      l[1..]       # Returns [2, 3, 4, 5] (elements from index 1 to end)
+      l[1..-1]     # Returns [2, 3, 4, 5] (elements from index 1 to last)
+      l[0..-2]     # Returns [1, 2, 3, 4] (all elements except the last one)
+      l[-2..-1]    # Returns [4, 5] (last two elements)
+      
+      # Negative indices can also be used for modification
+      l[-1] = 10   # Sets the last element to 10
+      l[-2] += 5   # Adds 5 to the second-to-last element
+
 ``setitem`` method
 ^^^^^^^^^^^^^^^^^^
 

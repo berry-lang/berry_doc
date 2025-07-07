@@ -738,3 +738,36 @@ under the branch will be called to handle the exception, and the entire
 ``try-except`` statement will exit after the code block is executed. If
 all the ``except`` branches do not match, the exception will be
 re-thrown and caught and handled by the outer exception handler.
+
+Error Handling Patterns
+~~~~~~~~~~~~~~~~~~~~~~
+
+Berry provides two main approaches to error handling:
+
+1. **Exception Handling**: Using ``try``/``except`` blocks to catch and handle exceptions.
+
+2. **Return Value Checking**: Many functions return special values to indicate errors rather than raising exceptions.
+
+The second approach is common in functions that parse data or perform operations that might fail. Here are some examples:
+
+.. code:: berry
+
+   # JSON parsing - returns nil on parsing error
+   data = json.load('{"invalid": }')
+   if data == nil
+       print("Invalid JSON")
+   end
+
+   # Map access - find() returns nil if key doesn't exist
+   value = map.find("key")
+   if value == nil
+       print("Key not found")
+   end
+
+   # String operations - find() returns -1 if substring not found
+   index = string.find("hello", "z")
+   if index == -1
+       print("Substring not found")
+   end
+
+This pattern of checking return values is particularly useful in resource-constrained environments where exception handling might be more expensive.

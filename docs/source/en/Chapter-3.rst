@@ -546,6 +546,17 @@ support subscript writing (strings are read-only values):
 Currently, strings support integer subscripts, and the range of
 subscripts cannot exceed the length of the string.
 
+Strings also support range-based access (slicing) similar to lists:
+
+.. code:: berry
+
+   s = "hello"
+   s[1..3]      # "ell" (characters from index 1 to 3)
+   s[1..]       # "ello" (characters from index 1 to end)
+   s[1..-1]     # "ello" (characters from index 1 to last)
+   s[0..-2]     # "hell" (all characters except the last one)
+   s[-2..-1]    # "lo" (last two characters)
+
 Conditional Operator
 ~~~~~~~~~~~~~~~~~~~~
 
