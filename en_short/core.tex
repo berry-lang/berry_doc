@@ -37,8 +37,27 @@ string delimiters; special characters need to be escaped:\\
     \texttt{\textbackslash v} & vert. tab & \texttt{\textbackslash\textbackslash} & backslash & \texttt{\textbackslash '} & single quote \\
     \texttt{\textbackslash "} & double quote & \texttt{\textbackslash ?} & question & \texttt{\textbackslash 0} & NULL \\
     \texttt{\textbackslash ooo} & \multicolumn{5}{l}{character represented octal number.} \\
-    \texttt{\textbackslash xhh} & \multicolumn{5}{l}{character represented hexadecimal number.}
-\end{tabular}
+    \texttt{\textbackslash xhh} & \multicolumn{5}{l}{character represented hexadecimal number.} \\
+    \texttt{\textbackslash uXXXX} & \multicolumn{5}{l}{Unicode character (UTF-8 encoded).}
+\end{tabular}\\
+
+\hangpar String indexing and slicing:
+
+\begin{tabular}{@{}lp{0.70\columnwidth}}
+\texttt{s[0]} & First character. \\
+\texttt{s[-1]} & Last character. \\
+\texttt{s[1..3]} & Characters from index 1 to 3. \\
+\texttt{s[1..]} & Characters from index 1 to end. \\
+\texttt{s[0..-2]} & All characters except the last one. \\
+\end{tabular}\\
+
+\hangpar String concatenation:
+
+\begin{tabular}{@{}lp{0.70\columnwidth}}
+\texttt{"a" + "b"} & Concatenate with + operator. \\
+\texttt{"a" .. "b"} & Concatenate with .. operator. \\
+\texttt{"a" "b" "c"} & Adjacent string literals are automatically concatenated. \\
+\end{tabular}\\
 
 \subsection*{Types}
 \begin{tabular}{@{}ll}
@@ -207,6 +226,16 @@ Access the class (static) method or variable dynamically by string.
 \texttt{l=[]} & New empty list value. \\
 \texttt{l=[0]} & The list has a value ``\texttt{0}''. \\
 \texttt{l=[[],nil]} & \texttt{l[0]==[]} and \texttt{l[1]==nil}; different types of values can be stored in the list. \\
+\end{tabular}\\
+
+\hangpar Range-based access (slicing):
+
+\begin{tabular}{@{}lp{0.70\columnwidth}}
+\texttt{l[1..3]} & Elements from index 1 to 3 inclusive. \\
+\texttt{l[1..]} & Elements from index 1 to end. \\
+\texttt{l[1..-1]} & Elements from index 1 to last element. \\
+\texttt{l[0..-2]} & All elements except the last one. \\
+\texttt{l[-2..-1]} & Last two elements. \\
 \end{tabular}
 
 \subsection*{Map Instance}
@@ -241,4 +270,19 @@ Raise a \textib{exception} value and optional \textib{message} value.
     \texttb{except} \texttt{..} \texttb{as} \textit{e} & Capture all exception to variable \texttt{e}. \\
     \texttb{except} \texttt{0} \texttb{as} \textit{e} & Capture exception \texttt{0} to variable \texttt{e}. \\
     \texttb{except} \texttt{..} \texttb{as} \textit{e}\texttt{,}\textit{m} & Capture all exception to variable \texttt{e}, and save the message to variable \textit{m}. \\
+\end{tabular}
+
+\subsection*{Error Handling Patterns}
+Berry provides two main approaches to error handling:
+\begin{enumerate}
+    \item \textbf{Exception Handling}: Using \texttt{try}/\texttt{except} blocks to catch and handle exceptions.
+    \item \textbf{Return Value Checking}: Many functions return special values to indicate errors.
+\end{enumerate}
+
+\hangpar Examples of return value checking:\\
+\begin{tabular}{@{}lp{0.70\columnwidth}}
+\texttt{json.load('...')} & Returns \texttt{nil} on parsing error. \\
+\texttt{list.find(item)} & Returns \texttt{nil} if item is not present. \\
+\texttt{map.find("key")} & Returns \texttt{nil} if key doesn't exist. \\
+\texttt{string.find("foo", "z")} & Returns \texttt{-1} if substring not found. \\
 \end{tabular}

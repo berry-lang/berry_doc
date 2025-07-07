@@ -241,9 +241,6 @@ Changes the \textib{lower}, \textib{upper}, and \textib{increment}, does not cha
 \hangpar \texttt{string.count(}\textib{s}\texttt{,} \textib{sub}[\texttt{,} \textib{begin}[\texttt{,} \textib{end}]]\texttt{)}\\
 Count the number of occurrences of the \textib{sub} string in the string \textib{s}. Search from the position between \textib{begin} and \textib{end} of \textib{s} (default is $0$ and \texttt{size(}\textib{s}\texttt{)}).
 
-\hangpar \texttt{string.split(}\textib{s}\texttt{,} \textib{pos}\texttt{)}\\
-Split the string \textib{s} into two substrings at position \textib{pos}, and returns the list of those strings.
-
 \hangpar \texttt{string.split(}\textib{s}\texttt{,} \textib{sep}[\texttt{,} \textib{num}]\texttt{)}\\
 Splits the string \textib{s} into substrings wherever \textib{sep} occurs, and returns the list of those strings. Split at most \textib{num} times (default is \texttt{string.count(}\textib{s}\texttt{,} \textib{sep}\texttt{)}).
 
@@ -607,7 +604,7 @@ Set global variable \textib{id} to \textib{value}, create the global variable if
 \hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#json-module}{Full documentation}
 
 \hangpar \texttt{json.load(}\textib{string}\texttt{)} \\
-Concatenate \textib{string} into a complete path.
+Parse \textib{string} as JSON and convert to Berry objects. Returns \texttt{nil} if parsing fails.
 
 \hangpar \texttt{json.dump(}\textib{any}\texttt{)} \\
 Convert \textib{any} to a JSON string.
@@ -645,6 +642,7 @@ Change the value for module \textib{name}; use with caution as it can disrupt th
 \hangpar \texttt{introspect.toptr(}\textib{int}\texttt{)}  \texttt{introspect.fromptr(}\textib{comptr}\texttt{)} \\
 Convert an \textib{int} to \textib{comptr} and backwards, works only for platforms where integers and pointers are the same size.
 
+\newpage
 \section*{The OS Library}
 
 \hangpar \href{https://github.com/berry-lang/berry/wiki/Chapter-7\#module-os}{Full documentation}
