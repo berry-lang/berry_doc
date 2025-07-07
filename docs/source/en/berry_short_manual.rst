@@ -1,7 +1,7 @@
 Language fast reference PDF
 ===========================
 
-Download the |en_short| (7 pages).
+Download the |en_short| (8 pages).
 
 .. |en_short| raw:: html
 
