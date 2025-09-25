@@ -59,6 +59,15 @@ string delimiters; special characters need to be escaped:\\
 \texttt{"a" "b" "c"} & Adjacent string literals are automatically concatenated. \\
 \end{tabular}\\
 
+\hangpar String repetition:
+
+\begin{tabular}{@{}lp{0.70\columnwidth}}
+\texttt{"aze" * 3} & Repeat string 3 times: \texttt{"azeazeaze"}. \\
+\texttt{"aze" * 0} & Empty string: \texttt{""}. \\
+\texttt{"aze" * true} & String if true: \texttt{"aze"}. \\
+\texttt{"aze" * false} & Empty string if false: \texttt{""}. \\
+\end{tabular}\\
+
 \subsection*{Types}
 \begin{tabular}{@{}ll}
     \textsf{nil} & Means no value (written as \texttt{nil}). \\
@@ -190,6 +199,7 @@ Lambda expression, the return value is \textib{expr}.
 \hangpar \textib{id} \{\texttt{,} \textib{id}\}\\
 Arguments list (aka. \textbf{args}), Lambda expression arguments list can omit ``\texttt{,}''.
 
+\needspace{7\baselineskip}
 \subsection*{Class and Instance}
 \hangpar \texttb{class} \textib{name} [\texttt{:} \textib{super}]\\
 \{\texttb{var} \textib{id}\{\texttt{,} \textib{id}\}\}\\

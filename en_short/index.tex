@@ -3,6 +3,7 @@
     \input{../style.tex}
     \usepackage{fetamont}
     \usepackage{lastpage}
+    \usepackage{needspace}
 
     \widowpenalties 1 10000
     \raggedbottom
@@ -11,7 +12,7 @@
     \xapptocmd{\ttfamily}{\frenchspacing}{}{}
     \titlespacing*{\section}{0pt}{4pt}{0pt}
     \titlespacing*{\subsection}{0pt}{4pt}{0pt}
-    \titleformat{\section}{\color{white}\centering\fontsize{20pt}{20pt}\bfseries\ffmfamily\scshape\rlap{\color{black!50}\rule[-1ex]{\linewidth}{2ex}\vspace{-2ex}}}{\thesection}{}{}
+    \titleformat{\section}{\needspace{4\baselineskip}\color{white}\centering\fontsize{20pt}{20pt}\bfseries\ffmfamily\scshape\rlap{\color{black!50}\rule[-1ex]{\linewidth}{2ex}\vspace{-2ex}}}{\thesection}{}{}
 
     \lstset{aboveskip=0pt, belowskip=0pt, xleftmargin=0pt}
 

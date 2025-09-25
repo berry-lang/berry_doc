@@ -173,16 +173,16 @@ arithmetic operators provided by Berry are shown in Table 1.2.
 .. container::
    :name: tab::arthmetic_operator
 
-   ============ ========================= ===============
-   **Operator** **Description**           **Example**
-   ============ ========================= ===============
-   ``-``        Unary minus               ``- expr``
-   ``+``        Plus/string concatenation ``expr + expr``
-   ``-``        Minus sign                ``expr - expr``
-   ``*``        Multiplication sign       ``expr * expr``
-   ``/``        Division sign             ``expr / expr``
-   ``%``        Take the remainder        ``expr % expr``
-   ============ ========================= ===============
+   ============ ================================= ===============
+   **Operator** **Description**                   **Example**
+   ============ ================================= ===============
+   ``-``        Unary minus                       ``- expr``
+   ``+``        Plus/string concatenation         ``expr + expr``
+   ``-``        Minus sign                        ``expr - expr``
+   ``*``        Multiplication/string repetition  ``expr * expr``
+   ``/``        Division sign                     ``expr / expr``
+   ``%``        Take the remainder                ``expr % expr``
+   ============ ================================= ===============
 
    Arithmetic Operator
 
@@ -191,6 +191,12 @@ string concatenation. When the operand of this operator is a string,
 string concatenation will be performed to concatenate two strings into a
 longer string. To be precise, ``+`` as a string concatenation is no
 longer in the category of arithmetic operators.
+
+Binary operator ``*`` In addition to being a multiplication sign, it can
+also be used for string repetition. When the left operand is a string and
+the right operand is an integer or boolean, the string will be repeated
+the specified number of times. To be precise, ``*`` as a string repetition
+operator is no longer in the category of arithmetic operators.
 
 The binary operator ``%`` is the remainder symbol. Its operands must be
 integers. The result of the remainder operation is the remainder after
@@ -701,3 +707,34 @@ operator to get an integer range object:
 This object is used to represent a closed interval of integers, where
 the left operand is the lower limit and the right operand is the upper
 limit. Such integer range objects are often used for iteration.
+
+``*`` operator for String Repetition
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When the left operand is a string and the right operand is an integer or
+boolean, the ``*`` operator performs string repetition. The string is
+repeated the specified number of times to create a new string:
+
+.. code:: berry
+
+   result = "aze" * 3        # "azeazeaze" - repeat string 3 times
+   result = "aze" * 0        # "" - empty string
+   result = "aze" * true     # "aze" - string if true
+   result = "aze" * false    # "" - empty string if false
+
+When the right operand is an integer, the string is repeated that many
+times. A repetition count of 0 results in an empty string. When the right
+operand is a boolean, ``true`` results in the original string (repeated
+once) and ``false`` results in an empty string.
+
+This operator is particularly useful for creating formatted output:
+
+.. code:: berry
+
+   # Create indentation spaces
+   indent = 4
+   spaces = "  " * indent    # "        " (8 spaces)
+   
+   # Conditional pluralization
+   n = 3
+   message = n .. " item" .. ("s" * (n != 1))  # "3 items"
