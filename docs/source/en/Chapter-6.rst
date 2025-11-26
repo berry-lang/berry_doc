@@ -128,6 +128,22 @@ the same value for all instances of the same class. They are declare as
 ``static a = 1`` or ``static var a = 1``. Static variables are
 initialized right after the creation of the class.
 
+Static variables can be referenced via ``self`` from instance methods.
+For example, if you declare ``static var a``, you can access it as
+``self.a`` within any instance method.
+
+.. code:: berry
+
+   class Test
+       static var count = 0
+       def init()
+           self.count += 1   # access static var via self
+       end
+       def getCount()
+           return self.count # access static var via self
+       end
+   end
+
 Class Methods ``static``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -135,6 +151,26 @@ Methods can be declared ``static`` which means that they act like
 regular function and do not take ``self`` as first argument. Within
 static methods, there is no implicit ``self`` variable declared. Static
 methods can be called via the class or via an instance.
+
+However, static methods receive an implicit ``_class`` variable that
+references the class itself. This allows static methods to access other
+class members like static variables or call other static methods.
+
+.. code:: berry
+
+   class Test
+       static var value = 42
+       static def getValue()
+           return _class.value   # access static var via _class
+       end
+       static def doubleValue()
+           return _class.getValue() * 2   # call other static method via _class
+       end
+   end
+   > Test.getValue()
+   42
+   > Test.doubleValue()
+   84
 
 .. code:: berry
 
