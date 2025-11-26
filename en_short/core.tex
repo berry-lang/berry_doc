@@ -1,6 +1,6 @@
 \section*{Core Language}
 
-\hangpar \href{https://github.com/berry-lang/berry/wiki/Reference}{Full documentation}
+\hangpar \href{https://berry.readthedocs.io/en/latest/source/en/Reference.html}{Full documentation}
 
 \subsection*{Comments}
 \begin{tabular}{@{}ll}
@@ -212,7 +212,8 @@ class consists of the declaration of some member variables and methods. \textib{
 \subsection*{Members and static members}
 
 Methods have an implicit first argument \texttt{self} used to access members.\\
-Static methods (or Class methods) have an implicit \texttt{\_class} argument to access the \texttt{class} object.
+Static variables can be accessed via \texttt{self} in instance methods (e.g., \texttt{self.a} for \texttt{static var a}).\\
+Static methods have an implicit \texttt{\_class} argument to access the class object and other static members (e.g., \texttt{\_class.a}).
 
 \subsection*{Accessing members}
 
