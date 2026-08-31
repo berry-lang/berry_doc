@@ -969,7 +969,7 @@ for binary data.
 If the end of file is reached, an empty ``bytes()`` is returned.
 Returns ``nil`` if the file is not open.
 
-``readlines`` method
+``readline`` method
 ^^^^^^^^^^^^^^^^^^^^
 
 Read a line from the file (the newline character is determined by the platform). Returns a ``string`` or an empty ``string`` if the end of file is reached.
